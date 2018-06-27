@@ -38,8 +38,11 @@ The logged-in account should now be a standard user account.
 
 **Note:** To use all of **Privileges.app**'s functions, we recommend adding **Privileges.app** to the dock.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_in_Dock.png)
+
 <p></p>
+
 Using Privileges.app
 ===================================
 
@@ -50,11 +53,15 @@ If you are a standard user and want admin rights, verify that **Privileges.app**
 3. The **Privileges** dock icon should change to look like a yellow unlocked padlock.
 4. A **Privileges have been changed successfully** message should appear.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_get_admin_rights.gif)
+
 <p></p>
 5. The logged-in account should now have admin rights.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/user_account_with_admin_user_privileges.png)
+
 <p></p>
 
 
@@ -65,11 +72,15 @@ If you are a admin user and want to remove admin rights, verify that **Privilege
 3. The **Privileges** dock icon should change to look like a green locked padlock.
 4. A **Privileges have been changed successfully** message should appear.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_remove_admin_rights.gif)
+
 <p></p> 
 5. The logged-in account should now be a standard user account.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/user_account_with_standard_user_privileges.png)
+
 <p></p>
 
 
@@ -81,13 +92,17 @@ The following helper tools are installed to allow **Privileges.app** the necessa
 `/Library/PrivilegedHelperTools/corp.sap.privileges.helper`
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_privileged_helper_app.png)
+
 <br>
 
 `/Library/LaunchDaemons/corp.sap.privileges.helper.plist`
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_helper_app_LaunchDaemon.png)
+
 <br>
 
 For more information on privilege elevation using a privileged helper app and LaunchDaemon, please see the link below:
@@ -104,13 +119,17 @@ Frequently Asked Questions
 This is by design. The icon is green and displays a locked padlock icon when you are a standard user. 
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_icon_locked.png)
+
 <br>
 
 The icon is yellow and displays an unlocked padlock icon when you are an administrator.
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_icon_unlocked.png)
+
 <br>
 
 ### By default, is there a time limit on the admin rights granted by Privileges.app?
@@ -122,11 +141,15 @@ No. Admin rights are granted until some process (like running **Privileges.app**
 Yes. You can use the **Toggle Privileges** option on the dock icon to get admin rights for a set amount of time (the default amount is 20 minutes.)
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Toggle_Privileges.png)
+
 <br>
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_toggled_for_20_minutes.png)
+
 <br>
 
 To set the amount of time used by the **Toggle Privileges** option, use the following procedure:
@@ -135,6 +158,7 @@ To set the amount of time used by the **Toggle Privileges** option, use the foll
 2. Click on the **Privileges** menu and select **Preferences**
 3. Select the desired amount of time from the available options.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/set_privileges_toggle_time_limit.gif)
 
 ### What actions do the Lock Screen and Login Window toggle options perform?
@@ -142,13 +166,17 @@ To set the amount of time used by the **Toggle Privileges** option, use the foll
 The **Lock Screen** toggle option locks your screen.
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_toggle_locked_screen.gif)
+
 <br>
 
 The **Login Window** toggle option returns you to the Login Window without logging you out.
 
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_toggle_login_window.gif)
+
 <br>
 
 
@@ -160,11 +188,15 @@ The **PrivilegesCLI** command line tool currently supports the following options
 
 * `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add`: Adds the logged-in user to the admin group.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_add.png)
+
 <p></p> 
 * `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove`: Removes the logged-in user from the admin group.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_remove.png)
+
 <p></p> 
 
 
@@ -184,15 +216,22 @@ For assistance, please run the following command to display all available option
 
 * `/Applications/Privileges.app`
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_103_installed.png)
+
 <p></p>
 * `/Library/PrivilegedHelperTools/corp.sap.privileges.helper`
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_privileged_helper_app.png)
+
 <p></p>
+
 * `/Library/LaunchDaemons/corp.sap.privileges.helper.plist`
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_helper_app_LaunchDaemon.png)
+
 <p></p>
 
 
