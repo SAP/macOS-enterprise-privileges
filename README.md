@@ -36,7 +36,7 @@ The logged-in account should now be a standard user account.
 <p></p>
 
 
-**Note:** To use all of **Privileges.app** 's functions, we recommend adding **Privileges.app** to the dock.
+**Note:** To use all of **Privileges.app**'s functions, we recommend adding **Privileges.app** to the dock.
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_in_Dock.png)
@@ -67,7 +67,7 @@ If you are a standard user and want admin rights, verify that **Privileges.app**
 
 If you are a admin user and want to remove admin rights, verify that **Privileges.app** is installed then use the following procedure:
 
-1. Launch **Privileges.app** 
+1. Launch **Privileges.app**.
 2. Click the `Remove Privileges` button.
 3. The **Privileges** dock icon should change to look like a green locked padlock.
 4. A **Privileges have been changed successfully** message should appear.
@@ -192,7 +192,9 @@ The **PrivilegesCLI** command line tool currently supports the following options
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_add.png)
 
 <p></p> 
+
 * `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove` : Removes the logged-in user from the admin group.
+
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_remove.png)
