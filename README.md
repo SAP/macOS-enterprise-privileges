@@ -19,7 +19,9 @@ Installation
 3. Copy **Privileges.app** to to the Applications folder on your Mac.
 <br>
 <br>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_103_installed.png)
+
 <br>
 4. Launch **Privileges.app** and click the `Remove Privileges` button.
 <br>
