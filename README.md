@@ -36,7 +36,7 @@ The logged-in account should now be a standard user account.
 <p></p>
 
 
-**Note:** To use all of **Privileges.app**'s functions, we recommend adding **Privileges.app** to the dock.
+**Note:** To use all of **Privileges.app** 's functions, we recommend adding **Privileges.app** to the dock.
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_in_Dock.png)
@@ -186,13 +186,13 @@ The **Login Window** toggle option returns you to the Login Window without loggi
 
 The **PrivilegesCLI** command line tool currently supports the following options:
 
-* `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add`: Adds the logged-in user to the admin group.
+* `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add` : Adds the logged-in user to the admin group.
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_add.png)
 
 <p></p> 
-* `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove`: Removes the logged-in user from the admin group.
+* `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --remove` : Removes the logged-in user from the admin group.
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/PrivilegesCLI_remove.png)
@@ -215,12 +215,15 @@ For assistance, please run the following command to display all available option
 2. Remove the following files:
 
 * `/Applications/Privileges.app`
+
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_103_installed.png)
 
 <p></p>
+
 * `/Library/PrivilegedHelperTools/corp.sap.privileges.helper`
+
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_privileged_helper_app.png)
