@@ -19,7 +19,7 @@ Installation
 3. Copy **Privileges.app** to to the Applications folder on your Mac.
 <br>
 <br>
-![readme_images/Privileges_103_installed.png](readme_images/Privileges_103_installed.png)
+![](readme_images/Privileges_103_installed.png)
 <br>
 4. Launch **Privileges.app** and click the `Remove Privileges` button.
 <br>
@@ -197,5 +197,3 @@ For assistance, please run the following command to display all available option
 Support
 ===================================
 This project is 'as-is' with no support, no changes being made.  You are welcome to make changes to improve it but we are not available for questions or support of any kind.
-
-
