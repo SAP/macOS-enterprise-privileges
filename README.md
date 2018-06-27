@@ -23,9 +23,13 @@ Installation
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/Privileges_103_installed.png)
 
 <br>
+
 4. Launch **Privileges.app** and click the `Remove Privileges` button.
+
 <br>
+
 5. Install the helper tool when prompted.
+
 <p></p>
 
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_103_installation.gif)
