@@ -27,7 +27,9 @@ Installation
 <br>
 5. Install the helper tool when prompted.
 <p></p>
+
 ![](https://github.com/SAP/mac-enterprise-privileges/blob/master/readme_images/privileges_103_installation.gif)
+
 <p></p>
 <p></p>
 The logged-in account should now be a standard user account.
