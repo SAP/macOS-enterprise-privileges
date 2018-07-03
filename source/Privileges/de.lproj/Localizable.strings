@@ -1,0 +1,76 @@
+/*
+ Localizable.strings
+ Copyright 2016-2018 SAP SE
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+// button to request privileges
+"requestButton" = "Administratorrechte erhalten";
+
+// button to remove privileges
+"removeButton" = "Administratorrechte entfernen";
+
+// button to cancel
+"cancelButton" = "Abbrechen";
+
+// button with title "ok"
+"okButton" = "OK";
+
+// the title of the user notification
+"notificationHead" = "Privileges";
+
+// the message of the user notification if an error occurred
+"notificationText_Error" = "Die Rechte konnten wegen eines Fehlers nicht geändert werden!";
+
+// the message of the user notification if nothing has changed
+"notificationText_Nothing" = "Die Rechte wurden nicht geändert.";
+
+// the message of the user notification on success
+"notificationText_Success" = "Die Rechte wurden erfolgreich geändert.";
+
+// the error message if the application is run by the root user
+"rootError" = "Sie können dieses Programm nicht als root-Benutzer ausführen!";
+
+// the title of the dialog box that says that the user currently HAS NO admin rights
+"setDialog1" = "Sie sind momentan ein Standardbenutzer.";
+
+// the message of the dialog box that asks the user if he/she really needs admin rights
+"setDialog2" = "Möchten Sie Administratorrechte erhalten?";
+
+// the title of the dialog box that says that the user currently HAS admin rights
+"unsetDialog1" = "Sie sind momentan Administrator.";
+
+// the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
+"unsetDialog2" = "Möchten Sie die Administratorrechte entfernen und wieder als Standardbenutzer arbeiten?";
+
+// prompt shown when user is required to authorize
+"changeAdminRights" = "Privileges.app versucht die Rechte eines Benutzers zu ändern.";
+
+// menu item to toggle the privileges
+"toggleMenuItem" = "Benutzerrechte ändern";
+
+// menu item to lock the screen
+"lockScreenMenuItem" = "Bildschirm sperren";
+
+// menu item to show the login window
+"loginWindowMenuItem" = "Anmeldefenster …";
+
+// menu item for a timeout with value "never"
+"timeoutNever" = "Nie";
+
+// suffix for a menu item with a minutes timeout
+"timeoutMins" = "Minuten";
+
+// suffix for a menu item with a 1 hour timeout
+"timeoutHour" = "Stunde";

@@ -1,0 +1,76 @@
+/*
+ Localizable.strings
+ Copyright 2016-2018 SAP SE
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+// button to request privileges
+"requestButton" = "Request Privileges";
+
+// button to remove privileges
+"removeButton" = "Remove Privileges";
+
+// button to cancel
+"cancelButton" = "Cancel";
+
+// button with title "OK"
+"okButton" = "OK";
+
+// the title of the user notification
+"notificationHead" = "Privileges";
+
+// the message of the user notification if an error occurred
+"notificationText_Error" = "Privileges have not been changed due to an error!";
+
+// the message of the user notification if nothing has changed
+"notificationText_Nothing" = "Privileges have not been changed.";
+
+// the message of the user notification on success
+"notificationText_Success" = "Privileges have been changed successfully.";
+
+// the error message if the application is run by the root user
+"rootError" = "You cannot run this App as root!";
+
+// the title of the dialog box that says that the user currently HAS NO admin rights
+"setDialog1" = "You are currently a standard user.";
+
+// the message of the dialog box that asks the user if he/she really needs admin rights
+"setDialog2" = "Would you like to request Administrator privileges?";
+
+// the title of the dialog box that says that the user currently HAS admin rights
+"unsetDialog1" = "You are currently an Administrator.";
+
+// the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
+"unsetDialog2" = "Would you like to remove Administrator privileges and revert to a standard user?";
+
+// prompt shown when user is required to authorize
+"changeAdminRights" = "Privileges.app is trying to change Administrator privileges for a user.";
+
+// menu item to toggle the privileges
+"toggleMenuItem" = "Toggle privileges";
+
+// menu item to lock the screen
+"lockScreenMenuItem" = "Lock screen";
+
+// menu item to show the login window
+"loginWindowMenuItem" = "Login Window…";
+
+// menu item for a timeout with value "never"
+"timeoutNever" = "Never";
+
+// suffix for a menu item with a minutes timeout
+"timeoutMins" = "minutes";
+
+// suffix for a menu item with a 1 hour timeout
+"timeoutHour" = "hour";

@@ -1,0 +1,76 @@
+/*
+ Localizable.strings
+ Copyright 2016-2018 SAP SE
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+// button to request privileges
+"requestButton" = "本地管理员";
+
+// button to remove privileges
+"removeButton" = "标准用户";
+
+// button to cancel
+"cancelButton" = "取消";
+
+// button with title "OK"
+"okButton" = "确定";
+
+// the title of the user notification
+"notificationHead" = "Privileges";
+
+// the message of the user notification if an error occurred
+"notificationText_Error" = "报错：目前权限不能更改!";
+
+// the message of the user notification if nothing has changed
+"notificationText_Nothing" = "权限没有更改。";
+
+// the message of the user notification on success
+"notificationText_Success" = "权限更改成功。";
+
+// the error message if the application is run by the root user
+"rootError" = "您不能以root身份运行该应用!";
+
+// the title of the dialog box that says that the user currently HAS NO admin rights
+"setDialog1" = "目前您是一个标准用户。";
+
+// the message of the dialog box that asks the user if he/she really needs admin rights
+"setDialog2" = "您需要申请本地管理员权限吗?";
+
+// the title of the dialog box that says that the user currently HAS admin rights
+"unsetDialog1" = "您现在是本地管理员。";
+
+// the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
+"unsetDialog2" = "您需要移除本地管理员权限并且回到标准用户身份吗?";
+
+// prompt shown when user is required to authorize
+"changeAdminRights" = "Privileges.app 正在更改用户的管理员权限！";
+
+// menu item to toggle the privileges
+"toggleMenuItem" = "更改管理员权限";
+
+// menu item to lock the screen
+"lockScreenMenuItem" = "锁定屏幕";
+
+// menu item to show the login window
+"loginWindowMenuItem" = "登录窗口…";
+
+// menu item for a timeout with value "never"
+"timeoutNever" = "永不";
+
+// suffix for a menu item with a minutes timeout
+"timeoutMins" = "分钟";
+
+// suffix for a menu item with a 1 hour timeout
+"timeoutHour" = "小时";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>corp.sap.privileges.cli</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>PrivilegesCLI</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>corp.sap.privileges.helper</key>
+		<string>identifier &quot;corp.sap.privileges.helper&quot; and certificate leaf[subject.OU] = &quot;7R5ZEU67FQ&quot;</string>
+	</dict>
+</dict>
+</plist>
