@@ -7,7 +7,14 @@ Description
 
 We believe all users, including all developers, can benefit from using **Privileges.app**. Working as a standard user instead of an administrator adds another layer of security to your Mac and is considered a security best practice. **Privileges.app** helps enable users to act as administrators of the system only when required.
 
+Requirements
+===================================
 
+**Privileges** supports the following macOS versions:
+
+* macOS 10.12.x
+* macOS 10.13.x
+* macOS 10.14.x
 
 Installation
 ===================================
@@ -249,3 +256,8 @@ For assistance, please run the following command to display all available option
 Support
 ===================================
 This project is 'as-is' with no support, no changes being made.  You are welcome to make changes to improve it but we are not available for questions or support of any kind.
+
+License
+===================================
+Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved. 
+This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](LICENSE) file. 
