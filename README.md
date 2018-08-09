@@ -261,3 +261,16 @@ License
 ===================================
 Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved. 
 This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](LICENSE) file. 
+
+SUBCOMPONENTS
+
+This project includes the following Apple `EvenBetterAuthorizationSample` sample code, which is subject to separate license terms.
+Your use of the code included in this project is subject to the separate license terms applicable to
+the Apple sample license code.
+
+* Component: [Common.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12) 
+* Component: [Common.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_m.html#//apple_ref/doc/uid/DTS40013768-Common_Common_m-DontLinkElementID_13)
+* Component: [HelperTool.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_h.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_h-DontLinkElementID_14) 
+* Component: [HelperTool.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_m.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_m-DontLinkElementID_15)
+
+For more details, please see the the [LICENSE](LICENSE) file. 
