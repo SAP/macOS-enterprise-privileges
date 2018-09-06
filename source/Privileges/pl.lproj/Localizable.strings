@@ -16,13 +16,13 @@
  */
 
 // button to request privileges
-"requestButton" = "Zarządaj uprawnień";
+"requestButton" = "Podnieś uprawnienia";
 
 // button to remove privileges
-"removeButton" = "Oddaj uprawnienia";
+"removeButton" = "Przywróć uprawnienia";
 
 // button to cancel
-"cancelButton" = "Rezygnuj";
+"cancelButton" = "Anuluj";
 
 // button with title "OK"
 "okButton" = "OK";
@@ -43,7 +43,7 @@
 "rootError" = "Nie można uruchamiać tej aplikacji jako root!";
 
 // the title of the dialog box that says that the user currently HAS NO admin rights
-"setDialog1" = "Aktualnie posiadasz uprawnienia zwykłego użytkownika.";
+"setDialog1" = "Aktualnie pracujesz z uprawnieniami zwykłego użytkownika.";
 
 // the message of the dialog box that asks the user if he/she really needs admin rights
 "setDialog2" = "Czy chcesz zarządać uprawnień Administratora?";
@@ -52,10 +52,10 @@
 "unsetDialog1" = "Aktualnie pracujesz z uprawnieniami Administratora.";
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
-"unsetDialog2" = "Czy chcesz zresygnować z uprawnień Administratora i powrócić do uprawnień zwykłego użytkownika?";
+"unsetDialog2" = "Czy chcesz zrezygnować z uprawnień Administratora i powrócić do uprawnień zwykłego użytkownika?";
 
 // prompt shown when user is required to authorize
-"changeAdminRights" = "Privileges.app próbuje zmienić uprawnienia Administratora dla użytkownika.";
+"changeAdminRights" = "Privileges.app próbuje zmienić uprawnienia administracyjne dla użytkownika.";
 
 // menu item to toggle the privileges
 "toggleMenuItem" = "Zamień uprawnienia";
