@@ -2,6 +2,8 @@
 
 As of Privileges 1.0.5, it is possible to manage the following settings for **Privileges.app** or the **PrivilegesCLI** command line tool:
 
+Preference domain: **corp.sap.privileges**
+
 Key: **DockToggleTimeout**
  
 Value: **Integer**
