@@ -1,6 +1,6 @@
 /*
  MTAuthCommon.h
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -79,5 +79,6 @@
 
 #define REQUIRED_HELPER_VERSION @"1.0.1"
 #define ADMIN_GROUP_NAME @"admin"
+#define DEFAULT_DOCK_TIMEOUT 20
 
 @end

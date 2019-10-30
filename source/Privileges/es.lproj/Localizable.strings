@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -53,6 +53,18 @@
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
 "unsetDialog2" = "Le gustarÌa quitar los privilegios de Administrador y volver a usuario estandar?";
+
+// the title of the dialog box that says that the user is not allowed to change privileges
+"restrictedDialog1" = "No puedes usar esta aplicación para cambiar tus privilegios.";
+
+// the message of the dialog box that explains that the admin has restricted the use of Privileges
+"restrictedDialog2None" = "El uso de esta aplicación ha sido restringida por el Administrador.";
+
+// the message of the dialog box that says that admin rights have been pre-configured by the administrator
+"restrictedDialog2Admin" = "Usted tiene asignados privilegios de administrador.";
+
+// the message of the dialog box that says that standard user rights have been pre-configured by the administrator
+"restrictedDialog2User" = "Usted tiene asignados privilegios de usuario regular.";
 
 // prompt shown when user is required to authorize
 "changeAdminRights" = "Privileges.app esta intentado cambiar los privilegios de Administrador para el usuario.";

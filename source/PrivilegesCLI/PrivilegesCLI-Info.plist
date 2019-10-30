@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>PrivilegesCLI</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>corp.sap.privileges.helper</key>

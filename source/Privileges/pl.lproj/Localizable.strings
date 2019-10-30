@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 "removeButton" = "Oddaj uprawnienia";
 
 // button to cancel
-"cancelButton" = "Rezygnuj";
+"cancelButton" = "Anuluj";
 
 // button with title "OK"
 "okButton" = "OK";
@@ -52,10 +52,22 @@
 "unsetDialog1" = "Aktualnie pracujesz z uprawnieniami Administratora.";
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
-"unsetDialog2" = "Czy chcesz zresygnować z uprawnień Administratora i powrócić do uprawnień zwykłego użytkownika?";
+"unsetDialog2" = "Czy chcesz zrezygnować z uprawnień Administratora i powrócić do uprawnień zwykłego użytkownika?";
+
+// the title of the dialog box that says that the user is not allowed to change privileges
+"restrictedDialog1" = "Nie masz uprawnień aby użyć tej aplikacji do zmiany upranień!";
+
+// the message of the dialog box that explains that the admin has restricted the use of Privileges
+"restrictedDialog2None" = "Administrator ograniczył możliwość używania tej aplikacji.";
+
+// the message of the dialog box that says that admin rights have been pre-configured by the administrator
+"restrictedDialog2Admin" = "Administrator nadał Ci na stałe uprawnienia administracyjne.";
+
+// the message of the dialog box that says that standard user rights have been pre-configured by the administrator
+"restrictedDialog2User" = "Administrator nadał Ci na stałe uprawnienia zwykłego użytkownika.";
 
 // prompt shown when user is required to authorize
-"changeAdminRights" = "Privileges.app próbuje zmienić uprawnienia Administratora dla użytkownika.";
+"changeAdminRights" = "Privileges.app próbuje zmienić uprawnienia administracyjne dla użytkownika.";
 
 // menu item to toggle the privileges
 "toggleMenuItem" = "Zamień uprawnienia";

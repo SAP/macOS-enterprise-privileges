@@ -1,0 +1,98 @@
+<!--
+Copyright 2019 SAP SE
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>corp.sap.privileges</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<!--
+									key: DockToggleTimeout
+									value: a positive integer
+									Set a fixed timeout for the Dock tile's "Toggle Privileges" command. After
+                                    this time the admin rights are removed and set back to standard user rights.
+                                    A value of 0 disables the timeout and allows the user to permanently toggle
+                                    privileges.
+								-->
+								<key>DockToggleTimeout</key>
+								<integer>15</integer>
+								
+								<!--
+									key: EnforcePrivileges
+									value: "admin", "user" or "none" (string)
+									Enforces certain privileges. Whenever the Privileges app or PrivilegesCLI is launched,
+									the corresponding privileges are set (if needed). The privileges are also enforced
+                                    immediately by the Privileges Dock tile. If "EnforcePrivileges" is set to "none", the
+									apps are disabled and it is not possible anymore to change privileges using these apps.
+								-->
+								<key>EnforcePrivileges</key>
+								<string>user</string>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadDescription</key>
+			<string/>
+			<key>PayloadDisplayName</key>
+			<string>Privileges configuration</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.ManagedClient.preferences.36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadOrganization</key>
+			<string>SAP SE</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Configures the Privileges app.</string>
+	<key>PayloadDisplayName</key>
+	<string>Privileges configuration</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>CF401A42-35CA-4DA6-9123-5A49C87ECB5A</string>
+	<key>PayloadOrganization</key>
+	<string>SAP SE</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>50870D16-7AAD-478B-BFFE-BED09499F7E0</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

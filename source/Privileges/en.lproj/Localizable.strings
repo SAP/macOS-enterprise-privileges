@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
  */
 
 // button to request privileges
-"requestButton" = "Request Privileges";
+"requestButton" = "Request privileges";
 
 // button to remove privileges
-"removeButton" = "Remove Privileges";
+"removeButton" = "Remove privileges";
 
 // button to cancel
 "cancelButton" = "Cancel";
@@ -40,22 +40,34 @@
 "notificationText_Success" = "Privileges have been changed successfully.";
 
 // the error message if the application is run by the root user
-"rootError" = "You cannot run this App as root!";
+"rootError" = "You cannot run this app as root!";
 
 // the title of the dialog box that says that the user currently HAS NO admin rights
 "setDialog1" = "You are currently a standard user.";
 
 // the message of the dialog box that asks the user if he/she really needs admin rights
-"setDialog2" = "Would you like to request Administrator privileges?";
+"setDialog2" = "Would you like to request administrator privileges?";
 
 // the title of the dialog box that says that the user currently HAS admin rights
-"unsetDialog1" = "You are currently an Administrator.";
+"unsetDialog1" = "You are currently an administrator.";
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
-"unsetDialog2" = "Would you like to remove Administrator privileges and revert to a standard user?";
+"unsetDialog2" = "Would you like to remove administrator privileges and revert to a standard user?";
+
+// the title of the dialog box that says that the user is not allowed to change privileges
+"restrictedDialog1" = "You cannot use this app to change your privileges!";
+
+// the message of the dialog box that explains that the admin has restricted the use of Privileges
+"restrictedDialog2None" = "Your administrator has restricted the use of this app.";
+
+// the message of the dialog box that says that admin rights have been pre-configured by the administrator
+"restrictedDialog2Admin" = "Your administrator has assigned you permanent administrator privileges.";
+
+// the message of the dialog box that says that standard user rights have been pre-configured by the administrator
+"restrictedDialog2User" = "Your administrator has assigned you permanent standard user privileges.";
 
 // prompt shown when user is required to authorize
-"changeAdminRights" = "Privileges.app is trying to change Administrator privileges for a user.";
+"changeAdminRights" = "Privileges.app is trying to change administrator privileges for a user.";
 
 // menu item to toggle the privileges
 "toggleMenuItem" = "Toggle privileges";

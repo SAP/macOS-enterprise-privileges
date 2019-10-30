@@ -15,6 +15,7 @@ Requirements
 * macOS 10.12.x
 * macOS 10.13.x
 * macOS 10.14.x
+* macOS 10.15.x
 
 Installation
 ===================================
@@ -251,6 +252,11 @@ For assistance, please run the following command to display all available option
 <p></p>
 
 
+
+Application Management
+===================================
+
+As of Privileges 1.0.5, it is possible to manage settings for **Privileges.app** or the **PrivilegesCLI** command line tool using a macOS configuration profile. [For more details, please click here](application_management****).
 
 
 Support

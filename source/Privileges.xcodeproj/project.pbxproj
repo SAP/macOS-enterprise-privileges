@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,14 +12,14 @@
 		AD1B77051C92F1B100BBE228 /* MTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1B77041C92F1B100BBE228 /* MTIdentity.m */; };
 		AD1B77061C92F1BC00BBE228 /* MTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1B77041C92F1B100BBE228 /* MTIdentity.m */; };
 		AD27CAA01C96E36400464762 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = AD27CA9E1C96E36400464762 /* Credits.rtfd */; };
-		AD47BF131D51EFCA0017757A /* appicon_unlocked.icns in Resources */ = {isa = PBXBuildFile; fileRef = AD1B77011C92EF1C00BBE228 /* appicon_unlocked.icns */; };
+		AD3DAA8D233A3DCA00A27AAE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD3DAA8C233A3DCA00A27AAE /* Images.xcassets */; };
 		AD7E8B021CB28FD5007C9425 /* MTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1B77041C92F1B100BBE228 /* MTIdentity.m */; };
 		AD9C11251C92F87800A65011 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD9C11271C92F87800A65011 /* Localizable.strings */; };
 		AD9C11291C92F89100A65011 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD9C112B1C92F89100A65011 /* InfoPlist.strings */; };
-		AD9C3A641D51F166006D7695 /* appicon_locked.icns in Resources */ = {isa = PBXBuildFile; fileRef = AD9C3A621D51F166006D7695 /* appicon_locked.icns */; };
 		ADA960661C905F36002AEFEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA960651C905F36002AEFEA /* AppDelegate.m */; };
 		ADA960691C905F36002AEFEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA960681C905F36002AEFEA /* main.m */; };
 		ADA9606E1C905F36002AEFEA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA9606C1C905F36002AEFEA /* MainMenu.xib */; };
+		ADD7710B2344899D00F4B363 /* Privileges.mobileconfig in Resources */ = {isa = PBXBuildFile; fileRef = ADD7710A2344899D00F4B363 /* Privileges.mobileconfig */; };
 		ADDEA83E1C905F9300B32C77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDEA83D1C905F9300B32C77 /* main.m */; };
 		ADDEA8491C905FBB00B32C77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDEA8481C905FBB00B32C77 /* main.m */; };
 		ADDEA8571C90614100B32C77 /* MTAuthCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDEA8561C90614100B32C77 /* MTAuthCommon.m */; };
@@ -75,16 +75,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD9DEDB81CAA81F700FC3E71 /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ADDEA8391C905F9300B32C77 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -117,9 +107,9 @@
 
 /* Begin PBXFileReference section */
 		AD03DF1D20E6246B000744EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AD0B59F62328F347009B76E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		AD1B76FE1C92E59200BBE228 /* MTNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNotification.h; sourceTree = "<group>"; };
 		AD1B76FF1C92E59200BBE228 /* MTNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNotification.m; sourceTree = "<group>"; };
-		AD1B77011C92EF1C00BBE228 /* appicon_unlocked.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = appicon_unlocked.icns; sourceTree = "<group>"; };
 		AD1B77031C92F1B100BBE228 /* MTIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTIdentity.h; sourceTree = "<group>"; };
 		AD1B77041C92F1B100BBE228 /* MTIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTIdentity.m; sourceTree = "<group>"; };
 		AD27CA9F1C96E36400464762 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = de; path = de.lproj/Credits.rtfd; sourceTree = "<group>"; };
@@ -127,6 +117,7 @@
 		AD37E37C1CAC14BA0012C10D /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = it; path = it.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		AD37E37D1CAC14BA0012C10D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AD37E37E1CAC14BA0012C10D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AD3DAA8C233A3DCA00A27AAE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AD73CE8C1CB2665200298627 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = ru; path = ru.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		AD73CE8D1CB2665200298627 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AD73CE8E1CB2665200298627 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -140,7 +131,6 @@
 		AD9C11281C92F87D00A65011 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AD9C112A1C92F89100A65011 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AD9C112C1C92F89400A65011 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AD9C3A621D51F166006D7695 /* appicon_locked.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = appicon_locked.icns; sourceTree = "<group>"; };
 		ADA960611C905F36002AEFEA /* Privileges.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Privileges.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA960641C905F36002AEFEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADA960651C905F36002AEFEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -151,6 +141,7 @@
 		ADD57FDF1CB3C2C6006C5B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.rtfd"; sourceTree = "<group>"; };
 		ADD57FE01CB3C2C7006C5B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ADD57FE11CB3C2C7006C5B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		ADD7710A2344899D00F4B363 /* Privileges.mobileconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Privileges.mobileconfig; sourceTree = "<group>"; };
 		ADDEA83B1C905F9300B32C77 /* corp.sap.privileges.helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = corp.sap.privileges.helper; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADDEA83D1C905F9300B32C77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADDEA8461C905FBB00B32C77 /* PrivilegesCLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrivilegesCLI; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,6 +261,7 @@
 		ADA960671C905F36002AEFEA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADD7710A2344899D00F4B363 /* Privileges.mobileconfig */,
 				AD27CA9E1C96E36400464762 /* Credits.rtfd */,
 				ADA9606C1C905F36002AEFEA /* MainMenu.xib */,
 				ADA9606F1C905F36002AEFEA /* Info.plist */,
@@ -332,21 +324,12 @@
 		ADE676BF1CAD569800B4C920 /* PrivilegesTile */ = {
 			isa = PBXGroup;
 			children = (
-				ADEE404920E630E100C32625 /* Supporting Files */,
+				AD3DAA8C233A3DCA00A27AAE /* Images.xcassets */,
+				ADE676C01CAD569800B4C920 /* Info.plist */,
 				ADE676C51CAD570600B4C920 /* PrivilegesTile.h */,
 				ADE676C61CAD570600B4C920 /* PrivilegesTile.m */,
 			);
 			path = PrivilegesTile;
-			sourceTree = "<group>";
-		};
-		ADEE404920E630E100C32625 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				ADE676C01CAD569800B4C920 /* Info.plist */,
-				AD1B77011C92EF1C00BBE228 /* appicon_unlocked.icns */,
-				AD9C3A621D51F166006D7695 /* appicon_locked.icns */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,7 +345,6 @@
 				ADA9605F1C905F36002AEFEA /* Resources */,
 				ADDEA8851C90794E00B32C77 /* CopyFiles */,
 				AD6C57AC1CACFFDA0029A439 /* CopyFiles */,
-				AD9DEDB81CAA81F700FC3E71 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -432,12 +414,11 @@
 		ADA960591C905F36002AEFEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					ADA960601C905F36002AEFEA = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 7R5ZEU67FQ;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -450,24 +431,21 @@
 					};
 					ADDEA83A1C905F9300B32C77 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 7R5ZEU67FQ;
 						ProvisioningStyle = Manual;
 					};
 					ADDEA8451C905FBB00B32C77 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 7R5ZEU67FQ;
 						ProvisioningStyle = Manual;
 					};
 					ADE676BD1CAD569800B4C920 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 7R5ZEU67FQ;
 						ProvisioningStyle = Manual;
 					};
 				};
 			};
 			buildConfigurationList = ADA9605C1C905F36002AEFEA /* Build configuration list for PBXProject "Privileges" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 11.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -504,6 +482,7 @@
 				ADDEA8831C9072D600B32C77 /* PrivilegesCLI in Resources */,
 				AD9C11291C92F89100A65011 /* InfoPlist.strings in Resources */,
 				AD9C11251C92F87800A65011 /* Localizable.strings in Resources */,
+				ADD7710B2344899D00F4B363 /* Privileges.mobileconfig in Resources */,
 				ADA9606E1C905F36002AEFEA /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,8 +491,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD47BF131D51EFCA0017757A /* appicon_unlocked.icns in Resources */,
-				AD9C3A641D51F166006D7695 /* appicon_locked.icns in Resources */,
+				AD3DAA8D233A3DCA00A27AAE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,7 +509,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BUILD=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" \"$SRCROOT/${INFOPLIST_FILE}\")\nBUILD=$(($BUILD + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUILD\" \"$SRCROOT/${INFOPLIST_FILE}\"\nexit 0";
+			shellScript = "BUILD=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" \"$SRCROOT/${INFOPLIST_FILE}\")\nBUILD=$(($BUILD + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUILD\" \"$SRCROOT/${INFOPLIST_FILE}\"\nexit 0\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -649,6 +627,7 @@
 			children = (
 				ADA9606D1C905F36002AEFEA /* Base */,
 				ADD57FDE1CB3BE98006C5B8E /* de */,
+				AD0B59F62328F347009B76E0 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -765,7 +744,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Privileges",
@@ -773,7 +753,11 @@
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = Privileges/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -786,7 +770,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Privileges",
@@ -794,7 +779,11 @@
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = Privileges/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -805,7 +794,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application";
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
 				OTHER_LDFLAGS = (
 					"-sectcreate",
@@ -827,7 +817,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application";
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
 				OTHER_LDFLAGS = (
 					"-sectcreate",
@@ -849,7 +840,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application";
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -859,7 +851,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application";
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -884,7 +877,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -932,7 +926,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.14"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -84,6 +85,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="142" y="154"/>
         </menu>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -116,12 +118,12 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="i3X-Do-b78">
-                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                            <rect key="frame" x="333" y="1" width="16" height="243"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iNV-bQ-9HH">
-                        <rect key="frame" x="18" y="248" width="254" height="17"/>
+                        <rect key="frame" x="18" y="249" width="254" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="appNameAndVersion" id="H0H-vc-Q55">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -141,10 +143,9 @@
                     <constraint firstAttribute="trailing" secondItem="phh-Op-n8H" secondAttribute="trailing" constant="20" id="6cG-c9-0g6"/>
                     <constraint firstItem="oZ4-Qe-KCI" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="30" id="8e0-dV-aOx"/>
                     <constraint firstAttribute="bottom" secondItem="oZ4-Qe-KCI" secondAttribute="bottom" constant="17" id="BcK-Dx-U4f"/>
-                    <constraint firstItem="phh-Op-n8H" firstAttribute="leading" secondItem="iNV-bQ-9HH" secondAttribute="trailing" constant="20" id="NdR-Ry-SCm"/>
                     <constraint firstItem="phh-Op-n8H" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="Z1h-1o-aXn"/>
                     <constraint firstItem="iNV-bQ-9HH" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="b8j-Kt-HKz"/>
-                    <constraint firstItem="oZ4-Qe-KCI" firstAttribute="top" secondItem="iNV-bQ-9HH" secondAttribute="bottom" constant="1" id="c1s-s1-Dg5"/>
+                    <constraint firstItem="oZ4-Qe-KCI" firstAttribute="top" secondItem="iNV-bQ-9HH" secondAttribute="bottom" constant="2" id="c1s-s1-Dg5"/>
                     <constraint firstItem="phh-Op-n8H" firstAttribute="leading" secondItem="iNV-bQ-9HH" secondAttribute="trailing" constant="20" id="coQ-PW-846"/>
                     <constraint firstItem="phh-Op-n8H" firstAttribute="leading" secondItem="oZ4-Qe-KCI" secondAttribute="trailing" constant="30" id="uX3-dZ-ufn"/>
                     <constraint firstAttribute="bottom" secondItem="phh-Op-n8H" secondAttribute="bottom" constant="20" id="uks-OT-KY6"/>
@@ -171,14 +172,14 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="se8-fM-HSK"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="CTJ-RB-Miz">
-                        <rect key="frame" x="104" y="113" width="114" height="17"/>
+                        <rect key="frame" x="104" y="114" width="114" height="16"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="NotificationHead" id="rM3-kM-sVV">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DdX-QW-L9X">
+                    <button identifier="corp.sap.button.default" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DdX-QW-L9X">
                         <rect key="frame" x="343" y="10" width="123" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="aPM-oi-ALI"/>
@@ -186,16 +187,16 @@
                         </constraints>
                         <buttonCell key="cell" type="push" title="defaultButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rH2-ng-3hB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="message"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="dismissWindowAndQuit:" target="Voe-Tx-rLC" id="Uaf-CM-Mz5"/>
+                            <action selector="actionButtonPressed:" target="Voe-Tx-rLC" id="Nbn-Ff-qvx"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9w-Su-Y6A">
+                    <button identifier="corp.sap.button.alternate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9w-Su-Y6A">
                         <rect key="frame" x="208" y="10" width="135" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ZLq-1U-LcC"/>
@@ -203,16 +204,16 @@ DQ
                         </constraints>
                         <buttonCell key="cell" type="push" title="alternateButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vEI-zd-BRJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="message"/>
                         </buttonCell>
                         <connections>
-                            <action selector="runPrivilegedTask:" target="Voe-Tx-rLC" id="cHQ-NG-2Ve"/>
+                            <action selector="actionButtonPressed:" target="Voe-Tx-rLC" id="C2d-Hy-hMn"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oK4-l7-TmY">
-                        <rect key="frame" x="104" y="91" width="92" height="14"/>
+                        <rect key="frame" x="104" y="92" width="92" height="14"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="NotificationBody" id="Odi-ti-80m">
-                            <font key="font" metaFont="smallSystem"/>
+                            <font key="font" metaFont="message" size="11"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -220,7 +221,6 @@ DQ
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="DdX-QW-L9X" secondAttribute="bottom" constant="17" id="1dG-ln-zj1"/>
-                    <constraint firstItem="oK4-l7-TmY" firstAttribute="top" secondItem="CTJ-RB-Miz" secondAttribute="bottom" constant="8" id="27e-vx-b7j"/>
                     <constraint firstItem="CTJ-RB-Miz" firstAttribute="leading" secondItem="qQV-1Q-h9t" secondAttribute="trailing" constant="22" id="2W4-n3-R0t"/>
                     <constraint firstItem="DdX-QW-L9X" firstAttribute="leading" secondItem="G9w-Su-Y6A" secondAttribute="trailing" constant="12" id="3TB-jg-Ch6"/>
                     <constraint firstItem="oK4-l7-TmY" firstAttribute="top" secondItem="CTJ-RB-Miz" secondAttribute="bottom" constant="8" id="Gkk-bG-Enf"/>
@@ -230,10 +230,11 @@ DQ
                     <constraint firstItem="oK4-l7-TmY" firstAttribute="leading" secondItem="qQV-1Q-h9t" secondAttribute="trailing" constant="22" id="Wgo-ul-GKu"/>
                     <constraint firstAttribute="trailing" secondItem="DdX-QW-L9X" secondAttribute="trailing" constant="20" id="dTh-Vw-tIk"/>
                     <constraint firstItem="qQV-1Q-h9t" firstAttribute="top" secondItem="tQ4-2Z-36S" secondAttribute="top" constant="20" id="ehn-6P-doh"/>
+                    <constraint firstItem="DdX-QW-L9X" firstAttribute="top" relation="greaterThanOrEqual" secondItem="oK4-l7-TmY" secondAttribute="bottom" constant="20" id="gsR-6i-RA9"/>
                     <constraint firstAttribute="bottom" secondItem="G9w-Su-Y6A" secondAttribute="bottom" constant="17" id="ii2-lC-tmt"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oK4-l7-TmY" secondAttribute="trailing" constant="20" id="mie-wU-3Py"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oK4-l7-TmY" secondAttribute="trailing" constant="23" id="mie-wU-3Py"/>
                     <constraint firstItem="DdX-QW-L9X" firstAttribute="leading" secondItem="G9w-Su-Y6A" secondAttribute="trailing" constant="12" id="rFz-ix-F85"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CTJ-RB-Miz" secondAttribute="trailing" constant="20" id="u7A-FR-pJE"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CTJ-RB-Miz" secondAttribute="trailing" constant="23" id="u7A-FR-pJE"/>
                     <constraint firstItem="G9w-Su-Y6A" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tQ4-2Z-36S" secondAttribute="leading" constant="10" id="vXe-9q-uDZ"/>
                 </constraints>
             </view>
@@ -242,14 +243,14 @@ DQ
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="TkO-8k-6vc">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="283" y="305" width="480" height="139"/>
+            <rect key="contentRect" x="283" y="305" width="480" height="138"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ck9-DV-i3R">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="139"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="138"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Nn-ECl">
-                        <rect key="frame" x="18" y="99" width="121" height="17"/>
+                        <rect key="frame" x="18" y="99" width="121" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Dock Tile Timeout" usesSingleLineMode="YES" id="msH-HV-PaS">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -257,10 +258,10 @@ DQ
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n9g-nR-YKm">
-                        <rect key="frame" x="18" y="67" width="38" height="26"/>
+                        <rect key="frame" x="18" y="67" width="38" height="25"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="e0e-NM-weR">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="message"/>
                             <menu key="menu" id="bZn-6y-NMy"/>
                         </popUpButtonCell>
                         <connections>
@@ -276,8 +277,8 @@ DQ
                             <constraint firstAttribute="height" constant="42" id="fti-9t-JS4"/>
                         </constraints>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="FfT-JO-Ift">
-                            <font key="font" metaFont="smallSystem"/>
-                            <string key="title">When using the Dock tile to toggle for Administrator rights, this setting will automatically revert you to a standard user after the chosen time.</string>
+                            <font key="font" metaFont="message" size="11"/>
+                            <string key="title">When using the Dock tile to toggle for administrator rights, this setting will automatically revert you to a standard user after the chosen time.</string>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -309,12 +310,12 @@ DQ
                     <toolbarItem reference="Vpc-6G-g1s"/>
                 </defaultToolbarItems>
             </toolbar>
-            <point key="canvasLocation" x="366" y="537.5"/>
+            <point key="canvasLocation" x="366" y="537"/>
         </window>
     </objects>
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
-        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="NSApplicationIcon" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="made-in-berlin" width="212" height="182"/>
     </resources>

@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -53,6 +53,18 @@
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
 "unsetDialog2" = "您需要移除本地管理员权限并且回到标准用户身份吗?";
+
+// the title of the dialog box that says that the user is not allowed to change privileges
+"restrictedDialog1" = "您不能更改你的权限";
+
+// the message of the dialog box that explains that the admin has restricted the use of Privileges
+"restrictedDialog2None" = "你的管理员已阻止你使用这应用程式。";
+
+// the message of the dialog box that says that admin rights have been pre-configured by the administrator
+"restrictedDialog2Admin" = "你的管理员已将您设为永久管理员。";
+
+// the message of the dialog box that says that standard user rights have been pre-configured by the administrator
+"restrictedDialog2User" = "你的管理员已将您设为永久标准用户。";
 
 // prompt shown when user is required to authorize
 "changeAdminRights" = "Privileges.app 正在更改用户的管理员权限！";

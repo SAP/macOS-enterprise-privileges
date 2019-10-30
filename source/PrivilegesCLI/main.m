@@ -1,6 +1,6 @@
 /*
  main.m
- Copyright 2016-2018 SAP SE
+ Copyright 2016-2019 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,17 +21,13 @@
 #import <Foundation/Foundation.h>
 
 @interface Main : NSObject
-{
-    AuthorizationRef _authRef;
-    NSPort *receiveStopMessagePort;
-}
+@property (assign) AuthorizationRef authRef;
+@property (assign) NSPort *receiveStopMessagePort;
 @property (nonatomic, assign) NSInteger helperCheckFailed;
 @property (atomic, copy, readwrite) NSData *authorization;
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
 @property (nonatomic, assign) BOOL grantAdminRights;
 @property (nonatomic, assign) BOOL shouldTerminate;
-
-- (void)run;
 @end
 
 @implementation Main
@@ -41,44 +37,72 @@
     // don't run this as root
     if (getuid() != 0) {
         
-        // check for arguments
-        NSArray *theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
-        NSString *lastArgument = [theArguments lastObject];
-        if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--remove"] || [lastArgument isEqualToString:@"--add"])) {
-            
-            _grantAdminRights = ([lastArgument isEqualToString:@"--add"]) ? YES : NO;
-            
-            // create authorization reference
-            _authorization = [MTAuthCommon createAuthorizationUsingAuthorizationRef:&_authRef];
-            
-            if (!_authorization) {
-                
-                // display an error dialog and exit
-                fprintf(stderr, "Unable to create authorization reference!\n");
-                
-            } else {
-                
-                // check for the helper
-                [self checkForHelper];
-                
-                // wait until "shouldTerminate" is true
-                receiveStopMessagePort = [NSPort port];
-                [receiveStopMessagePort setDelegate:(id)self];
-                
-                NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-                [runLoop addPort:receiveStopMessagePort forMode:NSDefaultRunLoopMode];
-                while (!_shouldTerminate && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
-            }
-            
-            // tell the helper to quit
-            [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }];
+        NSArray *theArguments = nil;
+        NSString *enforcedPrivileges = nil;
+        
+        // check if we're managed
+        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
+        
+        if ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
+            enforcedPrivileges = [userDefaults objectForKey:@"EnforcePrivileges"];
+        }
+        
+        if ([enforcedPrivileges isEqualToString:@"none"]) {
+
+            fprintf(stderr, "You cannot use this app to change your privileges!\n");
             
         } else {
             
-            // display usage info and exit
-            [self printUsage];
+            if ([enforcedPrivileges isEqualToString:@"admin"] || [enforcedPrivileges isEqualToString:@"user"]) {
+                theArguments = [NSArray arrayWithObjects:
+                                [[NSProcessInfo processInfo] processName],
+                                [NSString stringWithFormat:@"%@", ([enforcedPrivileges isEqualToString:@"admin"]) ? @"--add" : @"--remove"],
+                                nil
+                                ];
+            
+                fprintf(stderr, "Arguments are ignored because %s rights have been assigned by an administrator\n", ([enforcedPrivileges isEqualToString:@"admin"]) ? "admin" : "standard user");
+            
+            } else {
+                theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
+            }
+            
+            NSString *lastArgument = [theArguments lastObject];
+            
+            if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--remove"] || [lastArgument isEqualToString:@"--add"])) {
+                
+                _grantAdminRights = ([lastArgument isEqualToString:@"--add"]) ? YES : NO;
+                
+                // create authorization reference
+                _authorization = [MTAuthCommon createAuthorizationUsingAuthorizationRef:&_authRef];
+                
+                if (!_authorization) {
+                    
+                    // display an error dialog and exit
+                    fprintf(stderr, "Unable to create authorization reference!\n");
+                    
+                } else {
+                    
+                    // check for the helper
+                    [self checkForHelper];
+                    
+                    // wait until "shouldTerminate" is true
+                    _receiveStopMessagePort = [NSPort port];
+                    [_receiveStopMessagePort setDelegate:(id)self];
+                    
+                    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+                    [runLoop addPort:_receiveStopMessagePort forMode:NSDefaultRunLoopMode];
+                    while (!_shouldTerminate && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+                }
+                
+                // tell the helper to quit
+                [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }];
+                
+            } else {
+                
+                // display usage info and exit
+                [self printUsage];
+            }
         }
-        
         
     } else {
         
@@ -93,8 +117,8 @@
     // Send an empty message to the receiveStopMessagePort; This is a
     // special port just for getting "terminate" requests
     NSPortMessage* emptyQuitMessage = [[NSPortMessage alloc]
-                                       initWithSendPort:receiveStopMessagePort
-                                       receivePort:receiveStopMessagePort
+                                       initWithSendPort:_receiveStopMessagePort
+                                       receivePort:_receiveStopMessagePort
                                        components:[NSArray arrayWithObject:[NSData data]]];
     [emptyQuitMessage sendBeforeDate:[NSDate distantFuture]];
 }
@@ -145,7 +169,7 @@
                                           // send a notification to update the Dock tile
                                           [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
                                                                                                         object:userName
-                                                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:(remove) ? @"standard" : @"admin", @"accountState", nil]
+                                                                                                       userInfo:nil
                                                                                                         options:NSNotificationDeliverImmediately | NSNotificationPostToAllSessions
                                            ];
                                       }
