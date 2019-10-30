@@ -256,7 +256,7 @@ For assistance, please run the following command to display all available option
 Application Management
 ===================================
 
-As of Privileges 1.0.5, it is possible to manage settings for **Privileges.app** or the **PrivilegesCLI** command line tool using a macOS configuration profile. [For more details, please click here](application_management****).
+As of Privileges 1.0.5, it is possible to manage settings for **Privileges.app** or the **PrivilegesCLI** command line tool using a macOS configuration profile. [For more details, please click here](application_management).
 
 
 Support
