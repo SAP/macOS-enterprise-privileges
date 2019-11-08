@@ -20,13 +20,15 @@ Value: `admin`, `user` or `none`
 
 Description: Enforces certain privileges. Whenever **Privileges.app** or the **PrivilegesCLI** command line tool are launched,the corresponding privileges are set.  
 
-* **admin**: Logged-in user has admin privileges.
-* **user**: Logged-in user has standard user privileges
-* **none**: **Privileges.app** and the **PrivilegesCLI** command line tool are disabled and it is not possible anymore to change from admin user to standard user using these tools.
+* **admin**: administrator rights always set by Privileges.
+* **user**: standard user rights are always set by Privileges.
+* **none**: **Privileges.app** and the **PrivilegesCLI** command line tool are disabled and it is not possible to change user privileges using these tools.
 
-An example configuration profile is available via the link below:
+Example configuration profiles are available via the link below:
 
-[Privileges macOS Configuration Profile](example_profile/Privileges.mobileconfig)
+* [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
+* [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
+
 
 Dock Icon
 ===================================
