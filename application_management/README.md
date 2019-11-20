@@ -27,7 +27,7 @@ Description: Enforces certain privileges. Whenever **Privileges.app** or the **P
 Example configuration profiles are available via the link below:
 
 * [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
-* [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
+* [Privileges EnforcePrivileges macOS Configuration Profile](example_profiles/EnforcePrivileges/Example_EnforcePrivileges.mobileconfig)
 
 
 Dock Icon
