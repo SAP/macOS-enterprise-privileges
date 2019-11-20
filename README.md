@@ -221,6 +221,31 @@ For assistance, please run the following command to display all available option
 ![](readme_images/PrivilegesCLI_help.png)
 
 
+### How do I access logs for Privileges.app?
+
+**Privileges.app** uses the system log for logging. To see all logs for **Privileges.app** in the **Console** app, you can filter for the `Privileges` process.
+
+![](readme_images/console_show_privileges_process.png)
+
+To see only the logging associated with changing admin rights in the **Console** app, you can filter for log messages containing `SAPCorp`.
+
+![](readme_images/console_show_privileges_process_filtered_for_admin.png)
+
+To access the same logs from the command line, the `log` command can be used. To see all logs for **Privileges.app** using the `log` command, the following command can be used:
+
+```
+log show --style syslog --predicate 'process == "Privileges"'
+```
+
+![](readme_images/log_show_privileges_process.png)
+
+To see only the logging associated with changing admin rights, the following command can be used:
+
+```
+log show --style syslog --predicate 'process == "Privileges" && eventMessage CONTAINS "SAPCorp"'
+```
+
+![](readme_images/log_show_privileges_process_filtered_for_admin.png)
 
 
 ### How do I uninstall Privileges.app?
