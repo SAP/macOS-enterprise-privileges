@@ -286,13 +286,36 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 {
     // check if we are restricted
     NSString *enforcedPrivileges;
+    BOOL isAllowed = true;
 
     if ([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
         enforcedPrivileges = [_userDefaults objectForKey:@"EnforcePrivileges"];
     }
+    
+    // check if the running user is allowed by managed preference
+    if ([_userDefaults objectIsForcedForKey:@"AllowForUser"]) {
+        NSString *allowedForUser = [_userDefaults objectForKey:@"AllowForUser"];
+        if (![allowedForUser isEqualToString:NSUserName()]) {
+            isAllowed = false;
+        }
+    }
+    
+    // skip group check if we aren't allowed
+    if (isAllowed && [_userDefaults objectIsForcedForKey:@"AllowForGroup"]) {
+        NSString *allowedForGroup = [_userDefaults objectForKey:@"AllowForGroup"];
+        int groupID = [MTIdentity gidFromGroupName:allowedForGroup];
+        
+        if (groupID != -1) {
+            NSError *userError = nil;
+            BOOL isGroupMember = [MTIdentity getGroupMembershipForUser:NSUserName() groupID:groupID error:&userError];
+            if (!isGroupMember) {
+                isAllowed = false;
+            }
+        }
+    }
 
     //  if EnforcePrivileges has been set to "none" we just display a dialog and quit
-    if ([enforcedPrivileges isEqualToString:@"none"]) {
+    if (!isAllowed || [enforcedPrivileges isEqualToString:@"none"]) {
         
         // display a dialog and exit if we did not get the gid
         [self displayDialog:NSLocalizedString(@"restrictedDialog1", nil)

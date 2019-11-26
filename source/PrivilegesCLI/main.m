@@ -47,7 +47,35 @@
             enforcedPrivileges = [userDefaults objectForKey:@"EnforcePrivileges"];
         }
         
-        if ([enforcedPrivileges isEqualToString:@"none"]) {
+        BOOL isAllowed = true;
+
+        if ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
+            enforcedPrivileges = [userDefaults objectForKey:@"EnforcePrivileges"];
+        }
+        
+        // check if the running user is allowed by managed preference
+        if ([userDefaults objectIsForcedForKey:@"AllowForUser"]) {
+            NSString *allowedForUser = [userDefaults objectForKey:@"AllowForUser"];
+            if (![allowedForUser isEqualToString:NSUserName()]) {
+                isAllowed = false;
+            }
+        }
+        
+        // skip group check if we aren't allowed
+        if (isAllowed && [userDefaults objectIsForcedForKey:@"AllowForGroup"]) {
+            NSString *allowedForGroup = [userDefaults objectForKey:@"AllowForGroup"];
+            int groupID = [MTIdentity gidFromGroupName:allowedForGroup];
+            
+            if (groupID != -1) {
+                NSError *userError = nil;
+                BOOL isGroupMember = [MTIdentity getGroupMembershipForUser:NSUserName() groupID:groupID error:&userError];
+                if (!isGroupMember) {
+                    isAllowed = false;
+                }
+            }
+        }
+
+        if (!isAllowed || [enforcedPrivileges isEqualToString:@"none"]) {
 
             fprintf(stderr, "You cannot use this app to change your privileges!\n");
             
