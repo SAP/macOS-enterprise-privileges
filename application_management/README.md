@@ -24,6 +24,18 @@ Description: Enforces certain privileges. Whenever **Privileges.app** or the **P
 * **user**: standard user rights are always set by Privileges.
 * **none**: **Privileges.app** and the **PrivilegesCLI** command line tool are disabled and it is not possible to change user privileges using these tools.
 
+Key: **AllowForUser**
+
+Value: Username of single person
+
+Description: This will allow for an MDM such as Jamf to deploy the configuration profile with a variable $USERNAME which will allow only the primary user of the system then to elevate with Privileges
+
+Key: **AllowForGroup**
+
+Value: Local group account name
+
+Description: This will allow for any member of the group to use Privileges. 
+
 Example configuration profiles are available via the link below:
 
 * [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
