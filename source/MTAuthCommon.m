@@ -32,7 +32,7 @@ static NSString *kCommandKeyAuthRightDesc = @"authRightDescription";
 
     dispatch_once(&sOnceToken, ^{
         sCommandInfo = @{
-                         NSStringFromSelector(@selector(changeGroupMembershipForUser:group:remove:authorization:withReply:)) : @{
+            NSStringFromSelector(@selector(changeGroupMembershipForUser:group:remove:authorization:timeout:withReply:)) : @{
                                  kCommandKeyAuthRightName    : @"corp.sap.privileges.changeAdminRights",
                                  kCommandKeyAuthRightDefault : @kAuthorizationRuleClassAllow,
                                  kCommandKeyAuthRightDesc    : NSLocalizedString(@"changeAdminRights", nil)

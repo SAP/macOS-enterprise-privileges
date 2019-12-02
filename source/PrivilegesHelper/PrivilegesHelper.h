@@ -36,7 +36,7 @@
 - (void)getVersionWithReply:(void(^)(NSString *version))reply;
 
 // changes the group membership for a given user
-- (void)changeGroupMembershipForUser:(NSString*)userName group:(uint)groupID remove:(BOOL)remove authorization:(NSData *)authData withReply:(void(^)(NSError *error))reply;
+- (void)changeGroupMembershipForUser:(NSString*)userName group:(uint)groupID remove:(BOOL)remove authorization:(NSData *)authData timeout:(uint)timeout withReply:(void(^)(NSError *error))reply;
 
 @end
 

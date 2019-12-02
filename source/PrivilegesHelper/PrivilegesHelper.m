@@ -29,6 +29,7 @@
 
 static const NSTimeInterval kHelperCheckInterval = 20.0;
 
+
 @implementation PrivilegesHelper
 
 - (id)init
@@ -126,6 +127,7 @@ static const NSTimeInterval kHelperCheckInterval = 20.0;
     return error;
 }
 
+
 #pragma mark * HelperToolProtocol implementation
 
 // IMPORTANT: NSXPCConnection can call these methods on any thread.  It turns out that our
@@ -138,7 +140,7 @@ static const NSTimeInterval kHelperCheckInterval = 20.0;
     reply([[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]);
 }
 
-- (void)changeGroupMembershipForUser:(NSString*)userName group:(uint)groupID remove:(BOOL)remove authorization:(NSData *)authData withReply:(void(^)(NSError *error))reply
+- (void)changeGroupMembershipForUser:(NSString*)userName group:(uint)groupID remove:(BOOL)remove authorization:(NSData *)authData timeout:(uint)timeout withReply:(void(^)(NSError *error))reply
 {
     NSError *error = [self checkAuthorization:authData command:_cmd];
     
@@ -158,12 +160,81 @@ static const NSTimeInterval kHelperCheckInterval = 20.0;
                     
                     CSIdentityRef csUserIdentity = [userIdentity CSIdentity];
                     CSIdentityRef csGroupIdentity = [groupIdentity CSIdentity];
-                    
+                                        
                     // add or remove the user to/from the group
                     if (remove) {
                         CSIdentityRemoveMember(csGroupIdentity, csUserIdentity);
                     } else {
                         CSIdentityAddMember(csGroupIdentity, csUserIdentity);
+                        
+                        if (timeout > 0)
+                        {
+                            NSLog(@"SAPCorp: Set to remove admin rights for %@ in %u minutes", userName, timeout);
+                            // Delay 2 minutes
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeout * 60.0) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                NSError *error = nil;
+                                    
+                                if (userName != nil) {
+                                    
+                                    // get the user identity
+                                    CBIdentity *userIdentity = [CBIdentity identityWithName:userName authority:[CBIdentityAuthority defaultIdentityAuthority]];
+                                    
+                                    if (userIdentity != nil) {
+                                        
+                                        // get the group identity
+                                        CBGroupIdentity *groupIdentity = [CBGroupIdentity groupIdentityWithPosixGID:groupID authority:[CBIdentityAuthority localIdentityAuthority]];
+                                        
+                                        if (groupIdentity != nil) {
+                                            
+                                            CSIdentityRef csUserIdentity = [userIdentity CSIdentity];
+                                            CSIdentityRef csGroupIdentity = [groupIdentity CSIdentity];
+                                                                
+                                            CSIdentityRemoveMember(csGroupIdentity, csUserIdentity);
+                                            
+                                            // commit changes to the identity store to update the group
+                                            CFErrorRef commitError = NULL;
+                                            if (CSIdentityCommit(csGroupIdentity, NULL, &commitError)) {
+                                                
+                                                // re-check the group membership. this seems to update some caches or so. without this re-checking
+                                                // sometimes the system does not recognize the changes of the group membership instantly.
+                                                [MTIdentity getGroupMembershipForUser:userName groupID:groupID error:nil];
+                                                
+                                            } else {
+                                                
+                                                error = [NSError errorWithDomain:@"corp.sap.privileges" code:100 userInfo:[(__bridge NSError*)commitError userInfo]];
+                                            }
+                                            
+                                            _shouldTerminate = YES;
+                                            
+                                        }  else {
+                                            
+                                            NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"Missing group identity", NSLocalizedDescriptionKey, nil];
+                                            error = [NSError errorWithDomain:@"corp.sap.privileges" code:100 userInfo:errorDetail];
+                                            
+                                        }
+                                        
+                                    }  else {
+                                        
+                                        NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"Missing user identity", NSLocalizedDescriptionKey, nil];
+                                        error = [NSError errorWithDomain:@"corp.sap.privileges" code:100 userInfo:errorDetail];
+                                        
+                                    }
+                                    
+                                }  else {
+                                    
+                                    NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"User name is missing", NSLocalizedDescriptionKey, nil];
+                                    error = [NSError errorWithDomain:@"corp.sap.privileges" code:100 userInfo:errorDetail];
+                                    
+                                }
+                                
+                                if (error != nil)
+                                {
+                                    NSLog(@"SAPCorp: autoRemove Error: %@", error.localizedDescription);
+                                }
+                                
+                                NSLog(@"SAPCorp: Automatically removed admin rights for %@ after %u minutes", userName, timeout);
+                            });
+                        }
                     }
                     
                     // commit changes to the identity store to update the group
@@ -209,4 +280,5 @@ static const NSTimeInterval kHelperCheckInterval = 20.0;
     _shouldTerminate = YES;
 }
 
+    
 @end
