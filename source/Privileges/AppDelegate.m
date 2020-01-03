@@ -144,10 +144,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                 
                 if (remove) {
                     NSLog(@"SAPCorp: User %@ has now standard user rights", userName);
-                    syslog(LOG_ERR, "SAPCorp: User %s has now standard user rights", userName.description.UTF8String);
+                    syslog(LOG_NOTICE, "SAPCorp: User %s has now standard user rights", userName.description.UTF8String);
                 } else {
                     NSLog(@"SAPCorp: User %@ has now admin rights", userName);
-                    syslog(LOG_ERR, "SAPCorp: User %s has now admin rights", userName.description.UTF8String);
+                    syslog(LOG_NOTICE, "SAPCorp: User %s has now admin rights", userName.description.UTF8String);
 
                 }
                 
