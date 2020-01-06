@@ -41,6 +41,8 @@
 @property (unsafe_unretained) IBOutlet NSTextView *aboutText;
 @property (weak) IBOutlet NSTextField *appNameAndVersion;
 @property (weak) IBOutlet NSPopUpButton *toggleTimeoutMenu;
+@property (nonatomic, assign) NSInteger timeoutValue;
+@property (nonatomic, assign) BOOL alwaysTimeout;
 @end
 
 extern void CoreDockSendNotification(CFStringRef, void*);
@@ -117,6 +119,8 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             _autoApplyPrivileges = NO;
         }
         
+        _alwaysTimeout = NO;
+        
         [self createDialog];
     }
 }
@@ -125,6 +129,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)changeAdminGroup:(NSString*)userName group:(uint)groupID remove:(BOOL)remove
 {
+    uint timeoutValue = 0;
+    if (self->_alwaysTimeout) {
+        timeoutValue = (uint)self->_timeoutValue;
+    }
+    
     [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection
                               andExecuteCommandBlock:^(void) {
         
@@ -133,7 +142,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             NSLog(@"SAPCorp: ERROR! %@", proxyError);
             [self displayErrorNotificationAndExit];
             
-        }] changeGroupMembershipForUser:userName group:groupID remove:remove authorization:self->_authorization withReply:^(NSError *error) {
+            }] changeGroupMembershipForUser:userName group:groupID remove:remove authorization:self->_authorization timeout:timeoutValue withReply:^(NSError *error) {
             
             if (error != nil) {
                 NSLog(@"SAPCorp: ERROR! Unable to change privileges: %@", error);
@@ -234,13 +243,13 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 - (void)createTimeoutMenu
 {
     // define the default timeout
-    NSInteger timeoutValue = DEFAULT_DOCK_TIMEOUT;
+    _timeoutValue = DEFAULT_DOCK_TIMEOUT;
     
     // get the configured timeout
     if ([_userDefaults objectForKey:@"DockToggleTimeout"]) {
 
         // get the currently configured timeout
-        timeoutValue = [_userDefaults integerForKey:@"DockToggleTimeout"];
+        _timeoutValue = [_userDefaults integerForKey:@"DockToggleTimeout"];
         
         // disable the menu if the setting is managed
         [_toggleTimeoutMenu setEnabled:![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]];
@@ -248,7 +257,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     } else {
         
         // write the default timeout to file
-        [_userDefaults setValue:[NSNumber numberWithInteger:timeoutValue] forKey:@"DockToggleTimeout"];
+        [_userDefaults setValue:[NSNumber numberWithInteger:self->_timeoutValue] forKey:@"DockToggleTimeout"];
     }
 
     // populate the timeout menu
@@ -262,10 +271,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     
     // check if the configured timeout has already an entry in our menu. if not,
     // add the new value and sort the array
-    NSPredicate *predicateString = [NSPredicate predicateWithFormat:@"value == %d", timeoutValue];
+    NSPredicate *predicateString = [NSPredicate predicateWithFormat:@"value == %d", _timeoutValue];
     if ([[self.toggleTimeouts filteredArrayUsingPredicate:predicateString] count] == 0) {
         
-        self.toggleTimeouts = [self.toggleTimeouts arrayByAddingObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:timeoutValue], @"value", [NSString stringWithFormat:@"%ld %@", (long)timeoutValue, NSLocalizedString(@"timeoutMins", nil)], @"name", nil]];
+        self.toggleTimeouts = [self.toggleTimeouts arrayByAddingObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:self->_timeoutValue], @"value", [NSString stringWithFormat:@"%ld %@", (long)_timeoutValue, NSLocalizedString(@"timeoutMins", nil)], @"name", nil]];
         
         // sort the array
         NSSortDescriptor *valueSort = [NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES];
@@ -276,7 +285,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     // our pre-defined list, we add the value to our array, sort it and select the value
     NSUInteger timeoutIndex = [self.toggleTimeouts indexOfObjectPassingTest:^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
     {
-        return [[dict objectForKey:@"value"] isEqual:[NSNumber numberWithInteger:timeoutValue]];
+        return [[dict objectForKey:@"value"] isEqual:[NSNumber numberWithInteger:_timeoutValue]];
     }];
     if (timeoutIndex != NSNotFound) { [_toggleTimeoutMenu selectItemAtIndex:timeoutIndex]; }
 }
@@ -289,6 +298,34 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
     if ([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
         enforcedPrivileges = [_userDefaults objectForKey:@"EnforcePrivileges"];
+    }
+    
+    //
+    if ([_userDefaults boolForKey:@"AlwaysUseTimeout"]) {
+        _alwaysTimeout = [_userDefaults boolForKey:@"AlwaysUseTimeout"];
+    }
+    
+    
+    // check if the running user is allowed by managed preference
+    if ([_userDefaults objectIsForcedForKey:@"AllowForUser"]) {
+        NSString *allowedForUser = [_userDefaults objectForKey:@"AllowForUser"];
+        if (![allowedForUser isEqualToString:NSUserName()]) {
+            isAllowed = false;
+        }
+    }
+    
+    // skip group check if we aren't allowed
+    if (isAllowed && [_userDefaults objectIsForcedForKey:@"AllowForGroup"]) {
+        NSString *allowedForGroup = [_userDefaults objectForKey:@"AllowForGroup"];
+        int groupID = [MTIdentity gidFromGroupName:allowedForGroup];
+        
+        if (groupID != -1) {
+            NSError *userError = nil;
+            BOOL isGroupMember = [MTIdentity getGroupMembershipForUser:NSUserName() groupID:groupID error:&userError];
+            if (!isGroupMember) {
+                isAllowed = false;
+            }
+        }
     }
 
     //  if EnforcePrivileges has been set to "none" we just display a dialog and quit
@@ -567,10 +604,13 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 -(void)applicationWillTerminate:(NSNotification *)aNotification
 {
 #pragma unused(aNotification)
-    // quit the helper tool
-    [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection
-                              andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }
-     ];
+    if (_timeoutValue <= 0)
+    {
+        // quit the helper tool
+        [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection
+                                  andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }
+         ];
+    }
     
     // remove our observers
     [_userDefaults removeObserver:self forKeyPath:@"DockToggleTimeout"];

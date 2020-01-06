@@ -28,6 +28,7 @@
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
 @property (nonatomic, assign) BOOL grantAdminRights;
 @property (nonatomic, assign) BOOL shouldTerminate;
+@property (nonatomic, assign) NSInteger timeoutValue;
 @end
 
 @implementation Main
@@ -39,15 +40,58 @@
         
         NSArray *theArguments = nil;
         NSString *enforcedPrivileges = nil;
+        BOOL alwaysTimeout = NO;
         
         // check if we're managed
         NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
         
+        BOOL isAllowed = true;
+
         if ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
             enforcedPrivileges = [userDefaults objectForKey:@"EnforcePrivileges"];
         }
         
-        if ([enforcedPrivileges isEqualToString:@"none"]) {
+        // check if the running user is allowed by managed preference
+        if ([userDefaults objectIsForcedForKey:@"AllowForUser"]) {
+            NSString *allowedForUser = [userDefaults objectForKey:@"AllowForUser"];
+            if (![allowedForUser isEqualToString:NSUserName()]) {
+                isAllowed = false;
+            }
+        }
+        
+        if ([userDefaults boolForKey:@"AlwaysUseTimeout"]) {
+            
+            // get the configured timeout
+            alwaysTimeout = [userDefaults boolForKey:@"AlwaysUseTimeout"];
+        }
+        
+        if (alwaysTimeout)
+        {
+            if ([userDefaults objectForKey:@"DockToggleTimeout"]) {
+                // get the configured timeout
+                _timeoutValue = [userDefaults integerForKey:@"DockToggleTimeout"];
+            } else {
+                _timeoutValue = DEFAULT_DOCK_TIMEOUT;
+            }
+        } else {
+            _timeoutValue = 0;
+        }
+        
+        // skip group check if we aren't allowed
+        if (isAllowed && [userDefaults objectIsForcedForKey:@"AllowForGroup"]) {
+            NSString *allowedForGroup = [userDefaults objectForKey:@"AllowForGroup"];
+            int groupID = [MTIdentity gidFromGroupName:allowedForGroup];
+            
+            if (groupID != -1) {
+                NSError *userError = nil;
+                BOOL isGroupMember = [MTIdentity getGroupMembershipForUser:NSUserName() groupID:groupID error:&userError];
+                if (!isGroupMember) {
+                    isAllowed = false;
+                }
+            }
+        }
+
+        if (!isAllowed || [enforcedPrivileges isEqualToString:@"none"]) {
 
             fprintf(stderr, "You cannot use this app to change your privileges!\n");
             
@@ -94,8 +138,12 @@
                     while (!_shouldTerminate && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
                 }
                 
-                // tell the helper to quit
-                [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }];
+                // if we have a timeout value then the helper will quit itself
+                if (_timeoutValue <= 0)
+                {
+                    // tell the helper to quit
+                    [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }];
+                }
                 
             } else {
                 
@@ -151,7 +199,7 @@
                                       fprintf(stderr, "Unable to connect to helper tool!\n");
                                       [self fireTerminateMessage];
                                       
-                                  }] changeGroupMembershipForUser:userName group:groupID remove:remove authorization:self->_authorization withReply:^(NSError *error) {
+                                  }] changeGroupMembershipForUser:userName group:groupID remove:remove authorization:self->_authorization timeout:(uint)self->_timeoutValue withReply:^(NSError *error) {
                                       
                                       if (error != nil) {
                                           fprintf(stderr, "Unable to change privileges!\n");
