@@ -20,6 +20,7 @@
 #import "MTAuthCommon.h"
 #import "MTNotification.h"
 #import "PrivilegesHelper.h"
+#include "syslog.h"
 
 @interface AppDelegate ()
 @property (assign) AuthorizationRef authRef;
@@ -143,8 +144,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                 
                 if (remove) {
                     NSLog(@"SAPCorp: User %@ has now standard user rights", userName);
+                    syslog(LOG_NOTICE, "SAPCorp: User %s has now standard user rights", userName.description.UTF8String);
                 } else {
                     NSLog(@"SAPCorp: User %@ has now admin rights", userName);
+                    syslog(LOG_NOTICE, "SAPCorp: User %s has now admin rights", userName.description.UTF8String);
                 }
                 
                 // send a notification to update the Dock tile
