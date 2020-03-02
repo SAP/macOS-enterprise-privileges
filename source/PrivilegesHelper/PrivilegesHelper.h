@@ -1,6 +1,6 @@
 /*
  PrivilegesHelper.h
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -29,14 +29,37 @@
 
 @required
 
-// tells the helper tool to quit
+- (void)connectWithEndpointReply:(void (^)(NSXPCListenerEndpoint *))reply;
+
+/*!
+@method        quitHelperTool
+@abstract      Tells the helper tool to quit.
+*/
 - (void)quitHelperTool;
 
-// returns the version string of the helper tool
-- (void)getVersionWithReply:(void(^)(NSString *version))reply;
+/*!
+@method        helperVersionWithReply:
+@abstract      Returns the version number string of the helper tool.
+@param         reply The completion handler to call when the request is complete.
+@discussion    Returns an NSString object containing the version number of the helper tool.
+*/
+- (void)helperVersionWithReply:(void(^)(NSString *version))reply;
 
-// changes the group membership for a given user
-- (void)changeGroupMembershipForUser:(NSString*)userName group:(uint)groupID remove:(BOOL)remove authorization:(NSData *)authData withReply:(void(^)(NSError *error))reply;
+/*!
+@method        changeAdminRightsForUser:remove:reason:authorization:withReply:
+@abstract      Adds or removes the given user to/from the admin group.
+@param         userName The short name of the user.
+@param         remove A boolean indicating if the user should be added to or removed from the group.
+@param         reason An optional NSString which may contain a reason for requesting admin rights. The reason will be logged.
+@param         authData An NSData object with an AuthorizationExternalForm embedded inside.
+@param         reply The completion handler to call when the request is complete.
+@discussion    Returns an NSError object that contains a detailed error message if an error occurred. May be nil.
+*/
+- (void)changeAdminRightsForUser:(NSString*)userName
+                          remove:(BOOL)remove
+                          reason:(NSString*)reason
+                   authorization:(NSData*)authData
+                       withReply:(void(^)(NSError *error))reply;
 
 @end
 

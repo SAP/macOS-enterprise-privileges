@@ -1,6 +1,6 @@
 /*
  InfoPlist.strings
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,4 +16,4 @@
  */
 
 // the copyright string (for the application's info window in Finder)
-"NSHumanReadableCopyright" = "© 2016-2019 SAP SE. Tutti i diritti riservati.";
+"NSHumanReadableCopyright" = "© 2016-2020 SAP SE. Tutti i diritti riservati.";

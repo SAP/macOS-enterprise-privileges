@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,6 +24,10 @@
                 <outlet property="notificationBody" destination="oK4-l7-TmY" id="cRo-TB-Rlc"/>
                 <outlet property="notificationHead" destination="CTJ-RB-Miz" id="ou2-Xt-qHa"/>
                 <outlet property="prefsWindow" destination="TkO-8k-6vc" id="o5Z-sP-2L6"/>
+                <outlet property="reasonButton" destination="y1s-bz-wac" id="Au4-lQ-15E"/>
+                <outlet property="reasonDescription" destination="UJR-yE-rnM" id="JnV-3O-sga"/>
+                <outlet property="reasonText" destination="xcX-4o-avn" id="U7W-4F-Bx3"/>
+                <outlet property="reasonWindow" destination="7Rg-OQ-ryb" id="VVW-8Y-lFQ"/>
                 <outlet property="toggleTimeoutMenu" destination="n9g-nR-YKm" id="SNe-fT-vLB"/>
             </connections>
         </customObject>
@@ -47,7 +51,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="wcI-Ob-GdP"/>
-                            <menuItem title="Preferences ..." keyEquivalent="," id="yyQ-mi-ETE">
+                            <menuItem title="Preferences…" keyEquivalent="," id="yyQ-mi-ETE">
                                 <connections>
                                     <action selector="showPrefsWindow:" target="Voe-Tx-rLC" id="WIW-GC-bGf"/>
                                 </connections>
@@ -85,9 +89,9 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="142" y="154"/>
+            <point key="canvasLocation" x="409" y="50"/>
         </menu>
-        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" userLabel="About Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="660" height="290"/>
@@ -173,14 +177,14 @@
                     </imageView>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="CTJ-RB-Miz">
                         <rect key="frame" x="104" y="114" width="114" height="16"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="NotificationHead" id="rM3-kM-sVV">
+                        <textFieldCell key="cell" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" title="NotificationHead" id="rM3-kM-sVV">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <button identifier="corp.sap.button.default" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DdX-QW-L9X">
-                        <rect key="frame" x="343" y="10" width="123" height="32"/>
+                        <rect key="frame" x="343" y="13" width="123" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="aPM-oi-ALI"/>
                             <constraint firstAttribute="height" constant="21" id="mjY-LZ-poo"/>
@@ -197,7 +201,7 @@ DQ
                         </connections>
                     </button>
                     <button identifier="corp.sap.button.alternate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9w-Su-Y6A">
-                        <rect key="frame" x="208" y="10" width="135" height="32"/>
+                        <rect key="frame" x="208" y="13" width="135" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ZLq-1U-LcC"/>
                             <constraint firstAttribute="height" constant="21" id="c1p-b0-mxy"/>
@@ -212,15 +216,15 @@ DQ
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oK4-l7-TmY">
                         <rect key="frame" x="104" y="92" width="92" height="14"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="NotificationBody" id="Odi-ti-80m">
-                            <font key="font" metaFont="message" size="11"/>
+                        <textFieldCell key="cell" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" title="NotificationBody" id="Odi-ti-80m">
+                            <font key="font" metaFont="menu" size="11"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="DdX-QW-L9X" secondAttribute="bottom" constant="17" id="1dG-ln-zj1"/>
+                    <constraint firstAttribute="bottom" secondItem="DdX-QW-L9X" secondAttribute="bottom" constant="20" id="1dG-ln-zj1"/>
                     <constraint firstItem="CTJ-RB-Miz" firstAttribute="leading" secondItem="qQV-1Q-h9t" secondAttribute="trailing" constant="22" id="2W4-n3-R0t"/>
                     <constraint firstItem="DdX-QW-L9X" firstAttribute="leading" secondItem="G9w-Su-Y6A" secondAttribute="trailing" constant="12" id="3TB-jg-Ch6"/>
                     <constraint firstItem="oK4-l7-TmY" firstAttribute="top" secondItem="CTJ-RB-Miz" secondAttribute="bottom" constant="8" id="Gkk-bG-Enf"/>
@@ -231,7 +235,7 @@ DQ
                     <constraint firstAttribute="trailing" secondItem="DdX-QW-L9X" secondAttribute="trailing" constant="20" id="dTh-Vw-tIk"/>
                     <constraint firstItem="qQV-1Q-h9t" firstAttribute="top" secondItem="tQ4-2Z-36S" secondAttribute="top" constant="20" id="ehn-6P-doh"/>
                     <constraint firstItem="DdX-QW-L9X" firstAttribute="top" relation="greaterThanOrEqual" secondItem="oK4-l7-TmY" secondAttribute="bottom" constant="20" id="gsR-6i-RA9"/>
-                    <constraint firstAttribute="bottom" secondItem="G9w-Su-Y6A" secondAttribute="bottom" constant="17" id="ii2-lC-tmt"/>
+                    <constraint firstAttribute="bottom" secondItem="G9w-Su-Y6A" secondAttribute="bottom" constant="20" id="ii2-lC-tmt"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oK4-l7-TmY" secondAttribute="trailing" constant="23" id="mie-wU-3Py"/>
                     <constraint firstItem="DdX-QW-L9X" firstAttribute="leading" secondItem="G9w-Su-Y6A" secondAttribute="trailing" constant="12" id="rFz-ix-F85"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CTJ-RB-Miz" secondAttribute="trailing" constant="23" id="u7A-FR-pJE"/>
@@ -240,25 +244,25 @@ DQ
             </view>
             <point key="canvasLocation" x="-189" y="483"/>
         </window>
-        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="TkO-8k-6vc">
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="TkO-8k-6vc" userLabel="Preferences Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="283" y="305" width="480" height="138"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ck9-DV-i3R">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="138"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="124"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Nn-ECl">
-                        <rect key="frame" x="18" y="99" width="121" height="16"/>
-                        <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Dock Tile Timeout" usesSingleLineMode="YES" id="msH-HV-PaS">
+                        <rect key="frame" x="18" y="85" width="121" height="16"/>
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Dock Tile Timeout" usesSingleLineMode="YES" id="msH-HV-PaS">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n9g-nR-YKm">
-                        <rect key="frame" x="18" y="67" width="38" height="25"/>
+                        <rect key="frame" x="18" y="53" width="38" height="25"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="e0e-NM-weR">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="message"/>
@@ -271,14 +275,11 @@ DQ
                             <binding destination="Vrb-dE-7mT" name="contentObjects" keyPath="arrangedObjects.value" previousBinding="ht4-zB-drO" id="3AV-0d-WNy"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Y2T-Ob-8am" userLabel="Pre-Release Warning">
-                        <rect key="frame" x="18" y="20" width="444" height="42"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="42" id="fti-9t-JS4"/>
-                        </constraints>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="FfT-JO-Ift">
-                            <font key="font" metaFont="message" size="11"/>
-                            <string key="title">When using the Dock tile to toggle for administrator rights, this setting will automatically revert you to a standard user after the chosen time.</string>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Y2T-Ob-8am">
+                        <rect key="frame" x="18" y="20" width="444" height="28"/>
+                        <textFieldCell key="cell" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" id="FfT-JO-Ift">
+                            <font key="font" metaFont="menu" size="11"/>
+                            <string key="title">When you use the Dock tile to toggle administrator rights, this setting will automatically revert you to a standard user when the specified time is up.</string>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -290,12 +291,11 @@ DQ
                     <constraint firstItem="Z1a-Nn-ECl" firstAttribute="leading" secondItem="ck9-DV-i3R" secondAttribute="leading" constant="20" id="DnT-DM-hXc"/>
                     <constraint firstItem="n9g-nR-YKm" firstAttribute="top" secondItem="Z1a-Nn-ECl" secondAttribute="bottom" constant="8" id="HGk-CC-xOO"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Z1a-Nn-ECl" secondAttribute="trailing" constant="10" id="PhW-ea-FNs"/>
-                    <constraint firstItem="Y2T-Ob-8am" firstAttribute="top" secondItem="n9g-nR-YKm" secondAttribute="bottom" constant="8" id="Zag-vg-b3t"/>
                     <constraint firstItem="n9g-nR-YKm" firstAttribute="top" secondItem="Z1a-Nn-ECl" secondAttribute="bottom" constant="8" id="fzo-eu-AFB"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n9g-nR-YKm" secondAttribute="trailing" constant="10" id="gyo-jo-lQP"/>
                     <constraint firstItem="Z1a-Nn-ECl" firstAttribute="top" secondItem="ck9-DV-i3R" secondAttribute="top" constant="23" id="hCH-b2-VXa"/>
+                    <constraint firstItem="Y2T-Ob-8am" firstAttribute="top" secondItem="n9g-nR-YKm" secondAttribute="bottom" constant="8" id="i3H-Af-Vu3"/>
                     <constraint firstItem="n9g-nR-YKm" firstAttribute="leading" secondItem="ck9-DV-i3R" secondAttribute="leading" constant="20" id="nK5-ew-Jcq"/>
-                    <constraint firstItem="Y2T-Ob-8am" firstAttribute="top" secondItem="n9g-nR-YKm" secondAttribute="bottom" constant="8" id="vlO-LE-MUn"/>
                     <constraint firstAttribute="bottom" secondItem="Y2T-Ob-8am" secondAttribute="bottom" constant="20" id="z2M-Lb-sWT"/>
                 </constraints>
             </view>
@@ -311,6 +311,99 @@ DQ
                 </defaultToolbarItems>
             </toolbar>
             <point key="canvasLocation" x="366" y="537"/>
+        </window>
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="7Rg-OQ-ryb" userLabel="Reason Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="121" y="123" width="400" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="nmd-9b-hSd">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="239"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Edn-ed-dT2">
+                        <rect key="frame" x="18" y="203" width="86" height="16"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="ReasonHead" id="PCY-2s-YaX">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UJR-yE-rnM">
+                        <rect key="frame" x="18" y="181" width="103" height="14"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="ReasonDescription" id="c11-r3-Qni">
+                            <font key="font" metaFont="menu" size="11"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button identifier="corp.sap.button.continue" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y1s-bz-wac">
+                        <rect key="frame" x="263" y="13" width="123" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Nk8-K1-Vmi"/>
+                            <constraint firstAttribute="height" constant="21" id="iPF-93-3eJ"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="defaultButton" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WYT-9u-Dg8">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="message"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="hideReasonSheet:" target="Voe-Tx-rLC" id="PoZ-zS-ko5"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPl-de-TXU">
+                        <rect key="frame" x="128" y="13" width="135" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="2xD-Is-KCf"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="rox-6l-EIf"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="alternateButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oX2-lx-8Xi">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="message"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="hideReasonSheet:" target="Voe-Tx-rLC" id="iK9-X5-N4C"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xcX-4o-avn">
+                        <rect key="frame" x="20" y="61" width="360" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="360" id="36Q-QE-FNT"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="asb-vE-LCx"/>
+                        </constraints>
+                        <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="3Ek-V6-c21">
+                            <font key="font" metaFont="message"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="Voe-Tx-rLC" id="4z8-Jh-ZHo"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xcX-4o-avn" firstAttribute="top" secondItem="UJR-yE-rnM" secondAttribute="bottom" constant="20" id="7Ha-FY-tLl"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UJR-yE-rnM" secondAttribute="trailing" constant="23" id="AHN-H8-nZ7"/>
+                    <constraint firstAttribute="trailing" secondItem="y1s-bz-wac" secondAttribute="trailing" constant="20" id="BKr-Yz-0n2"/>
+                    <constraint firstItem="y1s-bz-wac" firstAttribute="leading" secondItem="qPl-de-TXU" secondAttribute="trailing" constant="12" id="By3-tg-kdL"/>
+                    <constraint firstAttribute="bottom" secondItem="qPl-de-TXU" secondAttribute="bottom" constant="20" id="Nai-Lm-6hy"/>
+                    <constraint firstItem="y1s-bz-wac" firstAttribute="top" secondItem="xcX-4o-avn" secondAttribute="bottom" constant="20" id="PxD-iE-IZ9"/>
+                    <constraint firstItem="Edn-ed-dT2" firstAttribute="top" secondItem="nmd-9b-hSd" secondAttribute="top" constant="20" id="Q5Q-lq-pSE"/>
+                    <constraint firstItem="UJR-yE-rnM" firstAttribute="top" secondItem="Edn-ed-dT2" secondAttribute="bottom" constant="8" id="RzA-ai-FCE"/>
+                    <constraint firstItem="y1s-bz-wac" firstAttribute="leading" secondItem="qPl-de-TXU" secondAttribute="trailing" constant="12" id="WJh-qn-ycm"/>
+                    <constraint firstItem="qPl-de-TXU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="10" id="WLC-DL-A8m"/>
+                    <constraint firstItem="UJR-yE-rnM" firstAttribute="leading" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="20" id="Xg4-HE-q9l"/>
+                    <constraint firstAttribute="trailing" secondItem="xcX-4o-avn" secondAttribute="trailing" constant="20" id="cf0-65-6CV"/>
+                    <constraint firstItem="Edn-ed-dT2" firstAttribute="leading" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="20" id="dXr-t9-b8I"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Edn-ed-dT2" secondAttribute="trailing" constant="23" id="q5I-rW-keK"/>
+                    <constraint firstItem="xcX-4o-avn" firstAttribute="leading" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="20" id="qDb-ML-tiM"/>
+                    <constraint firstAttribute="bottom" secondItem="y1s-bz-wac" secondAttribute="bottom" constant="20" id="qFS-mg-xDt"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="-188" y="786"/>
         </window>
     </objects>
     <resources>

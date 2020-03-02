@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
  */
 
 // button to request privileges
-"requestButton" = "Richiedi Privilegi";
+"requestButton" = "Richiedi privilegi";
 
 // button to remove privileges
-"removeButton" = "Rimuovi Privilegi";
+"removeButton" = "Rimuovi privilegi";
 
 // button to cancel
 "cancelButton" = "Annulla";
@@ -31,7 +31,7 @@
 "notificationHead" = "Privileges";
 
 // the message of the user notification if an error occurred
-"notificationText_Error" = "I privilegi non sono stati modificati a causa di un errrore!";
+"notificationText_Error" = "I privilegi non sono stati modificati a causa di un errore!";
 
 // the message of the user notification if nothing has changed
 "notificationText_Nothing" = "I privilegi non sono stati modificati.";
@@ -46,19 +46,19 @@
 "setDialog1" = "Al momento sei un utente standard.";
 
 // the message of the dialog box that asks the user if he/she really needs admin rights
-"setDialog2" = "Vuoi richiedere i privilegi di Amministratore?";
+"setDialog2" = "Vuoi richiedere i privilegi di amministratore?";
 
 // the title of the dialog box that says that the user currently HAS admin rights
-"unsetDialog1" = "Al momento sei un utente Amministratore.";
+"unsetDialog1" = "Al momento sei un utente amministratore.";
 
 // the message of the dialog box that asks the user if he/she really doesn't need admin rights anymore
-"unsetDialog2" = "Vuoi rimuovere i privilegi di Amministratore e ripristinare quelli standard?";
+"unsetDialog2" = "Vuoi rimuovere i privilegi di amministratore e ripristinare quelli standard?";
 
 // the title of the dialog box that says that the user is not allowed to change privileges
 "restrictedDialog1" = "Non puoi usare questa applicazione per cambiare i tuoi privilegi.";
 
 // the message of the dialog box that explains that the admin has restricted the use of Privileges
-"restrictedDialog2None" = "L'utilizzo di questa applicazione è stato limitato dall'Amministratore.";
+"restrictedDialog2None" = "L'utilizzo di questa applicazione è stato limitato dall'amministratore.";
 
 // the message of the dialog box that says that admin rights have been pre-configured by the administrator
 "restrictedDialog2Admin" = "L'amministratore ti ha assegnato permanentemente i privilegi amministrativi.";
@@ -67,22 +67,37 @@
 "restrictedDialog2User" = "L'amministratore ti ha assegnato permanentemente i privilegi standard";
 
 // prompt shown when user is required to authorize
-"changeAdminRights" = "Privileges.app sta cercando di cambiare i privilegi di Amministratore per un utente.";
+"changeAdminRights" = "Privileges.app sta cercando di cambiare i privilegi di amministratore per un utente.";
 
-// menu item to toggle the privileges
-"toggleMenuItem" = "Cambia privilegi attuali";
-
-// menu item to lock the screen
-"lockScreenMenuItem" = "Blocca schermo";
-
-// menu item to show the login window
-"loginWindowMenuItem" = "Finestra di login…";
+// prompt shown when user is required to authorize
+"authenticationText" = "sta cercando di cambiare i privilegi di Amministratore per un utente";
 
 // menu item for a timeout with value "never"
 "timeoutNever" = "Mai";
 
-// suffix for a menu item with a minutes timeout
+// suffix for a menu item with a minute timeout
+"timeoutMin" = "minuto";
+
+// suffix for a menu item with a multiple minutes timeout
 "timeoutMins" = "minuti";
 
 // suffix for a menu item with a 1 hour timeout
 "timeoutHour" = "ora";
+
+// suffix for a menu item with a multiple hours timeout
+"timeoutHours" = "ore";
+
+// the message of the dialog box where the user has to provide a reason for getting admin rights
+"reasonDescription" = "Inserire la motivazione per la richiesta dei permessi di amministratore. Inserire almeno %@ per continuare.";
+
+// one character
+"oneChar" = "un carattere";
+
+// more characters
+"moreChars" = "%ld caratteri";
+
+// even more characters
+"evenMoreChars" = "%ld caratteri";
+
+// the value to differenciate between "more" and "even more" characters (if applicable)
+"evenMoreCharsThreshold" = "";

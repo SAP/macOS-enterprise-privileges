@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,20 +69,35 @@
 // prompt shown when user is required to authorize
 "changeAdminRights" = "Privileges.app is trying to change administrator privileges for a user.";
 
-// menu item to toggle the privileges
-"toggleMenuItem" = "Toggle privileges";
-
-// menu item to lock the screen
-"lockScreenMenuItem" = "Lock screen";
-
-// menu item to show the login window
-"loginWindowMenuItem" = "Login Window…";
+// prompt shown when user is required to authorize
+"authenticationText" = "change administrator privileges for a user";
 
 // menu item for a timeout with value "never"
 "timeoutNever" = "Never";
 
-// suffix for a menu item with a minutes timeout
+// suffix for a menu item with a minute timeout
+"timeoutMin" = "minute";
+
+// suffix for a menu item with a multiple minutes timeout
 "timeoutMins" = "minutes";
 
 // suffix for a menu item with a 1 hour timeout
 "timeoutHour" = "hour";
+
+// suffix for a menu item with a multiple hours timeout
+"timeoutHours" = "hours";
+
+// the message of the dialog box where the user has to provide a reason for getting admin rights
+"reasonDescription" = "Please enter the reason you need admin rights in the text field below. You must enter at least %@ to continue.";
+
+// one character
+"oneChar" = "one character";
+
+// more characters
+"moreChars" = "%ld characters";
+
+// even more characters
+"evenMoreChars" = "%ld characters";
+
+// the value to differenciate between "more" and "even more" characters (if applicable)
+"evenMoreCharsThreshold" = "";

@@ -1,0 +1,20 @@
+[config]
+project = privileges
+
+[master_files]
+en.lproj/Localizable.strings = 03f6c4667732c0f71699a6f4f7e8da5d
+Privileges/en.lproj/Localizable.strings = f2bb8837654222f5e4ac3ff9c24581a6
+
+[locale_map]
+en.lproj/Localizable.strings/Base = Base.lproj/Localizable.strings
+PrivilegesHelper/en.lproj/Localizable.strings/Base = PrivilegesHelper/Base.lproj/Localizable.strings
+Privileges/en.lproj/Localizable.strings/Base = Privileges/Base.lproj/Localizable.strings
+PrivilegesCLI/en.lproj/Localizable.strings/Base = PrivilegesCLI/Base.lproj/Localizable.strings
+en.lproj/Localizable.strings/de = de.lproj/Localizable.strings
+PrivilegesHelper/en.lproj/Localizable.strings/de = PrivilegesHelper/de.lproj/Localizable.strings
+Privileges/en.lproj/Localizable.strings/de = Privileges/de.lproj/Localizable.strings
+PrivilegesCLI/en.lproj/Localizable.strings/de = PrivilegesCLI/de.lproj/Localizable.strings
+
+[status]
+data = [{"review_progress": 100.0, "iana_code": "de", "format": "iOS", "master_file": "en.lproj/Localizable.strings", "filename": "de/en.lproj/Localizable.strings", "progress": 92.0}, {"review_progress": 100.0, "iana_code": "de", "format": "iOS", "master_file": "Privileges/en.lproj/Localizable.strings", "filename": "de/Privileges/en.lproj/Localizable.strings", "progress": 92.0}]
+

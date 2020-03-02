@@ -1,6 +1,6 @@
 /*
  MTNotification.h
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,9 +17,27 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+@class MTNotification
+@abstract This class provides methods for creating user notifications.
+*/
+
 @interface MTNotification : NSObject
 
+/*!
+@method        sendNotificationWithTitle:andMessage:replaceExisting:delegate
+@abstract      Sends a user notification.
+@param         notificationTitle A string, containing the title for the notification.
+@param         notificationMsg A string, containing the message text for the notification.
+@param         replaceExisting A boolean, indicating if an existing notification should be replaced by the new one or not.
+@param         notificationDelegate Specifies the notification delegate.
+*/
 + (void)sendNotificationWithTitle:(NSString*)notificationTitle andMessage:(NSString*)notificationMsg replaceExisting:(BOOL)replaceExisting delegate:(id)notificationDelegate;
-+ (void)removeNotification;
+
+/*!
+@method        removeNotification
+@abstract      Removes all previously sent notifications of an app to make sure that only the most recent notification resides in notification center.
+*/
++ (void)removeNotifications;
 
 @end

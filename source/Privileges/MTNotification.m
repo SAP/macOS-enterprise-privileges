@@ -1,6 +1,6 @@
 /*
  MTNotification.m
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,16 +31,15 @@
     [theNotification setHasActionButton:NO];
     [theNotification setUserInfo:notificationOptions];
     
-    if (replaceExisting == YES) { [self removeNotification]; }
+    if (replaceExisting == YES) { [self removeNotifications]; }
     
     NSUserNotificationCenter *theNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     [theNotificationCenter setDelegate:notificationDelegate];
     [theNotificationCenter deliverNotification:theNotification];
 }
 
-+ (void)removeNotification
++ (void)removeNotifications
 {
-    // Remove a previously sent notifications of this app to make sure that only the most recent notification resides in notification center
     NSString *notificationID = [[NSBundle mainBundle] bundleIdentifier];
     NSUserNotificationCenter *theNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     for (NSUserNotification *deliveredNotification in [theNotificationCenter deliveredNotifications]) {

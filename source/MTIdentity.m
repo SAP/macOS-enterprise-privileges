@@ -1,6 +1,6 @@
 /*
  MTIdentity.m
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 #import "MTIdentity.h"
 #import <Collaboration/Collaboration.h>
+#import <OpenDirectory/OpenDirectory.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @implementation MTIdentity
 
@@ -73,6 +75,52 @@
     }
     
     return isMember;
+}
+
++ (BOOL)getGroupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error
+{
+    return [self getGroupMembershipForUser:userName
+                                   groupID:[self gidFromGroupName:groupName]
+                                     error:error];
+}
+
++ (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
+{
+    NSError *error = nil;
+    LAContext *myContext = [[LAContext alloc] init];
+    
+    if ([myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error]) {
+        
+        [myContext evaluatePolicy:kLAPolicyDeviceOwnerAuthentication
+                  localizedReason:authReason
+                            reply:^(BOOL success, NSError *error) {
+            
+            if (completionHandler) { completionHandler(success, error); }
+        }];
+        
+    } else {
+        if (completionHandler) { completionHandler(NO, error); }
+    }
+}
+
++ (BOOL)verifyPassword:(NSString*)userPassword forUser:(NSString*)userName
+{
+    BOOL success = NO;
+    
+    if (userName && userPassword) {
+        ODNode *searchNode = [ODNode nodeWithSession:[ODSession defaultSession] type:kODNodeTypeAuthentication error:nil];
+        
+        if (searchNode) {
+            ODRecord *theUserRecord = [searchNode recordWithRecordType:kODRecordTypeUsers
+                                                                  name:userName
+                                                            attributes:nil
+                                                                 error:nil];
+        
+            if (theUserRecord) { success = [theUserRecord verifyPassword:userPassword error:nil]; }
+        }
+    }
+    
+    return success;
 }
 
 @end

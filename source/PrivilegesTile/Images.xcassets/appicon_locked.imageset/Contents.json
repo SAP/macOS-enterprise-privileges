@@ -1,12 +1,12 @@
 {
   "images" : [
-    {
+  {
       "idiom" : "universal",
       "filename" : "appicon_locked.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "appicon_locked-1.png",
+      "filename" : "appicon_locked.png",
       "appearances" : [
         {
           "appearance" : "luminosity",

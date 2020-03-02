@@ -9,11 +9,6 @@
 	<key>CFBundleName</key>
 	<string>PrivilegesCLI</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
-	<key>SMPrivilegedExecutables</key>
-	<dict>
-		<key>corp.sap.privileges.helper</key>
-		<string>identifier &quot;corp.sap.privileges.helper&quot; and certificate leaf[subject.OU] = &quot;7R5ZEU67FQ&quot;</string>
-	</dict>
+	<string>1.5.0</string>
 </dict>
 </plist>

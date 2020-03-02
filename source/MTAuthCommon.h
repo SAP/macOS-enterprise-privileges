@@ -1,6 +1,6 @@
 /*
  MTAuthCommon.h
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -55,30 +55,14 @@
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef;
 
 /*!
- @method        createAuthorizationUsingAuthorizationRef:
- @abstract      Create a connection to the authorization system.
- @param         authRef A pointer to an authorization reference.
- */
-+ (NSData*)createAuthorizationUsingAuthorizationRef:(AuthorizationRef*)authRef;
+@method        getSigningAuthorityWithError:
+@abstract      Returns the signing authority of the caller.
+@param         error A reference to an NSError object that contains a detailed error message if an error occurred. May be nil.
+@discussion    Returns the signing authority of the caller or nil if an error occurred.
+*/
++ (NSString*)getSigningAuthorityWithError:(NSError**)error;
 
-/*!
- @method        installHelperToolUsingAuthorizationRef:error:
- @abstract      Install the privileged helper tool using a given authorization.
- @param         authRef A pointer to an authorization reference.
- @param         error A pointer to NSError object that contains a detailed error message if an error occurred. May be nil.
- */
-+ (BOOL)installHelperToolUsingAuthorizationRef:(AuthorizationRef)authRef error:(NSError**)error;
-
-/*!
- @method        connectToHelperToolUsingConnection:andExecuteCommandBlock:
- @abstract      Connect to the privileged helper and execute a given command block.
- @param         helperToolConnection A pointer to an NSXPCConnection object.
- @param         commandBlock The block to execute after connecting to the helper.
- */
-+ (void)connectToHelperToolUsingConnection:(__strong NSXPCConnection**)helperToolConnection andExecuteCommandBlock:(void(^)(void))commandBlock;
-
-#define REQUIRED_HELPER_VERSION @"1.0.1"
-#define ADMIN_GROUP_NAME @"admin"
+#define ADMIN_GROUP_ID 80
 #define DEFAULT_DOCK_TIMEOUT 20
 
 @end

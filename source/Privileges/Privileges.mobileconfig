@@ -1,5 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+
 <!--
-Copyright 2019 SAP SE
+Copyright 2019-2020 SAP SE
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,8 +17,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>PayloadContent</key>
@@ -30,9 +31,11 @@ limitations under the License.
 						<dict>
 							<key>mcx_preference_settings</key>
 							<dict>
+							
 								<!--
 									key: DockToggleTimeout
 									value: a positive integer
+									
 									Set a fixed timeout for the Dock tile's "Toggle Privileges" command. After
                                     this time the admin rights are removed and set back to standard user rights.
                                     A value of 0 disables the timeout and allows the user to permanently toggle
@@ -43,14 +46,142 @@ limitations under the License.
 								
 								<!--
 									key: EnforcePrivileges
-									value: "admin", "user" or "none" (string)
-									Enforces certain privileges. Whenever the Privileges app or PrivilegesCLI is launched,
-									the corresponding privileges are set (if needed). The privileges are also enforced
-                                    immediately by the Privileges Dock tile. If "EnforcePrivileges" is set to "none", the
-									apps are disabled and it is not possible anymore to change privileges using these apps.
+									value: a string containing the value "admin", "user" or "none"
+									
+									Enforces certain privileges. Whenever the Privileges app or PrivilegesCLI is 
+									launched, the corresponding privileges are set (if needed). The privileges are 
+									also enforced immediately by the Privileges Dock tile. If "EnforcePrivileges" 
+									is set to "none", the apps are disabled and it is not possible anymore to change 
+									privileges using these apps.
 								-->
 								<key>EnforcePrivileges</key>
 								<string>user</string>
+                                
+                                <!--
+                                    key: RequireAuthentication
+                                    value: a boolean
+                                    
+                                    States if authentication is required to get admin rights. If set to true the user 
+                                    is prompted for the account password (or Touch ID if available).
+                                -->
+                                <key>RequireAuthentication</key>
+                                <true/>
+                                
+                                <!--
+                                    key: LimitToUser
+                                    value: a string containing the user's short name
+                                    
+                                    Limits the usage of the app to the given user. If used with a client management
+                                    system that supports variables in configuration profiles, variables like
+                                    $USERNAME may be used here.
+                                -->
+                                <key>LimitToUser</key>
+  								<string>harald</string>
+  								
+  								<!--
+                                    key: LimitToGroup
+                                    value: a string containing the name of the group
+                                    
+                                    Limits the usage of the app to the given user group.
+                                -->
+								<key>LimitToGroup</key>
+								<string>privileges_users</string>
+								
+  								<!--
+                                    key: ReasonRequired
+                                    value: a boolean
+                                    
+                                    If set to true, the user must provide a reason for needing admin rights.
+                                    The reason will be logged.
+                                -->
+								<key>ReasonRequired</key>
+								<true/>
+								
+								<!--
+                                    key: ReasonMinLength
+                                    value: a positive integer
+                                    
+                                    If "ReasonRequired" is set to true, this key specifies the minimum number 
+                                    of characters the user has to enter as the reason for becoming an admin.
+                                    If not set, the value defaults to 10. The text field is limited to a
+                                    maximum of 100 characters, so values greater than 100 have no effect.
+                                    Please be aware that enabling this option, disables the "Toggle Privileges"
+                                    entry in the Privileges Dock tile menu.
+                                -->
+                                <key>ReasonMinLength</key>
+								<integer>50</integer>
+								
+								<!--
+                                    key: RemoteLogging
+                                    value: a dictionary containing the server information:
+                                    
+                                    	key: ServerType
+                                    	value: a string specifying the type of the logging server
+                                    	
+                                    	At the moment "syslog" is  the only supported value but in 
+                                    	the future probably more services will be added.
+                                    	
+                                    	key: ServerAddress
+                                    	value: a string containing the address of the logging server
+                                    	
+                                    	key: ServerPort
+                                    	value: a integer specifying the port of the logging server.
+                                    	       if not specified, the port defaults to 514.
+                                    	
+                                    	key: EnableTCP
+                                    	value: a boolean. if set to true, the log messages are sent 
+                                    	       via TCP instead of UDP
+                                    	
+                                    	key: SyslogOptions
+                                    	value: a dictionary containing syslog-specific options:
+                                    	
+                                    		key: LogFacility
+                                    		value: an integer specifying the syslog facility
+                                    		
+                                    		key: LogSeverity
+                                    		value: an integer specifying the syslog severity
+                                    		
+                                    		If not specified, facility defaults to 4 (security) and 
+                                    		severity defaults to 6 (informational). Please see 
+                                    		https://tools.ietf.org/html/rfc5424#section-6.2.1 for 
+                                    		further information.
+                                    		
+                                    		key: MaximumMessageSize
+                                    		value: an integer specifying the maximum size of the 
+                                    		       syslog message (header + event message)
+                                    		
+                                    		If not specified, the value defaults to 480 which is the 
+                                    		minimum maximum message size a syslog server must support.
+                                    		If the syslog message is larger than the specified maximum,
+                                    		the message will be truncated at the end.
+                                    		
+                                    		Please see https://tools.ietf.org/html/rfc5424#section-6.1 
+                                    		for further information.
+                                    	
+                                    Please make sure your Firewall rules has been modified to allow access 
+                                    to the specified protocol, address and port.
+                                -->
+                                <key>RemoteLogging</key>
+								<dict>
+									<key>ServerType</key>
+									<string>syslog</string>
+									<key>ServerAddress</key>
+									<string>192.168.19.89</string>
+									<key>ServerPort</key>
+									<integer>514</integer>
+									<key>EnableTCP</key>
+									<false/>
+									<key>SyslogOptions</key>
+									<dict>
+										<key>LogFacility</key>
+										<integer>4</integer>
+										<key>LogSeverity</key>
+										<integer>6</integer>
+										<key>MaximumMessageSize</key>
+										<integer>480</integer>
+									</dict>
+								</dict>
+								
 							</dict>
 						</dict>
 					</array>

@@ -1,0 +1,64 @@
+/*
+MainMenu.strings
+Copyright 2020 SAP SE
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+/* Class = "NSMenuItem"; title = "Privileges"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "Privileges";
+
+/* Class = "NSMenuItem"; title = "About Privileges"; ObjectID = "1sz-nR-WEh"; */
+"1sz-nR-WEh.title" = "À propos de Privileges";
+
+/* Class = "NSMenuItem"; title = "Quit Privileges"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Quitter Privileges";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "Tout afficher";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "Services";
+
+/* Class = "NSMenuItem"; title = "Hide Privileges"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Masquer Privileges";
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "TkO-8k-6vc"; */
+"TkO-8k-6vc.title" = "Préférences";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "Masquer les autres";
+
+/* Class = "NSToolbarItem"; label = "General"; ObjectID = "Vpc-6G-g1s"; */
+"Vpc-6G-g1s.label" = "Général";
+
+/* Class = "NSMenu"; title = "Privileges"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "Privileges";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "yyQ-mi-ETE"; */
+"yyQ-mi-ETE.title" = "Préférences…";
+
+/* Class = "NSTextFieldCell"; title = "When you use the Dock tile to toggle administrator rights, this setting will automatically revert you to a standard user when the specified time is up."; ObjectID = "FfT-JO-Ift"; */
+"FfT-JO-Ift.title" = "Lorsque vous utilisez le Dock pour changer vos droits d'administrateur, ce paramètre vous ramènera automatiquement à un utilisateur standard lorsque le temps spécifié est écoulé.";
+
+/* Class = "NSTextFieldCell"; title = "Dock Tile Timeout"; ObjectID = "msH-HV-PaS"; */
+"msH-HV-PaS.title" = "Délais d'expiration depuis le Dock";
+
+/* Class = "NSTextFieldCell"; title = "Why do you need admin rights?"; ObjectID = "PCY-2s-YaX"; */
+"PCY-2s-YaX.title" = "Pourquoi avez-vous besoin des droits d'Administrateur?";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "oX2-lx-8Xi"; */
+"oX2-lx-8Xi.title" = "Annuler";
+
+/* Class = "NSButtonCell"; title = "Continue"; ObjectID = "WYT-9u-Dg8"; */
+"WYT-9u-Dg8.title" = "Continuer";

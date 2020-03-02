@@ -1,0 +1,64 @@
+/*
+MainMenu.strings
+Copyright 2020 SAP SE
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+/* Class = "NSMenuItem"; title = "Privileges"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "Privileges";
+
+/* Class = "NSMenuItem"; title = "About Privileges"; ObjectID = "1sz-nR-WEh"; */
+"1sz-nR-WEh.title" = "关于 Privileges";
+
+/* Class = "NSMenuItem"; title = "Quit Privileges"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "退出 Privileges";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "全部显示";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "服务";
+
+/* Class = "NSMenuItem"; title = "Hide Privileges"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "隐藏 Privileges";
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "TkO-8k-6vc"; */
+"TkO-8k-6vc.title" = "导出日程";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "隐藏其他";
+
+/* Class = "NSToolbarItem"; label = "General"; ObjectID = "Vpc-6G-g1s"; */
+"Vpc-6G-g1s.label" = "通用";
+
+/* Class = "NSMenu"; title = "Privileges"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "Privileges";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "yyQ-mi-ETE"; */
+"yyQ-mi-ETE.title" = "导出日程…";
+
+/* Class = "NSTextFieldCell"; title = "When you use the Dock tile to toggle administrator rights, this setting will automatically revert you to a standard user when the specified time is up."; ObjectID = "FfT-JO-Ift"; */
+"FfT-JO-Ift.title" = "当你使用程序坞来取得管理员权限，这个选项会在你指定的时间后自动将你还原为标准用户。";
+
+/* Class = "NSTextFieldCell"; title = "Dock Tile Timeout"; ObjectID = "msH-HV-PaS"; */
+"msH-HV-PaS.title" = "程序坞项⺫时限";
+
+/* Class = "NSTextFieldCell"; title = "Why do you need admin rights?"; ObjectID = "PCY-2s-YaX"; */
+"PCY-2s-YaX.title" = "您为什么需要管理员权限?";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "oX2-lx-8Xi"; */
+"oX2-lx-8Xi.title" = "取消";
+
+/* Class = "NSButtonCell"; title = "Continue"; ObjectID = "WYT-9u-Dg8"; */
+"WYT-9u-Dg8.title" = "继续";

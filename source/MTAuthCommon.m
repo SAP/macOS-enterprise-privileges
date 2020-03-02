@@ -1,6 +1,6 @@
 /*
  MTAuthCommon.m
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #import "MTAuthCommon.h"
 #import "PrivilegesHelper.h"
+#import "PrivilegesXPC.h"
 #import <ServiceManagement/ServiceManagement.h>
 
 @implementation MTAuthCommon
@@ -32,7 +33,7 @@ static NSString *kCommandKeyAuthRightDesc = @"authRightDescription";
 
     dispatch_once(&sOnceToken, ^{
         sCommandInfo = @{
-                         NSStringFromSelector(@selector(changeGroupMembershipForUser:group:remove:authorization:withReply:)) : @{
+            NSStringFromSelector(@selector(changeAdminRightsForUser:remove:reason:authorization:withReply:)) : @{
                                  kCommandKeyAuthRightName    : @"corp.sap.privileges.changeAdminRights",
                                  kCommandKeyAuthRightDefault : @kAuthorizationRuleClassAllow,
                                  kCommandKeyAuthRightDesc    : NSLocalizedString(@"changeAdminRights", nil)
@@ -48,21 +49,21 @@ static NSString *kCommandKeyAuthRightDesc = @"authRightDescription";
     return [self commandInfo][NSStringFromSelector(command)][kCommandKeyAuthRightName];
 }
 
-+ (void)enumerateRightsUsingBlock:(void (^)(NSString * authRightName, id authRightDefault, NSString * authRightDesc))block
++ (void)enumerateRightsUsingBlock:(void (^)(NSString *authRightName, id authRightDefault, NSString *authRightDesc))block
 // Calls the supplied block with information about each known authorization right..
 {
     [self.commandInfo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 #pragma unused(key)
 #pragma unused(stop)
-        NSDictionary *  commandDict;
-        NSString *      authRightName;
-        id              authRightDefault;
-        NSString *      authRightDesc;
+        NSDictionary *commandDict;
+        NSString *authRightName;
+        id authRightDefault;
+        NSString *authRightDesc;
         
         // If any of the following asserts fire it's likely that you've got a bug
         // in sCommandInfo.
         
-        commandDict = (NSDictionary *) obj;
+        commandDict = (NSDictionary*) obj;
         assert([commandDict isKindOfClass:[NSDictionary class]]);
         
         authRightName = [commandDict objectForKey:kCommandKeyAuthRightName];
@@ -82,7 +83,7 @@ static NSString *kCommandKeyAuthRightDesc = @"authRightDescription";
 // See comment in header.
 {
     assert(authRef != NULL);
-    [MTAuthCommon enumerateRightsUsingBlock:^(NSString * authRightName, id authRightDefault, NSString * authRightDesc) {
+    [MTAuthCommon enumerateRightsUsingBlock:^(NSString *authRightName, id authRightDefault, NSString *authRightDesc) {
         OSStatus    blockErr;
         
         // First get the right.  If we get back errAuthorizationDenied that means there's
@@ -108,92 +109,64 @@ static NSString *kCommandKeyAuthRightDesc = @"authRightDescription";
     }];
 }
 
-+ (NSData*)createAuthorizationUsingAuthorizationRef:(AuthorizationRef*)authRef
++ (NSString*)getSigningAuthorityWithError:(NSError**)error
 {
-    NSData *authorization;
-    AuthorizationExternalForm extForm;
-    OSStatus err = AuthorizationCreate(NULL, NULL, 0, authRef);
+    OSStatus result = errSecSuccess;
+    SecCodeRef helperCodeRef = NULL;
+    NSString *returnValue = nil;
+    NSString *errorMsg = nil;
     
-    // If we can't create an authorization reference then the app is not going to be able
-    // to do anything requiring authorization.  Generally this only happens when you launch
-    // the app in some wacky, and typically unsupported, way.  In the debug build we flag that
-    // with an assert.  In the release build we continue with self->_authRef as NULL, which will
-    // cause all authorized operations to fail.
+    // get our code object
+    result = SecCodeCopySelf(kSecCSDefaultFlags, &helperCodeRef);
     
-    if (err == errAuthorizationSuccess) { err = AuthorizationMakeExternalForm(*authRef, &extForm); }
-    
-    if (err == errAuthorizationSuccess) {
-        authorization = [[NSData alloc] initWithBytes:&extForm length:sizeof(extForm)];
+    if (result != errSecSuccess) {
+        errorMsg = [NSString stringWithFormat:@"Failed to copy code object: %d", result];
+    } else {
         
-        // If we successfully connected to Authorization Services, get our XPC service to add
-        // definitions for our default rights (unless they're already in the database).
-        if (authRef) { [MTAuthCommon setupAuthorizationRights:*authRef]; }
+        // get our static code
+        SecStaticCodeRef staticCodeRef = NULL;
+        result = SecCodeCopyStaticCode(helperCodeRef, kSecCSDefaultFlags, &staticCodeRef);
+        
+        if (result != errSecSuccess) {
+            errorMsg = [NSString stringWithFormat:@"Failed to get static code object: %d", result];
+        } else {
+            
+            // get our own signing information
+            CFDictionaryRef signingInfo = NULL;
+            result = SecCodeCopySigningInformation(staticCodeRef, kSecCSSigningInformation, &signingInfo);
+            
+            if (result != errSecSuccess) {
+                errorMsg = [NSString stringWithFormat:@"Failed to get signing information: %d", result];
+            } else {
+                
+                CFArrayRef certChain = (CFArrayRef) CFDictionaryGetValue(signingInfo, kSecCodeInfoCertificates);
+                
+                if (certChain && CFGetTypeID(certChain) == CFArrayGetTypeID() && CFArrayGetCount(certChain) > 0) {
+                    
+                    SecCertificateRef issuerCert = (SecCertificateRef) CFArrayGetValueAtIndex(certChain, 0);
+                    
+                    if (issuerCert) {
+                        CFStringRef subjectCN = NULL;
+                        SecCertificateCopyCommonName(issuerCert, &subjectCN);
+                        if (subjectCN) { returnValue = CFBridgingRelease(subjectCN); }
+                    }
+                }
+            }
+            
+            if (signingInfo) { CFRelease(signingInfo); }
+        }
+        
+        if (staticCodeRef) { CFRelease(staticCodeRef); }
     }
     
-    return authorization;
-}
-
-+ (BOOL)installHelperToolUsingAuthorizationRef:(AuthorizationRef)authRef error:(NSError**)error
-{
-    CFErrorRef helperError;
-    BOOL success = SMJobBless(
-                              kSMDomainSystemLaunchd,
-                              CFSTR("corp.sap.privileges.helper"),
-                              authRef,
-                              &helperError
-                              );
+    if (helperCodeRef) { CFRelease(helperCodeRef); }
     
-    if (!success && error != nil) {
-        *error = (__bridge NSError *) helperError;
-        CFRelease(helperError);
+    if (errorMsg && error) {
+        NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:errorMsg, NSLocalizedDescriptionKey, nil];
+        *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:100 userInfo:errorDetail];
     }
-
-    return success;
-}
-
-+ (void)connectToHelperToolUsingConnection:(__strong NSXPCConnection**)helperToolConnection
-// Ensures that we're connected to our helper tool.
-{
-    assert([NSThread isMainThread]);
     
-    if (*helperToolConnection == nil) {
-        
-        NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:kHelperToolMachServiceName
-                                                                                  options:NSXPCConnectionPrivileged];
-        xpcConnection.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(HelperToolProtocol)];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-retain-cycles"
-        // We can ignore the retain cycle warning because a) the retain taken by the
-        // invalidation handler block is released by us setting it to nil when the block
-        // actually runs, and b) the retain taken by the block passed to -addOperationWithBlock:
-        // will be released when that operation completes and the operation itself is deallocated
-        // (notably self does not have a reference to the NSBlockOperation).
-        xpcConnection.invalidationHandler = ^{
-            // If the connection gets invalidated then, on the main thread, nil out our
-            // reference to it.  This ensures that we attempt to rebuild it the next time around.
-            xpcConnection.invalidationHandler = nil;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                *helperToolConnection = nil;
-            }];
-        };
-        *helperToolConnection = xpcConnection;
-        
-#pragma clang diagnostic pop
-        [*helperToolConnection resume];
-    }
-}
-
-+ (void)connectToHelperToolUsingConnection:(__strong NSXPCConnection**)helperToolConnection andExecuteCommandBlock:(void(^)(void))commandBlock
-// Connects to the helper tool and then executes the supplied command
-// block on the main thread.
-{
-    assert([NSThread isMainThread]);
-    
-    // ensure that there's a helper tool connection in place.
-    [self connectToHelperToolUsingConnection:helperToolConnection];
-    
-    // run the command block
-    commandBlock();
+    return returnValue;
 }
 
 @end

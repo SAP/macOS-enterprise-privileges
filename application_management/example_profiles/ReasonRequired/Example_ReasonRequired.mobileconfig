@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>corp.sap.privileges</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+  								<!--
+                                    key: ReasonRequired
+                                    value: a boolean
+                                    
+                                    If set to true, the user must provide a reason for needing admin rights.
+                                    The reason will be logged.
+                                -->
+								<key>ReasonRequired</key>
+								<true/>
+								<!--
+                                    key: ReasonMinLength
+                                    value: a positive integer
+                                    
+                                    If "ReasonRequired" is set to true, this key specifies the minimum number 
+                                    of characters the user has to enter as the reason for becoming an admin.
+                                    If not set, the value defaults to 10. The text field is limited to a
+                                    maximum of 100 characters, so values greater than 100 have no effect.
+                                    Please be aware that enabling this option, disables the "Toggle Privileges"
+                                    entry in the Privileges Dock tile menu.
+                                -->
+                                <key>ReasonMinLength</key>
+								<integer>5</integer>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadDescription</key>
+			<string/>
+			<key>PayloadDisplayName</key>
+			<string>Privileges configuration</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.ManagedClient.preferences.36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadOrganization</key>
+			<string>SAP SE</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Configures the Privileges app.</string>
+	<key>PayloadDisplayName</key>
+	<string>Privileges configuration</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>CF401A42-35CA-4DA6-9123-5A49C87ECB5A</string>
+	<key>PayloadOrganization</key>
+	<string>SAP SE</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>50870D16-7AAD-478B-BFFE-BED09499F7E0</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

@@ -1,6 +1,6 @@
 /*
  main.m
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,18 +16,19 @@
  */
 
 #import "MTIdentity.h"
-#import "MTAuthCommon.h"
 #import "PrivilegesHelper.h"
+#import "MTAuthCommon.h"
 #import <Foundation/Foundation.h>
+
 
 @interface Main : NSObject
 @property (assign) AuthorizationRef authRef;
-@property (assign) NSPort *receiveStopMessagePort;
-@property (nonatomic, assign) NSInteger helperCheckFailed;
 @property (atomic, copy, readwrite) NSData *authorization;
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
-@property (nonatomic, assign) BOOL grantAdminRights;
-@property (nonatomic, assign) BOOL shouldTerminate;
+@property (atomic, strong, readwrite) NSString *currentUser;
+@property (atomic, strong, readwrite) NSString *adminReason;
+@property (atomic, assign) BOOL grantAdminRights;
+@property (atomic, assign) BOOL shouldTerminate;
 @end
 
 @implementation Main
@@ -37,66 +38,144 @@
     // don't run this as root
     if (getuid() != 0) {
         
-        NSArray *theArguments = nil;
-        NSString *enforcedPrivileges = nil;
+        // get the name of the current user
+        _currentUser = NSUserName();
         
         // check if we're managed
         NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
         
-        if ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
-            enforcedPrivileges = [userDefaults objectForKey:@"EnforcePrivileges"];
-        }
+        NSString *enforcedPrivileges = ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) ? [userDefaults objectForKey:@"EnforcePrivileges"] : nil;
+        NSString *limitToUser = ([userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [userDefaults objectForKey:@"LimitToUser"] : nil;
+        NSString *limitToGroup = ([userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [userDefaults objectForKey:@"LimitToGroup"] : nil;
         
-        if ([enforcedPrivileges isEqualToString:@"none"]) {
-
-            fprintf(stderr, "You cannot use this app to change your privileges!\n");
-            
-        } else {
-            
-            if ([enforcedPrivileges isEqualToString:@"admin"] || [enforcedPrivileges isEqualToString:@"user"]) {
-                theArguments = [NSArray arrayWithObjects:
-                                [[NSProcessInfo processInfo] processName],
-                                [NSString stringWithFormat:@"%@", ([enforcedPrivileges isEqualToString:@"admin"]) ? @"--add" : @"--remove"],
-                                nil
-                                ];
-            
-                fprintf(stderr, "Arguments are ignored because %s rights have been assigned by an administrator\n", ([enforcedPrivileges isEqualToString:@"admin"]) ? "admin" : "standard user");
-            
+        NSArray *theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
+        NSString *lastArgument = [theArguments lastObject];
+        
+        if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--status"])) {
+        
+            if ([MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:nil]) {
+                [self sendConsoleMessage:[NSString stringWithFormat:@"User %@ has admin rights", _currentUser]];
             } else {
-                theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
+                [self sendConsoleMessage:[NSString stringWithFormat:@"User %@ has standard user rights", _currentUser]];
             }
             
-            NSString *lastArgument = [theArguments lastObject];
-            
+        } else {
+
+            if ([enforcedPrivileges isEqualToString:@"admin"] || [enforcedPrivileges isEqualToString:@"user"]) {
+                
+                theArguments = [NSArray arrayWithObjects:[[NSProcessInfo processInfo] processName], ([enforcedPrivileges isEqualToString:@"admin"]) ? @"--add" : @"--remove", nil];
+                lastArgument = [theArguments lastObject];
+                [self sendConsoleMessage:[NSString stringWithFormat:@"Arguments are ignored because %@ rights have been assigned by an administrator", ([enforcedPrivileges isEqualToString:@"admin"]) ? @"admin" : @"standard user"]];
+            }
+
             if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--remove"] || [lastArgument isEqualToString:@"--add"])) {
                 
-                _grantAdminRights = ([lastArgument isEqualToString:@"--add"]) ? YES : NO;
-                
-                // create authorization reference
-                _authorization = [MTAuthCommon createAuthorizationUsingAuthorizationRef:&_authRef];
-                
-                if (!_authorization) {
+                if ([enforcedPrivileges isEqualToString:@"none"] || (!enforcedPrivileges &&
+                    ((limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
+                    (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil])))) {
                     
-                    // display an error dialog and exit
-                    fprintf(stderr, "Unable to create authorization reference!\n");
+                    [self sendConsoleMessage:@"You cannot use this app to change your privileges because your administrator has restricted the use of this app."];
                     
                 } else {
+                
+                    BOOL allowUsage = YES;
+                    _grantAdminRights = ([lastArgument isEqualToString:@"--add"]) ? YES : NO;
+                        
+                    NSError *userError = nil;
+                    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:&userError];
+                           
+                    if (userError) {
+                        [self logError:nil withDescription:[NSString stringWithFormat:@"Unable to get group membership for user %@!", _currentUser] andTerminate:NO];
+                        allowUsage = NO;
+                           
+                    } else {
+                        
+                        // check if we must change something
+                        if ((isAdmin && _grantAdminRights) || (!isAdmin && !_grantAdminRights)) {
+                            [self logError:nil withDescription:[NSString stringWithFormat:@"User %@ already has the requested privileges. Nothing to do.", _currentUser] andTerminate:NO];
+                            allowUsage = NO;
+                        
+                        } else {
+                            
+                            // if admin rights are requested and authentication is required, we ask for the user's password ...
+                            if (_grantAdminRights && ([userDefaults objectIsForcedForKey:@"RequireAuthentication"] && [userDefaults boolForKey:@"RequireAuthentication"])) {
+                                
+                                char *password = getpass("Please enter your account password: ");
+                                NSString *userPassword = [NSString stringWithUTF8String:password];
+                                
+                                if ([userPassword length] <= 0 || ![MTIdentity verifyPassword:userPassword forUser:_currentUser]) {
+                                    [self logError:nil withDescription:@"Incorrect password! Unable to change group membership." andTerminate:NO];
+                                    allowUsage = NO;
+                                }
+                            }
+                            
+                            if (allowUsage && _grantAdminRights && ([userDefaults objectIsForcedForKey:@"ReasonRequired"] && [userDefaults boolForKey:@"ReasonRequired"])) {
+                                
+                                NSInteger minReasonLength = 0;
+                                if ([userDefaults objectIsForcedForKey:@"ReasonMinLength"]) { minReasonLength = [userDefaults integerForKey:@"ReasonMinLength"]; }
+                                if (minReasonLength <= 0) { minReasonLength = 10; }
+                                
+                                _adminReason = nil;
+                                char reason[100] = {0};
+                                printf("Please enter the reason for needing admin rights (at least %ld characters): ", (long)minReasonLength);
+                                scanf("%[^\n]s", reason);
+                                NSString *reasonText = [NSString stringWithUTF8String:reason];
+                                
+                                if ([reasonText length] < minReasonLength) {
+                                    [self logError:nil withDescription:@"The provided reason does not match the requirements!" andTerminate:NO];
+                                    allowUsage = NO;
+                                } else {
+                                    _adminReason = reasonText;
+                                }
+                            }
+
+                        }
+                    }
                     
-                    // check for the helper
-                    [self checkForHelper];
-                    
-                    // wait until "shouldTerminate" is true
-                    _receiveStopMessagePort = [NSPort port];
-                    [_receiveStopMessagePort setDelegate:(id)self];
-                    
-                    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-                    [runLoop addPort:_receiveStopMessagePort forMode:NSDefaultRunLoopMode];
-                    while (!_shouldTerminate && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+                    if (allowUsage) {
+                                            
+                        // create authorization reference
+                        AuthorizationExternalForm extForm;
+                        OSStatus err = AuthorizationCreate(NULL, NULL, 0, &self->_authRef);
+                        
+                        if (err == errAuthorizationSuccess) {
+                            err = AuthorizationMakeExternalForm(self->_authRef, &extForm);
+                        }
+                        
+                        if (err == errAuthorizationSuccess) {
+                            self.authorization = [[NSData alloc] initWithBytes:&extForm length:sizeof(extForm)];
+                            if (self->_authRef) { [MTAuthCommon setupAuthorizationRights:self->_authRef]; }
+                        }
+                            
+                        if (!_authorization) {
+                                
+                            // display an error dialog and exit
+                            [self logError:nil withDescription:@"Unable to create authorization reference!" andTerminate:NO];
+                            
+                        } else {
+
+                            // check for the helper
+                            [self checkForHelper];
+                            
+                            // run until _shouldTerminate is true
+                            while (!_shouldTerminate && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+                        }
+                        
+                        // tell the helper to quit
+                        [self connectAndExecuteCommandBlock:^(NSError *connectError) {
+                            
+                            if (connectError) {
+                                [self logError:connectError withDescription:@"Unable to create XPC connection!" andTerminate:YES];
+                                
+                            } else {
+                                [[self->_helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
+                                    [self logError:proxyError withDescription:@"Failed to execute XPC method!" andTerminate:YES];
+                                }] quitHelperTool];
+                            }
+                        }];
+                    }
                 }
-                
-                // tell the helper to quit
-                [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection andExecuteCommandBlock:^(void) { [[self->_helperToolConnection remoteObjectProxy] quitHelperTool]; }];
-                
+            
             } else {
                 
                 // display usage info and exit
@@ -107,151 +186,179 @@
     } else {
         
         // display an error dialog and exit
-        fprintf(stderr, "You cannot run this as root!\n");
+        [self logError:nil withDescription:@"You cannot run this as root!" andTerminate:NO];
     }
      
 }
 
-- (void)fireTerminateMessage
+- (void)terminateRunLoop
 {
-    // Send an empty message to the receiveStopMessagePort; This is a
-    // special port just for getting "terminate" requests
-    NSPortMessage* emptyQuitMessage = [[NSPortMessage alloc]
-                                       initWithSendPort:_receiveStopMessagePort
-                                       receivePort:_receiveStopMessagePort
-                                       components:[NSArray arrayWithObject:[NSData data]]];
-    [emptyQuitMessage sendBeforeDate:[NSDate distantFuture]];
-}
-
-- (void)handlePortMessage:(NSPortMessage*)portMessage
-{
-#pragma unused(portMessage)
-    // The message is unimportant; the only message that this port receives is the request to stop running.
-    // Sending a message through a port ensures that the run loop will get a chance
-    //  to test the isRunning flag and terminate the run loop.
-    _shouldTerminate = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_shouldTerminate = YES;
+    });
 }
 
 - (void) printUsage
 {
     fprintf(stderr, "\nUsage: PrivilegesCLI <arg>\n\n");
     fprintf(stderr, "Arguments:   --add        Adds the current user to the admin group\n");
-    fprintf(stderr, "             --remove     Remove the current user from the admin group\n\n");
+    fprintf(stderr, "             --remove     Removes the current user from the admin group\n");
+    fprintf(stderr, "             --status     Displays the current user's privileges\n\n");
     
-    [self fireTerminateMessage];
+    [self terminateRunLoop];
 }
 
-- (void)changeAdminGroup:(NSString*)userName group:(uint)groupID remove:(BOOL)remove
+- (void)changeAdminGroup:(NSString*)userName remove:(BOOL)remove
 {
-    [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection
-                              andExecuteCommandBlock:^(void) {
-                                  
-                                  [[self->_helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
-                                      
-                                      fprintf(stderr, "Unable to connect to helper tool!\n");
-                                      [self fireTerminateMessage];
-                                      
-                                  }] changeGroupMembershipForUser:userName group:groupID remove:remove authorization:self->_authorization withReply:^(NSError *error) {
-                                      
-                                      if (error != nil) {
-                                          fprintf(stderr, "Unable to change privileges!\n");
-                                          
-                                      } else {
-                                          
-                                          if (remove) {
-                                              fprintf(stderr, "User %s has now standard user rights\n", [userName UTF8String]);
-                                              NSLog(@"SAPCorp: User %@ has now standard user rights", userName);
-                                          } else {
-                                              fprintf(stderr, "User %s has now admin rights\n", [userName UTF8String]);
-                                              NSLog(@"SAPCorp: User %@ has now admin rights", userName);
-                                          }
-                                          
-                                          // send a notification to update the Dock tile
-                                          [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
-                                                                                                        object:userName
-                                                                                                       userInfo:nil
-                                                                                                        options:NSNotificationDeliverImmediately | NSNotificationPostToAllSessions
-                                           ];
-                                      }
-                                      
-                                      [self fireTerminateMessage];
-                                      
-                                  }];
-                                  
-                              }];
+    [self connectAndExecuteCommandBlock:^(NSError *connectError) {
+        
+        if (connectError) {
+            [self logError:connectError withDescription:@"Unable to create XPC connection!" andTerminate:YES];
+            
+        } else {
+        
+            [[self->_helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
+                [self logError:proxyError withDescription:@"Failed to execute XPC method!" andTerminate:YES];
+            }] changeAdminRightsForUser:userName
+                                 remove:remove
+                                 reason:self->_adminReason
+                          authorization:self->_authorization
+                              withReply:^(NSError *error) {
+                
+                if (error) {
+                    [self sendConsoleMessage:@"Unable to change privileges!"];
+                    
+                } else {
+                    
+                    NSString *logMessage = [NSString stringWithFormat:@"User %@ has now %@ rights", userName, (remove) ? @"standard user" : @"admin"];
+                    [self sendConsoleMessage:logMessage];
+                    
+                    // send a notification to update the Dock tile
+                    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
+                                                                                  object:userName
+                                                                                 userInfo:nil
+                                                                                  options:NSNotificationDeliverImmediately | NSNotificationPostToAllSessions
+                     ];
+                }
+                
+                [self terminateRunLoop];
+                
+            }];
+        }
+        
+    }];
 }
 
 - (void)checkForHelper
 {
-    [MTAuthCommon connectToHelperToolUsingConnection:&_helperToolConnection
-                              andExecuteCommandBlock:^(void) {
-                                  
-                                  [[self->_helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
-                                      [self performSelectorOnMainThread:@selector(helperCheckFailed:) withObject:proxyError waitUntilDone:NO];
-                                      
-                                  }] getVersionWithReply:^(NSString *helperVersion) {
-                                      if (helperVersion) {
-                                          [self performSelectorOnMainThread:@selector(helperCheckSuccessful:) withObject:helperVersion waitUntilDone:NO];
-                                          
-                                      } else {
-                                          NSString *errorMsg = @"Unable to determine helper version";
-                                          [self performSelectorOnMainThread:@selector(helperCheckFailed:) withObject:errorMsg waitUntilDone:NO];
-                                      }
-                                  }];
-                                  
-                              }];
+    [self connectAndExecuteCommandBlock:^(NSError *connectError) {
+        
+        if (connectError) {
+            [self logError:connectError withDescription:@"Unable to create XPC connection!" andTerminate:YES];
+            
+        } else {
+
+            [[self->_helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
+                [self logError:proxyError withDescription:@"Failed to execute XPC method!" andTerminate:YES];
+            }] helperVersionWithReply:^(NSString *helperVersion) {
+                
+                if (helperVersion) {
+                    
+                    // set the required helper version (this must match the app version)
+                    NSString *mainbundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+                    NSBundle *mainBundle = [NSBundle bundleWithPath:mainbundlePath];
+                    NSString *requiredVersion = [[mainBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+                    
+                    if ([helperVersion isEqualToString:requiredVersion]) {
+                        
+                        // everything seems to be good, so set the privileges
+                        [self performSelectorOnMainThread:@selector(helperCheckSuccessful:) withObject:nil waitUntilDone:NO];
+                        
+                    } else {
+                        
+                        [self logError:nil  withDescription:[NSString stringWithFormat:@"Helper version mismatch (is %@, should be %@)", helperVersion, requiredVersion] andTerminate:YES];
+                    }
+                    
+                } else {
+                    [self logError:nil  withDescription:@"Helper tool is not running!" andTerminate:YES];
+                }
+            }];
+        }
+    }];
 }
 
-- (void)helperCheckFailed:(NSString*)errorMessage
+- (void)logError:(NSError*)error withDescription:(NSString*)errorString andTerminate:(BOOL)terminate
 {
-    fprintf(stderr, "Helper tool is not running!\n");
-    [self fireTerminateMessage];
+    errorString = ([errorString length] > 0) ? errorString : @"An unknown error occurred!";
+    
+    if (error) {
+        [self sendConsoleMessage:[NSString stringWithFormat:@"%@: %@ (%d)", errorString, [error domain], (int)[error code]]];
+    }
+    
+    [self sendConsoleMessage:errorString];
+    
+    if (terminate) { [self terminateRunLoop]; }
+}
+
+- (void)sendConsoleMessage:(NSString*)consoleMessage
+{
+    fprintf(stderr, "%s\n", [consoleMessage UTF8String]);
 }
 
 - (void)helperCheckSuccessful:(NSString*)helperVersion
 {
-    NSError *userError = nil;
-    NSString *userName = NSUserName();
-    int groupID = [MTIdentity gidFromGroupName:ADMIN_GROUP_NAME];
-    
-    if (groupID == -1) {
-        
-        fprintf(stderr, "Unable to get id of the admin group!\n");
-        [self fireTerminateMessage];
-        
-    } else {
-        
-        BOOL isAdmin = [MTIdentity getGroupMembershipForUser:userName groupID:groupID error:&userError];
-        
-        if (userError != nil) {
-            
-            fprintf(stderr, "Unable to get group membership for user %s!\n", [userName UTF8String]);
-            
-        } else {
-            
-            if (isAdmin && !_grantAdminRights) {
-                
-                // remove the admin privileges
-                [self changeAdminGroup:userName group:groupID remove:YES];
-                
-            } else if (!isAdmin && _grantAdminRights) {
-                
-                // grant admin privileges
-                [self changeAdminGroup:userName group:groupID remove:NO];
-                
-            } else {
-                
-                fprintf(stderr, "User %s already has the requested permissions. Nothing to do.\n", [userName UTF8String]);
-                [self fireTerminateMessage];
-            }
-            
-        }
+    [self changeAdminGroup:_currentUser remove:!_grantAdminRights];
+}
+
+- (void)connectToHelperTool
+    // Ensures that we're connected to our helper tool.
+{
+    assert([NSThread isMainThread]);
+    if (self.helperToolConnection == nil) {
+        self.helperToolConnection = [[NSXPCConnection alloc] initWithMachServiceName:kHelperToolMachServiceName options:NSXPCConnectionPrivileged];
+        self.helperToolConnection.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(HelperToolProtocol)];
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Warc-retain-cycles"
+        // We can ignore the retain cycle warning because a) the retain taken by the
+        // invalidation handler block is released by us setting it to nil when the block
+        // actually runs, and b) the retain taken by the block passed to -addOperationWithBlock:
+        // will be released when that operation completes and the operation itself is deallocated
+        // (notably self does not have a reference to the NSBlockOperation).
+        self.helperToolConnection.invalidationHandler = ^{
+            // If the connection gets invalidated then, on the main thread, nil out our
+            // reference to it.  This ensures that we attempt to rebuild it the next time around.
+            self.helperToolConnection.invalidationHandler = nil;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.helperToolConnection = nil;
+                [self logError:nil withDescription:@"Helper connection invalidated!" andTerminate:NO];
+            }];
+        };
+        #pragma clang diagnostic pop
+        [self.helperToolConnection resume];
     }
+}
+
+- (void)connectAndExecuteCommandBlock:(void(^)(NSError *))commandBlock
+    // Connects to the helper tool and then executes the supplied command block on the
+    // main thread, passing it an error indicating if the connection was successful.
+{
+    assert([NSThread isMainThread]);
+    
+    // Ensure that there's a helper tool connection in place.
+    
+    [self connectToHelperTool];
+
+    // Run the command block.  Note that we never error in this case because, if there is
+    // an error connecting to the helper tool, it will be delivered to the error handler
+    // passed to -remoteObjectProxyWithErrorHandler:.  However, I maintain the possibility
+    // of an error here to allow for future expansion.
+
+    commandBlock(nil);
 }
 
 @end
 
-int main(int argc, const char * argv[])
+int main(int argc, const char *argv[])
 {
 #pragma unused(argc)
 #pragma unused(argv)

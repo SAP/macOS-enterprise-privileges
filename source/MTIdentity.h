@@ -1,6 +1,6 @@
 /*
  MTIdentity.h
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -41,5 +41,34 @@
  @discussion    Returns YES if the user is member of the group, otherwise returns NO.
  */
 + (BOOL)getGroupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error;
+
+/*!
+@method        getGroupMembershipForUser:groupName:error
+@abstract      Check if a given user is member of a given group.
+@param         userName The short name of the user.
+@param         groupName The name of the group.
+@param         error A reference to an NSError object that contains a detailed error message if an error occurred. May be nil.
+@discussion    Returns YES if the user is member of the group, otherwise returns NO.
+*/
++ (BOOL)getGroupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error;
+
+/*!
+@method        authenticateUserWithReason:completionHandler
+@abstract      Authenticate the user either by using Touch ID (if available) or password.
+@param         authReason The reason for requesting authentication, which displays in the authentication dialog presented to the user.
+@param         completionHandler The completion handler to call when the request is complete.
+@discussion    Returns YES if authentication succeeded, otherwise returns NO. If an error occurred, the completion handler's NSError object
+ contains error details.
+*/
++ (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
+
+/*!
+@method        verifyPassword:forUser
+@abstract      Verifies if a given password can be used to authenticate a given user.
+@param         userPassword The user's password.
+@param         userName The short name of the user.
+@discussion    Returns YES if verification succeeded, otherwise returns NO.
+*/
++ (BOOL)verifyPassword:(NSString*)userPassword forUser:(NSString*)userName;
 
 @end

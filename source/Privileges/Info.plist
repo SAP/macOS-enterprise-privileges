@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>494</string>
+	<string>1093</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
@@ -27,15 +27,10 @@
 	<key>NSDockTilePlugIn</key>
 	<string>PrivilegesTile.docktileplugin</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2016-2019 SAP SE. All rights reserved.</string>
+	<string>Copyright © 2016-2020 SAP SE. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SMPrivilegedExecutables</key>
-	<dict>
-		<key>corp.sap.privileges.helper</key>
-		<string>identifier "corp.sap.privileges.helper" and certificate leaf[subject.OU] = "7R5ZEU67FQ"</string>
-	</dict>
 </dict>
 </plist>

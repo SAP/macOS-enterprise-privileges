@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2019 SAP SE
+ Copyright 2016-2020 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,20 +69,35 @@
 // prompt shown when user is required to authorize
 "changeAdminRights" = "Privileges.app 正在更改用户的管理员权限！";
 
-// menu item to toggle the privileges
-"toggleMenuItem" = "更改管理员权限";
-
-// menu item to lock the screen
-"lockScreenMenuItem" = "锁定屏幕";
-
-// menu item to show the login window
-"loginWindowMenuItem" = "登录窗口…";
+// prompt shown when user is required to authorize
+"authenticationText" = "正在更改用户的管理员权限";
 
 // menu item for a timeout with value "never"
 "timeoutNever" = "永不";
 
-// suffix for a menu item with a minutes timeout
+// suffix for a menu item with a minute timeout
+"timeoutMin" = "分钟";
+
+// suffix for a menu item with a multiple minutes timeout
 "timeoutMins" = "分钟";
 
 // suffix for a menu item with a 1 hour timeout
 "timeoutHour" = "小时";
+
+// suffix for a menu item with a multiple hours timeout
+"timeoutHours" = "小时";
+
+// the message of the dialog box where the user has to provide a reason for getting admin rights
+"reasonDescription" = "请输入你需要管理员权限的原因。你必须输入最少%@才能继续。";
+
+// one character
+"oneChar" = "一个字符";
+
+// more characters
+"moreChars" = "%ld个字符";
+
+// even more characters
+"evenMoreChars" = "%ld个字符";
+
+// the value to differenciate between "more" and "even more" characters (if applicable)
+"evenMoreCharsThreshold" = "";
