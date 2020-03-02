@@ -195,7 +195,6 @@ The icon is black with a yellow outline and displays an unlocked padlock icon wh
 
 ![](readme_images/icon_bk2.png)
 
-This color change will not occur if only the **DockToggleTimeout** key is being managed. This color change is specific to **Privileges.app** and the **PrivilegesCLI** command line tool being managed by the **EnforcePrivileges** key.
 
 Support
 ===================================
