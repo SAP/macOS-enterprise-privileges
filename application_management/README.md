@@ -175,7 +175,17 @@ Example configuration profiles are available via the links below:
 Dock Icon
 ===================================
 
-The **Privileges.app** dock icon will change colors from the standard color scheme if **Privileges.app** is being managed by a macOS configuration profile which is using the **EnforcePrivileges** key.
+The **Privileges.app** dock icon will change colors from the standard color scheme if **Privileges.app** is being managed by a macOS configuration profile which is using one or more of the following management keys:
+
+* **EnforcePrivileges**
+* **LimitToGroup**
+* **LimitToUser**
+* **ReasonRequired**
+* **RemoteLogging**
+* **RequireAuthentication**
+
+*Note: The `DockToggleTimeout` management key does not trigger the custom color scheme.*
+
 
 The icon is black with a green outline and displays a locked padlock icon when you are a standard user.
 
