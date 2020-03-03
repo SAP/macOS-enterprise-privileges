@@ -28,7 +28,7 @@ Installation
 <br>
 <br>
 
-![](readme_images/Privileges_103_installed.png)
+![](readme_images/Privileges_150_installed.png)
 
 <br>
 
@@ -40,7 +40,7 @@ Installation
 
 <p></p>
 
-![](readme_images/privileges_103_installation.gif)
+![](readme_images/privileges_150_installation.gif)
 
 <p></p>
 <p></p>
@@ -213,6 +213,18 @@ The **PrivilegesCLI** command line tool currently supports the following options
 
 <p></p> 
 
+<p></p> 
+
+* `/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --status` : Displays the current user's privileges.
+
+<p></p>
+
+![](readme_images/PrivilegesCLI_status1.png)
+
+![](readme_images/PrivilegesCLI_status2.png)
+
+<p></p> 
+
 
 For assistance, please run the following command to display all available options:
 
@@ -257,7 +269,7 @@ log show --style syslog --predicate 'process == "Privileges" && eventMessage CON
 
 <p></p>
 
-![](readme_images/Privileges_103_installed.png)
+![](readme_images/Privileges_150_installed.png)
 
 <p></p>
 
@@ -290,7 +302,7 @@ This project is 'as-is' with no support, no changes being made.  You are welcome
 
 License
 ===================================
-Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved. 
+Copyright (c) 2020 SAP SE or an SAP affiliate company.  All rights reserved. 
 This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](LICENSE) file. 
 
 SUBCOMPONENTS
