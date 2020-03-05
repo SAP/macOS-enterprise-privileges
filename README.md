@@ -235,7 +235,7 @@ For assistance, please run the following command to display all available option
 
 ### How do I access logs for Privileges.app?
 
-**Privileges.app** uses the system log for logging. To see all logs for **Privileges.app** in the **Console** app, you can filter for the `Privileges` process.
+**Privileges.app** uses the system log for logging. To see all logs for **Privileges.app** in the **Console** app, you can filter for the `corp.sap.privileges.helper` process.
 
 ![](readme_images/console_show_privileges_process.png)
 
@@ -246,7 +246,7 @@ To see only the logging associated with changing admin rights in the **Console**
 To access the same logs from the command line, the `log` command can be used. To see all logs for **Privileges.app** using the `log` command, the following command can be used:
 
 ```
-log show --style syslog --predicate 'process == "Privileges"'
+log show --style syslog --predicate 'process == "corp.sap.privileges.helper"'
 ```
 
 ![](readme_images/log_show_privileges_process.png)
@@ -254,7 +254,7 @@ log show --style syslog --predicate 'process == "Privileges"'
 To see only the logging associated with changing admin rights, the following command can be used:
 
 ```
-log show --style syslog --predicate 'process == "Privileges" && eventMessage CONTAINS "SAPCorp"'
+log show --style syslog --predicate 'process == "corp.sap.privileges.helper" && eventMessage CONTAINS "SAPCorp"'
 ```
 
 ![](readme_images/log_show_privileges_process_filtered_for_admin.png)
