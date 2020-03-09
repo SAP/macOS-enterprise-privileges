@@ -300,6 +300,10 @@ Support
 ===================================
 This project is 'as-is' with no support, no changes being made.  You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
+Security
+===================================
+ Found a security-related issue or vulnerability and want to notify us? Please contact us at [privileges-security@sap.com](mailto:privileges-security@sap.com)
+
 License
 ===================================
 Copyright (c) 2020 SAP SE or an SAP affiliate company.  All rights reserved. 
