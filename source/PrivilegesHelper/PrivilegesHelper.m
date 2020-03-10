@@ -71,12 +71,15 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
     BOOL acceptConnection = NO;
     
-    // see how we have been signed and make sure only processes with the same signing authority can connect
+    // see how we have been signed and make sure only processes with the same signing authority can connect.
+    // additionally the calling application must have the same version number as this helper and must be one
+    // of the components using a bundle identifier starting with "corp.sap.privileges"
     NSError *error = nil;
     NSString *signingAuth = [MTAuthCommon getSigningAuthorityWithError:&error];
+    NSString *requiredVersion = [self helperVersion];
 
     if (signingAuth) {
-        NSString *reqString = [NSString stringWithFormat:@"anchor trusted and certificate leaf [subject.CN] = \"%@\"", signingAuth];
+        NSString *reqString = [NSString stringWithFormat:@"anchor trusted and certificate leaf [subject.CN] = \"%@\" and info [CFBundleShortVersionString] >= \"%@\" and info [CFBundleIdentifier] = corp.sap.privileges*", signingAuth, requiredVersion];
         SecTaskRef taskRef = SecTaskCreateWithAuditToken(NULL, ((ExtendedNSXPCConnection*)newConnection).auditToken);
     
         if (taskRef) {
@@ -173,7 +176,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
 - (void)helperVersionWithReply:(void(^)(NSString *version))reply
 {
-    reply([[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]);
+    reply([self helperVersion]);
+}
+
+- (NSString*)helperVersion
+{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 
 - (void)changeAdminRightsForUser:(NSString*)userName

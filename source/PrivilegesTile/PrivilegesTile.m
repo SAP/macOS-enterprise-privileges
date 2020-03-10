@@ -150,7 +150,8 @@ extern void SACLockScreenImmediate (void);
          
          if (([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"])) ||
              (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
-             (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil]) || reasonRequired) {
+             (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil]) ||
+             ([_userDefaults objectIsForcedForKey:@"RequireAuthentication"] && [_userDefaults boolForKey:@"RequireAuthentication"]) || reasonRequired) {
              [privilegesItem setEnabled:NO];
          }
          
@@ -187,27 +188,11 @@ extern void SACLockScreenImmediate (void);
 
      if (!userError) {
          
-         if (![_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && [_userDefaults boolForKey:@"RequireAuthentication"] && !isAdmin) {
-             
-             [MTIdentity authenticateUserWithReason:NSLocalizedStringFromTableInBundle(@"authenticationText", @"Localizable", _pluginBundle, nil)
-                                  completionHandler:^(BOOL success, NSError *error) {
-                 
-                 if (success) {
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                         [NSTask launchedTaskWithLaunchPath:self->_cliPath arguments:[NSArray arrayWithObject:@"--add"]];
-                         [self startToggleTimer];
-                     });
-                 }
-             }];
-             
-         } else {
+         [NSTask launchedTaskWithLaunchPath:_cliPath
+                                  arguments:(isAdmin) ? [NSArray arrayWithObject:@"--remove"] : [NSArray arrayWithObject:@"--add"]
+          ];
          
-             [NSTask launchedTaskWithLaunchPath:_cliPath
-                                      arguments:(isAdmin) ? [NSArray arrayWithObject:@"--remove"] : [NSArray arrayWithObject:@"--add"]
-              ];
-             
-             if (!isAdmin && ![_userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) { [self startToggleTimer]; }
-         }
+         if (!isAdmin && !([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"]))) { [self startToggleTimer]; }
     }
 }
 
