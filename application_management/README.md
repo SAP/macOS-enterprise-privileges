@@ -62,7 +62,7 @@ Description: If `ReasonRequired` is set to `true`, the user must provide a reaso
 
 If using `ReasonRequired`, then the `ReasonMinLength` key must also be set. The `ReasonMinLength` key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. The text field is limited to amaximum of 100 characters, so values greater than 100 have no effect.
 
-*Note: If setting `ReasonRequired`, the `Toggle Privilges` option is automatically disabled.*
+*Note: If setting `ReasonRequired`, the `Toggle Privileges` option is automatically disabled.*
 
 
 
@@ -156,7 +156,9 @@ Value: `true` or `false`
 
 *Note: This is a boolean value.*
 
-Description: Requires authentication before using  **Privileges.app**. If set to `true`, the logged-in user is prompted to authenticate via Touch ID or by entering their account password. 
+Description: Requires authentication before using  **Privileges.app**. If set to `true`, the logged-in user is prompted to authenticate via Touch ID or by entering their account password.
+
+*Note: If setting `RequireAuthentication`, the `Toggle Privileges` option is automatically disabled.*
 
 
 
