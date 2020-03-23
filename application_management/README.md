@@ -8,7 +8,7 @@ Key: **DockToggleTimeout**
  
 Value: **Integer**
  
-Description: Set a fixed timeout for the Dock tile's `Toggle Privileges` command. After this time, the admin rights are removed and set back to standard user rights. A value of **0** disables the timeout and allows the user to permanently toggle privileges.
+Description: Set a fixed timeout, in minutes, for the Dock tile's `Toggle Privileges` command. After this time, the admin rights are removed and set back to standard user rights. A value of **0** disables the timeout and allows the user to permanently toggle privileges.
 
 
 
