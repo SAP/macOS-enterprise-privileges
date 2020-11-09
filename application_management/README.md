@@ -124,12 +124,6 @@ Value: `true` or `false`
 
 *Note: This is a boolean value. If set to true, the log messages are sent via TCP instead of UDP. By default, messages are sent via UDP.*
 
-Accompanying Key: **EnableTCP**
-
-Value: `true` or `false`
-
-*Note: This is a boolean value. If set to true, the log messages are sent via TCP instead of UDP. By default, messages are sent via UDP.*
-
 Accompanying Key: **SyslogOptions**
 
 Value: a dictionary containing syslog-specific options.
