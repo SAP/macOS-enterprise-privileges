@@ -197,7 +197,7 @@ Description: Requires authentication before using  **Privileges.app**. If set to
 Example configuration profiles are available via the links below:
 
 * [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
-* [Privileges DockToggleMaxTimeout macOS Configuration Profile](example_profiles/DockToggleMaxTimeout/Example_DockToggleTimeout.mobileconfig)
+* [Privileges DockToggleMaxTimeout macOS Configuration Profile](example_profiles/DockToggleMaxTimeout/Example_DockToggleMaxTimeout.mobileconfig)
 * [Privileges EnforcePrivileges macOS Configuration Profile](example_profiles/EnforcePrivileges/Example_EnforcePrivileges.mobileconfig)
 * [Privileges LimitToGroup macOS Configuration Profile](example_profiles/LimitToGroup/Example_LimitToGroup.mobileconfig)
 * [Privileges LimitToUser macOS Configuration Profile](example_profiles/LimitToUser/Example_LimitToUser.mobileconfig)
