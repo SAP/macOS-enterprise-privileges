@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,6 +20,7 @@
                 <outlet property="alternateButton" destination="G9w-Su-Y6A" id="rNT-Bc-nhX"/>
                 <outlet property="appNameAndVersion" destination="iNV-bQ-9HH" id="NUg-ep-XdJ"/>
                 <outlet property="defaultButton" destination="DdX-QW-L9X" id="1uy-bg-mNJ"/>
+                <outlet property="generalPrefsButton" destination="Vpc-6G-g1s" id="L5L-zE-qlt"/>
                 <outlet property="mainWindow" destination="9jc-88-Mrt" id="rVp-gz-gYn"/>
                 <outlet property="notificationBody" destination="oK4-l7-TmY" id="cRo-TB-Rlc"/>
                 <outlet property="notificationHead" destination="CTJ-RB-Miz" id="ou2-Xt-qHa"/>
@@ -33,7 +34,7 @@
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <userDefaultsController representsSharedInstance="YES" id="Hcn-Ij-Y6Y"/>
-        <arrayController id="Vrb-dE-7mT">
+        <arrayController automaticallyRearrangesObjects="YES" id="Vrb-dE-7mT">
             <connections>
                 <binding destination="Voe-Tx-rLC" name="contentArray" keyPath="self.toggleTimeouts" id="zem-lQ-Hb3"/>
             </connections>
@@ -95,7 +96,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="660" height="290"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="660" height="290"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -104,7 +105,7 @@
                         <rect key="frame" x="290" y="20" width="350" height="250"/>
                         <clipView key="contentView" focusRingType="none" drawsBackground="NO" id="anO-LO-hjo">
                             <rect key="frame" x="1" y="1" width="348" height="248"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="8c2-Hm-ejX">
                                     <rect key="frame" x="0.0" y="0.0" width="348" height="248"/>
@@ -162,7 +163,7 @@
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="283" y="305" width="480" height="150"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" id="tQ4-2Z-36S">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="150"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -173,7 +174,7 @@
                             <constraint firstAttribute="height" constant="64" id="2Uc-jJ-aCd"/>
                             <constraint firstAttribute="width" constant="64" id="vZy-xW-G4L"/>
                         </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="se8-fM-HSK"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="se8-fM-HSK"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="CTJ-RB-Miz">
                         <rect key="frame" x="104" y="114" width="114" height="16"/>
@@ -184,14 +185,14 @@
                         </textFieldCell>
                     </textField>
                     <button identifier="corp.sap.button.default" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DdX-QW-L9X">
-                        <rect key="frame" x="343" y="13" width="123" height="32"/>
+                        <rect key="frame" x="338" y="13" width="129" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="aPM-oi-ALI"/>
                             <constraint firstAttribute="height" constant="21" id="mjY-LZ-poo"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="defaultButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rH2-ng-3hB">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
@@ -201,14 +202,14 @@ DQ
                         </connections>
                     </button>
                     <button identifier="corp.sap.button.alternate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9w-Su-Y6A">
-                        <rect key="frame" x="208" y="13" width="135" height="32"/>
+                        <rect key="frame" x="199" y="13" width="141" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ZLq-1U-LcC"/>
                             <constraint firstAttribute="height" constant="21" id="c1p-b0-mxy"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="alternateButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vEI-zd-BRJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="actionButtonPressed:" target="Voe-Tx-rLC" id="C2d-Hy-hMn"/>
@@ -247,8 +248,8 @@ DQ
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="TkO-8k-6vc" userLabel="Preferences Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="283" y="305" width="480" height="138"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="contentRect" x="283" y="305" width="480" height="124"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" id="ck9-DV-i3R">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="124"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -262,11 +263,11 @@ DQ
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n9g-nR-YKm">
-                        <rect key="frame" x="18" y="53" width="38" height="25"/>
-                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="e0e-NM-weR">
+                        <rect key="frame" x="18" y="53" width="39" height="25"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" id="e0e-NM-weR">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
-                            <menu key="menu" id="bZn-6y-NMy"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" autoenablesItems="NO" id="bZn-6y-NMy"/>
                         </popUpButtonCell>
                         <connections>
                             <action selector="popupButtonPressed:" target="Voe-Tx-rLC" id="2HS-MY-EFC"/>
@@ -301,24 +302,21 @@ DQ
             </view>
             <toolbar key="toolbar" implicitIdentifier="CB19B3EB-A122-4529-9CE7-9F891886B2AC" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="I6N-WE-hFF">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="702CB996-CE84-47A0-9DC0-294327C114C6" label="General" paletteLabel="General" tag="-1" image="NSPreferencesGeneral" autovalidates="NO" selectable="YES" id="Vpc-6G-g1s"/>
-                    <toolbarItem implicitItemIdentifier="0C1A205C-A851-4099-B69C-347915D9DE63" label="Advanced" paletteLabel="Advanced" tag="-1" image="NSAdvanced" id="b42-hx-oSk"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="VF8-fq-BQU"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="F10-cU-OdH"/>
+                    <toolbarItem implicitItemIdentifier="702CB996-CE84-47A0-9DC0-294327C114C6" label="General" paletteLabel="General" tag="-1" image="NSPreferencesGeneral" sizingBehavior="auto" autovalidates="NO" selectable="YES" id="Vpc-6G-g1s"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="Vpc-6G-g1s"/>
                 </defaultToolbarItems>
             </toolbar>
-            <point key="canvasLocation" x="366" y="537"/>
+            <point key="canvasLocation" x="366" y="530"/>
         </window>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="7Rg-OQ-ryb" userLabel="Reason Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="121" y="123" width="400" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="contentRect" x="121" y="123" width="400" height="240"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" id="nmd-9b-hSd">
-                <rect key="frame" x="0.0" y="0.0" width="400" height="239"/>
+                <rect key="frame" x="0.0" y="0.0" width="400" height="240"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Edn-ed-dT2">
@@ -338,14 +336,14 @@ DQ
                         </textFieldCell>
                     </textField>
                     <button identifier="corp.sap.button.continue" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y1s-bz-wac">
-                        <rect key="frame" x="263" y="13" width="123" height="32"/>
+                        <rect key="frame" x="258" y="13" width="129" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Nk8-K1-Vmi"/>
                             <constraint firstAttribute="height" constant="21" id="iPF-93-3eJ"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="defaultButton" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WYT-9u-Dg8">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
@@ -355,14 +353,14 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPl-de-TXU">
-                        <rect key="frame" x="128" y="13" width="135" height="32"/>
+                        <rect key="frame" x="119" y="13" width="141" height="33"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="2xD-Is-KCf"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="rox-6l-EIf"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="alternateButton" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oX2-lx-8Xi">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="hideReasonSheet:" target="Voe-Tx-rLC" id="iK9-X5-N4C"/>
@@ -391,7 +389,7 @@ DQ
                     <constraint firstItem="y1s-bz-wac" firstAttribute="leading" secondItem="qPl-de-TXU" secondAttribute="trailing" constant="12" id="By3-tg-kdL"/>
                     <constraint firstAttribute="bottom" secondItem="qPl-de-TXU" secondAttribute="bottom" constant="20" id="Nai-Lm-6hy"/>
                     <constraint firstItem="y1s-bz-wac" firstAttribute="top" secondItem="xcX-4o-avn" secondAttribute="bottom" constant="20" id="PxD-iE-IZ9"/>
-                    <constraint firstItem="Edn-ed-dT2" firstAttribute="top" secondItem="nmd-9b-hSd" secondAttribute="top" constant="20" id="Q5Q-lq-pSE"/>
+                    <constraint firstItem="Edn-ed-dT2" firstAttribute="top" secondItem="nmd-9b-hSd" secondAttribute="top" constant="21" id="Q5Q-lq-pSE"/>
                     <constraint firstItem="UJR-yE-rnM" firstAttribute="top" secondItem="Edn-ed-dT2" secondAttribute="bottom" constant="8" id="RzA-ai-FCE"/>
                     <constraint firstItem="y1s-bz-wac" firstAttribute="leading" secondItem="qPl-de-TXU" secondAttribute="trailing" constant="12" id="WJh-qn-ycm"/>
                     <constraint firstItem="qPl-de-TXU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="10" id="WLC-DL-A8m"/>
@@ -403,11 +401,10 @@ DQ
                     <constraint firstAttribute="bottom" secondItem="y1s-bz-wac" secondAttribute="bottom" constant="20" id="qFS-mg-xDt"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-188" y="786"/>
+            <point key="canvasLocation" x="-188" y="771"/>
         </window>
     </objects>
     <resources>
-        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSApplicationIcon" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="made-in-berlin" width="212" height="182"/>

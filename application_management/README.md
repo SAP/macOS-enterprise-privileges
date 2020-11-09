@@ -5,14 +5,31 @@ As of Privileges 1.5.0, it is possible to manage the following settings for **Pr
 Preference domain: **corp.sap.privileges**
 
 Key: **DockToggleTimeout**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: **Integer**
  
 Description: Set a fixed timeout, in minutes, for the Dock tile's `Toggle Privileges` command. After this time, the admin rights are removed and set back to standard user rights. A value of **0** disables the timeout and allows the user to permanently toggle privileges.
 
+<br>
+
+Key: **DockToggleMaxTimeout**
+
+Available for: Privileges 1.5.2 and later.
+ 
+Value: **Integer**
+ 
+Description: Set a maximum timeout for the Dock tile's `Toggle Privileges` command. This generally works the same way as the `DockToggleTimeout` but allows the user to choose every timeout value up to the one specified. So if the admin would set `DockToggleMaxTimeout` to 20 minutes, the user may decide to set it to a value below 20 instead of being forced to use the 20 minute timeout. 
+
+**Note:** If `DockToggleMaxTimeout` and `DockToggleTimeout` values have both been set, the value set for `DockToggleTimeout` will override whatever is set for `DockToggleMaxTimeout`.
+
+<br>
 
 
 Key: **EnforcePrivileges**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: `admin`, `user` or `none`
 
@@ -24,8 +41,12 @@ Description: Enforces certain privileges. Whenever **Privileges.app** or the **P
 * **user**: standard user rights are always set by Privileges.
 * **none**: **Privileges.app** and the **PrivilegesCLI** command line tool are disabled and it is not possible to change user privileges using these tools.
 
+<br>
+
 
 Key: **LimitToGroup**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: a string containing the name of a specified group
 
@@ -33,8 +54,11 @@ Value: a string containing the name of a specified group
 
 Description: Limits the usage of **Privileges.app** to the given user group. 
 
+<br>
 
 Key: **LimitToUser**
+ 
+Available for: Privileges 1.5.0 and later.
  
 Value: a string containing a specified user account's short name
 
@@ -44,10 +68,12 @@ Description: Limits the usage of **Privileges.app** to the given user account.
 
 *Note: If used with a client management system that supports variables in configuration profiles, variables like `$USERNAME` may be used here.*
 
-
+<br>
 
 
 Key: **ReasonRequired**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: `true` or `false`
 
@@ -64,9 +90,11 @@ If using `ReasonRequired`, then the `ReasonMinLength` key must also be set. The 
 
 *Note: If setting `ReasonRequired`, the `Toggle Privileges` option is automatically disabled.*
 
-
+<br>
 
 Key: **RemoteLogging**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: A dictionary array containing the relevant server information
 
@@ -146,9 +174,12 @@ If using `RemoteLogging`, then the following subsidiary keys must also be set:
 * `LogSeverity`
 * `MaximumMessageSize`
 
+<br>
 
 
 Key: **RequireAuthentication**
+
+Available for: Privileges 1.5.0 and later.
  
 Value: a string containing a specified user account's short name
 
@@ -160,12 +191,13 @@ Description: Requires authentication before using  **Privileges.app**. If set to
 
 *Note: If setting `RequireAuthentication`, the `Toggle Privileges` option is automatically disabled.*
 
-
+<br>
 
 
 Example configuration profiles are available via the links below:
 
 * [Privileges DockToggleTimeout macOS Configuration Profile](example_profiles/DockToggleTimeout/Example_DockToggleTimeout.mobileconfig)
+* [Privileges DockToggleMaxTimeout macOS Configuration Profile](example_profiles/DockToggleMaxTimeout/Example_DockToggleTimeout.mobileconfig)
 * [Privileges EnforcePrivileges macOS Configuration Profile](example_profiles/EnforcePrivileges/Example_EnforcePrivileges.mobileconfig)
 * [Privileges LimitToGroup macOS Configuration Profile](example_profiles/LimitToGroup/Example_LimitToGroup.mobileconfig)
 * [Privileges LimitToUser macOS Configuration Profile](example_profiles/LimitToUser/Example_LimitToUser.mobileconfig)
@@ -186,14 +218,26 @@ The **Privileges.app** dock icon will change colors from the standard color sche
 * **RemoteLogging**
 * **RequireAuthentication**
 
-*Note: The `DockToggleTimeout` management key does not trigger the custom color scheme.*
+*Note: The `DockToggleTimeout` and `DockToggleMaxTimeout` management keys do not trigger the custom color scheme.*
 
 
 The icon is black with a green outline and displays a locked padlock icon when you are a standard user.
 
+Icon for macOS Catalina and earlier:
+
+![](readme_images/icon_bk1_catalina.png)
+
+Icon for macOS Big Sur:
+
 ![](readme_images/icon_bk1.png)
 
 The icon is black with a yellow outline and displays an unlocked padlock icon when you are an administrator.
+
+Icon for macOS Catalina and earlier:
+
+![](readme_images/icon_bk2_catalina.png)
+
+Icon for macOS Big Sur:
 
 ![](readme_images/icon_bk2.png)
 

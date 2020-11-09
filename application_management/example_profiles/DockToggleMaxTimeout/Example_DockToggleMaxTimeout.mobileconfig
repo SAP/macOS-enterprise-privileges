@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>corp.sap.privileges</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<!--
+									key: DockToggleMaxTimeout
+									value: a positive integer
+									
+									Set a maximum timeout for the Dock tile's "Toggle Privileges" command. This
+									generally works the same way as the "DockToggleTimeout" but allows the user
+									to choose every timeout value up to the one specified. So if the admin would
+									set "DockToggleMaxTimeout" to 20 minutes, the user may decide to set it to
+									a value below 20 instead of being forced to use the 20 minute timeout. With 
+									regards to user experience we recommend to use "DockToggleMaxTimeout" instead
+									of "DockToggleTimeout". if "DockToggleMaxTimeout" and "DockToggleTimeout" 
+									have been set, the fixed value of "DockToggleTimeout" takes precedence over 
+									"DockToggleMaxTimeout".
+								-->
+								<key>DockToggleMaxTimeout</key>
+								<integer>20</integer>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadDescription</key>
+			<string/>
+			<key>PayloadDisplayName</key>
+			<string>Privileges configuration</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.ManagedClient.preferences.8436814F-858D-4875-8552-4263D70478E2</string>
+			<key>PayloadOrganization</key>
+			<string>SAP SE</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>8436814F-858D-4875-8552-4263D70478E2</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Configures the Privileges app.</string>
+	<key>PayloadDisplayName</key>
+	<string>Privileges configuration</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>E9DDB703-8D19-40AA-B01D-B6D778E8253D</string>
+	<key>PayloadOrganization</key>
+	<string>SAP SE</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>C2F39834-001F-4930-AC7D-E5BA0DE82529</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

@@ -99,6 +99,7 @@ extern void SACLockScreenImmediate (void);
         // define the keys in our prefs we need to observe
         _keysToObserve = [[NSArray alloc] initWithObjects:
                           @"DockToggleTimeout",
+                          @"DockToggleMaxTimeout",
                           @"EnforcePrivileges",
                           @"LimitToUser",
                           @"LimitToGroup",
@@ -222,6 +223,26 @@ extern void SACLockScreenImmediate (void);
 
     if (timeoutValue > 0) {
         
+        // check if a maximum timeout value has been configured and
+        // correct the timeout value if needed
+        if ([_userDefaults objectForKey:@"DockToggleMaxTimeout"] && ![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]) {
+            
+            // get the configured timeout
+            NSInteger maxTimeoutValue = [_userDefaults integerForKey:@"DockToggleMaxTimeout"];
+            if (maxTimeoutValue > 0 && timeoutValue > maxTimeoutValue) {
+                
+                // set the timeout value to the next fixed value <= maxTimeoutValue
+                NSInteger fixedTimeoutValues[] = FIXED_TIMEOUT_VALUES;
+                
+                for (int i = sizeof(fixedTimeoutValues)/sizeof(fixedTimeoutValues[0]) - 1; i >= 0 ; i--) {
+                    if (fixedTimeoutValues[i] < maxTimeoutValue) {
+                        timeoutValue = fixedTimeoutValues[i];
+                        break;
+                    }
+                }
+            }
+        }
+        
         // set the toggle timeout (in seconds)
         _timerExpires = [NSDate dateWithTimeIntervalSinceNow:(timeoutValue * 60)];
             
@@ -256,21 +277,31 @@ extern void SACLockScreenImmediate (void);
 {
     NSImage *dockIcon = nil;
     NSString *soundPath = nil;
+    NSString *iconName = @"appicon_";
     
     NSString *limitToUser = ([_userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [_userDefaults objectForKey:@"LimitToUser"] : nil;
     NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [_userDefaults objectForKey:@"LimitToGroup"] : nil;
         
-    NSString *iconName = (([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"])) ||
-                          (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
-                          (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil])) ? @"appicon_managed_" : @"appicon_";
+    if (([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] &&
+         ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] ||
+          [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] ||
+          [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"])) ||
+        (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
+        (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil])) {
+    
+        iconName = [iconName stringByAppendingString:@"managed_"];
+    }
         
     if (isAdmin) {
-        dockIcon = [_pluginBundle imageForResource:[iconName stringByAppendingString:@"unlocked"]];
+        iconName = [iconName stringByAppendingString:@"unlocked"];
         soundPath = @"/System/Library/Frameworks/SecurityInterface.framework/Versions/A/Resources/lockOpening.aif";
     } else {
-        dockIcon = [_pluginBundle imageForResource:[iconName stringByAppendingString:@"locked"]];
+        iconName = [iconName stringByAppendingString:@"locked"];
         soundPath = @"/System/Library/Frameworks/SecurityInterface.framework/Versions/A/Resources/lockClosing.aif";
     }
+    
+    if (@available(macOS 10.16, *)) { iconName = [iconName stringByAppendingString:@"_new"]; }
+    dockIcon = [_pluginBundle imageForResource:iconName];
     
     if ([MTVoiceOver isEnabled]) {
         NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
@@ -349,10 +380,38 @@ extern void SACLockScreenImmediate (void);
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == _userDefaults && ([keyPath isEqualToString:@"EnforcePrivileges"] ||
-                                    [keyPath isEqualToString:@"LimitToUser"] ||
-                                    [keyPath isEqualToString:@"LimitToGroup"] ||
-                                    [keyPath isEqualToString:@"ReasonRequired"])) {
+    if (object == _userDefaults && ([keyPath isEqualToString:@"DockToggleTimeout"] ||
+                                    [keyPath isEqualToString:@"DockToggleMaxTimeout"]) &&
+                                    _toggleTimer) {
+
+        // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
+        // so every notification resets the timer and if we got no new notifications for 2 seconds,
+        // we evaluate the changes.
+        if (_fixTimeoutObserverTimer) { [_fixTimeoutObserverTimer invalidate]; };
+        _fixTimeoutObserverTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+                                                                   repeats:NO
+                                                                     block:^(NSTimer* _Nonnull timer) {
+            // get the remaining time
+            NSInteger minutesLeft = ceil([self->_timerExpires timeIntervalSinceNow]/60);
+            
+            // get the configured values
+            NSInteger timeoutValue = [self->_userDefaults integerForKey:@"DockToggleTimeout"];
+            NSInteger maxTimeoutValue = [self->_userDefaults integerForKey:@"DockToggleMaxTimeout"];
+            
+            // restart the timer if the configured timeout or the configured maximum timeout
+            // is below the timer's current value
+            if ((timeoutValue > 0 && timeoutValue < minutesLeft) ||
+                (![self->_userDefaults objectIsForcedForKey:@"DockToggleTimeout"] && maxTimeoutValue > 0 && maxTimeoutValue < minutesLeft)) {
+                [self invalidateToggleTimer];
+                [self startToggleTimer];
+                [self enforcePrivileges];
+            }
+         }];
+        
+    } else if (object == _userDefaults && ([keyPath isEqualToString:@"EnforcePrivileges"] ||
+                                           [keyPath isEqualToString:@"LimitToUser"] ||
+                                           [keyPath isEqualToString:@"LimitToGroup"] ||
+                                           [keyPath isEqualToString:@"ReasonRequired"])) {
         
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
         // so every notification resets the timer and if we got no new notifications for 2 seconds,
@@ -389,7 +448,7 @@ extern void SACLockScreenImmediate (void);
             // privileges cannot be changed anymore.
             [self invalidateToggleTimer];
         
-            // or just update the Dock tile
+            // update the Dock tile
             [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
                                                                            object:_currentUser
                                                                          userInfo:nil

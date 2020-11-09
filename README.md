@@ -16,6 +16,7 @@ Requirements
 * macOS 10.13.x
 * macOS 10.14.x
 * macOS 10.15.x
+* macOS 11.0.x
 
 Installation
 ===================================
@@ -28,7 +29,7 @@ Installation
 <br>
 <br>
 
-![](readme_images/Privileges_150_installed.png)
+![](readme_images/Privileges_152_installed.png)
 
 <br>
 
@@ -40,7 +41,7 @@ Installation
 
 <p></p>
 
-![](readme_images/privileges_150_installation.gif)
+![](readme_images/privileges_152_installation.gif)
 
 <p></p>
 <p></p>
@@ -66,7 +67,7 @@ If you are a standard user and want admin rights, verify that **Privileges.app**
 4. A **Privileges have been changed successfully** message should appear.
 <p></p>
 
-![](readme_images/privileges_get_admin_rights.gif)
+![](readme_images/privileges_152_get_admin_rights.gif)
 
 <p></p>
 5. The logged-in account should now have admin rights.
@@ -85,7 +86,7 @@ If you are a admin user and want to remove admin rights, verify that **Privilege
 4. A **Privileges have been changed successfully** message should appear.
 <p></p>
 
-![](readme_images/privileges_remove_admin_rights.gif)
+![](readme_images/privileges_152_remove_admin_rights.gif)
 
 <p></p> 
 5. The logged-in account should now be a standard user account.
@@ -132,6 +133,14 @@ This is by design. The icon is green and displays a locked padlock icon when you
 
 <br>
 
+Dock icon for macOS Catalina and earlier:
+
+![](readme_images/Privileges_icon_locked_catalina.png)
+
+<br>
+
+Dock icon for macOS Big Sur:
+
 ![](readme_images/Privileges_icon_locked.png)
 
 <br>
@@ -139,6 +148,14 @@ This is by design. The icon is green and displays a locked padlock icon when you
 The icon is yellow and displays an unlocked padlock icon when you are an administrator.
 
 <br>
+
+Dock icon for macOS Catalina and earlier:
+
+![](readme_images/Privileges_icon_unlocked_catalina.png)
+
+<br>
+
+Dock icon for macOS Big Sur:
 
 ![](readme_images/Privileges_icon_unlocked.png)
 
@@ -171,7 +188,7 @@ To set the amount of time used by the **Toggle Privileges** option, use the foll
 3. Select the desired amount of time from the available options.
 <p></p>
 
-![](readme_images/set_privileges_toggle_time_limit.gif)
+![](readme_images/set_privileges_152_toggle_time_limit.gif)
 
 ### What actions do the Lock Screen and Login Window toggle options perform?
 
@@ -293,7 +310,7 @@ log show --style syslog --predicate 'process == "corp.sap.privileges.helper" && 
 Application Management
 ===================================
 
-As of Privileges 1.0.5, it is possible to manage settings for **Privileges.app** or the **PrivilegesCLI** command line tool using a macOS configuration profile. [For more details, please click here](application_management).
+As of Privileges 1.5.0, it is possible to manage settings for **Privileges.app** or the **PrivilegesCLI** command line tool using a macOS configuration profile. [For more details, please click here](application_management).
 
 
 Support

@@ -64,5 +64,6 @@
 
 #define ADMIN_GROUP_ID 80
 #define DEFAULT_DOCK_TIMEOUT 20
+#define FIXED_TIMEOUT_VALUES {0, 5, 10, 20, 60}
 
 @end

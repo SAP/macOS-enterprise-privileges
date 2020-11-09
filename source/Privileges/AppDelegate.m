@@ -54,6 +54,7 @@
 @property (unsafe_unretained) IBOutlet NSTextView *aboutText;
 @property (weak) IBOutlet NSTextField *appNameAndVersion;
 @property (weak) IBOutlet NSPopUpButton *toggleTimeoutMenu;
+@property (weak) IBOutlet NSToolbarItem *generalPrefsButton;
 @end
 
 extern void CoreDockSendNotification(CFStringRef, void*);
@@ -100,6 +101,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         // define the keys in our prefs we need to observe
         _keysToObserve = [[NSArray alloc] initWithObjects:
                           @"DockToggleTimeout",
+                          @"DockToggleMaxTimeout",
                           @"EnforcePrivileges",
                           @"LimitToUser",
                           @"LimitToGroup",
@@ -302,18 +304,20 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     }
 
     // populate the timeout menu
-    self.toggleTimeouts = [[NSMutableArray alloc] initWithObjects:
-                           [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"value", NSLocalizedString(@"timeoutNever", nil), @"name", nil],
-                           [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:5], @"value", [self localizedTimeoutStringWithMinutes:5], @"name", nil],
-                           [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:10], @"value", [self localizedTimeoutStringWithMinutes:10], @"name", nil],
-                           [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:20], @"value", [self localizedTimeoutStringWithMinutes:20], @"name", nil],
-                           [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:60], @"value", [self localizedTimeoutStringWithMinutes:60], @"name", nil],
-                           nil];
+    NSInteger fixedTimeoutValues[] = FIXED_TIMEOUT_VALUES;
+    NSMutableArray *timeoutDictionaries = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < sizeof(fixedTimeoutValues)/sizeof(fixedTimeoutValues[0]) ; i++) {
+        [timeoutDictionaries addObject:
+         [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:fixedTimeoutValues[i]], @"value", [self localizedTimeoutStringWithMinutes:fixedTimeoutValues[i]], @"name", nil]];
+    }
+    
+    self.toggleTimeouts = [[NSArray alloc] initWithArray:timeoutDictionaries];
     
     // check if the configured timeout has already an entry in our menu. if not,
     // add the new value and sort the array
     NSPredicate *predicateString = [NSPredicate predicateWithFormat:@"value == %d", timeoutValue];
-    if ([[self.toggleTimeouts filteredArrayUsingPredicate:predicateString] count] == 0) {
+    if ([[_toggleTimeouts filteredArrayUsingPredicate:predicateString] count] == 0) {
         
         self.toggleTimeouts = [self.toggleTimeouts arrayByAddingObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:timeoutValue], @"value", [self localizedTimeoutStringWithMinutes:timeoutValue], @"name", nil]];
         
@@ -324,11 +328,25 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     
     // select the timeout value in the popup menu. if the value of timeoutValue is not in
     // our pre-defined list, we add the value to our array, sort it and select the value
-    NSUInteger timeoutIndex = [self.toggleTimeouts indexOfObjectPassingTest:^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
-    {
-        return [[dict objectForKey:@"value"] isEqual:[NSNumber numberWithInteger:timeoutValue]];
-    }];
-    if (timeoutIndex != NSNotFound) { [_toggleTimeoutMenu selectItemAtIndex:timeoutIndex]; }
+    NSInteger maxTimeoutValue = 0;
+    if ([_userDefaults objectForKey:@"DockToggleMaxTimeout"] && ![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]) {
+        maxTimeoutValue = [_userDefaults integerForKey:@"DockToggleMaxTimeout"];
+        
+        if (maxTimeoutValue > 0 && timeoutValue > maxTimeoutValue) { timeoutValue = maxTimeoutValue; }
+    }
+    
+    for (NSDictionary *dict in _toggleTimeouts) {
+        
+        NSInteger menuTimeoutValue = [[dict objectForKey:@"value"] integerValue];
+        NSInteger itemIndex = [_toggleTimeouts indexOfObject:dict];
+                
+        if (maxTimeoutValue > 0 && ((menuTimeoutValue > maxTimeoutValue) || menuTimeoutValue == 0)) {
+            [[_toggleTimeoutMenu itemAtIndex:itemIndex] setEnabled:NO];
+        } else {
+            [[_toggleTimeoutMenu itemAtIndex:itemIndex] setEnabled:YES];
+            if (menuTimeoutValue <= timeoutValue) { [_toggleTimeoutMenu selectItemAtIndex:itemIndex]; }
+        }
+    }
 }
 
 - (void)createDialog
@@ -711,13 +729,19 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     NSString *accessibilityDialogLabel = [NSLocalizedStringFromTable(@"msH-HV-PaS.title", @"MainMenu", nil) stringByAppendingFormat:@", %@", NSLocalizedStringFromTable(@"FfT-JO-Ift.title", @"MainMenu", nil)];
     [_prefsWindow setAccessibilityLabel:accessibilityDialogLabel];
     [_prefsWindow setAccessibilityEnabled:YES];
+    if (@available(macOS 10.16, *)) {
+        [_prefsWindow setToolbarStyle:NSWindowToolbarStylePreference];
+        [_generalPrefsButton setImage:[NSImage imageWithSystemSymbolName:@"gearshape"
+                                                accessibilityDescription:NSLocalizedStringFromTable(@"Vpc-6G-g1s.label", @"MainMenu", nil)]];
+    }
 
     [_prefsWindow makeKeyAndOrderFront:self];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == _userDefaults && [keyPath isEqualToString:@"DockToggleTimeout"]) {
+    if (object == _userDefaults && ([keyPath isEqualToString:@"DockToggleTimeout"] ||
+                                    [keyPath isEqualToString:@"DockToggleMaxTimeout"])) {
 
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
         // so every notification resets the timer and if we got no new notifications for 2 seconds,
