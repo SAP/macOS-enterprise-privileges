@@ -286,7 +286,7 @@ log show --style syslog --predicate 'process == "corp.sap.privileges.helper" && 
 
 <p></p>
 
-![](readme_images/Privileges_150_installed.png)
+![](readme_images/Privileges_152_installed.png)
 
 <p></p>
 
