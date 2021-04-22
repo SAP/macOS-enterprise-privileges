@@ -16,7 +16,7 @@ Requirements
 * macOS 10.13.x
 * macOS 10.14.x
 * macOS 10.15.x
-* macOS 11.0.x
+* macOS 11.x
 
 Installation
 ===================================
