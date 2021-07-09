@@ -56,7 +56,7 @@ Have a look at how smoothly Privileges can grant you admin rights anytime you ne
 Privileges documentation is available via the wiki or the links below:
 
 * [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
-* [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
+* [Uninstallation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation)
 * [Using Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Using-Privileges)
 * [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
 * [Frequently Asked Questions](https://github.com/SAP/macOS-enterprise-privileges/wiki/Frequently-Asked-Questions)
