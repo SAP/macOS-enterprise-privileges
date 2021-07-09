@@ -37,7 +37,7 @@ practice. Privileges helps enable users to act as administrators of the system o
 
 
 # Application Management
-As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. For more details, please click here.
+As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
 
 # Articles
 
