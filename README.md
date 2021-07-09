@@ -63,7 +63,7 @@ Privileges documentation is available via the wiki or the links below:
 
 # License
 
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE) file.
+Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE) file.
 
 
 
