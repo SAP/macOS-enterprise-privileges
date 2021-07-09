@@ -2,9 +2,20 @@
 
 # Privileges
 
-Privileges for macOS is designed to allow users to work as a standard user for day-to-day use, by providinga quick and easy way to get administrator rights when needed. When you do need admin rights, you can getthem by clicking on the Privileges icon in your Dock.
-We believe all users, including all developers, can benefit from using Privileges. Working as a standard user instead of an administrator adds another layer of security to your Mac and is considered a security bestpractice. Privileges helps enable users to act as administrators of the system only when required.
-**Privileges supports the following macOS versions:*** macOS 11.x* macOS 10.15.x* macOS 10.14.x* macOS 10.13.x* macOS 10.12.x
+Privileges for macOS is designed to allow users to work as a standard user for day-to-day use, by providing
+a quick and easy way to get administrator rights when needed. When you do need admin rights, you can get
+them by clicking on the Privileges icon in your Dock.
+
+We believe all users, including all developers, can benefit from using Privileges. Working as a standard user instead of an administrator adds another layer of security to your Mac and is considered a security best
+practice. Privileges helps enable users to act as administrators of the system only when required.
+
+**Privileges supports the following macOS versions:**
+
+* macOS 11.x
+* macOS 10.15.x
+* macOS 10.14.x
+* macOS 10.13.x
+* macOS 10.12.x
 
 # Features
 
@@ -43,29 +54,39 @@ Have a look at how smoothly Privileges can grant you admin rights anytime you ne
 # Documentation
 
 Privileges documentation is available via the wiki or the links below:
-* [Installation](https://github.wdf.sap.corp/I858772/privileges_test/wiki/Installation)
-* [Using Privileges](https://github.wdf.sap.corp/I858772/privileges_test/wiki/Using-Privileges)
-* [Managing Privileges](https://github.wdf.sap.corp/I858772/privileges_test/wiki/Managing-Privileges)
-* [Frequently Asked Questions](https://github.wdf.sap.corp/I858772/privileges_test/wiki/Frequently-Asked-Questions)
+
+* [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
+* [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
+* [Using Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Using-Privileges)
+* [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
+* [Frequently Asked Questions](https://github.com/SAP/macOS-enterprise-privileges/wiki/Frequently-Asked-Questions)
 
 # License
 
 Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, Version 2.0 except as noted in the [LICENSE](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE) file.
 
 
-**SUBCOMPONENTS**
-This project includes the following Apple `EvenBetterAuthorizationSample` sample code, which is subject to separate license terms. Your use of the code included in this project is subject to the separate license terms applicable to the Apple sample license code.
-* Component: 
-[Common.h](https://https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12/)* Component: 
-[Common.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_m.html#//apple_ref/doc/uid/DTS40013768-Common_Common_m-DontLinkElementID_13/)* Component: 
-[HelperTool.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_h.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_h-DontLinkElementID_14/)* Component: 
+
+**SUBCOMPONENTS**
+
+This project includes the following Apple `EvenBetterAuthorizationSample` sample code, which is subject to separate license terms. Your use of the code included in this project is subject to the separate license terms applicable to the Apple sample license code.
+
+* Component: 
+[Common.h](https://https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12/)
+* Component: 
+[Common.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_m.html#//apple_ref/doc/uid/DTS40013768-Common_Common_m-DontLinkElementID_13/)
+* Component: 
+[HelperTool.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_h.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_h-DontLinkElementID_14/)
+* Component: 
 [HelperTool.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_m.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_m-DontLinkElementID_15/)
-For more details, please see the the [License file](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE)
+
+For more details, please see the the [License file](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE)
 
 # Security
 
 Found a security-related issue or vulnerability and want to notify us?
-Please contact us at:
+
+Please contact us at:
 [privileges-security@sap.com](mailto:privileges-security@sap.com?subject=[GitHub]%20Source%20Han%20Sans)
 
 # Support
