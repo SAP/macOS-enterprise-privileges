@@ -4,4 +4,4 @@
 
 For documentation on managing Privileges using configuration profiles, please see the wiki page linked below:
 
-* [Managing Privileges](https://github.wdf.sap.corp/I858772/privileges_test/wiki/Managing-Privileges)
+* [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
