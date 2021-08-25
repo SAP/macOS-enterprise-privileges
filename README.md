@@ -72,7 +72,7 @@ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This
 This project includes the following Apple `EvenBetterAuthorizationSample` sample code, which is subject to separate license terms. Your use of the code included in this project is subject to the separate license terms applicable to the Apple sample license code.
 
 * Component: 
-[Common.h](https://https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12/)
+[Common.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12/)
 * Component: 
 [Common.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_m.html#//apple_ref/doc/uid/DTS40013768-Common_Common_m-DontLinkElementID_13/)
 * Component: 
