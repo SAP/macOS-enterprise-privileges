@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: macOS-enterprise-privileges
+Upstream-Contact: macOS-enterprise-privileges@sap.com
+Source: https://github.com/SAP/macOS-enterprise-privileges
+
+Files:
+    *
+Copyright:  2021 SAP SE or an SAP affiliate company and macOS-enterprise-privileges contributors
+License: Apache-2.0
