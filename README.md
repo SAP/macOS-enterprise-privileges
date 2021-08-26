@@ -69,7 +69,7 @@ Copyright (c) 2018-2021 SAP SE or an SAP affiliate company and macOS-enterprise-
 
 **SUBCOMPONENTS**
 
-This project references the following Apple `EvenBetterAuthorizationSample` sample code, [which is subject to separate license terms](https://spdx.org/licenses/AML.html). None of the files were incorporated directly to the **Privileges** app. Instead, they were used as a reference and best practice guide.
+This project references the following Apple `EvenBetterAuthorizationSample` sample code, [which is subject to separate license terms](https://spdx.org/licenses/AML.html). None of the files were incorporated directly into the **Privileges** app. Instead, they were used as a reference and best practice guide.
 
 Your use of the code included in this project is subject to the separate license terms applicable to the Apple sample license code.
 
