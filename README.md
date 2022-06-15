@@ -13,6 +13,7 @@ practice. Privileges helps enable users to act as administrators of the system o
 
 **Privileges supports the following macOS versions:**
 
+* macOS 13.x
 * macOS 12.x
 * macOS 11.x
 * macOS 10.15.x
