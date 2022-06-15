@@ -1,6 +1,6 @@
 /*
  MTAuthCommon.h
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -61,9 +61,5 @@
 @discussion    Returns the signing authority of the caller or nil if an error occurred.
 */
 + (NSString*)getSigningAuthorityWithError:(NSError**)error;
-
-#define ADMIN_GROUP_ID 80
-#define DEFAULT_DOCK_TIMEOUT 20
-#define FIXED_TIMEOUT_VALUES {0, 5, 10, 20, 60}
 
 @end

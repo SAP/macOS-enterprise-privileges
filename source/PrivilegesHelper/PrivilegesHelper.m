@@ -1,6 +1,6 @@
 /*
  PrivilegesHelper.m
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #import "PrivilegesHelper.h"
 #import "MTAuthCommon.h"
+#import "Constants.h"
 #import "MTIdentity.h"
 #import "MTSyslog.h"
 #import <CoreServices/CoreServices.h>
@@ -204,7 +205,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             if (userIdentity) {
                 
                 // get the group identity
-                CBGroupIdentity *groupIdentity = [CBGroupIdentity groupIdentityWithPosixGID:ADMIN_GROUP_ID
+                CBGroupIdentity *groupIdentity = [CBGroupIdentity groupIdentityWithPosixGID:kMTAdminGroupID
                                                                                   authority:[CBIdentityAuthority localIdentityAuthority]];
                 
                 if (groupIdentity) {
@@ -224,7 +225,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         
                         // re-check the group membership. this seems to update some caches or so. without this re-checking
                         // sometimes the system does not recognize the changes of the group membership instantly.
-                        [MTIdentity getGroupMembershipForUser:userName groupID:ADMIN_GROUP_ID error:nil];
+                        [MTIdentity getGroupMembershipForUser:userName groupID:kMTAdminGroupID error:nil];
                         
                         // log the privilege change
                         NSString *logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ has now %@ rights", userName, (remove) ? @"standard user" : @"admin"];
@@ -235,21 +236,21 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         // logging server as well
                         NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
                         
-                        if ([userDefaults objectIsForcedForKey:@"RemoteLogging"]) {
+                        if ([userDefaults objectIsForcedForKey:kMTDefaultsRemoteLogging]) {
                             
                             // get the required configuration data
-                            NSDictionary *remoteLogging = [userDefaults dictionaryForKey:@"RemoteLogging"];
-                            NSString *serverType = [remoteLogging objectForKey:@"ServerType"];
-                            NSString *serverAddress = [remoteLogging objectForKey:@"ServerAddress"];
+                            NSDictionary *remoteLogging = [userDefaults dictionaryForKey:kMTDefaultsRemoteLogging];
+                            NSString *serverType = [remoteLogging objectForKey:kMTDefaultsRLServerType];
+                            NSString *serverAddress = [remoteLogging objectForKey:kMTDefaultsRLServerAddress];
                             
                             if ([[serverType lowercaseString] isEqualToString:@"syslog"] && serverAddress) {
                                 
-                                NSInteger serverPort = [[remoteLogging objectForKey:@"ServerPort"] integerValue];
-                                BOOL enableTCP = [[remoteLogging objectForKey:@"EnableTCP"] boolValue];
-                                NSDictionary *syslogOptions = [remoteLogging objectForKey:@"SyslogOptions"];
-                                NSUInteger logFacility = ([syslogOptions objectForKey:@"LogFacility"]) ? [[syslogOptions valueForKey:@"LogFacility"] integerValue] : MTSyslogMessageFacilityAuth;
-                                NSUInteger logSeverity = ([syslogOptions objectForKey:@"LogSeverity"]) ? [[syslogOptions valueForKey:@"LogSeverity"] integerValue] : MTSyslogMessageSeverityInformational;
-                                NSUInteger maxSize = ([syslogOptions objectForKey:@"MaximumMessageSize"]) ? [[syslogOptions valueForKey:@"MaximumMessageSize"] integerValue] : 0;
+                                NSInteger serverPort = [[remoteLogging objectForKey:kMTDefaultsRLServerPort] integerValue];
+                                BOOL enableTCP = [[remoteLogging objectForKey:kMTDefaultsRLEnableTCP] boolValue];
+                                NSDictionary *syslogOptions = [remoteLogging objectForKey:kMTDefaultsRLSyslogOptions];
+                                NSUInteger logFacility = ([syslogOptions objectForKey:kMTDefaultsRLSyslogFacility]) ? [[syslogOptions valueForKey:kMTDefaultsRLSyslogFacility] integerValue] : MTSyslogMessageFacilityAuth;
+                                NSUInteger logSeverity = ([syslogOptions objectForKey:kMTDefaultsRLSyslogSeverity]) ? [[syslogOptions valueForKey:kMTDefaultsRLSyslogSeverity] integerValue] : MTSyslogMessageSeverityInformational;
+                                NSUInteger maxSize = ([syslogOptions objectForKey:kMTDefaultsRLSyslogMaxSize]) ? [[syslogOptions valueForKey:kMTDefaultsRLSyslogMaxSize] integerValue] : 0;
                                 
                                 MTSyslogMessage *message = [[MTSyslogMessage alloc] init];
                                 [message setFacility:logFacility];

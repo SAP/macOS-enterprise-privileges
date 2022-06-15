@@ -1,6 +1,6 @@
 /*
  PrivilegesTile.m
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #import "PrivilegesTile.h"
 #import "MTAuthCommon.h"
+#import "Constants.h"
 #import "MTIdentity.h"
 #import "MTVoiceOver.h"
 #import <AudioToolbox/AudioToolbox.h>
@@ -98,12 +99,12 @@ extern void SACLockScreenImmediate (void);
         
         // define the keys in our prefs we need to observe
         _keysToObserve = [[NSArray alloc] initWithObjects:
-                          @"DockToggleTimeout",
-                          @"DockToggleMaxTimeout",
-                          @"EnforcePrivileges",
-                          @"LimitToUser",
-                          @"LimitToGroup",
-                          @"ReasonRequired",
+                          kMTDefaultsToggleTimeout,
+                          kMTDefaultsToggleMaxTimeout,
+                          kMTDefaultsEnforcePrivileges,
+                          kMTDefaultsLimitToUser,
+                          kMTDefaultsLimitToGroup,
+                          kMTDefaultsRequireReason,
                           nil
                           ];
         
@@ -145,14 +146,14 @@ extern void SACLockScreenImmediate (void);
                                                           keyEquivalent:@""];
          [privilegesItem setTarget:self];
          
-         NSString *limitToUser = ([_userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [_userDefaults objectForKey:@"LimitToUser"] : nil;
-         NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [_userDefaults objectForKey:@"LimitToGroup"] : nil;
-         BOOL reasonRequired = ([_userDefaults objectIsForcedForKey:@"ReasonRequired"]) ? [_userDefaults boolForKey:@"ReasonRequired"] : NO;
+         NSString *limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
+         NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
+         BOOL reasonRequired = ([_userDefaults objectIsForcedForKey:kMTDefaultsRequireReason]) ? [_userDefaults boolForKey:kMTDefaultsRequireReason] : NO;
          
-         if (([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"])) ||
+         if (([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges] && ([[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"admin"] || [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"user"] || [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"none"])) ||
              (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
              (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil]) ||
-             ([_userDefaults objectIsForcedForKey:@"RequireAuthentication"] && [_userDefaults boolForKey:@"RequireAuthentication"]) || reasonRequired) {
+             ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthRequired] && [_userDefaults boolForKey:kMTDefaultsAuthRequired]) || reasonRequired) {
              [privilegesItem setEnabled:NO];
          }
          
@@ -193,20 +194,20 @@ extern void SACLockScreenImmediate (void);
                                   arguments:(isAdmin) ? [NSArray arrayWithObject:@"--remove"] : [NSArray arrayWithObject:@"--add"]
           ];
          
-         if (!isAdmin && !([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] || [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"]))) { [self startToggleTimer]; }
+         if (!isAdmin && !([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges] && ([[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"admin"] || [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"user"] || [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"none"]))) { [self startToggleTimer]; }
     }
 }
 
 - (void)startToggleTimer
 {
     // define the default timeout
-    NSInteger timeoutValue = DEFAULT_DOCK_TIMEOUT;
+    NSInteger timeoutValue = kMTDockTimeoutDefault;
 
     // check if a timeout has been configured via profile
-    if ([_userDefaults objectForKey:@"DockToggleTimeout"]) {
+    if ([_userDefaults objectForKey:kMTDefaultsToggleTimeout]) {
         
         // get the configured timeout
-        timeoutValue = [_userDefaults integerForKey:@"DockToggleTimeout"];
+        timeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleTimeout];
         
     // or in the Privileges preferences
     } else {
@@ -214,10 +215,10 @@ extern void SACLockScreenImmediate (void);
         NSString *privilegesPrefsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/corp.sap.privileges/Data/Library/Preferences/corp.sap.privileges"];
         NSDictionary *privilegesDefaults = [[NSUserDefaults standardUserDefaults] persistentDomainForName:privilegesPrefsPath];
             
-        if ([privilegesDefaults objectForKey:@"DockToggleTimeout"]) {
+        if ([privilegesDefaults objectForKey:kMTDefaultsToggleTimeout]) {
             
             // get the configured timeout
-            timeoutValue = [[privilegesDefaults valueForKey:@"DockToggleTimeout"] integerValue];
+            timeoutValue = [[privilegesDefaults valueForKey:kMTDefaultsToggleTimeout] integerValue];
         }
     }
 
@@ -225,22 +226,11 @@ extern void SACLockScreenImmediate (void);
         
         // check if a maximum timeout value has been configured and
         // correct the timeout value if needed
-        if ([_userDefaults objectForKey:@"DockToggleMaxTimeout"] && ![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]) {
+        if ([_userDefaults objectForKey:kMTDefaultsToggleMaxTimeout] && ![_userDefaults objectIsForcedForKey:kMTDefaultsToggleTimeout]) {
             
             // get the configured timeout
-            NSInteger maxTimeoutValue = [_userDefaults integerForKey:@"DockToggleMaxTimeout"];
-            if (maxTimeoutValue > 0 && timeoutValue > maxTimeoutValue) {
-                
-                // set the timeout value to the next fixed value <= maxTimeoutValue
-                NSInteger fixedTimeoutValues[] = FIXED_TIMEOUT_VALUES;
-                
-                for (int i = sizeof(fixedTimeoutValues)/sizeof(fixedTimeoutValues[0]) - 1; i >= 0 ; i--) {
-                    if (fixedTimeoutValues[i] < maxTimeoutValue) {
-                        timeoutValue = fixedTimeoutValues[i];
-                        break;
-                    }
-                }
-            }
+            NSInteger maxTimeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleMaxTimeout];
+            if (maxTimeoutValue > 0 && timeoutValue > maxTimeoutValue) { timeoutValue = maxTimeoutValue; }
         }
         
         // set the toggle timeout (in seconds)
@@ -279,13 +269,13 @@ extern void SACLockScreenImmediate (void);
     NSString *soundPath = nil;
     NSString *iconName = @"appicon_";
     
-    NSString *limitToUser = ([_userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [_userDefaults objectForKey:@"LimitToUser"] : nil;
-    NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [_userDefaults objectForKey:@"LimitToGroup"] : nil;
+    NSString *limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
+    NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
         
-    if (([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] &&
-         ([[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] ||
-          [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"] ||
-          [[_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"none"])) ||
+    if (([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges] &&
+         ([[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"admin"] ||
+          [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"user"] ||
+          [[_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"none"])) ||
         (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
         (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil])) {
     
@@ -359,7 +349,7 @@ extern void SACLockScreenImmediate (void);
 
 - (BOOL)checkAdminPrivilegesForUser:(NSString*)userName error:(NSError**)error
 {
-    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:userName groupID:ADMIN_GROUP_ID error:error];
+    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:userName groupID:kMTAdminGroupID error:error];
     
     return isAdmin;
 }
@@ -380,8 +370,8 @@ extern void SACLockScreenImmediate (void);
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == _userDefaults && ([keyPath isEqualToString:@"DockToggleTimeout"] ||
-                                    [keyPath isEqualToString:@"DockToggleMaxTimeout"]) &&
+    if (object == _userDefaults && ([keyPath isEqualToString:kMTDefaultsToggleTimeout] ||
+                                    [keyPath isEqualToString:kMTDefaultsToggleMaxTimeout]) &&
                                     _toggleTimer) {
 
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
@@ -395,23 +385,23 @@ extern void SACLockScreenImmediate (void);
             NSInteger minutesLeft = ceil([self->_timerExpires timeIntervalSinceNow]/60);
             
             // get the configured values
-            NSInteger timeoutValue = [self->_userDefaults integerForKey:@"DockToggleTimeout"];
-            NSInteger maxTimeoutValue = [self->_userDefaults integerForKey:@"DockToggleMaxTimeout"];
+            NSInteger timeoutValue = [self->_userDefaults integerForKey:kMTDefaultsToggleTimeout];
+            NSInteger maxTimeoutValue = [self->_userDefaults integerForKey:kMTDefaultsToggleMaxTimeout];
             
             // restart the timer if the configured timeout or the configured maximum timeout
             // is below the timer's current value
             if ((timeoutValue > 0 && timeoutValue < minutesLeft) ||
-                (![self->_userDefaults objectIsForcedForKey:@"DockToggleTimeout"] && maxTimeoutValue > 0 && maxTimeoutValue < minutesLeft)) {
+                (![self->_userDefaults objectIsForcedForKey:kMTDefaultsToggleTimeout] && maxTimeoutValue > 0 && maxTimeoutValue < minutesLeft)) {
                 [self invalidateToggleTimer];
                 [self startToggleTimer];
                 [self enforcePrivileges];
             }
          }];
         
-    } else if (object == _userDefaults && ([keyPath isEqualToString:@"EnforcePrivileges"] ||
-                                           [keyPath isEqualToString:@"LimitToUser"] ||
-                                           [keyPath isEqualToString:@"LimitToGroup"] ||
-                                           [keyPath isEqualToString:@"ReasonRequired"])) {
+    } else if (object == _userDefaults && ([keyPath isEqualToString:kMTDefaultsEnforcePrivileges] ||
+                                           [keyPath isEqualToString:kMTDefaultsLimitToUser] ||
+                                           [keyPath isEqualToString:kMTDefaultsLimitToGroup] ||
+                                           [keyPath isEqualToString:kMTDefaultsRequireReason])) {
         
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
         // so every notification resets the timer and if we got no new notifications for 2 seconds,
@@ -431,10 +421,10 @@ extern void SACLockScreenImmediate (void);
 - (void)enforcePrivileges
 {
     // check current privileges if we are managed ...
-    if ([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) {
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges]) {
         
         BOOL isAdmin = [self checkAdminPrivilegesForUser:_currentUser error:nil];
-        NSString *enforcedPrivileges = [_userDefaults objectForKey:@"EnforcePrivileges"];
+        NSString *enforcedPrivileges = [_userDefaults objectForKey:kMTDefaultsEnforcePrivileges];
 
         if (([enforcedPrivileges isEqualToString:@"admin"] && !isAdmin) || ([enforcedPrivileges isEqualToString:@"user"] && isAdmin)) {
 

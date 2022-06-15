@@ -1,6 +1,6 @@
 /*
  main.m
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #import "MTIdentity.h"
 #import "PrivilegesHelper.h"
 #import "MTAuthCommon.h"
+#import "Constants.h"
 #import <Foundation/Foundation.h>
 
 
@@ -44,16 +45,16 @@
         // check if we're managed
         NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
         
-        NSString *enforcedPrivileges = ([userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) ? [userDefaults objectForKey:@"EnforcePrivileges"] : nil;
-        NSString *limitToUser = ([userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [userDefaults objectForKey:@"LimitToUser"] : nil;
-        NSString *limitToGroup = ([userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [userDefaults objectForKey:@"LimitToGroup"] : nil;
+        NSString *enforcedPrivileges = ([userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges]) ? [userDefaults objectForKey:kMTDefaultsEnforcePrivileges] : nil;
+        NSString *limitToUser = ([userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
+        NSString *limitToGroup = ([userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
         
         NSArray *theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
         NSString *lastArgument = [theArguments lastObject];
         
         if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--status"])) {
         
-            if ([MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:nil]) {
+            if ([MTIdentity getGroupMembershipForUser:_currentUser groupID:kMTAdminGroupID error:nil]) {
                 [self sendConsoleMessage:[NSString stringWithFormat:@"User %@ has admin rights", _currentUser]];
             } else {
                 [self sendConsoleMessage:[NSString stringWithFormat:@"User %@ has standard user rights", _currentUser]];
@@ -82,7 +83,7 @@
                     _grantAdminRights = ([lastArgument isEqualToString:@"--add"]) ? YES : NO;
                         
                     NSError *userError = nil;
-                    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:&userError];
+                    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:kMTAdminGroupID error:&userError];
                            
                     if (userError) {
                         [self logError:nil withDescription:[NSString stringWithFormat:@"Unable to get group membership for user %@!", _currentUser] andTerminate:NO];
@@ -98,7 +99,7 @@
                         } else {
                             
                             // if admin rights are requested and authentication is required, we ask for the user's password ...
-                            if (_grantAdminRights && ([userDefaults objectIsForcedForKey:@"RequireAuthentication"] && [userDefaults boolForKey:@"RequireAuthentication"])) {
+                            if (_grantAdminRights && ([userDefaults objectIsForcedForKey:kMTDefaultsAuthRequired] && [userDefaults boolForKey:kMTDefaultsAuthRequired])) {
                                 
                                 char *password = getpass("Please enter your account password: ");
                                 NSString *userPassword = [NSString stringWithUTF8String:password];
@@ -109,10 +110,10 @@
                                 }
                             }
                             
-                            if (allowUsage && _grantAdminRights && ([userDefaults objectIsForcedForKey:@"ReasonRequired"] && [userDefaults boolForKey:@"ReasonRequired"])) {
+                            if (allowUsage && _grantAdminRights && ([userDefaults objectIsForcedForKey:kMTDefaultsRequireReason] && [userDefaults boolForKey:kMTDefaultsRequireReason])) {
                                 
                                 NSInteger minReasonLength = 0;
-                                if ([userDefaults objectIsForcedForKey:@"ReasonMinLength"]) { minReasonLength = [userDefaults integerForKey:@"ReasonMinLength"]; }
+                                if ([userDefaults objectIsForcedForKey:kMTDefaultsReasonMinLength]) { minReasonLength = [userDefaults integerForKey:kMTDefaultsReasonMinLength]; }
                                 if (minReasonLength <= 0) { minReasonLength = 10; }
                                 
                                 _adminReason = nil;

@@ -1,6 +1,6 @@
 /*
  AppDelegate.m
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "MTIdentity.h"
 #import "MTAuthCommon.h"
+#import "Constants.h"
 #import "MTNotification.h"
 #import "MTVoiceOver.h"
 #import "PrivilegesHelper.h"
@@ -30,7 +31,7 @@
 @property (atomic, copy, readwrite) NSData *authorization;
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
 @property (atomic, strong, readwrite) NSXPCConnection *xpcServiceConnection;
-@property (atomic, strong, readwrite) NSArray *toggleTimeouts;
+@property (atomic, strong, readwrite) NSMutableArray *toggleTimeouts;
 @property (atomic, strong, readwrite) NSArray *keysToObserve;
 @property (atomic, strong, readwrite) NSUserDefaults *userDefaults;
 @property (atomic, strong, readwrite) NSTimer *fixTimeoutObserverTimer;
@@ -38,6 +39,7 @@
 @property (atomic, strong, readwrite) NSString *currentUser;
 @property (atomic, strong, readwrite) NSString *adminReason;
 @property (atomic, assign) NSUInteger minReasonLength;
+@property (atomic, assign) NSUInteger maxReasonLength;
 @property (atomic, assign) BOOL autoApplyPrivileges;
 
 @property (weak) IBOutlet NSWindow *aboutWindow;
@@ -55,6 +57,9 @@
 @property (weak) IBOutlet NSTextField *appNameAndVersion;
 @property (weak) IBOutlet NSPopUpButton *toggleTimeoutMenu;
 @property (weak) IBOutlet NSToolbarItem *generalPrefsButton;
+@property (weak) IBOutlet NSPopUpButton *predefinedReasonsMenu;
+@property (weak) IBOutlet NSLayoutConstraint *reasonPopupHeight;
+@property (weak) IBOutlet NSLayoutConstraint *reasonTextHeight;
 @end
 
 extern void CoreDockSendNotification(CFStringRef, void*);
@@ -77,7 +82,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         // initialize our userDefaults and remove an existing "EnforcePrivileges" key
         // form our plist. This key should just be used in a configuration profile.
         _userDefaults = [NSUserDefaults standardUserDefaults];
-        [_userDefaults removeObjectForKey:@"EnforcePrivileges"];
+        [_userDefaults removeObjectForKey:kMTDefaultsEnforcePrivileges];
 
         // set the content of our "about" window
         NSString *creditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"];
@@ -98,13 +103,46 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         // create the initial timeout menu
         [self createTimeoutMenu];
         
+        // create the menu with pre-defined reasons (if configured)
+        if ([_userDefaults boolForKey:kMTDefaultsRequireReason]) {
+            NSArray *predefinedReasons = [_userDefaults arrayForKey:kMTDefaultsReasonPresets];
+        
+            if (predefinedReasons && [predefinedReasons count] > 0) {
+                
+                NSMutableArray *allReasons = [[NSMutableArray alloc] init];
+                NSString *languageCode = [[NSLocale currentLocale] languageCode];
+                
+                for (NSDictionary *aReason in predefinedReasons) {
+
+                    if ([aReason isKindOfClass:[NSDictionary class]]) {
+                        NSString *localizedReasonString = [aReason objectForKey:languageCode];
+                        if (!localizedReasonString) { localizedReasonString = [aReason objectForKey:@"default"]; }
+                        if (!localizedReasonString) { localizedReasonString = [aReason objectForKey:@"en"]; }
+                        if (localizedReasonString) { [allReasons addObject:localizedReasonString]; }
+                    }
+                }
+                
+                if ([allReasons count] > 0) { [allReasons insertObject:NSLocalizedString(@"otherMenuEntry", nil) atIndex:0]; }
+           
+                for (NSString *aReason in allReasons) {
+                     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:aReason
+                                                                       action:nil
+                                                                keyEquivalent:@""];
+                     [[_predefinedReasonsMenu menu] addItem:menuItem];
+                }
+                
+                // make the menu visible
+                [_reasonPopupHeight setConstant:22];
+            }
+        }
+        
         // define the keys in our prefs we need to observe
         _keysToObserve = [[NSArray alloc] initWithObjects:
-                          @"DockToggleTimeout",
-                          @"DockToggleMaxTimeout",
-                          @"EnforcePrivileges",
-                          @"LimitToUser",
-                          @"LimitToGroup",
+                          kMTDefaultsToggleTimeout,
+                          kMTDefaultsToggleMaxTimeout,
+                          kMTDefaultsEnforcePrivileges,
+                          kMTDefaultsLimitToUser,
+                          kMTDefaultsLimitToGroup,
                           nil
                           ];
         
@@ -136,7 +174,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         
         // change privileges immediately if needed and if
         // privileges are enforced or just update our dialog
-        if ([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[self->_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[self->_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"])) {
+        if ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges] && ([[self->_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"admin"] || [[self->_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"user"])) {
             _autoApplyPrivileges = YES;
             [self performSelectorOnMainThread:@selector(checkForHelper) withObject:nil waitUntilDone:NO];
         } else {
@@ -284,67 +322,65 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)createTimeoutMenu
 {
+    // remove all menu entries
+    [[_toggleTimeoutMenu menu] removeAllItems];
+    
     // define the default timeout
-    NSInteger timeoutValue = DEFAULT_DOCK_TIMEOUT;
+    NSInteger timeoutValue = kMTDockTimeoutDefault;
     
     // get the configured timeout
-    if ([_userDefaults objectForKey:@"DockToggleTimeout"]) {
+    if ([_userDefaults objectForKey:kMTDefaultsToggleTimeout]) {
 
         // get the currently configured timeout
-        timeoutValue = [_userDefaults integerForKey:@"DockToggleTimeout"];
+        timeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleTimeout];
         if (timeoutValue < 0) { timeoutValue = 0; }
         
         // disable the menu if the setting is managed
-        [_toggleTimeoutMenu setEnabled:![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]];
+        [_toggleTimeoutMenu setEnabled:![_userDefaults objectIsForcedForKey:kMTDefaultsToggleTimeout]];
         
     } else {
         
         // write the default timeout to file
-        [_userDefaults setValue:[NSNumber numberWithInteger:timeoutValue] forKey:@"DockToggleTimeout"];
+        [_userDefaults setValue:[NSNumber numberWithInteger:timeoutValue] forKey:kMTDefaultsToggleTimeout];
     }
 
-    // populate the timeout menu
-    NSInteger fixedTimeoutValues[] = FIXED_TIMEOUT_VALUES;
-    NSMutableArray *timeoutDictionaries = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < sizeof(fixedTimeoutValues)/sizeof(fixedTimeoutValues[0]) ; i++) {
-        [timeoutDictionaries addObject:
-         [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:fixedTimeoutValues[i]], @"value", [self localizedTimeoutStringWithMinutes:fixedTimeoutValues[i]], @"name", nil]];
-    }
-    
-    self.toggleTimeouts = [[NSArray alloc] initWithArray:timeoutDictionaries];
-    
     // check if the configured timeout has already an entry in our menu. if not,
-    // add the new value and sort the array
-    NSPredicate *predicateString = [NSPredicate predicateWithFormat:@"value == %d", timeoutValue];
-    if ([[_toggleTimeouts filteredArrayUsingPredicate:predicateString] count] == 0) {
-        
-        self.toggleTimeouts = [self.toggleTimeouts arrayByAddingObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:timeoutValue], @"value", [self localizedTimeoutStringWithMinutes:timeoutValue], @"name", nil]];
-        
-        // sort the array
-        NSSortDescriptor *valueSort = [NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES];
-        self.toggleTimeouts = [self.toggleTimeouts sortedArrayUsingDescriptors:[NSArray arrayWithObject:valueSort]];
+    // add the new value
+    _toggleTimeouts = [NSMutableArray arrayWithArray:kMTFixedTimeoutValues];
+    
+    if (![_toggleTimeouts containsObject:[NSNumber numberWithInteger:timeoutValue]]) {
+        [_toggleTimeouts addObject:[NSNumber numberWithInteger:timeoutValue]];
     }
     
-    // select the timeout value in the popup menu. if the value of timeoutValue is not in
-    // our pre-defined list, we add the value to our array, sort it and select the value
+    // get the maximum timeout value (if configured)
     NSInteger maxTimeoutValue = 0;
-    if ([_userDefaults objectForKey:@"DockToggleMaxTimeout"] && ![_userDefaults objectIsForcedForKey:@"DockToggleTimeout"]) {
-        maxTimeoutValue = [_userDefaults integerForKey:@"DockToggleMaxTimeout"];
-        
+    if ([_userDefaults objectForKey:kMTDefaultsToggleMaxTimeout] && ![_userDefaults objectIsForcedForKey:kMTDefaultsToggleTimeout]) {
+        maxTimeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleMaxTimeout];
         if (maxTimeoutValue > 0 && timeoutValue > maxTimeoutValue) { timeoutValue = maxTimeoutValue; }
+        
+        if (![_toggleTimeouts containsObject:[NSNumber numberWithInteger:maxTimeoutValue]]) {
+            [_toggleTimeouts addObject:[NSNumber numberWithInteger:maxTimeoutValue]]; }
     }
     
-    for (NSDictionary *dict in _toggleTimeouts) {
+    // sort the array
+    NSSortDescriptor *sortAscending = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    [_toggleTimeouts sortUsingDescriptors:[NSArray arrayWithObject:sortAscending]];
+    
+    for (NSNumber *predefinedTimeoutValue in _toggleTimeouts) {
         
-        NSInteger menuTimeoutValue = [[dict objectForKey:@"value"] integerValue];
-        NSInteger itemIndex = [_toggleTimeouts indexOfObject:dict];
-                
-        if (maxTimeoutValue > 0 && ((menuTimeoutValue > maxTimeoutValue) || menuTimeoutValue == 0)) {
-            [[_toggleTimeoutMenu itemAtIndex:itemIndex] setEnabled:NO];
+        NSInteger predefinedTimeoutValueInt = [predefinedTimeoutValue integerValue];
+        
+        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[self localizedTimeoutStringWithMinutes:predefinedTimeoutValueInt]
+                                                          action:nil
+                                                   keyEquivalent:@""];
+        [menuItem setTag:predefinedTimeoutValueInt];
+        [[_toggleTimeoutMenu menu] addItem:menuItem];
+        
+        if (maxTimeoutValue > 0 && ((predefinedTimeoutValueInt > maxTimeoutValue) || predefinedTimeoutValueInt == 0)) {
+            [menuItem setEnabled:NO];
         } else {
-            [[_toggleTimeoutMenu itemAtIndex:itemIndex] setEnabled:YES];
-            if (menuTimeoutValue <= timeoutValue) { [_toggleTimeoutMenu selectItemAtIndex:itemIndex]; }
+            [menuItem setEnabled:YES];
+            if (predefinedTimeoutValueInt <= timeoutValue) { [_toggleTimeoutMenu selectItemWithTag:predefinedTimeoutValueInt]; }
         }
     }
 }
@@ -353,9 +389,9 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 // create the admin dialog
 {
     // check if we are restricted
-    NSString *enforcedPrivileges = ([_userDefaults objectIsForcedForKey:@"EnforcePrivileges"]) ? [_userDefaults objectForKey:@"EnforcePrivileges"] : nil;
-    NSString *limitToUser = ([_userDefaults objectIsForcedForKey:@"LimitToUser"]) ? [_userDefaults objectForKey:@"LimitToUser"] : nil;
-    NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:@"LimitToGroup"]) ? [_userDefaults objectForKey:@"LimitToGroup"] : nil;
+    NSString *enforcedPrivileges = ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges]) ? [_userDefaults objectForKey:kMTDefaultsEnforcePrivileges] : nil;
+    NSString *limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
+    NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
     
     // we just display a dialog and quit if one of the following applies:
     //
@@ -367,10 +403,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     // both attributes have been specified, the value of LimitToGroup is ignored.
     
     if ([enforcedPrivileges isEqualToString:@"none"] ||
-        (limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
+        (limitToUser && ([limitToUser caseInsensitiveCompare:_currentUser] != NSOrderedSame)) ||
         (!limitToUser && limitToGroup && ![MTIdentity getGroupMembershipForUser:_currentUser groupName:limitToGroup error:nil])) {
         
-        // display a dialog and exit if we did not get the gid
+        // display a dialog and exit
         [self displayDialog:NSLocalizedString(@"restrictedDialog1", nil)
                 messageText:NSLocalizedString(@"restrictedDialog2None", nil)
           withDefaultButton:NSLocalizedString(@"okButton", nil)
@@ -383,7 +419,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         if (getuid() != 0) {
             
             NSError *userError = nil;
-            BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:&userError];
+            BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:kMTAdminGroupID error:&userError];
             
             if (userError) {
                 
@@ -439,11 +475,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)setPrivileges
 {
-    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:nil];
+    BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:kMTAdminGroupID error:nil];
     BOOL changeNeeded = YES;
     
     if (_autoApplyPrivileges) {
-        NSString *enforcedPrivileges = [_userDefaults objectForKey:@"EnforcePrivileges"];
+        NSString *enforcedPrivileges = [_userDefaults objectForKey:kMTDefaultsEnforcePrivileges];
         
         if (([enforcedPrivileges isEqualToString:@"admin"] && isAdmin) || ([enforcedPrivileges isEqualToString:@"user"] && !isAdmin)) {
             changeNeeded = NO;
@@ -454,7 +490,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     if (changeNeeded) {
         
         // ask for the account password to grant admin rights
-        if (!isAdmin && [_userDefaults boolForKey:@"RequireAuthentication"] && !_autoApplyPrivileges) {
+        if (!isAdmin && [_userDefaults boolForKey:kMTDefaultsAuthRequired] && !_autoApplyPrivileges) {
             
             [MTIdentity authenticateUserWithReason:NSLocalizedString(@"authenticationText", nil)
                                  completionHandler:^(BOOL success, NSError *error) {
@@ -480,11 +516,27 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     }
 }
 
+- (IBAction)reasonSelected:(id)sender
+{
+    if ([[_predefinedReasonsMenu selectedItem] isEqualTo:[_predefinedReasonsMenu itemAtIndex:0]]) {
+        [_reasonText setStringValue:@""];
+        [_reasonTextHeight setConstant:100];
+        [_reasonButton setEnabled:NO];
+    } else {
+        [_reasonTextHeight setConstant:0];
+        [_reasonButton setEnabled:YES];
+    }
+}
+
 - (void)getReasonForNeedingAdminRightsWithCompletionHandler:(void (^) (NSString *reason))completionHandler
 {
     // set the minimum text length
-    if ([_userDefaults objectIsForcedForKey:@"ReasonMinLength"]) { _minReasonLength = [_userDefaults integerForKey:@"ReasonMinLength"]; }
-    if (_minReasonLength <= 0) { _minReasonLength = 10; }
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsReasonMinLength]) { _minReasonLength = [_userDefaults integerForKey:kMTDefaultsReasonMinLength]; }
+    if (_minReasonLength < 1 || _minReasonLength >= kMTReasonMaxLengthDefault) { _minReasonLength = kMTReasonMinLengthDefault; }
+    
+    // set the maximum text length
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsReasonMaxLength]) { _maxReasonLength = [_userDefaults integerForKey:kMTDefaultsReasonMaxLength]; }
+    if (_maxReasonLength <= _minReasonLength || _maxReasonLength > kMTReasonMaxLengthDefault) { _maxReasonLength = kMTReasonMaxLengthDefault; }
     
     _adminReason = nil;
     
@@ -503,7 +555,12 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         }
     }
     
-    [_reasonDescription setStringValue:[NSString localizedStringWithFormat:NSLocalizedString(@"reasonDescription", nil), minCharacters, (long)_minReasonLength]];
+    if ([_reasonPopupHeight constant] > 0) {
+        [_reasonDescription setStringValue:[NSString localizedStringWithFormat:NSLocalizedString(@"reasonDescriptionPredefined", nil), NSLocalizedString(@"otherMenuEntry", nil), minCharacters, (long)_minReasonLength]];
+        [_predefinedReasonsMenu selectItemAtIndex:0];
+    } else {
+        [_reasonDescription setStringValue:[NSString localizedStringWithFormat:NSLocalizedString(@"reasonDescription", nil), minCharacters, (long)_minReasonLength]];
+    }
     [_reasonText setStringValue:@""];
     [_mainWindow beginSheet:_reasonWindow
           completionHandler:^(NSModalResponse returnCode) {
@@ -511,11 +568,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         NSString *reasonString = nil;
         
         if (returnCode == NSModalResponseOK) {
-            reasonString = [self->_reasonText stringValue];
+            reasonString = ([self->_reasonTextHeight constant] == 0) ? [[self->_predefinedReasonsMenu selectedItem] title] : [self->_reasonText stringValue];
         }
         
         if (completionHandler) {
-            
+
             if ([reasonString length] > 0) {
                 completionHandler(reasonString);
             } else {
@@ -543,8 +600,8 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         [_reasonButton setEnabled:YES];
         
         // we limit the number of characters here
-        if ([reasonTextString length] > 100) {
-               [_reasonText setStringValue:[reasonTextString substringWithRange:NSMakeRange(0, 100)]];
+        if ([reasonTextString length] > _maxReasonLength) {
+               [_reasonText setStringValue:[reasonTextString substringWithRange:NSMakeRange(0, _maxReasonLength)]];
         }
         
     } else {
@@ -599,10 +656,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 - (IBAction)popupButtonPressed:(id)sender
 {
     // update the preference file for the selected timeout
-    NSInteger selectedIndex = [sender indexOfSelectedItem];
-    NSDictionary *timeoutDict = [self.toggleTimeouts objectAtIndex:selectedIndex];
-    NSNumber *timeoutValue = [timeoutDict valueForKey:@"value"];
-    [_userDefaults setValue:timeoutValue forKey:@"DockToggleTimeout"];
+    [_userDefaults setValue:[NSNumber numberWithInteger:[sender selectedTag]] forKey:kMTDefaultsToggleTimeout];
 }
 
 - (IBAction)actionButtonPressed:(id)sender
@@ -620,10 +674,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             [self displayNoChangeNotificationAndExit];
             
         } else {
-            
-            BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:ADMIN_GROUP_ID error:nil];
 
-            if (!isAdmin && ([_userDefaults objectIsForcedForKey:@"ReasonRequired"] && [_userDefaults boolForKey:@"ReasonRequired"])) {
+            BOOL isAdmin = [MTIdentity getGroupMembershipForUser:_currentUser groupID:kMTAdminGroupID error:nil];
+
+            if (!isAdmin && ([_userDefaults objectIsForcedForKey:kMTDefaultsRequireReason] && [_userDefaults boolForKey:kMTDefaultsRequireReason])) {
                 
                 [self getReasonForNeedingAdminRightsWithCompletionHandler:^(NSString *reason) {
                         
@@ -740,8 +794,8 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == _userDefaults && ([keyPath isEqualToString:@"DockToggleTimeout"] ||
-                                    [keyPath isEqualToString:@"DockToggleMaxTimeout"])) {
+    if (object == _userDefaults && ([keyPath isEqualToString:kMTDefaultsToggleTimeout] ||
+                                    [keyPath isEqualToString:kMTDefaultsToggleMaxTimeout])) {
 
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
         // so every notification resets the timer and if we got no new notifications for 2 seconds,
@@ -754,9 +808,9 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             [self createTimeoutMenu];
          }];
         
-    } else if (object == _userDefaults && ([keyPath isEqualToString:@"EnforcePrivileges"] ||
-                                           [keyPath isEqualToString:@"LimitToUser"] ||
-                                           [keyPath isEqualToString:@"LimitToGroup"])) {
+    } else if (object == _userDefaults && ([keyPath isEqualToString:kMTDefaultsEnforcePrivileges] ||
+                                           [keyPath isEqualToString:kMTDefaultsLimitToUser] ||
+                                           [keyPath isEqualToString:kMTDefaultsLimitToGroup])) {
         
         // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
         // so every notification resets the timer and if we got no new notifications for 2 seconds,
@@ -767,7 +821,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                                      block:^(NSTimer* _Nonnull timer) {
             // change privileges immediately if needed and if
             // privileges are enforced or just update our dialog
-            if ([self->_userDefaults objectIsForcedForKey:@"EnforcePrivileges"] && ([[self->_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"admin"] || [[self->_userDefaults stringForKey:@"EnforcePrivileges"] isEqualToString:@"user"])) {
+            if ([self->_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges] && ([[self->_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"admin"] || [[self->_userDefaults stringForKey:kMTDefaultsEnforcePrivileges] isEqualToString:@"user"])) {
                 self->_autoApplyPrivileges = YES;
                 [self performSelectorOnMainThread:@selector(checkForHelper) withObject:nil waitUntilDone:NO];
             } else {

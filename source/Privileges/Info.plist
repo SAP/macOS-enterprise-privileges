@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1193</string>
+	<string>1330</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
@@ -27,7 +27,7 @@
 	<key>NSDockTilePlugIn</key>
 	<string>PrivilegesTile.docktileplugin</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2016-2020 SAP SE. All rights reserved.</string>
+	<string>Copyright © 2016-2022 SAP SE. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

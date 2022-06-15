@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 
 <!--
-Copyright 2019-2020 SAP SE
+Copyright 2019-2022 SAP SE
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -109,24 +109,71 @@ limitations under the License.
                                     value: a boolean
                                     
                                     If set to true, the user must provide a reason for needing admin rights.
-                                    The reason will be logged.
+                                    The reason will be logged. Please be aware that enabling this option,
+                                    disables the "Toggle Privileges" entry in the Privileges Dock tile menu.
                                 -->
 								<key>ReasonRequired</key>
 								<true/>
 								
 								<!--
                                     key: ReasonMinLength
-                                    value: a positive integer
+                                    value: a positive integer below 100
                                     
                                     If "ReasonRequired" is set to true, this key specifies the minimum number 
                                     of characters the user has to enter as the reason for becoming an admin.
-                                    If not set, the value defaults to 10. The text field is limited to a
-                                    maximum of 100 characters, so values greater than 100 have no effect.
-                                    Please be aware that enabling this option, disables the "Toggle Privileges"
-                                    entry in the Privileges Dock tile menu.
+                                    If not set, the value defaults to 10. If a value < 1 is specified or
+                                    if "ReasonMinLength" is >= 100, the value is set to default.
                                 -->
                                 <key>ReasonMinLength</key>
-								<integer>50</integer>
+								<integer>20</integer>
+								
+                                <!--
+                                    key: ReasonMaxLength
+                                    value: a positive integer below 100
+                                    
+                                    If "ReasonRequired" is set to true, this key specifies the maximum number
+                                    of characters the user can enter as the reason for becoming an admin.
+                                    If not set, the value defaults to 100. If a value > 100 is specified or
+                                    if "ReasonMaxLength" is <= "ReasonMinLength", the value is set to default.
+                                -->
+                                <key>ReasonMaxLength</key>
+                                <integer>50</integer>
+                                
+								<!--
+                                    key: ReasonPresetList
+                                    value: an array of dictionaries
+                                    
+                                    If "ReasonRequired" is set to true, this key allows to pre-define a list
+                                    of possible reasons (for becoming an admin) the user can choose from. If
+                                    set, an additional pop-up menu will appear in the dialog box. This only
+                                    works for the GUI version of Privileges.
+                                    
+                                    A dictionary should contain these keys and values:
+									- a key containing the locale identifier for each language (for example, en or zh)
+									- a value containing the localized reason string for that language
+									- an optional key "default" with a value containing the unlocalized reason string
+									
+                                     If no exact match is found, the default localization is used. If there is no 
+                                     default localization, the en localization is used. If there is no en localization, 
+                                     the dictionary is skipped.
+                                -->
+                                <key>ReasonPresetList</key>
+								<array>
+
+									<dict>
+										<key>de</key>
+										<string>Um Software zu installieren</string>
+										<key>en</key>
+										<string>For installing software</string>
+										<key>es</key>
+										<string>Para la instalación de software</string>
+										<key>it</key>
+										<string>Per l'installazione del software</string>
+										<key>default</key>
+										<string>For installing software</string>
+									</dict>
+
+								</array>
 								
 								<!--
                                     key: RemoteLogging

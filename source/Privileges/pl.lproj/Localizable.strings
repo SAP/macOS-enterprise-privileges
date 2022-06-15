@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2020 SAP SE
+ Copyright 2016-2022 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -101,3 +101,10 @@
 
 // the value to differenciate between "more" and "even more" characters (if applicable)
 "evenMoreCharsThreshold" = "5";
+
+// the default menu entry "Other…" (other reason) for the reason pop-up button
+"otherMenuEntry" = "Inne…";
+
+// the message of the dialog box where the user has to provide a reason for getting admin rights. This version of
+// the text appears if the pop-up menu containing the pre-defined reasons is visible
+"reasonDescriptionPredefined" = "Proszę o wybranie przyczyny, dla której potrzebujesz pracować z prawami administratora. Przy wyborze opcji \"%@\" musisz podać przynajmniej %@ aby kontynuować.";

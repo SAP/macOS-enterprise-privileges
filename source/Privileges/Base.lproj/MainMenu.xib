@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21179.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21179.7"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,21 +24,19 @@
                 <outlet property="mainWindow" destination="9jc-88-Mrt" id="rVp-gz-gYn"/>
                 <outlet property="notificationBody" destination="oK4-l7-TmY" id="cRo-TB-Rlc"/>
                 <outlet property="notificationHead" destination="CTJ-RB-Miz" id="ou2-Xt-qHa"/>
+                <outlet property="predefinedReasonsMenu" destination="exu-fZ-g4s" id="KAf-fr-PHd"/>
                 <outlet property="prefsWindow" destination="TkO-8k-6vc" id="o5Z-sP-2L6"/>
                 <outlet property="reasonButton" destination="y1s-bz-wac" id="Au4-lQ-15E"/>
                 <outlet property="reasonDescription" destination="UJR-yE-rnM" id="JnV-3O-sga"/>
+                <outlet property="reasonPopupHeight" destination="9aR-S2-55P" id="5Un-BK-Bzv"/>
                 <outlet property="reasonText" destination="xcX-4o-avn" id="U7W-4F-Bx3"/>
+                <outlet property="reasonTextHeight" destination="asb-vE-LCx" id="5DE-pX-863"/>
                 <outlet property="reasonWindow" destination="7Rg-OQ-ryb" id="VVW-8Y-lFQ"/>
                 <outlet property="toggleTimeoutMenu" destination="n9g-nR-YKm" id="SNe-fT-vLB"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <userDefaultsController representsSharedInstance="YES" id="Hcn-Ij-Y6Y"/>
-        <arrayController automaticallyRearrangesObjects="YES" id="Vrb-dE-7mT">
-            <connections>
-                <binding destination="Voe-Tx-rLC" name="contentArray" keyPath="self.toggleTimeouts" id="zem-lQ-Hb3"/>
-            </connections>
-        </arrayController>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="Privileges" id="1Xt-HY-uBw">
@@ -96,7 +94,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="660" height="290"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="660" height="290"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -105,9 +103,9 @@
                         <rect key="frame" x="290" y="20" width="350" height="250"/>
                         <clipView key="contentView" focusRingType="none" drawsBackground="NO" id="anO-LO-hjo">
                             <rect key="frame" x="1" y="1" width="348" height="248"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" selectable="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="8c2-Hm-ejX">
+                                <textView editable="NO" selectable="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="8c2-Hm-ejX">
                                     <rect key="frame" x="0.0" y="0.0" width="348" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -163,7 +161,7 @@
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="283" y="305" width="480" height="150"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
             <view key="contentView" id="tQ4-2Z-36S">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="150"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -185,7 +183,7 @@
                         </textFieldCell>
                     </textField>
                     <button identifier="corp.sap.button.default" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DdX-QW-L9X">
-                        <rect key="frame" x="338" y="13" width="129" height="33"/>
+                        <rect key="frame" x="350" y="13" width="117" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="aPM-oi-ALI"/>
                             <constraint firstAttribute="height" constant="21" id="mjY-LZ-poo"/>
@@ -202,7 +200,7 @@ DQ
                         </connections>
                     </button>
                     <button identifier="corp.sap.button.alternate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9w-Su-Y6A">
-                        <rect key="frame" x="199" y="13" width="141" height="33"/>
+                        <rect key="frame" x="223" y="13" width="129" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ZLq-1U-LcC"/>
                             <constraint firstAttribute="height" constant="21" id="c1p-b0-mxy"/>
@@ -249,13 +247,13 @@ DQ
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="283" y="305" width="480" height="124"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
-            <view key="contentView" id="ck9-DV-i3R">
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <view key="contentView" misplaced="YES" id="ck9-DV-i3R">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="124"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Nn-ECl">
-                        <rect key="frame" x="18" y="85" width="121" height="16"/>
+                        <rect key="frame" x="18" y="84" width="121" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Dock Tile Timeout" usesSingleLineMode="YES" id="msH-HV-PaS">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -263,7 +261,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n9g-nR-YKm">
-                        <rect key="frame" x="18" y="53" width="39" height="25"/>
+                        <rect key="frame" x="17" y="52" width="39" height="25"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" id="e0e-NM-weR">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -271,9 +269,6 @@ DQ
                         </popUpButtonCell>
                         <connections>
                             <action selector="popupButtonPressed:" target="Voe-Tx-rLC" id="2HS-MY-EFC"/>
-                            <binding destination="Vrb-dE-7mT" name="content" keyPath="arrangedObjects" id="ht4-zB-drO"/>
-                            <binding destination="Vrb-dE-7mT" name="contentValues" keyPath="arrangedObjects.name" previousBinding="3AV-0d-WNy" id="EtV-pe-boL"/>
-                            <binding destination="Vrb-dE-7mT" name="contentObjects" keyPath="arrangedObjects.value" previousBinding="ht4-zB-drO" id="3AV-0d-WNy"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Y2T-Ob-8am">
@@ -313,10 +308,10 @@ DQ
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="7Rg-OQ-ryb" userLabel="Reason Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="121" y="123" width="400" height="240"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
-            <view key="contentView" id="nmd-9b-hSd">
-                <rect key="frame" x="0.0" y="0.0" width="400" height="240"/>
+            <rect key="contentRect" x="121" y="123" width="400" height="319"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <view key="contentView" misplaced="YES" id="nmd-9b-hSd">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="319"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Edn-ed-dT2">
@@ -336,7 +331,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <button identifier="corp.sap.button.continue" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y1s-bz-wac">
-                        <rect key="frame" x="258" y="13" width="129" height="33"/>
+                        <rect key="frame" x="270" y="13" width="117" height="33"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Nk8-K1-Vmi"/>
                             <constraint firstAttribute="height" constant="21" id="iPF-93-3eJ"/>
@@ -353,7 +348,7 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPl-de-TXU">
-                        <rect key="frame" x="119" y="13" width="141" height="33"/>
+                        <rect key="frame" x="143" y="13" width="129" height="33"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="2xD-Is-KCf"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="rox-6l-EIf"/>
@@ -370,7 +365,7 @@ DQ
                         <rect key="frame" x="20" y="61" width="360" height="100"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="360" id="36Q-QE-FNT"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="asb-vE-LCx"/>
+                            <constraint firstAttribute="height" constant="100" id="asb-vE-LCx"/>
                         </constraints>
                         <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="3Ek-V6-c21">
                             <font key="font" metaFont="message"/>
@@ -381,12 +376,32 @@ DQ
                             <outlet property="delegate" destination="Voe-Tx-rLC" id="4z8-Jh-ZHo"/>
                         </connections>
                     </textField>
+                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="exu-fZ-g4s">
+                        <rect key="frame" x="17" y="167" width="39" height="5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="9aR-S2-55P"/>
+                        </constraints>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="tmt-po-dxq">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="TPL-DM-rGr"/>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="reasonSelected:" target="Voe-Tx-rLC" id="DGY-XV-3Hs"/>
+                            <binding destination="Voe-Tx-rLC" name="hidden" keyPath="reasonPopupHeight.constant" id="4Ck-ng-R27">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </popUpButton>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="xcX-4o-avn" firstAttribute="top" secondItem="UJR-yE-rnM" secondAttribute="bottom" constant="20" id="7Ha-FY-tLl"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UJR-yE-rnM" secondAttribute="trailing" constant="23" id="AHN-H8-nZ7"/>
                     <constraint firstAttribute="trailing" secondItem="y1s-bz-wac" secondAttribute="trailing" constant="20" id="BKr-Yz-0n2"/>
                     <constraint firstItem="y1s-bz-wac" firstAttribute="leading" secondItem="qPl-de-TXU" secondAttribute="trailing" constant="12" id="By3-tg-kdL"/>
+                    <constraint firstItem="xcX-4o-avn" firstAttribute="top" secondItem="exu-fZ-g4s" secondAttribute="bottom" constant="10" id="FVf-T0-P17"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="exu-fZ-g4s" secondAttribute="trailing" constant="20" id="HNl-2x-ThI"/>
                     <constraint firstAttribute="bottom" secondItem="qPl-de-TXU" secondAttribute="bottom" constant="20" id="Nai-Lm-6hy"/>
                     <constraint firstItem="y1s-bz-wac" firstAttribute="top" secondItem="xcX-4o-avn" secondAttribute="bottom" constant="20" id="PxD-iE-IZ9"/>
                     <constraint firstItem="Edn-ed-dT2" firstAttribute="top" secondItem="nmd-9b-hSd" secondAttribute="top" constant="21" id="Q5Q-lq-pSE"/>
@@ -399,9 +414,11 @@ DQ
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Edn-ed-dT2" secondAttribute="trailing" constant="23" id="q5I-rW-keK"/>
                     <constraint firstItem="xcX-4o-avn" firstAttribute="leading" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="20" id="qDb-ML-tiM"/>
                     <constraint firstAttribute="bottom" secondItem="y1s-bz-wac" secondAttribute="bottom" constant="20" id="qFS-mg-xDt"/>
+                    <constraint firstItem="exu-fZ-g4s" firstAttribute="top" secondItem="UJR-yE-rnM" secondAttribute="bottom" constant="10" id="txZ-MY-qIU"/>
+                    <constraint firstItem="exu-fZ-g4s" firstAttribute="leading" secondItem="nmd-9b-hSd" secondAttribute="leading" constant="20" id="xnN-tL-es1"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-188" y="771"/>
+            <point key="canvasLocation" x="-188" y="810.5"/>
         </window>
     </objects>
     <resources>

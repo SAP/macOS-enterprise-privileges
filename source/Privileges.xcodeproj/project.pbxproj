@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -121,6 +121,7 @@
 
 /* Begin PBXFileReference section */
 		AD03DF1D20E6246B000744EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AD07065028365FD6009398B1 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		AD0B59F62328F347009B76E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		AD1A566623C334D8007914E6 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		AD1A566823C338B7007914E6 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 		AD79A0DD1D52047D00D20DA9 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AD7C9D8B23C4781000AFD5DE /* MTVoiceOver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTVoiceOver.h; sourceTree = "<group>"; };
 		AD7C9D8C23C4781000AFD5DE /* MTVoiceOver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTVoiceOver.m; sourceTree = "<group>"; };
+		AD8EDC192850C7D10003BED5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AD93B6FD1CB53AF100E4064C /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = es; path = es.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		AD93B6FE1CB53AF100E4064C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AD93B6FF1CB53AF100E4064C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -283,6 +285,14 @@
 			path = PrivilegesXPC;
 			sourceTree = "<group>";
 		};
+		AD8EDC182850C7D10003BED5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AD8EDC192850C7D10003BED5 /* Accounts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ADA960581C905F36002AEFEA = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +309,7 @@
 				ADE676BF1CAD569800B4C920 /* PrivilegesTile */,
 				AD703CF42385361700A8D946 /* PrivilegesXPC */,
 				ADA960621C905F36002AEFEA /* Products */,
+				AD8EDC182850C7D10003BED5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -382,6 +393,7 @@
 		ADDEA8501C9060F500B32C77 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AD07065028365FD6009398B1 /* Constants.h */,
 				ADDEA8551C90614100B32C77 /* MTAuthCommon.h */,
 				ADDEA8561C90614100B32C77 /* MTAuthCommon.m */,
 				AD1B77031C92F1B100BBE228 /* MTIdentity.h */,
@@ -512,7 +524,7 @@
 		ADA960591C905F36002AEFEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					AD703CF22385361700A8D946 = {
@@ -614,6 +626,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		ADDEA8841C90730A00B32C77 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -804,12 +817,13 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpc;
@@ -830,12 +844,13 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -876,6 +891,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -932,6 +948,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -957,6 +974,7 @@
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
@@ -973,7 +991,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -987,6 +1005,7 @@
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
@@ -1003,7 +1022,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1015,10 +1034,11 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -1037,10 +1057,11 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -1060,10 +1081,11 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1078,10 +1100,11 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1110,6 +1133,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1125,7 +1149,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PrivilegesTile/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
@@ -1162,6 +1186,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1177,7 +1202,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PrivilegesTile/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
