@@ -1,6 +1,6 @@
 {
   "title": "Privileges (corp.sap.privileges)",
-  "description": "Manage Privileges settings - https://github.com/SAP/macOS-enterprise-privileges/tree/master/application_management",
+  "description": "Privileges Settings",
   "__version": "1",
   "__feedback": "someone@example.com",
   "properties": {
