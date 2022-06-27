@@ -1,0 +1,81 @@
+{
+  "title": "Privileges (corp.sap.privileges)",
+  "description": "Manage Privileges settings - https://github.com/SAP/macOS-enterprise-privileges/tree/master/application_management",
+  "__version": "1",
+  "__feedback": "someone@example.com",
+  "properties": {
+    "DockToggleTimeout": {
+      "title": "Dock - Toggle Timeout",
+      "description": "Set a fixed timeout, in minutes, for the Dock tile's Toggle Privileges command. After this time, the admin rights are removed and set back to standard user rights. A value of 0 disables the timeout and allows the user to permanently toggle privileges.",
+      "type": "integer",
+      "default": 0
+    },
+    "DockToggleMaxTimeout": {
+      "title": "Dock - Toggle Max Timeout",
+      "description": "Set a maximum timeout for the Dock tile's Toggle Privileges command. This generally works the same way as the DockToggleTimeout but allows the user to choose every timeout value up to the one specified. So if the admin would set DockToggleMaxTimeout to 20 minutes, the user may decide to set it to a value below 20 instead of being forced to use the 20 minute timeout. (Note: If DockToggleMaxTimeout and DockToggleTimeout values have both been set, the value set for DockToggleTimeout will override whatever is set for DockToggleMaxTimeout.)",
+      "type": "integer",
+      "default": 0
+    },
+    "EnforcePrivileges": {
+      "title": "Enforce Privileges",
+      "description": "Description: Enforces certain privileges. Whenever Privileges.app or the PrivilegesCLI command line tool are launched,the corresponding privileges are set. (admin: administrator rights always set by Privileges. user: standard user rights are always set by Privileges. none: Privileges.app and the PrivilegesCLI command line tool are disabled and it is not possible to change user privileges using these tools.)",
+      "type": "string",
+      "default": "",
+      "enum": [
+        "admin",
+        "user",
+        "none"
+      ]
+    },
+    "LimitToGroup": {
+      "title": "Limit To Group",
+      "description": "Limits the usage of Privileges.app to the given user group.",
+      "type": "string",
+      "default": ""
+    },
+    "LimitToUser": {
+      "title": "Limit To User",
+      "description": "Description: Limits the usage of Privileges.app to the given user account. (Note: If used with a client management system that supports variables in configuration profiles, variables like $USERNAME may be used here.)",
+      "type": "string",
+      "default": ""
+    },
+    "ReasonRequired": {
+      "title": "Reason Required",
+      "description": "If set to true, the user must provide a reason for needing admin rights. If using ReasonRequired, then the ReasonMinLength key must also be set. The ReasonMinLength key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. The text field is limited to a maximum of 100 characters, so values greater than 100 have no effect. (Note: If setting ReasonRequired, the Toggle Privileges option is automatically disabled.)",
+      "type": "boolean",
+      "default": "false"
+    },
+    "RequireAuthentication": {
+      "title": "Require Authentication",
+      "description": "If set to true, the user must provide a reason for needing admin rights. Requires authentication before using Privileges.app. If set to true, the logged-in user is prompted to authenticate via Touch ID or by entering their account password. (Note: If setting RequireAuthentication, the Toggle Privileges option is automatically disabled.)",
+      "type": "boolean",
+      "default": "false"
+    },
+    "ReasonMinLength": {
+      "title": "Reason - Minimum Length",
+      "description": "Specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. (Max length 100)",
+      "type": "integer",
+      "default": 10
+    },
+    "ReasonMaxLength": {
+      "title": "Reason - Maximum Length",
+      "description": "Specifies the maximum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 100. (Max length 100)",
+      "type": "integer",
+      "default": 100
+    },
+    "ReasonPresetList": {
+      "title": "Reason - Preset List",
+      "description": "If the ReasonRequired key's value is set to true, this optional key allows a pre-defined list of reasons for requesting admin privileges. If the ReasonPresetList key is set, a pop-up menu will appear in the window where the user enters reasons. This menu will contain all of the pre-defined reasons and an Other option. If Other is selected, a text field will appear where the user can enter a reason using text entry.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "default": {
+            "title": "Reason",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
