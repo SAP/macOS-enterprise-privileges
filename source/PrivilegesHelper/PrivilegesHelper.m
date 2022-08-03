@@ -286,15 +286,15 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
                                 // Get the current system UUID that can be compared with MDM to get device information
                                 io_service_t platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault,IOServiceMatching("IOPlatformExpertDevice"));
-                                CFTypeRef serialNumberAsCFString = nil;
+                                CFTypeRef uniqueDeviceIdAsCFString = nil;
                                 if (platformExpert) {
-                                    serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
+                                    uniqueDeviceIdAsCFString = IORegistryEntryCreateCFProperty(platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
                                 }
 
                                 IOObjectRelease(platformExpert);
                                 
                                 // Convert POST string parameters to data using UTF8 Encoding
-                                NSString *postParams = [NSString stringWithFormat:@"message=%@&uuid=%@", [logMessage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet alphanumericCharacterSet]], serialNumberAsCFString];
+                                NSString *postParams = [NSString stringWithFormat:@"message=%@&udid=%@", [logMessage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet alphanumericCharacterSet]], uniqueDeviceIdAsCFString];
                                 NSData *postData = [postParams dataUsingEncoding:NSUTF8StringEncoding];
 
                                 // Convert POST string parameters to data using UTF8 Encoding
