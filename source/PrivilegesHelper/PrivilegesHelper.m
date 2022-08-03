@@ -275,6 +275,40 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                     dispatch_async(dispatch_get_main_queue(), ^{ self->_networkOperation = NO; });
                                 }];
                                 
+                            } else if ([[serverType lowercaseString] isEqualToString:@"http_post"] && serverAddress) {
+                                // Create the URLSession on the default configuration
+                                NSURLSessionConfiguration *defaultSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultSessionConfiguration];
+
+                                // Setup the request with URL
+                                NSURL *url = [NSURL URLWithString:serverAddress];
+                                NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+
+                                // Get the current system UUID that can be compared with MDM to get device information
+                                io_service_t platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault,IOServiceMatching("IOPlatformExpertDevice"));
+                                CFTypeRef serialNumberAsCFString = nil;
+                                if (platformExpert) {
+                                    serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
+                                }
+
+                                IOObjectRelease(platformExpert);
+                                
+                                // Convert POST string parameters to data using UTF8 Encoding
+                                NSString *postParams = [NSString stringWithFormat:@"message=%@&uuid=%@", [logMessage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet alphanumericCharacterSet]], serialNumberAsCFString];
+                                NSData *postData = [postParams dataUsingEncoding:NSUTF8StringEncoding];
+
+                                // Convert POST string parameters to data using UTF8 Encoding
+                                [urlRequest setHTTPMethod:@"POST"];
+                                [urlRequest setHTTPBody:postData];
+
+                                // Create dataTask
+                                NSURLSessionDataTask *sendLogTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                    if (error != nil) {
+                                        os_log(OS_LOG_DEFAULT, "SAPCorp: Failed to send information to logging url. Error code %ld", error.code);
+                                    }
+                                }];
+
+                                [sendLogTask resume];
                             } else {
                                 os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Remote logging is misconfigured");
                             }
