@@ -211,6 +211,12 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                 
                   } else {
                   
+                      if ( remove == FALSE ) {
+                          [self installExpirationLaunchAgent];
+                      } else {
+                          [self removeExpirationLaunchAgentFile];
+                      }
+
                       // send a notification to update the Dock tile
                       [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
                                                                                      object:userName
@@ -954,6 +960,73 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                 }
             }];
         }];
+    }
+}
+
+-(void)installExpirationLaunchAgent {
+    // installs an LaunchAgent for the current user which will be called at timeout expiration time or whenever the daemon is loaded
+    // - the StartCalendarInterval covers regular computer use as well as sleep periods
+    // - the RunAtLoad covers reboots or shutdowns. This is why we also need hasPrivilegeToggleTimeoutExpired to evaluate the timeout
+    long timeoutValue = 0;
+    if ([_userDefaults objectForKey:kMTDefaultsToggleTimeout]) {
+        // get the currently configured timeout
+        timeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleTimeout];
+        if (timeoutValue < 0) { timeoutValue = 0; }
+    }
+
+    // calculate expiration date
+    NSDate *dt = [NSDate date];
+    dt = [dt dateByAddingTimeInterval:timeoutValue*60];
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *weekdayComponents =
+    [gregorian components:(NSCalendarUnitDay |
+                           NSCalendarUnitMonth|
+                           NSCalendarUnitHour |
+                           NSCalendarUnitMinute
+                           ) fromDate:dt];
+    NSString *cliPath = [[NSBundle mainBundle] pathForResource:@"PrivilegesCLI" ofType:nil];
+    NSArray *programArguments = @[cliPath, @"--expire"];
+    NSDictionary *startCalendarInterval = @{
+         @"Month" : [NSNumber numberWithInteger:[weekdayComponents month]],
+           @"Day" : [NSNumber numberWithInteger:[weekdayComponents day]],
+          @"Hour" : [NSNumber numberWithInteger:[weekdayComponents hour]],
+        @"Minute" : [NSNumber numberWithInteger:[weekdayComponents minute]]
+    };
+    // prepare LaunchAgent definition
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] init];
+    [plistDict setObject:@"corp.sap.privileges.expire" forKey: @"Label"];
+    [plistDict setObject:@YES forKey: @"RunAtLoad"];
+    [plistDict setObject:programArguments forKey: @"ProgramArguments"];
+    [plistDict setObject:startCalendarInterval forKey: @"StartCalendarInterval"];
+    
+    NSString *launchAgentDirectoryPath = [NSString stringWithFormat:@"%@/Library/LaunchAgents", NSHomeDirectory()];
+    NSString *launchAgentPath = [NSString stringWithFormat:@"%@/corp.sap.privileges.expire.plist", launchAgentDirectoryPath];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // remove older LaunchAgent instances
+        if ([[NSFileManager defaultManager] fileExistsAtPath:launchAgentPath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:launchAgentPath error:nil];
+        }
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:[NSArray arrayWithObjects:@"remove", @"corp.sap.privileges.expire", nil]] waitUntilExit];
+        if ( timeoutValue > 0 ) {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:launchAgentDirectoryPath]) {
+                // create ~/Library/LaunchAgents
+                [[NSFileManager defaultManager] createDirectoryAtPath:launchAgentDirectoryPath withIntermediateDirectories:NO attributes:nil error:nil];
+            }
+            // create and load LaunchAgent for current user
+            [plistDict writeToFile:launchAgentPath atomically:YES];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:[NSArray arrayWithObjects:@"load", launchAgentPath, nil]] waitUntilExit];
+        }
+    });
+}
+
+-(void)removeExpirationLaunchAgentFile
+{
+    // Clean up by simply removing the LaunchAgent plist to prevent future RunAtLoad executions.
+    // Once it has been run it would not be executed again, so we do not need to unload ourselves (which would need a separate process waiting for us to terminate).
+    NSString *launchAgentPath = [NSString stringWithFormat:@"%@/Library/LaunchAgents/corp.sap.privileges.expire.plist", NSHomeDirectory()];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:launchAgentPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:launchAgentPath error:nil];
     }
 }
 
