@@ -186,7 +186,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright [2018] SAP SE or an SAP affiliate company. All rights reserved.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -200,7 +200,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
-
 ------------------------------------------------------------------------------
 SUBCOMPONENTS
 
@@ -209,7 +208,6 @@ Your use of these subcomponents is subject to the separate license terms applica
 each subcomponent.
 
 ```
-
 File: Common.h
  Abstract: Code shared between app and helper tool.
   Version: 1.0
@@ -254,7 +252,9 @@ File: Common.h
  
  Copyright (C) 2013 Apple Inc. All Rights Reserved.
 ```
- 
+
+------------------------------------------------------------------------------
+
 ```
      File: Common.m
      Abstract: Code shared between app and helper tool.
@@ -299,7 +299,9 @@ File: Common.h
      POSSIBILITY OF SUCH DAMAGE.
     
      Copyright (C) 2013 Apple Inc. All Rights Reserved.
-```    
+```
+
+------------------------------------------------------------------------------
 
 ```
  File: HelperTool.h
@@ -347,7 +349,8 @@ File: Common.h
  Copyright (C) 2013 Apple Inc. All Rights Reserved.
 ```
 
- 
+------------------------------------------------------------------------------
+
  ```
  File: HelperTool.m
  Abstract: The main object in the helper tool.
@@ -393,3 +396,4 @@ File: Common.h
  
  Copyright (C) 2013 Apple Inc. All Rights Reserved.
  ```
+  
