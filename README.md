@@ -39,8 +39,8 @@ practice. Privileges helps enable users to act as administrators of the system o
 
 :computer: For macOS 10.12.x and newer
 
-
 # Application Management
+
 As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
 
 # Articles
@@ -49,7 +49,7 @@ We are happy to share with you the article about privileges from 9to5Mac:
 
 [Apple @ Work: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
 
-# Demo 
+# Demo
 
 Have a look at how smoothly Privileges can grant you admin rights anytime you need more control over your Mac.
 
@@ -69,7 +69,7 @@ Privileges documentation is available via the wiki or the links below:
 
 Copyright (c) 2018-2021 SAP SE or an SAP affiliate company and macOS-enterprise-privileges contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges).
 
-**SUBCOMPONENTS**
+## SUBCOMPONENTS
 
 This project references the following Apple `EvenBetterAuthorizationSample` sample code, [which is subject to separate license terms](https://spdx.org/licenses/AML.html). None of the files were incorporated directly into the **Privileges** app. Instead, they were used as a reference and best practice guide.
 
