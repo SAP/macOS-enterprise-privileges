@@ -6,10 +6,6 @@ This sample LaunchAgent for **Privileges.app** can be used to automatically remo
 
 Running this command removes the logged-in user from the admin group.
 
+## Support
 
-
-
-
-Support
-===================================
 This project is 'as-is' with no support, no changes being made.  You are welcome to make changes to improve it but we are not available for questions or support of any kind.
