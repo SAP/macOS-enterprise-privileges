@@ -69,7 +69,7 @@
 									<key>ServerType</key>
 									<string>syslog</string>
 									<key>ServerAddress</key>
-									<string>ip.adddress.goes.here</string>
+									<string>ip.address.goes.here</string>
 									<key>ServerPort</key>
 									<integer>514</integer>
 									<key>EnableTCP</key>
