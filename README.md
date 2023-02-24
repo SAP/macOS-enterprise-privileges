@@ -91,7 +91,7 @@ For more details, please see the the [License file](https://github.com/SAP/macOS
 Found a security-related issue or vulnerability and want to notify us?
 
 Please contact us at:
-[privileges-security@sap.com](mailto:privileges-security@sap.com?subject=subject=[GitHub]%20Privileges%20Security%20Issue%20Report)
+[macatsap-opensource-security@sap.com](mailto:macatsap-opensource-security@sap.com?subject=subject=[GitHub]%20Privileges%20Security%20Issue%20Report)
 
 # Support
 
