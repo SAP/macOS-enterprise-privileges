@@ -1,6 +1,6 @@
 /*
  Localizable.strings
- Copyright 2016-2022 SAP SE
+ Copyright 2016-2023 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@
 // even more characters
 "evenMoreChars" = "%ld";
 
-// the value to differenciate between "more" and "even more" characters (if applicable)
+// the value to differentiate between "more" and "even more" characters (if applicable)
 "evenMoreCharsThreshold" = "";
 
 // the default menu entry "Other…" (other reason) for the reason pop-up button

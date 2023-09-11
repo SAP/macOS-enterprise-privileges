@@ -176,6 +176,18 @@ limitations under the License.
 								</array>
 								
 								<!--
+                                    key: PostChangeExecutablePath
+                                    value: a string containing the absolute path to an executable 
+                                    
+                                    The specified executable is called whenever privileges changed. 
+                                    The name of the user who changed admin rights and the state of 
+                                    the admin rights (0 or 1) are provided as arguments $1 and $2. 
+                                    the executable is launched as the actual user (not as root).
+                                -->
+								<key>PostChangeExecutablePath</key>
+								<string>/Library/Application Support/Privileges/PrivilegesChanged.sh</string>
+								
+								<!--
                                     key: RemoteLogging
                                     value: a dictionary containing the server information:
                                     

@@ -1,6 +1,6 @@
 /*
  PrivilegesHelper.m
- Copyright 2016-2022 SAP SE
+ Copyright 2016-2023 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 }
 
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
-// Called by our XPC listener when a new connection comes in.  We configure the connection
+// Called by our XPC listener when a new connection comes in. We configure the connection
 // with our protocol and ourselves as the main object.
 {
     assert(listener == _listener);
@@ -93,14 +93,14 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 [newConnection resume];
                 
             } else {
-                os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Code signature verification failed");
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
             }
             
             CFRelease(taskRef);
         }
         
     } else {
-        os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Failed to get code signature: %{public}@", error);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to get code signature: %{public}@", error);
     }
     
     return acceptConnection;
@@ -269,14 +269,14 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                 [_syslogServer sendMessage:message completionHandler:^(NSError *networkError) {
                                     
                                     if (networkError) {
-                                        os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Remote logging failed: %{public}@", networkError);
+                                        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote logging failed: %{public}@", networkError);
                                     }
                                     
                                     dispatch_async(dispatch_get_main_queue(), ^{ self->_networkOperation = NO; });
                                 }];
                                 
                             } else {
-                                os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Remote logging is misconfigured");
+                                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote logging is misconfigured");
                             }
                         }
                         

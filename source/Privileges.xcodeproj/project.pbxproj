@@ -524,7 +524,8 @@
 		ADA960591C905F36002AEFEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1400;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					AD703CF22385361700A8D946 = {
@@ -822,8 +823,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpc;
@@ -849,8 +850,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -985,13 +986,14 @@
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = Privileges/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1016,13 +1018,14 @@
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = Privileges/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1038,7 +1041,8 @@
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -1061,7 +1065,8 @@
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "PrivilegesHelper/PrivilegesHelper-Info.plist";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -1085,7 +1090,8 @@
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1104,7 +1110,8 @@
 				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1149,7 +1156,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PrivilegesTile/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
@@ -1202,7 +1210,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PrivilegesTile/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MARKETING_VERSION = 1.5.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.5.4;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,

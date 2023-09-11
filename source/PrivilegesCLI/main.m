@@ -1,6 +1,6 @@
 /*
  main.m
- Copyright 2016-2022 SAP SE
+ Copyright 2016-2023 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
 @property (atomic, strong, readwrite) NSString *currentUser;
 @property (atomic, strong, readwrite) NSString *adminReason;
+@property (atomic, strong, readwrite) NSUserDefaults *userDefaults;
 @property (atomic, assign) BOOL grantAdminRights;
 @property (atomic, assign) BOOL shouldTerminate;
 @end
@@ -43,11 +44,11 @@
         _currentUser = NSUserName();
         
         // check if we're managed
-        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
+        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"corp.sap.privileges"];
         
-        NSString *enforcedPrivileges = ([userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges]) ? [userDefaults objectForKey:kMTDefaultsEnforcePrivileges] : nil;
-        NSString *limitToUser = ([userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
-        NSString *limitToGroup = ([userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
+        NSString *enforcedPrivileges = ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivileges]) ? [_userDefaults objectForKey:kMTDefaultsEnforcePrivileges] : nil;
+        NSString *limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUser]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUser] : nil;
+        NSString *limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroup]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroup] : nil;
         
         NSArray *theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
         NSString *lastArgument = [theArguments lastObject];
@@ -99,7 +100,7 @@
                         } else {
                             
                             // if admin rights are requested and authentication is required, we ask for the user's password ...
-                            if (_grantAdminRights && ([userDefaults objectIsForcedForKey:kMTDefaultsAuthRequired] && [userDefaults boolForKey:kMTDefaultsAuthRequired])) {
+                            if (_grantAdminRights && ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthRequired] && [_userDefaults boolForKey:kMTDefaultsAuthRequired])) {
                                 
                                 char *password = getpass("Please enter your account password: ");
                                 NSString *userPassword = [NSString stringWithUTF8String:password];
@@ -110,16 +111,17 @@
                                 }
                             }
                             
-                            if (allowUsage && _grantAdminRights && ([userDefaults objectIsForcedForKey:kMTDefaultsRequireReason] && [userDefaults boolForKey:kMTDefaultsRequireReason])) {
+                            if (allowUsage && _grantAdminRights && ([_userDefaults objectIsForcedForKey:kMTDefaultsRequireReason] && [_userDefaults boolForKey:kMTDefaultsRequireReason])) {
                                 
                                 NSInteger minReasonLength = 0;
-                                if ([userDefaults objectIsForcedForKey:kMTDefaultsReasonMinLength]) { minReasonLength = [userDefaults integerForKey:kMTDefaultsReasonMinLength]; }
-                                if (minReasonLength <= 0) { minReasonLength = 10; }
+                                if ([_userDefaults objectIsForcedForKey:kMTDefaultsReasonMinLength]) { minReasonLength = [_userDefaults integerForKey:kMTDefaultsReasonMinLength]; }
+                                if (minReasonLength <= 0) { minReasonLength = kMTReasonMinLengthDefault; }
                                 
                                 _adminReason = nil;
-                                char reason[100] = {0};
+                                char reason[kMTReasonMaxLengthDefault] = {0};
                                 printf("Please enter the reason for needing admin rights (at least %ld characters): ", (long)minReasonLength);
-                                scanf("%[^\n]s", reason);
+                                fgets(reason, kMTReasonMaxLengthDefault, stdin);
+                                reason[strcspn(reason, "\n")] = '\0';
                                 NSString *reasonText = [NSString stringWithUTF8String:reason];
                                 
                                 if ([reasonText length] < minReasonLength) {

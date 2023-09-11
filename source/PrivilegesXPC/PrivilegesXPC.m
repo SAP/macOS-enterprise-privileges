@@ -109,14 +109,14 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 [newConnection resume];
     
             } else {
-                    os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Code signature verification failed");
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
             }
                 
             CFRelease(taskRef);
         }
             
     } else {
-        os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Failed to get code signature: %{public}@", error);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to get code signature: %{public}@", error);
     }
         
     return acceptConnection;
@@ -188,7 +188,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
         // Call the helper tool to get the endpoint we need.
         [[self.helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
-            os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Failed to connect to helper tool: %{public}@ / %{public}d", [proxyError domain], (int)[proxyError code]);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to connect to helper tool: %{public}@ / %{public}d", [proxyError domain], (int)[proxyError code]);
             reply(nil, nil);
         }] connectWithEndpointReply:^(NSXPCListenerEndpoint *replyEndpoint) {
             reply(replyEndpoint, self.authorization);

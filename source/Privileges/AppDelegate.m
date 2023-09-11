@@ -1,6 +1,6 @@
 /*
  AppDelegate.m
- Copyright 2016-2022 SAP SE
+ Copyright 2016-2023 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -190,13 +190,13 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     [self connectAndExecuteCommandBlock:^(NSError *connectError) {
         
           if (connectError) {
-              os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", connectError);
+              os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", connectError);
               [self displayErrorNotificationAndExit];
               
           } else {
               
               [[self.helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
-                  os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", proxyError);
+                  os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", proxyError);
                   [self displayErrorNotificationAndExit];
                   
               }] changeAdminRightsForUser:userName
@@ -206,7 +206,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                 withReply:^(NSError *error) {
                   
                   if (error) {
-                      os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Unable to change privileges: %{public}@", error);
+                      os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Unable to change privileges: %{public}@", error);
                       [self displayErrorNotificationAndExit];
                 
                   } else {
@@ -285,12 +285,12 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)helperCheckFailed:(NSString*)errorMessage
 {
-    os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", errorMessage);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", errorMessage);
     
     [self connectToXPCService];
     [[self.xpcServiceConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
         
-        os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", proxyError);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", proxyError);
         
         [self displayDialog:NSLocalizedString(@"notificationText_Error", nil)
                 messageText:nil
@@ -309,7 +309,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
         } else {
             
-            os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! Installation of the helper tool failed: %{public}@", installError);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Installation of the helper tool failed: %{public}@", installError);
             
             [self displayDialog:NSLocalizedString(@"notificationText_Error", nil)
                     messageText:nil
@@ -841,11 +841,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     [self connectAndExecuteCommandBlock:^(NSError * connectError) {
         
            if (connectError) {
-               os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", connectError);
+               os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", connectError);
            } else {
                
                [[self.helperToolConnection remoteObjectProxyWithErrorHandler:^(NSError *proxyError) {
-                   os_log(OS_LOG_DEFAULT, "SAPCorp: ERROR! %{public}@", proxyError);
+                   os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: %{public}@", proxyError);
                }] quitHelperTool];
            }
        }
