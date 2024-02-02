@@ -70,7 +70,7 @@
                 [self sendConsoleMessage:[NSString stringWithFormat:@"Arguments are ignored because %@ rights have been assigned by an administrator", ([enforcedPrivileges isEqualToString:@"admin"]) ? @"admin" : @"standard user"]];
             }
 
-            if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--remove"] || [lastArgument isEqualToString:@"--add"])) {
+            if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--remove"] || [lastArgument isEqualToString:@"--expire"] || [lastArgument isEqualToString:@"--add"])) {
                 
                 if ([enforcedPrivileges isEqualToString:@"none"] || (!enforcedPrivileges &&
                     ((limitToUser && ![[limitToUser lowercaseString] isEqualToString:_currentUser]) ||
@@ -98,6 +98,19 @@
                             allowUsage = NO;
                         
                         } else {
+                            
+                            // making sure that we have hit the timeline before removing users privileges
+                            if ([theArguments count] == 2 && ([lastArgument isEqualToString:@"--expire"])) {
+                                if (![self hasPrivilegeToggleTimeoutExpired]) {
+                                    
+                                    // if we haven't reached out our limit. we should stop executing CLI
+                                    [self sendConsoleMessage:@"ToggleTimeout has not been reached. Nothing to do."];
+                                    exit(0);
+                                    
+                                } else {
+                                    [self sendConsoleMessage:@"ToggleTimeout has been reached. Removing privileges."];
+                                }
+                            }
                             
                             // if admin rights are requested and authentication is required, we ask for the user's password ...
                             if (_grantAdminRights && ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthRequired] && [_userDefaults boolForKey:kMTDefaultsAuthRequired])) {
@@ -206,6 +219,7 @@
     fprintf(stderr, "\nUsage: PrivilegesCLI <arg>\n\n");
     fprintf(stderr, "Arguments:   --add        Adds the current user to the admin group\n");
     fprintf(stderr, "             --remove     Removes the current user from the admin group\n");
+    fprintf(stderr, "             --expire     Removes the current user from the admin group only if the ToggleTimeout has been reached\n");
     fprintf(stderr, "             --status     Displays the current user's privileges\n\n");
     
     [self terminateRunLoop];
@@ -235,6 +249,12 @@
                     
                     NSString *logMessage = [NSString stringWithFormat:@"User %@ has now %@ rights", userName, (remove) ? @"standard user" : @"admin"];
                     [self sendConsoleMessage:logMessage];
+                    
+                    if ( remove == FALSE ) {
+                        [self installExpirationLaunchAgent];
+                    } else {
+                        [self removeExpirationLaunchAgentFile];
+                    }
                     
                     // send a notification to update the Dock tile
                     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"corp.sap.PrivilegesChanged"
@@ -338,6 +358,110 @@
         };
         #pragma clang diagnostic pop
         [self.helperToolConnection resume];
+    }
+}
+
+-(BOOL)hasPrivilegeToggleTimeoutExpired {
+    // determines if we have reached ToggleTimeout by evaluating the expiration date/time from the user's expiration LaunchAgent file
+    NSString *launchAgentPath = [NSString stringWithFormat:@"/%@/Library/LaunchAgents/corp.sap.privileges.expire.plist",NSHomeDirectory()];
+
+    if ([[NSFileManager defaultManager] fileExistsAtPath:launchAgentPath]) {
+        NSDictionary *plistDictionary = [NSDictionary dictionaryWithContentsOfFile:launchAgentPath];
+        if (plistDictionary != nil) {
+            NSDictionary<NSString *, NSNumber *> *startInterval = plistDictionary[@"StartCalendarInterval"];
+            if (startInterval != nil) {
+                NSInteger day = startInterval[@"Day"].integerValue;
+                NSInteger month = startInterval[@"Month"].integerValue;
+                NSInteger hour = startInterval[@"Hour"].integerValue;
+                NSInteger minute = startInterval[@"Minute"].integerValue;
+                
+                NSDate *currentDate = [NSDate date];
+                NSCalendar *gregorian = [[NSCalendar alloc]
+                                         initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                NSDateComponents *components =
+                [gregorian components:(NSCalendarUnitDay |
+                                       NSCalendarUnitMonth|
+                                       NSCalendarUnitHour |
+                                       NSCalendarUnitMinute |
+                                       NSCalendarUnitYear
+                                       ) fromDate:currentDate];
+                [components setDay:day];
+                [components setMonth:month];
+                [components setHour:hour];
+                [components setMinute:minute];
+                NSDate *dateToRevokePrivileges = [gregorian dateFromComponents:components];
+                return ([currentDate compare:dateToRevokePrivileges] == NSOrderedDescending);
+            }
+        }
+    }
+    // in case we cannot determine a timeout, we return NO.
+    return NO;
+}
+
+-(void)installExpirationLaunchAgent {
+    // installs an LaunchAgent for the current user which will be called at timeout expiration time or whenever the daemon is loaded
+    // - the StartCalendarInterval covers regular computer use as well as sleep periods
+    // - the RunAtLoad covers reboots or shutdowns. This is why we also need hasPrivilegeToggleTimeoutExpired to evaluate the timeout
+    long timeoutValue = 0;
+    if ([_userDefaults objectForKey:kMTDefaultsToggleTimeout]) {
+        // get the currently configured timeout
+        timeoutValue = [_userDefaults integerForKey:kMTDefaultsToggleTimeout];
+        if (timeoutValue < 0) { timeoutValue = 0; }
+    }
+
+    // calculate expiration date
+    NSDate *dt = [NSDate date];
+    dt = [dt dateByAddingTimeInterval:timeoutValue*60];
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *weekdayComponents =
+    [gregorian components:(NSCalendarUnitDay |
+                           NSCalendarUnitMonth|
+                           NSCalendarUnitHour |
+                           NSCalendarUnitMinute
+                           ) fromDate:dt];
+    NSString *cliPath = [[NSBundle mainBundle] pathForResource:@"PrivilegesCLI" ofType:nil];
+    NSArray *programArguments = @[cliPath, @"--expire"];
+    NSDictionary *startCalendarInterval = @{
+         @"Month" : [NSNumber numberWithInteger:[weekdayComponents month]],
+           @"Day" : [NSNumber numberWithInteger:[weekdayComponents day]],
+          @"Hour" : [NSNumber numberWithInteger:[weekdayComponents hour]],
+        @"Minute" : [NSNumber numberWithInteger:[weekdayComponents minute]]
+    };
+    // prepare LaunchAgent definition
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] init];
+    [plistDict setObject:@"corp.sap.privileges.expire" forKey: @"Label"];
+    [plistDict setObject:@YES forKey: @"RunAtLoad"];
+    [plistDict setObject:programArguments forKey: @"ProgramArguments"];
+    [plistDict setObject:startCalendarInterval forKey: @"StartCalendarInterval"];
+    
+    NSString *launchAgentDirectoryPath = [NSString stringWithFormat:@"%@/Library/LaunchAgents", NSHomeDirectory()];
+    NSString *launchAgentPath = [NSString stringWithFormat:@"%@/corp.sap.privileges.expire.plist", launchAgentDirectoryPath];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // remove older LaunchAgent instances
+        if ([[NSFileManager defaultManager] fileExistsAtPath:launchAgentPath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:launchAgentPath error:nil];
+        }
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:[NSArray arrayWithObjects:@"remove", @"corp.sap.privileges.expire", nil]] waitUntilExit];
+        if ( timeoutValue > 0 ) {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:launchAgentDirectoryPath]) {
+                // create ~/Library/LaunchAgents
+                [[NSFileManager defaultManager] createDirectoryAtPath:launchAgentDirectoryPath withIntermediateDirectories:NO attributes:nil error:nil];
+            }
+            // create and load LaunchAgent for current user
+            [plistDict writeToFile:launchAgentPath atomically:YES];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:[NSArray arrayWithObjects:@"load", launchAgentPath, nil]] waitUntilExit];
+        }
+    });
+}
+
+-(void)removeExpirationLaunchAgentFile
+{
+    // Clean up by simply removing the LaunchAgent plist to prevent future RunAtLoad executions.
+    // Once it has been run it would not be executed again, so we do not need to unload ourselves (which would need a separate process waiting for us to terminate).
+    NSString *launchAgentPath = [NSString stringWithFormat:@"%@/Library/LaunchAgents/corp.sap.privileges.expire.plist", NSHomeDirectory()];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:launchAgentPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:launchAgentPath error:nil];
     }
 }
 
