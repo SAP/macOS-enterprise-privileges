@@ -1,6 +1,6 @@
 /*
  main.m
- Copyright 2016-2022 SAP SE
+ Copyright 2016-2023 SAP SE
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,9 +28,9 @@
 @property (atomic, strong, readwrite) NSXPCConnection *helperToolConnection;
 @property (atomic, strong, readwrite) NSString *currentUser;
 @property (atomic, strong, readwrite) NSString *adminReason;
+@property (atomic, strong, readwrite) NSUserDefaults *userDefaults;
 @property (atomic, assign) BOOL grantAdminRights;
 @property (atomic, assign) BOOL shouldTerminate;
-@property (atomic, strong, readwrite) NSUserDefaults *userDefaults;
 @end
 
 @implementation Main
@@ -128,12 +128,13 @@
                                 
                                 NSInteger minReasonLength = 0;
                                 if ([_userDefaults objectIsForcedForKey:kMTDefaultsReasonMinLength]) { minReasonLength = [_userDefaults integerForKey:kMTDefaultsReasonMinLength]; }
-                                if (minReasonLength <= 0) { minReasonLength = 10; }
+                                if (minReasonLength <= 0) { minReasonLength = kMTReasonMinLengthDefault; }
                                 
                                 _adminReason = nil;
-                                char reason[100] = {0};
+                                char reason[kMTReasonMaxLengthDefault] = {0};
                                 printf("Please enter the reason for needing admin rights (at least %ld characters): ", (long)minReasonLength);
-                                scanf("%[^\n]s", reason);
+                                fgets(reason, kMTReasonMaxLengthDefault, stdin);
+                                reason[strcspn(reason, "\n")] = '\0';
                                 NSString *reasonText = [NSString stringWithUTF8String:reason];
                                 
                                 if ([reasonText length] < minReasonLength) {

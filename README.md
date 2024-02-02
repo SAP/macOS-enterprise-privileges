@@ -13,6 +13,7 @@ practice. Privileges helps enable users to act as administrators of the system o
 
 **Privileges supports the following macOS versions:**
 
+* macOS 14.x
 * macOS 13.x
 * macOS 12.x
 * macOS 11.x
@@ -88,10 +89,7 @@ For more details, please see the the [License file](https://github.com/SAP/macOS
 
 # Security
 
-Found a security-related issue or vulnerability and want to notify us?
-
-Please contact us at:
-[privileges-security@sap.com](mailto:privileges-security@sap.com?subject=[GitHub]%20Source%20Han%20Sans)
+Found a security-related issue or vulnerability and want to notify us? [Please see here for how to report it](https://github.com/SAP/macOS-enterprise-privileges/security/policy).
 
 # Support
 
