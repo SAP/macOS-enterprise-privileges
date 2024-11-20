@@ -15,14 +15,14 @@
 							<key>mcx_preference_settings</key>
 							<dict>
 								<!--
-									key: EnforcePrivileges
-									value: "admin", "user" or "none" (string)
-									Enforces certain privileges. Whenever the Privileges app or PrivilegesCLI is launched,
-									the corresponding privileges are set (if needed):
-									admin = administrator rights always set by Privileges.
-									user = standard user rights are always set by Privileges.
-									none = the Privileges app or PrivilegesCLI apps are disabled and it is not possible to
-									change privileges using these tools.
+									key:    EnforcePrivileges
+									value:  a string containing the value "admin", "user" or "none"
+									
+                                    					Enforces specific privileges. The privileges are immediately enforced by
+                                    					the Privileges Dock tile plugin (even if Privileges is not in Dock). If
+                                    					"EnforcePrivileges" is set to "none", it is no longer possible to change
+                                    					privileges with the Privileges application or any of its bundled
+                                    					applications.
 								-->
 								<key>EnforcePrivileges</key>
 								<string>admin</string>
