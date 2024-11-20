@@ -14,15 +14,16 @@
 						<dict>
 							<key>mcx_preference_settings</key>
 							<dict>
-                                <!--
-                                    key: LimitToUser
-                                    value: a string containing the user's short name
+                                				<!--
+                                    					key:    LimitToUser
+                                    					value:  a string containing the user's short name or an array of strings
+                                            					containing the short names of the users
                                     
-                                    Limits the usage of the app to the given user. If used with a client management
-                                    system that supports variables in configuration profiles, variables like
-                                    $USERNAME may be used here.
-                                -->
-                                <key>LimitToUser</key>
+                                    					Restricts use of the application to the specified user or list of users.
+                                    					When used with a client management system that supports variables in
+                                    					configuration profiles, variables such as $USERNAME can be used here.
+                                				-->
+                                				<key>LimitToUser</key>
   								<string>username_goes_here</string>
 							</dict>
 						</dict>
