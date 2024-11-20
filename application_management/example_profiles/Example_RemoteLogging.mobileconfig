@@ -86,7 +86,7 @@
 									<key>ServerType</key>
 									<string>syslog</string>
 									<key>ServerAddress</key>
-									<string>ip.adddress.goes.here</string>
+									<string>ip_adddress_or_host_name_goes_here</string>
 									<key>SyslogOptions</key>
 									<dict>
 										<key>ServerPort</key>
