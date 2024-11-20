@@ -1,30 +1,24 @@
-![PrivilegesBanner](readme_images/privileges_banner.gif)
+![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/github%20banner%20new.png)
 
 # Privileges
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/macOS-enterprise-privileges)](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges)
 
-Privileges for macOS is designed to allow users to work as a standard user for day-to-day use, by providing
-a quick and easy way to get administrator rights when needed. When you do need admin rights, you can get
-them by clicking on the Privileges icon in your Dock.
+Privileges is an application for macOS which allows users to work as a standard user for day-to-day tasks, by providing a quick and easy way to request administrator rights. Users can set a timeframe in the application’s settings to perform specific tasks, such as installing or removing an application. To request admin rights, simply click on the Privileges icon in your Dock. 
 
-We believe all users, including all developers, can benefit from using Privileges. Working as a standard user instead of an administrator adds another layer of security to your Mac and is considered a security best
-practice. Privileges helps enable users to act as administrators of the system only when required.
+Working as standard user instead of an administrator adds another layer of security to your Mac and is considered a security best practice. We believe all users, including all developers, can benefit from using Privileges.
 
 **Privileges supports the following macOS versions:**
 
+* macOS 15.x
 * macOS 14.x
 * macOS 13.x
 * macOS 12.x
 * macOS 11.x
-* macOS 10.15.x
-* macOS 10.14.x
-* macOS 10.13.x
-* macOS 10.12.x
 
 # Features
 
-:hammer_and_wrench: Easy install
+🛠️ Easy install
 
 :rocket: Perfect for day-to-day use
 
@@ -32,13 +26,34 @@ practice. Privileges helps enable users to act as administrators of the system o
 
 :closed_lock_with_key: Enjoy standard user security
 
-:hourglass: Time limit option available
-
 :fire: Command line use supported
 
-:no_good: No IT department needed
+## New Privileges 2 features 🔥
 
-:computer: For macOS 10.12.x and newer
+📦 Installer package
+
+⬅️ Revoke admin rights at login
+
+⏱️ Unified expiration interval for administrator privileges
+
+📍 Run actions on privilege change
+
+⌨️ Command line tool now also supports Touch ID
+
+✅ AppleScript support
+
+🪝 Webhooks
+
+📚 Localized in 40 languages
+
+
+# Demo
+
+⚡️ Have a look at how quick and easy you can request admin rights
+
+![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/DemoGIF.gif)
+
+
 
 
 # Application Management
@@ -50,15 +65,10 @@ We are happy to share with you the article about privileges from 9to5Mac:
 
 [Apple @ Work: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
 
-# Demo 
-
-Have a look at how smoothly Privileges can grant you admin rights anytime you need more control over your Mac.
-
-![PrivilegesBanner](readme_images/privileges_admin_rights.gif)
 
 # Documentation
 
-Privileges documentation is available via the wiki or the links below:
+📚 If you want to learn more about _Privileges_ features, make sure to take a look at our [wiki](https://github.com/SAP/macOS-enterprise-privileges/wiki) or the links below:
 
 * [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
 * [Uninstallation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation)
