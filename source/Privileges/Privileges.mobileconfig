@@ -2,19 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 
 <!--
-Copyright 2019-2022 SAP SE
+    Copyright 2019-2024 SAP SE
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 -->
 
 <plist version="1.0">
@@ -33,115 +33,195 @@ limitations under the License.
 							<dict>
 							
 								<!--
-									key: DockToggleTimeout
-									value: a positive integer
+									key:    ExpirationInterval
+									value:  a positive integer
 									
-									Set a fixed timeout for the Dock tile's "Toggle Privileges" command. After
-                                    this time the admin rights are removed and set back to standard user rights.
-                                    A value of 0 disables the timeout and allows the user to permanently toggle
-                                    privileges.
+                                    Set a fixed time interval after which administrator privileges expire
+                                    and revert to standard user rights. A value of 0 disables the timeout
+                                    and allows the user to request permanent administrator privileges.
 								-->
-								<key>DockToggleTimeout</key>
+								<key>ExpirationInterval</key>
 								<integer>15</integer>
 								
 								<!--
-									key: DockToggleMaxTimeout
-									value: a positive integer
+									key:    ExpirationIntervalMax
+									value:  a positive integer
 									
-									Set a maximum timeout for the Dock tile's "Toggle Privileges" command. This
-									generally works the same way as the "DockToggleTimeout" but allows the user
-									to choose every timeout value up to the one specified. So if the admin would
-									set "DockToggleMaxTimeout" to 20 minutes, the user may decide to set it to
-									a value below 20 instead of being forced to use the 20 minute timeout. With 
-									regards to user experience we recommend to use "DockToggleMaxTimeout" instead
-									of "DockToggleTimeout". if "DockToggleMaxTimeout" and "DockToggleTimeout" 
-									have been set, the fixed value of "DockToggleTimeout" takes precedence over 
-									"DockToggleMaxTimeout".
+                                    Set a maximum time interval for a user to request administrative
+                                    privileges. This generally works the same way as "ExpirationInterval",
+                                    but allows the user to choose any timeout value up to the specified one.
+                                    So if the admin would set "ExpirationIntervalMax" to 20 minutes, the
+                                    user can choose to set it to a value up to 20 minutes instead of being
+                                    forced to use the 20 minute timeout. For usability reasons, we recommend
+                                    using "ExpirationIntervalMax" instead of "ExpirationInterval". If both
+                                    "ExpirationIntervalMax" and "ExpirationInterval" are set, the value of
+                                    "ExpirationInterval" takes precedence over "ExpirationIntervalMax".
 								-->
-								<key>DockToggleMaxTimeout</key>
+								<key>ExpirationIntervalMax</key>
 								<integer>20</integer>
 								
 								<!--
-									key: EnforcePrivileges
-									value: a string containing the value "admin", "user" or "none"
+									key:    EnforcePrivileges
+									value:  a string containing the value "admin", "user" or "none"
 									
-									Enforces certain privileges. Whenever the Privileges app or PrivilegesCLI is 
-									launched, the corresponding privileges are set (if needed). The privileges are 
-									also enforced immediately by the Privileges Dock tile. If "EnforcePrivileges" 
-									is set to "none", the apps are disabled and it is not possible anymore to change 
-									privileges using these apps.
+                                    Enforces specific privileges. The privileges are immediately enforced by
+                                    the Privileges Dock tile plugin (even if Privileges is not in Dock). If
+                                    "EnforcePrivileges" is set to "none", it is no longer possible to change
+                                    privileges with the Privileges application or any of its bundled
+                                    applications.
 								-->
 								<key>EnforcePrivileges</key>
 								<string>user</string>
                                 
                                 <!--
-                                    key: RequireAuthentication
-                                    value: a boolean
+                                    key:    RequireAuthentication
+                                    value:  a boolean
                                     
-                                    States if authentication is required to get admin rights. If set to true the user 
-                                    is prompted for the account password (or Touch ID if available).
+                                    Specifies whether authentication is required to obtain administrator
+                                    privileges. If set to true, the user is prompted for the account
+                                    password (or Touch ID, if available). Note that once this option is
+                                    enabled, privileges cannot be changed from the Privileges Dock tile menu
+                                    unless AllowCLIBiometricAuthentication is also enabled.
                                 -->
                                 <key>RequireAuthentication</key>
                                 <true/>
                                 
                                 <!--
-                                    key: LimitToUser
-                                    value: a string containing the user's short name
+                                    key:    AllowCLIBiometricAuthentication
+                                    value:  a boolean
                                     
-                                    Limits the usage of the app to the given user. If used with a client management
-                                    system that supports variables in configuration profiles, variables like
-                                    $USERNAME may be used here.
+                                    Specifies whether to allow biometric authentication in the PrivilegesCLI
+                                    to obtain administrator privileges. If set to true, the Privileges agent
+                                    prompts the user for the account password (or Touch ID, if available).
+                                -->
+                                <key>AllowCLIBiometricAuthentication</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    PostChangeExecutablePath
+                                    value:  a string containing the absolute path to an application or script
+                                    
+                                    If set, the PrivilegesAgent executes the given application or script and
+                                    provides the current user's user name ($1) and its privileges ("admin"
+                                    or "user", $2) as launch arguments. If the application or script does
+                                    not exist or is not executable, the launch operation fails silently.
+                                -->
+                                <key>PostChangeExecutablePath</key>
+                                <string>/Library/Application Support/Privileges/privileges_changed.sh</string>
+                                
+                                <!--
+                                    key:    PostChangeActionOnGrantOnly
+                                    value:  a boolean
+                                    
+                                    If set to true, the application or script, specified in
+                                    PostChangeExecutablePath, will only be executed if administrator
+                                    privileges are granted to a user, but not the privileges are revoked.
+                                -->
+                                <key>PostChangeActionOnGrantOnly</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    RevokePrivilegesAtLogin
+                                    value:  a boolean
+                                    
+                                    If set to true, the user's administrator privileges are revoked at
+                                    login.
+                                -->
+                                <key>RevokePrivilegesAtLogin</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    HideOtherWindows
+                                    value:  a boolean
+                                                                    
+                                    By default, Privileges hides open windows to show the desktop and ensure
+                                    that only the Privileges window is visible on the screen. Set
+                                    HideOtherWindows to false to disable this function.
+                                -->
+                                <key>HideOtherWindows</key>
+                                <false/>
+                                                                
+                                <!--
+                                    key:    LimitToUser
+                                    value:  a string containing the user's short name or an array of strings
+                                            containing the short names of the users
+                                    
+                                    Restricts use of the application to the specified user or list of users.
+                                    When used with a client management system that supports variables in
+                                    configuration profiles, variables such as $USERNAME can be used here.
                                 -->
                                 <key>LimitToUser</key>
-  								<string>harald</string>
+  								<string>privileges_user</string>
+                                
+                                <!-- OR -->
+                                
+                                <key>LimitToUser</key>
+                                <array>
+                                    <string>privileges_user1</string>
+                                    <string>privileges_user2</string>
+                                    <string>privileges_user3</string>
+                                </array>
   								
   								<!--
-                                    key: LimitToGroup
-                                    value: a string containing the name of the group
+                                    key:    LimitToGroup
+                                    value:  a string containing the name of the group or an array of strings
+                                            containing the group names
                                     
-                                    Limits the usage of the app to the given user group.
+                                    Restricts use of the application to the specified group or list of
+                                    groups.
                                 -->
 								<key>LimitToGroup</key>
-								<string>privileges_users</string>
+								<string>privileges_group</string>
+                                
+                                <!-- OR -->
+                                
+                                <key>LimitToGroup</key>
+                                <array>
+                                    <string>privileges_group1</string>
+                                    <string>privileges_group2</string>
+                                    <string>privileges_group3</string>
+                                </array>
 								
   								<!--
-                                    key: ReasonRequired
-                                    value: a boolean
+                                    key:    ReasonRequired
+                                    value:  a boolean
                                     
-                                    If set to true, the user must provide a reason for needing admin rights.
-                                    The reason will be logged. Please be aware that enabling this option,
-                                    disables the "Toggle Privileges" entry in the Privileges Dock tile menu.
+                                    If set to true, the user must provide a reason for requesting
+                                    administrator privileges. The reason is logged. Note that once this
+                                    option is enabled, privileges cannot be changed from the Privileges Dock
+                                    tile menu.
                                 -->
 								<key>ReasonRequired</key>
 								<true/>
 								
 								<!--
-                                    key: ReasonMinLength
-                                    value: a positive integer below 100
+                                    key:    ReasonMinLength
+                                    value:  a positive integer below 255
                                     
-                                    If "ReasonRequired" is set to true, this key specifies the minimum number 
-                                    of characters the user has to enter as the reason for becoming an admin.
-                                    If not set, the value defaults to 10. If a value < 1 is specified or
-                                    if "ReasonMinLength" is >= 100, the value is set to default.
+                                    If "ReasonRequired" is set to true, this key specifies the minimum
+                                    number of characters the user has to enter as the reason for becoming an
+                                    admin. If not set, the value defaults to 10. If a value < 1 is specified
+                                    or if "ReasonMinLength" is > 254, the value is set to default.
                                 -->
                                 <key>ReasonMinLength</key>
 								<integer>20</integer>
 								
                                 <!--
-                                    key: ReasonMaxLength
-                                    value: a positive integer below 100
+                                    key:    ReasonMaxLength
+                                    value:  a positive integer <= 250
                                     
-                                    If "ReasonRequired" is set to true, this key specifies the maximum number
-                                    of characters the user can enter as the reason for becoming an admin.
-                                    If not set, the value defaults to 100. If a value > 100 is specified or
-                                    if "ReasonMaxLength" is <= "ReasonMinLength", the value is set to default.
+                                    If "ReasonRequired" is set to true, this key specifies the maximum
+                                    number of characters the user can enter as the reason for becoming an
+                                    admin. If not set, the value defaults to 250. If a value > 250 is
+                                    specified or if "ReasonMaxLength" is <= "ReasonMinLength", the value is
+                                    set to default.
                                 -->
                                 <key>ReasonMaxLength</key>
                                 <integer>50</integer>
                                 
 								<!--
-                                    key: ReasonPresetList
-                                    value: an array of dictionaries
+                                    key:    ReasonPresetList
+                                    value:  an array of dictionaries
                                     
                                     If "ReasonRequired" is set to true, this key allows to pre-define a list
                                     of possible reasons (for becoming an admin) the user can choose from. If
@@ -149,13 +229,14 @@ limitations under the License.
                                     works for the GUI version of Privileges.
                                     
                                     A dictionary should contain these keys and values:
-									- a key containing the locale identifier for each language (for example, en or zh)
-									- a value containing the localized reason string for that language
-									- an optional key "default" with a value containing the unlocalized reason string
+                                    - a key containing the locale identifier for each language (en, zh, ...)
+                                    - a value containing the localized reason string for that language
+                                    - an optional key "default" with a value containing the unlocalized
+                                      reason string
 									
-                                     If no exact match is found, the default localization is used. If there is no 
-                                     default localization, the en localization is used. If there is no en localization, 
-                                     the dictionary is skipped.
+                                    If no exact match is found, the default localization is used. If there
+                                    is no default localization, the en localization is used. If there is no
+                                    en localization, the dictionary is skipped.
                                 -->
                                 <key>ReasonPresetList</key>
 								<array>
@@ -174,81 +255,123 @@ limitations under the License.
 									</dict>
 
 								</array>
-								
-								<!--
-                                    key: PostChangeExecutablePath
-                                    value: a string containing the absolute path to an executable 
-                                    
-                                    The specified executable is called whenever privileges changed. 
-                                    The name of the user who changed admin rights and the state of 
-                                    the admin rights (0 or 1) are provided as arguments $1 and $2. 
-                                    the executable is launched as the actual user (not as root).
+                                
+                                <!--
+                                    key:    ReasonCheckingEnabled
+                                    value:  a boolean
+                                  
+                                    If set to true, the text the user enters for a reason is roughly parsed
+                                    for valid words. If the text does not contain any valid words, the
+                                    "Request Privileges" button remains grayed out, even if the minimum
+                                    number of characters has been entered. The test passes if the text
+                                    contains any valid words, even if they don't make sense.
+                                
+                                    This feature is experimental and disabled by default. If you enable it,
+                                    please check carefully that it works as expected in your environment.
                                 -->
-								<key>PostChangeExecutablePath</key>
-								<string>/Library/Application Support/Privileges/PrivilegesChanged.sh</string>
+                                <key>ReasonCheckingEnabled</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    HideSettingsButton
+                                    value:  a boolean
+                                  
+                                    If set to true, the "Settings" button is no longer displayed in the app.
+                                -->
+                                <key>HideSettingsButton</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    HideSettingsFromDockMenu
+                                    value:  a boolean
+                                  
+                                    If set to true, the "Settings" menu item is no longer displayed in the
+                                    Dock tile's menu.
+                                -->
+                                <key>HideSettingsFromDockMenu</key>
+                                <true/>
 								
 								<!--
-                                    key: RemoteLogging
-                                    value: a dictionary containing the server information:
+                                    key:    RemoteLogging
+                                    value:  a dictionary containing the server information:
                                     
-                                    	key: ServerType
-                                    	value: a string specifying the type of the logging server
+                                    	key:    ServerType
+                                    	value:  a string specifying the type of the logging server
                                     	
-                                    	At the moment "syslog" is  the only supported value but in 
-                                    	the future probably more services will be added.
+                                        At the moment "syslog" and "webhook" are the only supported values.
                                     	
-                                    	key: ServerAddress
-                                    	value: a string containing the address of the logging server
+                                
+                                    	key:    ServerAddress
+                                    	value:  a string containing the address of the logging server
                                     	
-                                    	key: ServerPort
-                                    	value: a integer specifying the port of the logging server.
-                                    	       if not specified, the port defaults to 514.
+                                        The server address can be an ip address or host name if a syslog server
+                                        is configured. For webhooks please provide a http(s) url.
+                                
+                                
+                                    	key:    SyslogOptions
+                                    	value:  a dictionary containing syslog-specific options:
+                                
+                                            key:    ServerPort
+                                            value:  a integer specifying the port of the logging server.
+                                            
+                                            If not specified, the port defaults to 514 or to 6514 if TLS is enabled.
                                     	
-                                    	key: EnableTCP
-                                    	value: a boolean. if set to true, the log messages are sent 
-                                    	       via TCP instead of UDP
-                                    	
-                                    	key: SyslogOptions
-                                    	value: a dictionary containing syslog-specific options:
-                                    	
-                                    		key: LogFacility
-                                    		value: an integer specifying the syslog facility
+                                            
+                                            key:    UseTLS
+                                            value:  a boolean
+                                
+                                            If set to true, TLS is enabled for the connection. Please make sure your
+                                            clients have a certificate installed that matches Apple's requirements.
+                                
+                                            Please see https://support.apple.com/en-us/103769 for further information.
+                                
+                                
+                                    		key:    LogFacility
+                                    		value:  an integer specifying the syslog facility
                                     		
-                                    		key: LogSeverity
-                                    		value: an integer specifying the syslog severity
+                                            If not specified, facility defaults to 4 (security). Please see
+                                            https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+                                            information.
+                                
+                                
+                                    		key:    LogSeverity
+                                    		value:  an integer specifying the syslog severity
                                     		
-                                    		If not specified, facility defaults to 4 (security) and 
-                                    		severity defaults to 6 (informational). Please see 
-                                    		https://tools.ietf.org/html/rfc5424#section-6.2.1 for 
-                                    		further information.
+                                            If not specified, severity defaults to 6 (informational). Please see
+                                            https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+                                            information.
                                     		
-                                    		key: MaximumMessageSize
-                                    		value: an integer specifying the maximum size of the 
-                                    		       syslog message (header + event message)
+                                
+                                    		key:    MaximumMessageSize
+                                            value:  an integer specifying the maximum size of the syslog message
+                                                    (header + event message)
                                     		
-                                    		If not specified, the value defaults to 480 which is the 
-                                    		minimum maximum message size a syslog server must support.
-                                    		If the syslog message is larger than the specified maximum,
-                                    		the message will be truncated at the end.
+                                            If not specified, the value defaults to 480 which is the minimum maximum
+                                            message size a syslog server must support. If the syslog message is
+                                            larger than the specified maximum, the message will be truncated at the
+                                            end.
                                     		
-                                    		Please see https://tools.ietf.org/html/rfc5424#section-6.1 
-                                    		for further information.
+                                            Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
+                                            information.
                                     	
-                                    Please make sure your Firewall rules has been modified to allow access 
+                                
+                                    Please make sure your firewall rules has been modified to allow access
                                     to the specified protocol, address and port.
                                 -->
                                 <key>RemoteLogging</key>
 								<dict>
+                                    
 									<key>ServerType</key>
 									<string>syslog</string>
 									<key>ServerAddress</key>
 									<string>192.168.19.89</string>
-									<key>ServerPort</key>
-									<integer>514</integer>
-									<key>EnableTCP</key>
-									<false/>
+                                    
 									<key>SyslogOptions</key>
 									<dict>
+                                        <key>ServerPort</key>
+                                        <integer>514</integer>
+                                        <key>UseTLS</key>
+                                        <false/>
 										<key>LogFacility</key>
 										<integer>4</integer>
 										<key>LogSeverity</key>
@@ -256,6 +379,14 @@ limitations under the License.
 										<key>MaximumMessageSize</key>
 										<integer>480</integer>
 									</dict>
+                                    
+                                    <!-- OR -->
+                                    
+                                    <key>ServerType</key>
+                                    <string>webhook</string>
+                                    <key>ServerAddress</key>
+                                    <string>https://server.example.com/cgi-bin/myscript</string>
+                                    
 								</dict>
 								
 							</dict>

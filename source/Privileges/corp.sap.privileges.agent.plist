@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MachServices</key>
+	<dict>
+		<key>corp.sap.privileges.agent.xpc</key>
+		<true/>
+	</dict>
+	<key>Label</key>
+	<string>corp.sap.privileges.agent</string>
+	<key>Program</key>
+	<string>/Applications/Privileges.app/Contents/MacOS/PrivilegesAgent.app/Contents/MacOS/PrivilegesAgent</string>
+	<key>AssociatedBundleIdentifiers</key>
+	<string>corp.sap.privileges</string>
+	<key>SpawnConstraint</key>
+	<dict>
+		<key>team-identifier</key>
+		<string>7R5ZEU67FQ</string>
+		<key>signing-identifier</key>
+		<string>corp.sap.privileges.agent</string>
+	</dict>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+</dict>
+</plist>

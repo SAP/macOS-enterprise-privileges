@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary xmlns:xi="http://www.w3.org/2003/XInclude">
+        
+	<suite name="PrivilegesAgent Suite" code="PRag" description="Commands for the PrivilegesAgent.">
+        
+		<command name="expiration of administrator privileges" code="PAagpExp" description="Get the remaining time until the current user's administrator privileges expire.">
+			<cocoa class="MTPrivilegeExpirationCommand"/>
+			<result type="integer" description="the remaining time in minutes"/>
+		</command>
+        
+        <command name="status of administrator privileges" code="PAagpSta" description="Get the status of the administrator privileges for the current user.">
+            <cocoa class="MTPrivilegeStatusCommand"/>
+            <result type="boolean" description="true if the user has administrator privileges, otherwise false"/>
+        </command>
+        
+	</suite>
+</dictionary>

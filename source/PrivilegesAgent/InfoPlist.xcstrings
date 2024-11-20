@@ -1,0 +1,278 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "PrivilegesAgent"
+          }
+        },
+      },
+      "shouldTranslate" : false
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "PrivilegesAgent"
+          }
+        },
+      },
+      "shouldTranslate" : false
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "the copyright string (for the application's info window in Finder)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016–2024 SAP SE.\nجميع الحقوق محفوظة."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTots els drets reservats."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nVšechna práva vyhrazena."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAlle rettigheder forbeholdes."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAlle Rechte vorbehalten."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nΜε επιφύλαξη κάθε δικαιώματος."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "© 2016-2024 SAP SE.\nAll rights reserved."
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAll rights reserved."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAll rights reserved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTodos los derechos reservados."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTodos los derechos reservados."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nKaikki oikeudet pidätetään."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTous droits réservés."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTous droits réservés."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nכל הזכויות שמורות."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nसर्वाधिकार सुरक्षित।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nSva prava pridržana."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nMinden jog fenntartva."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nSemua hak cipta dilindungi undang-undang."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTutti i diritti riservati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\n無断転載を禁ずる。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\n모든 권리 보유."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nHak cipta terpelihara."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAlle rettigheter forbeholdes."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAlle rechten voorbehouden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nWszystkie prawa zastrzeżone."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTodos os direitos reservados."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTodos os direitos reservados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nToate drepturile rezervate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nВсе права защищены."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nVšetky práva vyhradené."
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nVse pravice pridržane."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nAlla rättigheter förbehålls."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nสงวนสิทธิ์ทุกประการ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nTüm hakları saklıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nУсі права захищено."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\nMọi quyền được bảo lưu."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\n保留一切权利。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\n保留一切權利。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2024 SAP SE.\n保留一切權利。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

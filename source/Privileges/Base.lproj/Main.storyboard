@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23502" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23502"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Application-->
+        <scene sceneID="JPo-4y-FX3">
+            <objects>
+                <application id="hnw-xV-0zn" sceneMemberID="viewController">
+                    <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
+                        <items>
+                            <menuItem title="Privileges" id="1Xt-HY-uBw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Privileges" systemMenu="apple" id="uQy-DD-JDr">
+                                    <items>
+                                        <menuItem title="About Privileges" id="5kV-Vb-QxS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
+                                        <menuItem title="Services" id="NMo-om-nkz">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
+                                        <menuItem title="Hide Privileges" keyEquivalent="h" id="Olw-nP-bQN">
+                                            <connections>
+                                                <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Hide Others" keyEquivalent="h" id="Vdr-fp-XzO">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="hideOtherApplications:" target="Ady-hI-5gd" id="VT4-aY-XCT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Show All" id="Kd2-mp-pUS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="unhideAllApplications:" target="Ady-hI-5gd" id="Dhg-Le-xox"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                                        <menuItem title="Quit Privileges" keyEquivalent="q" id="4sb-4s-VLi">
+                                            <connections>
+                                                <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Edit" id="5QF-Oa-p0T">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Edit" id="W48-6f-4Dl">
+                                    <items>
+                                        <menuItem title="Undo" keyEquivalent="z" id="dRJ-4n-Yzg">
+                                            <connections>
+                                                <action selector="undo:" target="Ady-hI-5gd" id="M6e-cu-g7V"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Redo" keyEquivalent="Z" id="6dh-zS-Vam">
+                                            <connections>
+                                                <action selector="redo:" target="Ady-hI-5gd" id="oIA-Rs-6OD"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="WRV-NI-Exz"/>
+                                        <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
+                                            <connections>
+                                                <action selector="cut:" target="Ady-hI-5gd" id="YJe-68-I9s"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
+                                            <connections>
+                                                <action selector="copy:" target="Ady-hI-5gd" id="G1f-GL-Joy"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
+                                            <connections>
+                                                <action selector="paste:" target="Ady-hI-5gd" id="UvS-8e-Qdg"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="pasteAsPlainText:" target="Ady-hI-5gd" id="cEh-KX-wJQ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete" id="pa3-QI-u2k">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="0Mk-Ml-PaM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
+                                            <connections>
+                                                <action selector="selectAll:" target="Ady-hI-5gd" id="VNm-Mi-diN"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Window" id="6TH-7d-3AG">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Window" systemMenu="window" id="GRe-Bc-0cq">
+                                    <items>
+                                        <menuItem title="Minimize" keyEquivalent="m" id="3hn-CS-sKq">
+                                            <connections>
+                                                <action selector="performMiniaturize:" target="Ady-hI-5gd" id="nLB-1t-6Ce"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Zoom" id="gsG-TF-n2j">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="performZoom:" target="Ady-hI-5gd" id="cbK-7S-ZbT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Close" keyEquivalent="w" id="R5f-Qf-DaS">
+                                            <connections>
+                                                <action selector="performClose:" target="Ady-hI-5gd" id="U99-8M-ikj"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="2ef-Bk-kau"/>
+                                        <menuItem title="Bring All to Front" id="st8-TZ-qst">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="arrangeInFront:" target="Ady-hI-5gd" id="Fm9-8G-eON"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Help" id="7WG-Gy-NLb">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Help" systemMenu="help" id="T3N-lT-s4b">
+                                    <items>
+                                        <menuItem title="Privileges on GitHub" id="NBs-Cy-un8">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openGitHub:" target="Ady-hI-5gd" id="j9N-nb-ZSo"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
+                    </connections>
+                </application>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
+                <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+                <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-262" y="-184"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="R2V-B0-nI4">
+            <objects>
+                <windowController storyboardIdentifier="corp.sap.Privileges.SettingsController" id="B8D-0N-5wS" sceneMemberID="viewController">
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SettingsWindow" animationBehavior="default" toolbarStyle="preference" id="IQv-IB-iLA">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="7fR-3J-nOd" kind="relationship" relationship="window.shadowedContentViewController" id="FyA-QJ-FeV"/>
+                    </connections>
+                </windowController>
+                <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="250"/>
+        </scene>
+        <!--Tab View Controller-->
+        <scene sceneID="iz2-IL-4br">
+            <objects>
+                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="7fR-3J-nOd" customClass="MTTabViewController" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem label="General" identifier="" image="gearshape" catalog="system" id="IvI-QO-oVj"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="ld0-XX-qDf">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="message"/>
+                        <connections>
+                            <outlet property="delegate" destination="7fR-3J-nOd" id="SNL-De-ZPi"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="ld0-XX-qDf" id="2gr-il-wKi"/>
+                        <segue destination="JAE-C2-TT3" kind="relationship" relationship="tabItems" id="ixW-GV-Yi4"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="sQb-8e-enu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="687"/>
+        </scene>
+        <!--Settings General Controller-->
+        <scene sceneID="ubg-bI-911">
+            <objects>
+                <viewController id="JAE-C2-TT3" customClass="MTSettingsGeneralController" sceneMemberID="viewController">
+                    <view key="view" id="MkD-On-ki2">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="531"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MQF-rL-q3r">
+                                <rect key="frame" x="25" y="401" width="430" height="5"/>
+                            </box>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
+                                <rect key="frame" x="23" y="464" width="434" height="42"/>
+                                <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="DAL-x6-96Y">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <string key="title">Administrator privileges granted by this application expire after a certain time. Please use the menu below to select the time after which the administrator privileges should expire.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zB9-k9-dmr">
+                                <rect key="frame" x="220" y="420" width="207" height="25"/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" id="lRs-v5-jer">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <menu key="menu" autoenablesItems="NO" id="yF2-G9-59V"/>
+                                </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="tbQ-4h-tOA"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="setRemovalInterval:" target="JAE-C2-TT3" id="ECx-xv-2su"/>
+                                </connections>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
+                                <rect key="frame" x="23" y="427" width="192" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Administrator privileges expire:" id="RJJ-AF-o6j">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
+                                <rect key="frame" x="23" y="222" width="434" height="42"/>
+                                <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="tED-Ce-nm6">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <string key="title">By default, this application hides the windows of other applications to display the desktop and ensure that only the Privileges window is visible on the screen. If you don't want this behavior, please disable the option below.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ja-hx-8bZ">
+                                <rect key="frame" x="23" y="185" width="239" height="18"/>
+                                <buttonCell key="cell" type="check" title="Hide windows of other applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3dJ-LR-FRM">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setHideOtherWindows:" target="JAE-C2-TT3" id="MH4-Rn-wUr"/>
+                                </connections>
+                            </button>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
+                                <rect key="frame" x="23" y="341" width="434" height="42"/>
+                                <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="BxH-Vb-uHJ">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <string key="title">To ensure that you are always a standard user after a restart, this application revokes administrator privileges when you log in. If you don't want this, please disable the option below.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bfO-64-gHc">
+                                <rect key="frame" x="23" y="304" width="264" height="18"/>
+                                <buttonCell key="cell" type="check" title="Revoke administrator privileges at login" bezelStyle="regularSquare" imagePosition="left" inset="2" id="joj-pG-xlA">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setLoginItem:" target="JAE-C2-TT3" id="4nf-2N-Qs5"/>
+                                </connections>
+                            </button>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
+                                <rect key="frame" x="23" y="89" width="434" height="56"/>
+                                <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="Hqj-Uh-Ag3">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <string key="title">This application can run another application or script if your privileges have changed. To do so, select the appropriate application or script from the menu below. If you want this application to run only when administrator privileges are granted, but not when they are revoked, select the option below.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ape-TO-h4r">
+                                <rect key="frame" x="25" y="282" width="430" height="5"/>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="YX7-Se-PQX">
+                                <rect key="frame" x="25" y="163" width="430" height="5"/>
+                            </box>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Znj-za-4ix">
+                                <rect key="frame" x="195" y="45" width="207" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="Nothing Selected" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="S8w-JO-Ent" id="dEr-ZI-Bdd" userLabel="Nothing Selected">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="message"/>
+                                    <menu key="menu" autoenablesItems="NO" id="ptJ-xj-eoo">
+                                        <items>
+                                            <menuItem title="Nothing Selected" state="on" id="S8w-JO-Ent">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                                <connections>
+                                                    <action selector="removeExecutable:" target="JAE-C2-TT3" id="F7k-lW-Mhw"/>
+                                                </connections>
+                                            </menuItem>
+                                            <menuItem isSeparatorItem="YES" id="nxP-Ll-TUY"/>
+                                            <menuItem isSeparatorItem="YES" id="KRr-tz-HBa"/>
+                                            <menuItem title="Choose…" id="HT7-aw-ycL">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                                <connections>
+                                                    <action selector="selectExecutable:" target="JAE-C2-TT3" id="FbE-MV-DcN"/>
+                                                </connections>
+                                            </menuItem>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Y8N-ho-19X"/>
+                                </constraints>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
+                                <rect key="frame" x="23" y="52" width="167" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Run after privilege change:" id="L7H-FM-m4u">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cdS-S3-T0Z">
+                                <rect key="frame" x="23" y="24" width="353" height="18"/>
+                                <buttonCell key="cell" type="check" title="Run only if administrator privileges have been granted" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jPB-3r-Eyi">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setActionAfterGrantOnly:" target="JAE-C2-TT3" id="u3B-67-1n3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cdS-S3-T0Z" secondAttribute="trailing" constant="25" id="20Z-df-syJ"/>
+                            <constraint firstAttribute="trailing" secondItem="vEF-Qw-muW" secondAttribute="trailing" constant="25" id="44T-6T-kwZ"/>
+                            <constraint firstItem="Znj-za-4ix" firstAttribute="top" secondItem="gBa-Qp-cFj" secondAttribute="bottom" constant="20" id="5fr-px-zGi"/>
+                            <constraint firstItem="zB9-k9-dmr" firstAttribute="top" secondItem="pHu-Hk-UNY" secondAttribute="bottom" constant="20" id="7Ua-Wo-1nw"/>
+                            <constraint firstItem="8ja-hx-8bZ" firstAttribute="top" secondItem="GDf-WG-kvR" secondAttribute="bottom" constant="20" id="8cB-j6-25h"/>
+                            <constraint firstAttribute="trailing" secondItem="gBa-Qp-cFj" secondAttribute="trailing" constant="25" id="8fG-NO-uWk"/>
+                            <constraint firstAttribute="bottom" secondItem="cdS-S3-T0Z" secondAttribute="bottom" constant="25" id="94E-tb-qwQ"/>
+                            <constraint firstItem="zB9-k9-dmr" firstAttribute="leading" secondItem="B0c-0u-B55" secondAttribute="trailing" constant="10" id="9HJ-bd-1EM"/>
+                            <constraint firstItem="pHu-Hk-UNY" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="9en-qm-8yS"/>
+                            <constraint firstItem="zB9-k9-dmr" firstAttribute="firstBaseline" secondItem="B0c-0u-B55" secondAttribute="firstBaseline" id="C6B-XH-1we"/>
+                            <constraint firstItem="8ja-hx-8bZ" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="DVd-aA-VFg"/>
+                            <constraint firstItem="GDf-WG-kvR" firstAttribute="top" secondItem="ape-TO-h4r" secondAttribute="bottom" constant="20" id="E4w-40-v4E"/>
+                            <constraint firstItem="MQF-rL-q3r" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="Gzu-Xu-cZr"/>
+                            <constraint firstItem="MQF-rL-q3r" firstAttribute="top" secondItem="zB9-k9-dmr" secondAttribute="bottom" constant="20" id="KTJ-N9-AzK"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bfO-64-gHc" secondAttribute="trailing" constant="25" id="ONS-vM-xvt"/>
+                            <constraint firstItem="gBa-Qp-cFj" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="Qkb-mQ-K9j"/>
+                            <constraint firstItem="pHu-Hk-UNY" firstAttribute="top" secondItem="MkD-On-ki2" secondAttribute="top" constant="25" id="RZU-mZ-dFj"/>
+                            <constraint firstItem="vEF-Qw-muW" firstAttribute="top" secondItem="MQF-rL-q3r" secondAttribute="bottom" constant="20" id="UnJ-cM-1My"/>
+                            <constraint firstItem="Znj-za-4ix" firstAttribute="leading" secondItem="lZq-AO-Mif" secondAttribute="trailing" constant="10" id="WBg-zV-T5G"/>
+                            <constraint firstItem="cdS-S3-T0Z" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="aG1-9Z-Lup"/>
+                            <constraint firstItem="cdS-S3-T0Z" firstAttribute="top" secondItem="Znj-za-4ix" secondAttribute="bottom" constant="8" id="bGc-Wx-pQo"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Znj-za-4ix" secondAttribute="trailing" constant="25" id="bgD-ie-FpD"/>
+                            <constraint firstItem="bfO-64-gHc" firstAttribute="top" secondItem="vEF-Qw-muW" secondAttribute="bottom" constant="20" id="dCP-Mv-t00"/>
+                            <constraint firstItem="B0c-0u-B55" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="fHG-Rl-XIr"/>
+                            <constraint firstAttribute="trailing" secondItem="GDf-WG-kvR" secondAttribute="trailing" constant="25" id="fZe-M8-JhT"/>
+                            <constraint firstAttribute="trailing" secondItem="pHu-Hk-UNY" secondAttribute="trailing" constant="25" id="fb9-UH-XDZ"/>
+                            <constraint firstAttribute="trailing" secondItem="ape-TO-h4r" secondAttribute="trailing" constant="25" id="g2d-jj-Zh7"/>
+                            <constraint firstItem="ape-TO-h4r" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="g2h-1q-9f3"/>
+                            <constraint firstItem="Znj-za-4ix" firstAttribute="firstBaseline" secondItem="lZq-AO-Mif" secondAttribute="firstBaseline" id="ia3-cx-Qzs"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8ja-hx-8bZ" secondAttribute="trailing" constant="25" id="o9L-3g-xBB"/>
+                            <constraint firstItem="GDf-WG-kvR" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="oTf-PO-5bj"/>
+                            <constraint firstItem="vEF-Qw-muW" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="ocv-1e-rD1"/>
+                            <constraint firstAttribute="trailing" secondItem="MQF-rL-q3r" secondAttribute="trailing" constant="25" id="rj4-Y4-BdX"/>
+                            <constraint firstItem="bfO-64-gHc" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="tAy-LP-UnO"/>
+                            <constraint firstItem="gBa-Qp-cFj" firstAttribute="top" secondItem="YX7-Se-PQX" secondAttribute="bottom" constant="20" id="v9F-0z-ji6"/>
+                            <constraint firstItem="YX7-Se-PQX" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="xNf-Sk-OsO"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zB9-k9-dmr" secondAttribute="trailing" constant="25" id="yBs-tX-7Ru"/>
+                            <constraint firstItem="lZq-AO-Mif" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="yIZ-m9-eZM"/>
+                            <constraint firstAttribute="trailing" secondItem="YX7-Se-PQX" secondAttribute="trailing" constant="25" id="yY5-Bq-xUe"/>
+                            <constraint firstItem="YX7-Se-PQX" firstAttribute="top" secondItem="8ja-hx-8bZ" secondAttribute="bottom" constant="20" id="yph-6D-3ss"/>
+                            <constraint firstItem="ape-TO-h4r" firstAttribute="top" secondItem="bfO-64-gHc" secondAttribute="bottom" constant="20" id="zT1-nV-fs5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="actionAfterGrantOnlyButton" destination="cdS-S3-T0Z" id="rpU-hm-v0s"/>
+                        <outlet property="autoRemoveMenu" destination="zB9-k9-dmr" id="2WE-zP-o9T"/>
+                        <outlet property="hideWindowsButton" destination="8ja-hx-8bZ" id="N0M-gJ-ijf"/>
+                        <outlet property="postExecutableMenu" destination="Znj-za-4ix" id="ccZ-wP-whZ"/>
+                        <outlet property="removeAtLoginButton" destination="bfO-64-gHc" id="hcD-g0-2MF"/>
+                    </connections>
+                </viewController>
+                <customObject id="uav-za-lOu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="Tc0-wv-1SS"/>
+            </objects>
+            <point key="canvasLocation" x="652" y="815"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="gearshape" catalog="system" width="16" height="16"/>
+    </resources>
+</document>
