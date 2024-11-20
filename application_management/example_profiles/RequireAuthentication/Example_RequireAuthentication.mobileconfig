@@ -14,15 +14,29 @@
 						<dict>
 							<key>mcx_preference_settings</key>
 							<dict>
-                                <!--
-                                    key: RequireAuthentication
-                                    value: a boolean
+                                				<!--
+                                    					key:    RequireAuthentication
+                                    					value:  a boolean
                                     
-                                    States if authentication is required to get admin rights. If set to true the user 
-                                    is prompted for the account password (or Touch ID if available).
-                                -->
-                                <key>RequireAuthentication</key>
-                                <true/>				
+                                    					Specifies whether authentication is required to obtain administrator
+                                    					privileges. If set to true, the user is prompted for the account
+                                    					password (or Touch ID, if available). Note that once this option is
+                                    					enabled, privileges cannot be changed from the Privileges Dock tile menu
+                                    					unless AllowCLIBiometricAuthentication is also enabled.
+                                				-->
+                                				<key>RequireAuthentication</key>
+                                				<true/>
+                                
+                                				<!--
+                                    					key:    AllowCLIBiometricAuthentication
+                                    					value:  a boolean
+                                    
+                                    					Specifies whether to allow biometric authentication in the PrivilegesCLI
+                                    					to obtain administrator privileges. If set to true, the Privileges agent
+                                    					prompts the user for the account password (or Touch ID, if available).
+                                				-->
+                                				<key>AllowCLIBiometricAuthentication</key>
+                                				<true/>
 							</dict>
 						</dict>
 					</array>
