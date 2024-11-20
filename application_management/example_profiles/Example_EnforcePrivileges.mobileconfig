@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>corp.sap.privileges</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<!--
+									key:    EnforcePrivileges
+									value:  a string containing the value "admin", "user" or "none"
+									
+                                    					Enforces specific privileges. The privileges are immediately enforced by
+                                    					the Privileges Dock tile plugin (even if Privileges is not in Dock). If
+                                    					"EnforcePrivileges" is set to "none", it is no longer possible to change
+                                    					privileges with the Privileges application or any of its bundled
+                                    					applications.
+								-->
+								<key>EnforcePrivileges</key>
+								<string>admin</string>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadDescription</key>
+			<string/>
+			<key>PayloadDisplayName</key>
+			<string>Privileges configuration</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.ManagedClient.preferences.3F98C2D8-E845-4F59-B447-16AEA78FB584</string>
+			<key>PayloadOrganization</key>
+			<string>SAP SE</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>3F98C2D8-E845-4F59-B447-16AEA78FB584</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Configures the Privileges app.</string>
+	<key>PayloadDisplayName</key>
+	<string>Privileges configuration</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>5790E5B5-A81D-4E4F-9AB6-6F573CC399DD</string>
+	<key>PayloadOrganization</key>
+	<string>SAP SE</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>19BF1861-0134-4BC2-9C83-5E4F2FA96BAE</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
