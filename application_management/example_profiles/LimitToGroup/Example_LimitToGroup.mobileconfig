@@ -15,11 +15,13 @@
 							<key>mcx_preference_settings</key>
 							<dict>
   								<!--
-                                    key: LimitToGroup
-                                    value: a string containing the name of the group
+                                    					key:    LimitToGroup
+                                    					value:  a string containing the name of the group or an array of strings
+                                            					containing the group names
                                     
-                                    Limits the usage of the app to the given user group.
-                                -->
+                                    					Restricts use of the application to the specified group or list of
+                                    					groups.
+                                				-->
 								<key>LimitToGroup</key>
 								<string>group_name_goes_here</string>
 							</dict>
