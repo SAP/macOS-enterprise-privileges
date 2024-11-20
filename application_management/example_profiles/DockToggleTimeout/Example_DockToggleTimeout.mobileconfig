@@ -15,14 +15,14 @@
 							<key>mcx_preference_settings</key>
 							<dict>
 								<!--
-									key: DockToggleTimeout
-									value: a positive integer
-									Set a fixed timeout for the Dock tile's "Toggle Privileges" command. After
-                                    this time the admin rights are removed and set back to standard user rights.
-                                    A value of 0 disables the timeout and allows the user to permanently toggle
-                                    privileges.
+									key:    ExpirationInterval
+									value:  a positive integer
+									
+                                    					Set a fixed time interval after which administrator privileges expire
+                                    					and revert to standard user rights. A value of 0 disables the timeout
+                                    					and allows the user to request permanent administrator privileges.
 								-->
-								<key>DockToggleTimeout</key>
+								<key>ExpirationInterval</key>
 								<integer>15</integer>
 							</dict>
 						</dict>
