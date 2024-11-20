@@ -26,19 +26,3 @@ Disclaimer: The code in this project may include calls to APIs (“API Calls”)
 Files: *
 Copyright: 2018-2021 SAP SE or an SAP affiliate company and macOS-enterprise-privileges contributors
 License: Apache-2.0
-
-Files: reference_source/EvenBetterAuthorizationSample/Common.h
-Copyright:  Copyright (C) 2013 Apple Inc. All Rights Reserved.
-License: AML
-
-Files: reference_source/EvenBetterAuthorizationSample/Common.m
-Copyright:  Copyright (C) 2013 Apple Inc. All Rights Reserved.
-License: AML
-
-Files: reference_source/EvenBetterAuthorizationSample/HelperTool.h
-Copyright:  Copyright (C) 2013 Apple Inc. All Rights Reserved.
-License: AML
-
-Files: reference_source/EvenBetterAuthorizationSample/HelperTool.m
-Copyright:  Copyright (C) 2013 Apple Inc. All Rights Reserved.
-License: AML 
