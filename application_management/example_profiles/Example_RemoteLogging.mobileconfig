@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>corp.sap.privileges</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+  								<!--
+                                    					key:    RemoteLogging
+                                    					value:  a dictionary containing the server information:
+                                    
+                                    						key:    ServerType
+                                    						value:  a string specifying the type of the logging server
+                                    	
+                                        					At the moment "syslog" and "webhook" are the only supported values.
+                                    	
+                                
+                                    						key:    ServerAddress
+                                    						value:  a string containing the address of the logging server
+                                    	
+                                        					The server address can be an ip address or host name if a syslog server
+                                        					is configured. For webhooks please provide a http(s) url.
+                                
+                                
+                                    						key:    SyslogOptions
+                                    						value:  a dictionary containing syslog-specific options:
+                                
+                                            						key:    ServerPort
+                                            						value:  a integer specifying the port of the logging server.
+                                            
+                                            						If not specified, the port defaults to 514 or to 6514 if TLS is enabled.
+                                    	
+                                            
+                                            					key:    UseTLS
+                                            					value:  a boolean
+                                
+                                            					If set to true, TLS is enabled for the connection. Please make sure your
+                                            					clients have a certificate installed that matches Apple's requirements.
+                                
+                                            					Please see https://support.apple.com/en-us/103769 for further information.
+                                
+                                
+                                    						key:    LogFacility
+                                    						value:  an integer specifying the syslog facility
+                                    		
+                                            					If not specified, facility defaults to 4 (security). Please see
+                                            					https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+                                            					information.
+                                
+                                
+                                    						key:    LogSeverity
+                                    						value:  an integer specifying the syslog severity
+                                    		
+                                            					If not specified, severity defaults to 6 (informational). Please see
+                                            					https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+                                            					information.
+                                    		
+                                
+                                    						key:    MaximumMessageSize
+                                            					value:  an integer specifying the maximum size of the syslog message
+                                                    					(header + event message)
+                                    		
+                                            					If not specified, the value defaults to 480 which is the minimum maximum
+                                            					message size a syslog server must support. If the syslog message is
+                                            					larger than the specified maximum, the message will be truncated at the
+                                            					end.
+                                    		
+                                            					Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
+                                            					information.
+                                    	
+                                
+                                    					Please make sure your firewall rules has been modified to allow access
+                                    					to the specified protocol, address and port.
+                                				-->
+                                				<key>RemoteLogging</key>
+								<dict>
+									<key>ServerType</key>
+									<string>syslog</string>
+									<key>ServerAddress</key>
+									<string>ip.adddress.goes.here</string>
+									<key>SyslogOptions</key>
+									<dict>
+										<key>ServerPort</key>
+										<integer>514</integer>
+										<key>LogFacility</key>
+										<integer>4</integer>
+										<key>LogSeverity</key>
+										<integer>6</integer>
+										<key>MaximumMessageSize</key>
+										<integer>480</integer>
+									</dict>
+								</dict>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadDescription</key>
+			<string/>
+			<key>PayloadDisplayName</key>
+			<string>Privileges configuration</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.ManagedClient.preferences.36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadOrganization</key>
+			<string>SAP SE</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>36132147-235E-4663-ADA8-2664C67C4DD2</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Configures the Privileges app.</string>
+	<key>PayloadDisplayName</key>
+	<string>Privileges configuration</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>CF401A42-35CA-4DA6-9123-5A49C87ECB5A</string>
+	<key>PayloadOrganization</key>
+	<string>SAP SE</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>50870D16-7AAD-478B-BFFE-BED09499F7E0</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
