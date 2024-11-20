@@ -80,23 +80,6 @@ We are happy to share with you the article about privileges from 9to5Mac:
 
 Copyright (c) 2018-2024 SAP SE or an SAP affiliate company and macOS-enterprise-privileges contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges).
 
-**SUBCOMPONENTS**
-
-This project references the following Apple `EvenBetterAuthorizationSample` sample code, [which is subject to separate license terms](https://spdx.org/licenses/AML.html). None of the files were incorporated directly into the **Privileges** app. Instead, they were used as a reference and best practice guide.
-
-Your use of the code included in this project is subject to the separate license terms applicable to the Apple sample license code.
-
-* Component: 
-[Common.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_h.html#//apple_ref/doc/uid/DTS40013768-Common_Common_h-DontLinkElementID_12/)
-* Component: 
-[Common.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/Common_Common_m.html#//apple_ref/doc/uid/DTS40013768-Common_Common_m-DontLinkElementID_13/)
-* Component: 
-[HelperTool.h](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_h.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_h-DontLinkElementID_14/)
-* Component: 
-[HelperTool.m](https://developer.apple.com/library/archive/samplecode/EvenBetterAuthorizationSample/Listings/HelperTool_HelperTool_m.html#//apple_ref/doc/uid/DTS40013768-HelperTool_HelperTool_m-DontLinkElementID_15/)
-
-For more details, please see the the [License file](https://github.com/SAP/macOS-enterprise-privileges/blob/main/LICENSE). The Apple `EvenBetterAuthorizationSample` sample code is also available for review in the `reference_source` directory.
-
 # Security
 
 Found a security-related issue or vulnerability and want to notify us? [Please see here for how to report it](https://github.com/SAP/macOS-enterprise-privileges/security/policy).
