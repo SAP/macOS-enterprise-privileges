@@ -32,19 +32,19 @@ Working as standard user instead of an administrator adds another layer of secur
 
 📦 Installer package
 
-⬅️ Revoke admin rights at login
+⛔️ Revoke admin rights at login
 
-⏱️ Unified expiration interval for administrator privileges
+⏳ Unified expiration interval for administrator privileges
 
-📍 Run actions on privilege change
+▶️ Run actions on privilege change
 
-⌨️ Command line tool now also supports Touch ID
+👆 Command line tool now also supports Touch ID
 
-✅ AppleScript support
+⚙️ AppleScript support
 
 🪝 Webhooks
 
-📚 Localized in 40 languages
+🔠 Localized in 40 languages
 
 
 # Demo
