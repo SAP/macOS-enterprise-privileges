@@ -59,6 +59,28 @@ Working as standard user instead of an administrator adds another layer of secur
 # Application Management
 As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
 
+# Setting up Privileges System-Wide on macOS and Apple Devices
+
+## Installing Privileges on macOS
+
+1. Download the latest version of Privileges from the [releases page](https://github.com/SAP/macOS-enterprise-privileges/releases).
+2. Open the downloaded `.dmg` file and drag the Privileges application to your Applications folder.
+3. Launch the Privileges application to complete the installation.
+
+## Configuring Profiles and Deploying Them
+
+1. Create a configuration profile to manage Privileges settings. You can use the examples provided in the `application_management/example_profiles` directory.
+2. Customize the configuration profile according to your requirements.
+3. Deploy the configuration profile to your macOS devices using your preferred management tool (e.g., Jamf Pro, Munki, or Apple Profile Manager).
+
+## Examples of Configuration Profiles
+
+- Example configuration profiles for different use cases are available in the `application_management/example_profiles` directory. These examples include settings for enforcing privileges, setting expiration intervals, limiting access to specific users or groups, and more.
+
+## Detailed Documentation
+
+For detailed documentation on managing Privileges using configuration profiles, please refer to the [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges) wiki page.
+
 # Articles
 
 We are happy to share with you the article about privileges from 9to5Mac:
