@@ -61,7 +61,7 @@ As of Privileges 1.5.0, it is possible to manage settings for Privileges or the 
 
 # Articles
 
-We are happy to share with you the article about privileges from 9to5Mac:
+We are happy to share with you the article about Privileges from 9to5Mac:
 
 [Apple @ Work: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
 
