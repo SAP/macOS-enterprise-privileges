@@ -182,7 +182,8 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             NSButton *requestButton = [_alert addButtonWithTitle:NSLocalizedString(@"requestButton", nil)];
             [requestButton bind:NSEnabledBinding toObject:self withKeyPath:@"self.enableRequestButton" options:nil];
             [requestButton setHasDestructiveAction:YES];
-            
+            // Uncomment line 186 if you want a red background button with white text
+            // [requestButton setBezelColor:[NSColor redColor]];
             if ([_privilegesApp reasonRequired]) {
                                 
                 // load the nib file
