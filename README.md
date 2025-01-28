@@ -28,7 +28,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 :fire: Command line use supported
 
-## New Privileges 2 features 🔥
+## New Privileges 2.1 features 🔥
 
 📦 Installer package
 
@@ -36,7 +36,11 @@ Working as standard user instead of an administrator adds another layer of secur
 
 ⏳ Unified expiration interval for administrator privileges
 
+🔁 Renew expiring administrator privileges
+
 ▶️ Run actions on privilege change
+
+🔒 Status item
 
 👆 Command line tool now also supports Touch ID
 
@@ -44,7 +48,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 🪝 Webhooks
 
-🔠 Localized in 40 languages
+🔠 Localized in 41 languages
 
 
 # Demo
