@@ -1,6 +1,6 @@
 /*
     Constants.h
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -21,7 +21,10 @@
 #define kMTXPCServiceName                       @"corp.sap.privileges.xpcservice"
 #define kMTAppBundleIdentifier                  @"corp.sap.privileges"
 #define kMTAppGroupIdentifier                   @"7R5ZEU67FQ.corp.sap.privileges"
+#define kMTDockTilePluginBundleIdentifier       @"corp.sap.privileges.docktileplugin"
 #define kMTErrorDomain                          @"corp.sap.privileges.ErrorDomain"
+#define kMTWebhookEventTypeGranted              @"corp.sap.privileges.granted"
+#define kMTWebhookEventTypeRevoked              @"corp.sap.privileges.revoked"
 #define kMTGitHubURL                            @"https://github.com/SAP/macOS-enterprise-privileges"
 
 #define kMTAdminGroupID                         80
@@ -60,19 +63,31 @@
 #define kMTDefaultsRemoteLoggingSyslogFacilityKey   @"LogFacility"
 #define kMTDefaultsRemoteLoggingSyslogSeverityKey   @"LogSeverity"
 #define kMTDefaultsRemoteLoggingSyslogMaxSizeKey    @"MaximumMessageSize"
+#define kMTDefaultsRemoteLoggingWebhookDataKey      @"WebhookCustomData"
 #define kMTDefaultsHideOtherWindowsKey              @"HideOtherWindows"
 #define kMTDefaultsRevokeAtLoginKey                 @"RevokePrivilegesAtLogin"
+#define kMTDefaultsRevokeAtLoginExcludedUsersKey    @"RevokeAtLoginExcludedUsers"
 #define kMTDefaultsPostChangeExecutablePathKey      @"PostChangeExecutablePath"
 #define kMTDefaultsPostChangeActionOnGrantOnlyKey   @"PostChangeActionOnGrantOnly"
 #define kMTDefaultsAgentTimerExpirationKey          @"TimerExpires"
 #define kMTDefaultsUnhideOtherWindowsKey            @"UnhideOtherWindows"
 #define kMTDefaultsHideSettingsButtonKey            @"HideSettingsButton"
 #define kMTDefaultsHideSettingsFromDockMenuKey      @"HideSettingsFromDockMenu"
+#define kMTDefaultsHideSettingsFromStatusItemKey    @"HideSettingsFromStatusItem"
+#define kMTDefaultsAllowPrivilegeRenewalKey         @"AllowPrivilegeRenewal"
+#define kMTDefaultsRenewalFollowsAuthSettingKey     @"RenewalFollowsAuthSetting"
+#define kMTDefaultsHideHelpButtonKey                @"HideHelpButton"
+#define kMTDefaultsHelpButtonCustomURLKey           @"HelpButtonCustomURL"
+#define kMTDefaultsPassReasonToExecutableKey        @"PassReasonToExecutable"
+#define kMTDefaultsShowInMenuBarKey                 @"ShowInMenuBar"
+#define kMTDefaultsSettingsSelectedTabKey           @"SettingsSelectedTab"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange  @"corp.sap.privileges.PrivilegesDidChange"
 #define kMTNotificationNameExpirationTimeLeft   @"corp.sap.privileges.ExpirationTimeLeft"
 #define kMTNotificationNameConfigDidChange      @"corp.sap.privileges.ConfigDidChange"
+#define kMTNotificationCategoryIdentifier       @"corp.sap.privileges.action"
+#define kMTNotificationActionIdentifierRenew    @"corp.sap.privileges.action.renew"
 
 // NSNotification user info keys
 #define kMTNotificationKeyTimeLeft              @"TimeLeft"

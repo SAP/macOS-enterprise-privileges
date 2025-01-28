@@ -1,6 +1,6 @@
 /*
     AppDelegate.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,7 +27,9 @@
 @property (nonatomic, strong, readwrite) MTReasonAccessoryController *accessoryController;
 @property (nonatomic, strong, readwrite) NSOperationQueue *operationQueue;
 @property (nonatomic, strong, readwrite) NSAlert *alert;
+@property (nonatomic, strong, readwrite) NSEvent *eventMonitor;
 @property (retain) id configurationObserver;
+@property (retain) id privilegesObserver;
 @property (assign) NSUInteger minReasonLength;
 @property (assign) NSUInteger maxReasonLength;
 @property (assign) BOOL enableRequestButton;
@@ -40,69 +42,69 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification 
 {
-    // check if we were launched because the user clicked one of our notifications.
-    // if so, we just quit.
-    if ([[aNotification userInfo] objectForKey:NSApplicationLaunchUserNotificationKey]) {
+    // load the settings controller to make sure all interface
+    // elements are updated (especially those elements that belong
+    // to a daemon connection) when the user accesses the settings
+    // for the first time
+    if (!_settingsWindowController) {
         
-        [NSApp terminate:self];
+        NSStoryboard *storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+        _settingsWindowController = [storyboard instantiateControllerWithIdentifier:@"corp.sap.Privileges.SettingsController"];
+    }
+            
+    if ([[[NSProcessInfo processInfo] arguments] containsObject:@"--showSettings"]) {
+        
+        [self showSettingsWindow];
         
     } else {
         
-        // load the settings controller to make sure all interface
-        // elements are updated (especially those elements that belong
-        // to a daemon connection) when the user accesses the settings
-        // for the first time
-        if (!_settingsWindowController) {
+        _operationQueue = [[NSOperationQueue alloc] init];
+        
+        _privilegesApp = [[MTPrivileges alloc] init];
+        _minReasonLength = [_privilegesApp reasonMinLength];
+        _maxReasonLength = [_privilegesApp reasonMaxLength];
+        
+        _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
+                                                                                              object:nil
+                                                                                               queue:nil
+                                                                                          usingBlock:^(NSNotification *notification) {
             
-            NSStoryboard *storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-            _settingsWindowController = [storyboard instantiateControllerWithIdentifier:@"corp.sap.Privileges.SettingsController"];
-        }
+            NSDictionary *userInfo = [notification userInfo];
+            
+            if (userInfo) {
                 
-        if ([[[NSProcessInfo processInfo] arguments] containsObject:@"--showSettings"]) {
-            
-            [self showSettingsWindow];
-            
-        } else {
-            
-            _operationQueue = [[NSOperationQueue alloc] init];
-            
-            _privilegesApp = [[MTPrivileges alloc] init];
-            _minReasonLength = [_privilegesApp reasonMinLength];
-            _maxReasonLength = [_privilegesApp reasonMaxLength];
-            
-            _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
-                                                                                                  object:nil
-                                                                                                   queue:nil
-                                                                                              usingBlock:^(NSNotification *notification) {
+                NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
+                NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
+                                          kMTDefaultsEnforcePrivilegesKey,
+                                          kMTDefaultsLimitToUserKey,
+                                          kMTDefaultsLimitToGroupKey,
+                                          nil
+                ];
                 
-                NSDictionary *userInfo = [notification userInfo];
-                
-                if (userInfo) {
+                if (changedKey && [keysToObserve containsObject:changedKey]) {
                     
-                    NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
-                    NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
-                                                  kMTDefaultsEnforcePrivilegesKey,
-                                              kMTDefaultsLimitToUserKey,
-                                              kMTDefaultsLimitToGroupKey,
-                                              nil
-                    ];
-                    
-                    if (changedKey && [keysToObserve containsObject:changedKey]) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        if (![[self->_settingsWindowController window] isVisible]) {
                             
-                            if (![[self->_settingsWindowController window] isVisible]) {
-                                
-                                [[self->_alert window] close];
-                                [self showMainWindow];
-                            }
-                        });
-                    }
+                            [[self->_alert window] close];
+                            [self showMainWindow];
+                        }
+                    });
                 }
-            }];
+            }
+        }];
+        
+        _privilegesObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNamePrivilegesDidChange
+                                                                                           object:nil
+                                                                                            queue:nil
+                                                                                       usingBlock:^(NSNotification *notification) {
             
+            if ([self->_alert window]) { [NSApp endSheet:[self->_alert window]]; }
             [self showMainWindow];
-        }
+        }];
+        
+        [self showMainWindow];
     }
 }
 
@@ -120,6 +122,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 #pragma mark Build dialog
     
     BOOL hasAdminRights = [[_privilegesApp currentUser] hasAdminPrivileges];
+    __block BOOL renewAdminPrivileges = NO;
     
     _alert = [[NSAlert alloc] init];
     
@@ -130,7 +133,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         [_alert addButtonWithTitle:NSLocalizedString(@"okButton", nil)];
         [_alert setAlertStyle:NSAlertStyleCritical];
         
-    }  else if ([_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]]) {
+    }  else if ([[_privilegesApp currentUser] useIsRestricted]) {
         
         NSString *enforcedPrivileges = [_privilegesApp enforcedPrivilegeType];
         
@@ -158,7 +161,37 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
             [_alert setMessageText:NSLocalizedString(@"privilegesDialogRemoveTitle", nil)];
             [_alert setInformativeText:NSLocalizedString(@"privilegesDialogRemoveMessage", nil)];
-            [_alert addButtonWithTitle:NSLocalizedString(@"removeButton", nil)];
+            NSButton *removeButton = [_alert addButtonWithTitle:NSLocalizedString(@"removeButton", nil)];
+            
+            if ([_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0) {
+                
+                _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged handler:^NSEvent *(NSEvent *event) {
+
+                    if ([event modifierFlags] & NSEventModifierFlagOption) {
+                        
+                        [self->_alert setMessageText:NSLocalizedString(@"privilegesDialogRenewTitle", nil)];
+                        [self->_alert setInformativeText:[NSString localizedStringWithFormat:NSLocalizedString(@"privilegesDialogRenewMessage", nil), [MTPrivileges stringForDuration:[self->_privilegesApp expirationInterval]
+                                                                                                                                                                            localized:YES
+                                                                                                                                                                         naturalScale:NO
+                                                                                                                                                      ]
+                                                         ]
+                        ];
+                        [removeButton setTitle:NSLocalizedString(@"renewButton", nil)];
+                        renewAdminPrivileges = YES;
+                        
+                    } else {
+                        
+                        [self->_alert setMessageText:NSLocalizedString(@"privilegesDialogRemoveTitle", nil)];
+                        [self->_alert setInformativeText:NSLocalizedString(@"privilegesDialogRemoveMessage", nil)];
+                        [removeButton setTitle:NSLocalizedString(@"removeButton", nil)];
+                        renewAdminPrivileges = NO;
+                    }
+                    
+                    [self->_alert layout];
+                    
+                    return event;
+                }];
+            }
             
         } else {
             
@@ -166,15 +199,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
             if ([_privilegesApp expirationInterval] > 0) {
                 
-                NSMeasurement *durationMeasurement = [[NSMeasurement alloc] initWithDoubleValue:[_privilegesApp expirationInterval]
-                                                                                           unit:[NSUnitDuration minutes]];
-                
-                NSMeasurementFormatter *durationFormatter = [[NSMeasurementFormatter alloc] init];
-                [[durationFormatter numberFormatter] setMaximumFractionDigits:0];
-                [durationFormatter setUnitStyle:NSFormattingUnitStyleLong];
-                [durationFormatter setUnitOptions:NSMeasurementFormatterUnitOptionsProvidedUnit];
-                
-                autoRemoveText = [NSString localizedStringWithFormat:NSLocalizedString(@"privilegesDialogRequestTimeoutMessage", nil), [durationFormatter stringFromMeasurement:durationMeasurement]];
+                autoRemoveText = [NSString localizedStringWithFormat:NSLocalizedString(@"privilegesDialogRequestTimeoutMessage", nil), [MTPrivileges stringForDuration:[_privilegesApp expirationInterval]
+                                                                                                                                                             localized:YES
+                                                                                                                                                          naturalScale:NO
+                                                                                                                                       ]
+                ];
                 autoRemoveText = [@" " stringByAppendingString:autoRemoveText];
             }
             
@@ -231,11 +260,11 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         if (![_privilegesApp hideSettingsButton]) { [_alert addButtonWithTitle:NSLocalizedString(@"settingsButton", nil)]; }
         [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
         [_alert setAlertStyle:NSAlertStyleInformational];
-        if (![[NSWorkspace sharedWorkspace] isVoiceOverEnabled]) { [_alert setShowsHelp:YES]; }
+        if (![[NSWorkspace sharedWorkspace] isVoiceOverEnabled] && ![_privilegesApp hideHelpButton]) { [_alert setShowsHelp:YES]; }
         [_alert setDelegate:self];
         
         // VoiceOver
-        [[_alert window] setAccessibilityLabel:@"Privileges"];
+        [[_alert window] setAccessibilityLabel:kMTAppName];
         [[_alert window] setAccessibilityEnabled:YES];
         
         if ([_alert accessoryView]) {
@@ -249,110 +278,167 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             ];
         }
     }
-    
-    NSModalResponse response = [_alert runModal];
-    
-    if ([_alert alertStyle] == NSAlertStyleInformational) {
-        
-        if (response == NSAlertFirstButtonReturn) {
-          
-#pragma mark Remove admin rights
+
+    // workaround for FB15426079 (https://github.com/SAP/macOS-enterprise-privileges/issues/128)
+    [_alert layout];
+    NSWindow *transparentDummyWindow = [[NSWindow alloc] initWithContentRect:[[_alert window] frame]
+                                                                   styleMask:NSWindowStyleMaskBorderless
+                                                                     backing:NSBackingStoreBuffered
+                                                                       defer:NO
+    ];
+    [transparentDummyWindow setAccessibilityElement:NO];
+    [transparentDummyWindow setAlphaValue:0];
+    [transparentDummyWindow setReleasedWhenClosed:NO];
+    [transparentDummyWindow center];
+
+    [_alert beginSheetModalForWindow:transparentDummyWindow
+                   completionHandler:^(NSModalResponse returnCode) {
+
+        // remove the event monitor
+        if (self->_eventMonitor) {
             
-            // remove privileges if the user is admin…
-            if (hasAdminRights) {
-                
-                [[self->_privilegesApp currentUser] revokeAdminPrivilegesWithCompletionHandler:^(BOOL success) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [NSApp terminate:self];
-                    });
-                }];
-                
-            // …otherwise, check if we can grant admin privileges
-            } else {
-                
-#pragma mark Authentication
-                
-                NSBlockOperation *authOperation = [[NSBlockOperation alloc] init];
-                [authOperation addExecutionBlock:^{
-                    
-                    self->_authSuccess = NO;
-                    
-                    if ([self->_privilegesApp authenticationRequired]) {
-                        
-                        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            [[self->_privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
-                                
-                                self->_authSuccess = success;
-                                dispatch_semaphore_signal(semaphore);
-                            }];
-                        });
-                        
-                        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                    }
-                }];
+            [NSEvent removeMonitor:self->_eventMonitor];
+            self->_eventMonitor = nil;
+        }
         
-#pragma mark Grant admin rights
+        // remove the privilege observer
+        if (returnCode != NSModalResponseStop && returnCode != NSModalResponseAbort) {
+
+            [[NSDistributedNotificationCenter defaultCenter] removeObserver:self->_privilegesObserver];
+            self->_privilegesObserver = nil;
+        }
+        
+        if ([self->_alert alertStyle] == NSAlertStyleInformational) {
+            
+            if (returnCode == NSAlertFirstButtonReturn) {
+              
+#pragma mark Remove admin rights
                 
-                NSBlockOperation *adminOperation = [[NSBlockOperation alloc] init];
-                [adminOperation addExecutionBlock:^{
+                // remove privileges if the user is admin…
+                if (hasAdminRights && !renewAdminPrivileges) {
                     
-                    if (![self->_privilegesApp authenticationRequired] || self->_authSuccess) {
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            NSString *reason = nil;
-                            
-                            if ([self->_privilegesApp reasonRequired]) {
-                                
-                                reason = ([[self->_accessoryController reasonTextField] isEnabled]) ?
-                                            [[self->_accessoryController reasonTextField] stringValue] :
-                                            [[[self->_accessoryController predefinedReasonsButton] selectedItem] title];
-                            }
-                            
-                            [[self->_privilegesApp currentUser] requestAdminPrivilegesWithReason:reason
-                                                                               completionHandler:^(BOOL success) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [NSApp terminate:self];
-                                });
-                            }];
-                        });
-                        
-                    } else {
+                    [[self->_privilegesApp currentUser] revokeAdminPrivilegesWithCompletionHandler:^(BOOL success) {
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [NSApp terminate:self];
                         });
-                    }
-                }];
-                
-                [adminOperation addDependency:authOperation];
-                [self->_operationQueue addOperations:[NSArray arrayWithObjects:authOperation, adminOperation, nil]
-                                   waitUntilFinished:NO
-                ];
-            }
-  
-        } else if (response == NSAlertSecondButtonReturn && ![_privilegesApp hideSettingsButton]) {
+                    }];
+                    
+                // …otherwise, check if we can grant admin privileges
+                } else {
+                    
+#pragma mark Authentication
+                    
+                    NSBlockOperation *authOperation = [[NSBlockOperation alloc] init];
+                    [authOperation addExecutionBlock:^{
+                        
+                        if (([self->_privilegesApp authenticationRequired] && !renewAdminPrivileges) ||
+                            ([self->_privilegesApp authenticationRequired] && renewAdminPrivileges && [self->_privilegesApp renewalFollowsAuthSetting])) {
+                            
+                            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                            self->_authSuccess = NO;
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                [[self->_privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
+                                    
+                                    self->_authSuccess = success;
+                                    dispatch_semaphore_signal(semaphore);
+                                }];
+                            });
+                            
+                            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                            
+                        } else {
+                            
+                            self->_authSuccess = YES;
+                        }
+                    }];
             
-            [self showSettingsWindow];
+#pragma mark Grant admin rights
+                    
+                    NSBlockOperation *adminOperation = [[NSBlockOperation alloc] init];
+                    [adminOperation addExecutionBlock:^{
+                        
+                        if (self->_authSuccess) {
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                if (renewAdminPrivileges) {
+                                    
+                                    [[self->_privilegesApp currentUser] renewAdminPrivilegesWithCompletionHandler:^(BOOL success) {
+                                      
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [NSApp terminate:self];
+                                        });
+                                    }];
+                                    
+                                } else {
+                                    
+                                    NSString *reason = nil;
+                                    
+                                    if ([self->_privilegesApp reasonRequired]) {
+                                        
+                                        reason = ([[self->_accessoryController reasonTextField] isEnabled]) ?
+                                        [[self->_accessoryController reasonTextField] stringValue] :
+                                        [[[self->_accessoryController predefinedReasonsButton] selectedItem] title];
+                                    }
+                                    
+                                    [[self->_privilegesApp currentUser] requestAdminPrivilegesWithReason:reason
+                                                                                       completionHandler:^(BOOL success) {
+                                        
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [NSApp terminate:self];
+                                        });
+                                    }];
+                                }
+                            });
+                            
+                        } else {
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [NSApp terminate:self];
+                            });
+                        }
+                    }];
+                    
+                    [adminOperation addDependency:authOperation];
+                    [self->_operationQueue addOperations:[NSArray arrayWithObjects:authOperation, adminOperation, nil]
+                                       waitUntilFinished:NO
+                    ];
+                }
+      
+            } else if (returnCode == NSAlertSecondButtonReturn && ![self->_privilegesApp hideSettingsButton]) {
+                
+                [self showSettingsWindow];
+                
+            } else if (returnCode != NSModalResponseStop && returnCode != NSModalResponseAbort) {
+                
+                [NSApp terminate:self];
+            }
             
         } else {
             
             [NSApp terminate:self];
         }
         
-    } else {
-        
-        [NSApp terminate:self];
-    }
+        [transparentDummyWindow close];
+    }];
 }
 
 - (BOOL)alertShowHelp:(NSAlert *)alert
 {
-    [self openGitHub:nil];
+    NSURL *helpButtonURL = [_privilegesApp helpButtonURL];
+    
+    if (helpButtonURL) {
+        
+        [[NSWorkspace sharedWorkspace] openURL:helpButtonURL];
+        
+    } else {
+        
+        [self openGitHub:nil];
+    }
+    
     return YES;
 }
 
@@ -436,7 +522,6 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         
         self.enableRequestButton = YES;
     }
-    
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification

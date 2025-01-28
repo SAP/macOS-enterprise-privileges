@@ -1,6 +1,6 @@
 /*
     MTWebhook.h
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -45,12 +45,14 @@
  @param         user The MTPrivilegesUser the privilege change belongs to.
  @param         reason The reason for the privilege change. Might be nil.
  @param         expiration The date the administrator privileges expire. Might be nil.
+ @param         customData An optional dictionary that is added to the webhook data.
  @param         completionHandler The handler to call when the request is complete.
  @discussion    The returned error object might contain error information if an error occurred or will be nil if no error occurred.
 */
 - (void)postToWebhookForUser:(MTPrivilegesUser*)user
                       reason:(NSString*)reason
               expirationDate:(NSDate*)expiration
+                  customData:(NSDictionary*)customData
            completionHandler:(void (^) (NSError *error))completionHandler;
 
 @end

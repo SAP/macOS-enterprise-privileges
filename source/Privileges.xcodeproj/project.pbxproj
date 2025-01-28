@@ -21,6 +21,9 @@
 		AD10E07B2C08A0CB00D0B03D /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
 		AD10E07C2C08A0CE00D0B03D /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
 		AD16A3742C36D07100FBE902 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD16A3732C36D07100FBE902 /* InfoPlist.xcstrings */; };
+		AD20348D2D1040B80075BE52 /* StatusItem.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD20348C2D1040B80075BE52 /* StatusItem.xcassets */; };
+		AD2034912D10482B0075BE52 /* LocalizableMenu.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */; };
+		AD2034942D1051980075BE52 /* MTStatusItemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2034932D1051980075BE52 /* MTStatusItemMenu.m */; };
 		AD2542982C20249600F0F363 /* PrivilegesAgent.sdef in Resources */ = {isa = PBXBuildFile; fileRef = AD2542972C20249600F0F363 /* PrivilegesAgent.sdef */; };
 		AD25429C2C204B9B00F0F363 /* MTPrivilegeExpirationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = AD25429A2C204B9B00F0F363 /* MTPrivilegeExpirationCommand.m */; };
 		AD2C14652C37CF8300710889 /* MTTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2C14642C37CF8300710889 /* MTTabViewController.m */; };
@@ -32,7 +35,7 @@
 		AD2D4BDA2C13443900CB8F5A /* MTPrivilegesUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC5EF4A2BFDE6D8004D69B7 /* MTPrivilegesUser.m */; };
 		AD2D4BDC2C13445000CB8F5A /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
 		AD2D4BDD2C13445A00CB8F5A /* MTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC5EF4B2BFDE6D8004D69B7 /* MTIdentity.m */; };
-		AD34F6E92C143264000EAA9D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD34F6E82C143264000EAA9D /* Localizable.xcstrings */; };
+		AD34F6E92C143264000EAA9D /* LocalizableMenu.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */; };
 		AD4C96A92BFF7B1800382426 /* MTReasonAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4C96A82BFF7B1800382426 /* MTReasonAccessory.xib */; };
 		AD4C96AC2BFF7CB600382426 /* MTReasonAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4C96AB2BFF7CB600382426 /* MTReasonAccessoryController.m */; };
 		AD5CC6D22C25615C0074B456 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADFCC5C52B9F48B8009B808B /* Assets.xcassets */; };
@@ -40,6 +43,7 @@
 		AD6BDD072C1705970099E051 /* Privileges.mobileconfig in Resources */ = {isa = PBXBuildFile; fileRef = AD6BDD062C1705970099E051 /* Privileges.mobileconfig */; };
 		AD7A530A2C37E634003E2CD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADFCC5C72B9F48B8009B808B /* Main.storyboard */; };
 		AD7C439E2C25906F00EDDA48 /* AppIcons-Beta.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */; };
+		AD8276B72D116BDE00422701 /* MTSettingsPrivilegesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */; };
 		AD9CCA4F2C32DA240000E0BC /* MTLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2018B82C0780E80074D275 /* MTLocalNotification.m */; };
 		AD9CCA512C32DB490000E0BC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */; };
 		ADC1E3FC2C11FF1D0044063F /* MTAgentConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E06F2C088F2700D0B03D /* MTAgentConnection.m */; };
@@ -229,6 +233,9 @@
 		AD16A3732C36D07100FBE902 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		AD2018B72C0780E80074D275 /* MTLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLocalNotification.h; sourceTree = "<group>"; };
 		AD2018B82C0780E80074D275 /* MTLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLocalNotification.m; sourceTree = "<group>"; };
+		AD20348C2D1040B80075BE52 /* StatusItem.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = StatusItem.xcassets; sourceTree = "<group>"; };
+		AD2034922D1051980075BE52 /* MTStatusItemMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTStatusItemMenu.h; sourceTree = "<group>"; };
+		AD2034932D1051980075BE52 /* MTStatusItemMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTStatusItemMenu.m; sourceTree = "<group>"; };
 		AD247AB12C3BFCAF0070118F /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/Main.xcstrings; sourceTree = "<group>"; };
 		AD2542952C2014E000F0F363 /* PrivilegesAgent-ParentConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesAgent-ParentConstraint.coderequirement"; sourceTree = "<group>"; };
 		AD2542972C20249600F0F363 /* PrivilegesAgent.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivilegesAgent.sdef; sourceTree = "<group>"; };
@@ -241,7 +248,7 @@
 		AD2D4BCF2C13347500CB8F5A /* PrivilegesTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivilegesTile.h; sourceTree = "<group>"; };
 		AD2D4BD02C13347500CB8F5A /* PrivilegesTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivilegesTile.m; sourceTree = "<group>"; };
 		AD2D4BD52C1335C100CB8F5A /* AppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcons.xcassets; sourceTree = "<group>"; };
-		AD34F6E82C143264000EAA9D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LocalizableMenu.xcstrings; sourceTree = "<group>"; };
 		AD3E2E562C247CE2007F3549 /* PrivilegesDaemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrivilegesDaemon.entitlements; sourceTree = "<group>"; };
 		AD426E252C4908E70037AAE2 /* PrivilegesXPC-ParentConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesXPC-ParentConstraint.coderequirement"; sourceTree = "<group>"; };
 		AD426E262C4908E70037AAE2 /* PrivilegesXPC-ResponsibleConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesXPC-ResponsibleConstraint.coderequirement"; sourceTree = "<group>"; };
@@ -253,6 +260,8 @@
 		AD7767942C25A14A00BAC139 /* Beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Beta-Info.plist"; sourceTree = "<group>"; };
 		AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "AppIcons-Beta.xcassets"; sourceTree = "<group>"; };
 		AD7C43A22C25958F00EDDA48 /* Release-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Release-Info.plist"; sourceTree = "<group>"; };
+		AD8276B52D116BDE00422701 /* MTSettingsPrivilegesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSettingsPrivilegesController.h; sourceTree = "<group>"; };
+		AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSettingsPrivilegesController.m; sourceTree = "<group>"; };
 		AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		ADADCC032C5A0F4E009D6E73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		ADB3E5AD2C1B484A00D2DABE /* MTSyslogMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSyslogMessage.h; sourceTree = "<group>"; };
@@ -362,7 +371,6 @@
 				AD2D4BD52C1335C100CB8F5A /* AppIcons.xcassets */,
 				AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */,
 				AD344CFD2C1DA4F100436969 /* Classes */,
-				AD34F6E82C143264000EAA9D /* Localizable.xcstrings */,
 			);
 			path = PrivilegesTile;
 			sourceTree = "<group>";
@@ -378,6 +386,8 @@
 				AD25429A2C204B9B00F0F363 /* MTPrivilegeExpirationCommand.m */,
 				AD2542BC2C20607B00F0F363 /* MTPrivilegeStatusCommand.h */,
 				AD2542BD2C20607B00F0F363 /* MTPrivilegeStatusCommand.m */,
+				AD2034922D1051980075BE52 /* MTStatusItemMenu.h */,
+				AD2034932D1051980075BE52 /* MTStatusItemMenu.m */,
 				ADB3E5AD2C1B484A00D2DABE /* MTSyslogMessage.h */,
 				ADB3E5AE2C1B484A00D2DABE /* MTSyslogMessage.m */,
 				ADEFA3C52C1C9C51008CAC9E /* MTWebhook.h */,
@@ -420,6 +430,8 @@
 				AD4C96AB2BFF7CB600382426 /* MTReasonAccessoryController.m */,
 				ADC5EF5B2BFE3E5B004D69B7 /* MTSettingsGeneralController.h */,
 				ADC5EF5A2BFE3E5B004D69B7 /* MTSettingsGeneralController.m */,
+				AD8276B52D116BDE00422701 /* MTSettingsPrivilegesController.h */,
+				AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */,
 				AD2C14632C37CF8300710889 /* MTTabViewController.h */,
 				AD2C14642C37CF8300710889 /* MTTabViewController.m */,
 			);
@@ -442,6 +454,7 @@
 				AD2542952C2014E000F0F363 /* PrivilegesAgent-ParentConstraint.coderequirement */,
 				AD078E612C34103E00F5E9D2 /* PrivilegesAgent-SelfConstraint.coderequirement */,
 				ADF76EDE2C19B4E4001D428E /* PrivilegesAgentProtocol.h */,
+				AD20348C2D1040B80075BE52 /* StatusItem.xcassets */,
 			);
 			path = PrivilegesAgent;
 			sourceTree = "<group>";
@@ -549,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				ADFCC5C52B9F48B8009B808B /* Assets.xcassets */,
+				AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */,
 				ADC5EF3F2BFDD8FE004D69B7 /* Constants.h */,
 				ADFCC6122B9F50F9009B808B /* Classes */,
 			);
@@ -698,7 +712,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					ADF76EB82C199AA1001D428E = {
@@ -766,6 +780,7 @@
 				"zh-Hans",
 				"zh-Hant",
 				nb,
+				"bg-BG",
 			);
 			mainGroup = ADFCC5B32B9F48B6009B808B;
 			preferredProjectObjectVersion = 77;
@@ -790,8 +805,10 @@
 			files = (
 				AD67F9102CA5A53700D45955 /* Main.storyboard in Resources */,
 				AD2542982C20249600F0F363 /* PrivilegesAgent.sdef in Resources */,
+				AD20348D2D1040B80075BE52 /* StatusItem.xcassets in Resources */,
 				ADE1310B2C4034E600F1E98E /* InfoPlist.xcstrings in Resources */,
 				AD9CCA512C32DB490000E0BC /* Localizable.xcstrings in Resources */,
+				AD2034912D10482B0075BE52 /* LocalizableMenu.xcstrings in Resources */,
 				AD5CC6D22C25615C0074B456 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -824,7 +841,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD34F6E92C143264000EAA9D /* Localizable.xcstrings in Resources */,
+				AD34F6E92C143264000EAA9D /* LocalizableMenu.xcstrings in Resources */,
 				AD7C439E2C25906F00EDDA48 /* AppIcons-Beta.xcassets in Resources */,
 				AD2D4BD62C1335C100CB8F5A /* AppIcons.xcassets in Resources */,
 			);
@@ -838,6 +855,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD058DE62C1B11A5000FF5EF /* MTAgentConnection.m in Sources */,
+				AD2034942D1051980075BE52 /* MTStatusItemMenu.m in Sources */,
 				ADC35FDC2C2079AD00DE99D6 /* MTPrivilegeStatusCommand.m in Sources */,
 				AD065E472C21589D00F50CD7 /* MTSyslogMessage.m in Sources */,
 				ADEFA3CA2C1CA051008CAC9E /* MTSystemInfo.m in Sources */,
@@ -860,6 +878,7 @@
 			files = (
 				AD00A83E2C3D7C1E00B54087 /* MTSystemInfo.m in Sources */,
 				AD10E0712C088F2700D0B03D /* MTAgentConnection.m in Sources */,
+				AD8276B72D116BDE00422701 /* MTSettingsPrivilegesController.m in Sources */,
 				ADFCC5CB2B9F48B8009B808B /* main.m in Sources */,
 				AD4C96AC2BFF7CB600382426 /* MTReasonAccessoryController.m in Sources */,
 				ADC5EF4C2BFDE6D8004D69B7 /* MTPrivileges.m in Sources */,
@@ -1024,11 +1043,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Beta";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1815;
+				CURRENT_PROJECT_VERSION = 1931;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1038,7 +1058,7 @@
 				INFOPLIST_FILE = "Privileges/Beta-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/Privileges/Privileges-ParentConstraint.coderequirement";
@@ -1048,7 +1068,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1066,7 +1086,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 375;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1075,7 +1095,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesAgent;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesAgent/PrivilegesAgent-ParentConstraint.coderequirement";
@@ -1086,7 +1106,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1110,11 +1130,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesXPC;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1140,7 +1160,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1157,7 +1177,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1165,7 +1185,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1177,20 +1197,22 @@
 		AD7C439C2C258AF000EDDA48 /* Release Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 79;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = AppIcons.xcassets;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1214,7 +1236,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 375;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1223,7 +1245,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesAgent;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesAgent/PrivilegesAgent-ParentConstraint.coderequirement";
@@ -1234,7 +1256,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1253,7 +1275,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 375;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1262,7 +1284,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesAgent;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesAgent/PrivilegesAgent-ParentConstraint.coderequirement";
@@ -1273,7 +1295,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1408,11 +1430,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1815;
+				CURRENT_PROJECT_VERSION = 1931;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1422,7 +1445,7 @@
 				INFOPLIST_FILE = "Privileges/Release-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/Privileges/Privileges-ParentConstraint.coderequirement";
@@ -1432,7 +1455,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1445,11 +1468,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1815;
+				CURRENT_PROJECT_VERSION = 1931;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1459,7 +1483,7 @@
 				INFOPLIST_FILE = "Privileges/Release-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/Privileges/Privileges-ParentConstraint.coderequirement";
@@ -1469,7 +1493,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1492,11 +1516,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesXPC;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1520,11 +1544,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesXPC;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1550,7 +1574,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1577,7 +1601,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1594,7 +1618,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1602,7 +1626,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1618,7 +1642,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1626,7 +1650,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1638,20 +1662,22 @@
 		ADFCC60A2B9F49BE009B808B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 79;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "AppIcons-Beta.xcassets";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1668,20 +1694,22 @@
 		ADFCC60B2B9F49BE009B808B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 79;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "AppIcons-Beta.xcassets";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2024 SAP SE.\nAll rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

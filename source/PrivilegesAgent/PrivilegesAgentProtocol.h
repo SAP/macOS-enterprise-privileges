@@ -1,6 +1,6 @@
 /*
     PrivilegesAgentProtocol.h
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -48,6 +48,14 @@
  @discussion    Returns YES if the operation was successful, otherwise returns NO.
 */
 - (void)revokeAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+
+/*!
+ @method        renewAdminRightsWithCompletionHandler:
+ @abstract      Renew expiring administrator privileges for the current user.
+ @param         completionHandler The handler to call when the request is complete.
+ @discussion    Returns YES if the operation was successful, otherwise returns NO.
+*/
+- (void)renewAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler;
 
 /*!
  @method        authenticateUserWithCompletionHandler:

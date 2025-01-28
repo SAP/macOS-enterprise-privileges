@@ -1,6 +1,6 @@
 /*
     MTPrivilegesUser.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 
 @interface MTPrivilegesUser ()
 @property (nonatomic, strong, readwrite) MTAgentConnection *agentConnection;
+@property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @property (nonatomic, strong, readwrite) NSString *userName;
 @end
 
@@ -35,6 +36,12 @@
         
         _userName = NSUserName();
         _agentConnection = [[MTAgentConnection alloc] init];
+        
+        if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kMTAppBundleIdentifier]) {
+            _userDefaults = [NSUserDefaults standardUserDefaults];
+        } else {
+            _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
+        }
     }
     
     return self;
@@ -73,6 +80,23 @@
             if (completionHandler) { completionHandler(NO); }
             
         }] revokeAdminRightsWithCompletionHandler:^(BOOL success) {
+          
+            if (completionHandler) { completionHandler(success); }
+        }];
+    }];
+}
+
+- (void)renewAdminPrivilegesWithCompletionHandler:(void (^)(BOOL success))completionHandler
+{
+    [_agentConnection connectToAgentWithExportedObject:nil
+                                    andExecuteCommandBlock:^{
+        
+        [[[self->_agentConnection connection] remoteObjectProxyWithErrorHandler:^(NSError *error) {
+            
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to connect to agent: %{public}@", error);
+            if (completionHandler) { completionHandler(NO); }
+            
+        }] renewAdminRightsWithCompletionHandler:^(BOOL success) {
           
             if (completionHandler) { completionHandler(success); }
         }];
@@ -128,6 +152,79 @@
             if (reply) { reply(isExecutable); }
         }];
     }];
+}
+
+- (BOOL)useIsRestricted
+{
+    NSString *enforcedPrivileges = ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivilegesKey]) ? [_userDefaults objectForKey:kMTDefaultsEnforcePrivilegesKey] : nil;
+    id limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUserKey]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUserKey] : nil;
+    id limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroupKey]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroupKey] : nil;
+    
+    BOOL userRestricted = YES;
+    BOOL groupRestricted = YES;
+    
+    if (limitToUser) {
+        
+        if ([limitToUser isKindOfClass:[NSString class]]) {
+            
+            userRestricted = ([limitToUser caseInsensitiveCompare:_userName] != NSOrderedSame);
+            
+        } else if ([limitToUser isKindOfClass:[NSArray class]]) {
+            
+            for (NSString *userName in limitToUser) {
+                
+                if ([userName caseInsensitiveCompare:_userName] == NSOrderedSame) {
+                    userRestricted = NO;
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (limitToGroup) {
+        
+        if ([limitToGroup isKindOfClass:[NSString class]]) {
+            
+            groupRestricted = ![MTIdentity getGroupMembershipForUser:_userName groupName:limitToGroup error:nil];
+            
+        } else if ([limitToGroup isKindOfClass:[NSArray class]]) {
+            
+            for (NSString *groupName in limitToGroup) {
+                
+                if ([MTIdentity getGroupMembershipForUser:_userName groupName:groupName error:nil]) {
+                    groupRestricted = NO;
+                    break;
+                }
+            }
+        }
+    }
+    
+    BOOL isRestricted = (
+                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeNone] ||
+                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeAdmin] ||
+                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeUser] ||
+                         (limitToUser && userRestricted) ||
+                         (!limitToUser && limitToGroup && groupRestricted)
+                         );
+    
+    return isRestricted;
+}
+
+- (BOOL)isExcludedFromRevokeAtLogin
+{
+    BOOL userIsExcluded = NO;
+    
+    NSArray *excludedUsers = ([_userDefaults objectIsForcedForKey:kMTDefaultsRevokeAtLoginExcludedUsersKey]) ? [_userDefaults arrayForKey:kMTDefaultsRevokeAtLoginExcludedUsersKey] : nil;
+
+    for (NSString *userName in excludedUsers) {
+        
+        if ([userName caseInsensitiveCompare:_userName] == NSOrderedSame) {
+            userIsExcluded = YES;
+            break;
+        }
+    }
+    
+    return userIsExcluded;
 }
 
 @end

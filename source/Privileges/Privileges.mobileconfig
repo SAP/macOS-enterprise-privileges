@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 
 <!--
-    Copyright 2019-2024 SAP SE
+    Copyright 2019-2025 SAP SE
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -59,6 +59,28 @@
 								-->
 								<key>ExpirationIntervalMax</key>
 								<integer>20</integer>
+                                
+                                <!--
+                                    key:    AllowPrivilegeRenewal
+                                    value:  a boolean
+                                    
+                                    Specifies whether expiring administrator privileges can be renewed. If
+                                    set to true, the user will receive a notification one minute before
+                                    administrator privileges expire. The notification includes a "Renew"
+                                    button that can be used to renew administrator privileges.
+                                -->
+                                <key>AllowPrivilegeRenewal</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    RenewalFollowsAuthSetting
+                                    value:  a boolean
+                                  
+                                    If set to true, renewing privileges requires the same kind of
+                                    authentication as initially requesting administrator privileges.
+                                -->
+                                <key>RenewalFollowsAuthSetting</key>
+                                <true/>
 								
 								<!--
 									key:    EnforcePrivileges
@@ -110,6 +132,18 @@
                                 <string>/Library/Application Support/Privileges/privileges_changed.sh</string>
                                 
                                 <!--
+                                    key:    PassReasonToExecutable
+                                    value:  a boolean
+                                    
+                                    Specifies whether the reason that the user entered when requesting
+                                    administrator privileges should be passed to the executable configured
+                                    with the PostChangeExecutablePath key. This is disabled by default. If
+                                    enabled, the reason is passed to the executable as $3.
+                                -->
+                                <key>PassReasonToExecutable</key>
+                                <true/>
+                                
+                                <!--
                                     key:    PostChangeActionOnGrantOnly
                                     value:  a boolean
                                     
@@ -126,9 +160,30 @@
                                     
                                     If set to true, the user's administrator privileges are revoked at
                                     login.
+                                    
+                                    For those who use fixed admin accounts on their machines: If you want to
+									enable this feature, please make sure you exclude the admin account(s)
+									using the RevokeAtLoginExcludedUsers key. Otherwise these accounts
+									become standard user accounts at next log in.
                                 -->
                                 <key>RevokePrivilegesAtLogin</key>
                                 <true/>
+                                
+                                <!--
+                                    key:    RevokeAtLoginExcludedUsers
+                                    value:  an array of strings containing the short names of the users
+                                    
+                                    If RevokePrivilegesAtLogin is set to true, the specified users are
+                                    excluded from privilege revocation at login. When used with a client
+                                    management system that supports variables in configuration profiles,
+                                    variables such as $USERNAME can be used here.
+                                -->
+                                <key>RevokeAtLoginExcludedUsers</key>
+                                <array>
+                                    <string>privileges_user1</string>
+                                    <string>privileges_user2</string>
+                                    <string>privileges_user3</string>
+                                </array>
                                 
                                 <!--
                                     key:    HideOtherWindows
@@ -143,12 +198,16 @@
                                                                 
                                 <!--
                                     key:    LimitToUser
-                                    value:  a string containing the user's short name or an array of strings
-                                            containing the short names of the users
+                                    value:  a string containing the user's short name (deprecated)
+                                            or an array of strings containing the short names of the users
                                     
                                     Restricts use of the application to the specified user or list of users.
                                     When used with a client management system that supports variables in
                                     configuration profiles, variables such as $USERNAME can be used here.
+                                
+                                    Note: Please use the array of strings instead of the string value. The
+                                    string value is only there for backwards compatibility to version 1.x.
+                                    and support for it will be removed in a future version of Privileges.
                                 -->
                                 <key>LimitToUser</key>
   								<string>privileges_user</string>
@@ -164,11 +223,15 @@
   								
   								<!--
                                     key:    LimitToGroup
-                                    value:  a string containing the name of the group or an array of strings
-                                            containing the group names
+                                    value:  a string containing the name of the group (deprecated)
+                                            or an array of strings containing the group names
                                     
                                     Restricts use of the application to the specified group or list of
                                     groups.
+                                
+                                    Note: Please use the array of strings instead of the string value. The
+                                    string value is only there for backwards compatibility to version 1.x.
+                                    and support for it will be removed in a future version of Privileges.
                                 -->
 								<key>LimitToGroup</key>
 								<string>privileges_group</string>
@@ -188,8 +251,8 @@
                                     
                                     If set to true, the user must provide a reason for requesting
                                     administrator privileges. The reason is logged. Note that once this
-                                    option is enabled, privileges cannot be changed from the Privileges Dock
-                                    tile menu.
+                                    option is enabled, administrator privileges can no longer be requested
+                                    from the Privileges Dock tile menu or the status item menu.
                                 -->
 								<key>ReasonRequired</key>
 								<true/>
@@ -263,7 +326,7 @@
                                     If set to true, the text the user enters for a reason is roughly parsed
                                     for valid words. If the text does not contain any valid words, the
                                     "Request Privileges" button remains grayed out, even if the minimum
-                                    number of characters has been entered. The test passes if the text
+                                    number of characters has been entered. The test passes if the text 
                                     contains any valid words, even if they don't make sense.
                                 
                                     This feature is experimental and disabled by default. If you enable it,
@@ -290,11 +353,51 @@
                                 -->
                                 <key>HideSettingsFromDockMenu</key>
                                 <true/>
-								
+                                
+                                <!--
+                                    key:    HideSettingsFromStatusItem
+                                    value:  a boolean
+                                  
+                                    If set to true, the "Settings" menu item is no longer displayed in the
+                                    status item's menu.
+                                -->
+                                <key>HideSettingsFromStatusItem</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    HideHelpButton
+                                    value:  a boolean
+                                  
+                                    If set to true, the "Help (?)" button is no longer displayed in the app.
+                                -->
+                                <key>HideHelpButton</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    HelpButtonCustomURL
+                                    value:  a string containing a http(s) url
+                                  
+                                    If specified, this url is called instead of the Privileges GitHub url if
+                                    the user clicks the help button. Malformed urls and non-http(s) urls are
+                                    ignored.
+                                -->
+                                <key>HelpButtonCustomURL</key>
+                                <string>https://your_support_url_goes_here</string>
+                                
+                                <!--
+                                    key:    ShowInMenuBar
+                                    value:  a boolean
+                                  
+                                    If set to true, a Privileges status item is displayed in the Menu Bar.
+                                -->
+                                <key>ShowInMenuBar</key>
+                                <true/>
+                                								
 								<!--
                                     key:    RemoteLogging
                                     value:  a dictionary containing the server information:
                                     
+                                
                                     	key:    ServerType
                                     	value:  a string specifying the type of the logging server
                                     	
@@ -306,6 +409,39 @@
                                     	
                                         The server address can be an ip address or host name if a syslog server
                                         is configured. For webhooks please provide a http(s) url.
+                                
+                                
+                                        key:    WebhookCustomData
+                                        value:  a dictionary
+                                        
+                                        You may use this dictionary to pass custom data (like the machine name,
+                                        serial number, Jamf Pro ID, etc.) to the webhook. This data is added to
+                                        the webhook's json as "custom_data". So for an MDM server that supports
+                                        variables, the dictionary could look like this:
+                                
+                                        <dict>
+                                            <key>name</key>
+                                            <string>$COMPUTERNAME</string>
+                                            <key>serial</key>
+                                            <string>$SERIALNUMBER</string>
+                                        </dict>
+                                
+                                
+                                        The json then would look like this:
+                                
+                                        {
+                                           "admin":true,
+                                           "custom_data": {
+                                              "name":"Testuser's Mac",
+                                              "serial":"XYZ1234567"
+                                           },
+                                           "event":"corp.sap.privileges.granted",
+                                           "expires":"2024-11-28T07:40:59Z",
+                                           "machine":"E60E8CCB-32F1-4495-A436-BD1939C2BC32",
+                                           "reason":"",
+                                           "timestamp":"2024-11-28T07:20:59Z",
+                                           "user":"testuser"
+                                        }
                                 
                                 
                                     	key:    SyslogOptions
@@ -386,6 +522,13 @@
                                     <string>webhook</string>
                                     <key>ServerAddress</key>
                                     <string>https://server.example.com/cgi-bin/myscript</string>
+                                    <key>WebhookCustomData</key>
+                                    <dict>
+                                        <key>serial</key>
+                                        <string>$SERIALNUMBER</string>
+                                        <key>name</key>
+                                        <string>$COMPUTERNAME</string>
+                                    </dict>
                                     
 								</dict>
 								

@@ -1,6 +1,6 @@
 /*
     MTPrivileges.h
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -38,14 +38,6 @@
  @discussion    The value of this property is NSUserDefaults.
 */
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
-
-/*!
- @method        useIsRestrictedForUser:
- @abstract      Get whether the app usage is restricted for the given user.
- @param         privilegesUser A MTPrivilegesUser object.
- @discussion    Returns YES if the app usage is restricted for the given user, otherwise returns NO.
- */
-- (BOOL)useIsRestrictedForUser:(MTPrivilegesUser*)privilegesUser;
 
 /*!
  @method        enforcedPrivilegeType
@@ -187,7 +179,7 @@
 
 /*!
  @method        setHideOtherWindows:
- @abstract      Set whether admin privileges should be revoked at login.
+ @abstract      Set whether all other windows than the Privileges window should be hided after launching Privileges.
  @param         hide A boolean indicating if Privileges should hide windows of other applications (YES) or not (NO).
  */
 - (void)setHideOtherWindows:(BOOL)hide;
@@ -265,5 +257,95 @@
  @discussion    Returns YES if the Dock tile's "Settings" menu item should be hidden, otherwise returns NO.
  */
 - (BOOL)hideSettingsFromDockMenu;
+
+/*!
+ @method        hideSettingsFromStatusItem
+ @abstract      Get whether the status item's "Settings" menu item should be hidden.
+ @discussion    Returns YES if the status item's "Settings" menu item should be hidden, otherwise returns NO.
+ */
+- (BOOL)hideSettingsFromStatusItem;
+
+/*!
+ @method        privilegeRenewalAllowed
+ @abstract      Get whether the renewal of expiring administrator privileges is allowed.
+ @discussion    Returns YES if the expiring administrator privileges can be renewed once,
+                otherwise returns NO.
+ */
+- (BOOL)privilegeRenewalAllowed;
+
+/*!
+ @method        privilegeRenewalAllowedIsForced
+ @abstract      Get whether the setting for the renewal of expiring administrator privileges is forced.
+ @discussion    Returns YES if the setting was forced by a configuration profile, otherwise returns NO.
+ */
+- (BOOL)privilegeRenewalAllowedIsForced;
+
+/*!
+ @method        setPrivilegeRenewalAllowed:
+ @abstract      Set if the renewal of expiring administrator privileges is allowed.
+ @param         isAllowed A boolean indicating if expiring administrator privileges can be renewed
+                once (YES) or not (NO).
+ */
+- (void)setPrivilegeRenewalAllowed:(BOOL)isAllowed;
+
+/*!
+ @method        hideHelpButton
+ @abstract      Get whether the app's "Help" button should be hidden.
+ @discussion    Returns YES if the help button should be hidden, otherwise returns NO.
+ */
+- (BOOL)hideHelpButton;
+
+/*!
+ @method        helpButtonURL
+ @abstract      Get the help button's custom url.
+ @discussion    Returns a NSURL object or nil, if not set.
+ */
+- (NSURL*)helpButtonURL;
+
+/*!
+ @method        renewalFollowsAuthSetting
+ @abstract      Get whether a privilege renewal uses the same authentication settings as requesting privileges.
+ @discussion    Returns YES if renewals require the same kind of authentication as requesting privileges, otherwise returns NO.
+ */
+- (BOOL)renewalFollowsAuthSetting;
+
+/*!
+ @method        passReasonToExecutable
+ @abstract      Get whether the reason that the user entered when requesting administrator privileges
+                should be passed to the executable  that should be launched after privileges changed.
+ @discussion    Returns YES if the reason is passed to the executable, otherwise returns NO.
+ */
+- (BOOL)passReasonToExecutable;
+
+/*!
+ @method        showInMenuBar
+ @abstract      Get whether Privileges should be displayed in the Menu Bar.
+ @discussion    Returns YES if Privileges should be displayed in the Menu Bar, otherwise returns NO.
+ */
+- (BOOL)showInMenuBar;
+
+/*!
+ @method        setShowInMenuBar:
+ @abstract      Set whether Privileges should be displayed in the Menu Bar.
+ @param         show A boolean indicating if Privileges should be displayed in the Menu Bar (YES) or not (NO).
+ */
+- (void)setShowInMenuBar:(BOOL)show;
+
+/*!
+ @method        showInMenuBarIsForced
+ @abstract      Get whether setting for displaying Privileges in the Menu Bar has been forced.
+ @discussion    Returns YES if the setting was forced by a configuration profile, otherwise returns NO.
+ */
+- (BOOL)showInMenuBarIsForced;
+
+/*!
+ @method        stringForDuration:localized:naturalScale:
+ @abstract      Return the duration string for the given duration.
+ @param         duration The duration.
+ @param         localized A boolean specifying wheter the string should be localized.
+ @param         naturalScale A boolean specifying if the natural scaling (seconds, hours) should be used (YES) or
+                if the base unit (minutes) should be used (NO).
+ */
++ (NSString*)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale;
 
 @end

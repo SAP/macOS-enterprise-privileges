@@ -1,6 +1,6 @@
 /*
     MTPrivilegesUser.h
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -57,6 +57,14 @@
 - (void)revokeAdminPrivilegesWithCompletionHandler:(void(^)(BOOL success))completionHandler;
 
 /*!
+ @method        renewAdminPrivilegesWithCompletionHandler:
+ @abstract      Renew expiring administrator privileges for the current MTPrivilegesUser.
+ @param         completionHandler The handler to call when the request is complete.
+ @discussion    Returns YES if the operation was successful, otherwise returns NO.
+*/
+- (void)renewAdminPrivilegesWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+
+/*!
  @method        authenticateWithCompletionHandler:
  @abstract      Authenticate the current MTPrivilegesUser.
  @param         completionHandler The handler to call when the request is complete.
@@ -80,6 +88,20 @@
  @discussion    Returns YES if the file can be executed by the current user, otherwise returns NO.
 */
 - (void)canExecuteFileAtURL:(NSURL*)url reply:(void (^)(BOOL canExecute))reply;
+
+/*!
+ @method        useIsRestricted
+ @abstract      Get whether the app usage is restricted for the user.
+ @discussion    Returns YES if the app usage is restricted for the user, otherwise returns NO.
+ */
+- (BOOL)useIsRestricted;
+
+/*!
+ @method        isExcludedFromRevokeAtLogin
+ @abstract      Get whether the current user is excluded from the automatic privilege removal at login.
+ @discussion    Returns YES if the user is excluded, otherwise returns NO.
+ */
+- (BOOL)isExcludedFromRevokeAtLogin;
 
 @end
 

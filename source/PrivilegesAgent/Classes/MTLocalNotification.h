@@ -1,6 +1,6 @@
 /*
     MTLocalNotification.h
-    Copyright 2022-2024 SAP SE
+    Copyright 2022-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,22 +18,30 @@
 #import <Cocoa/Cocoa.h>
 #import <UserNotifications/UserNotifications.h>
 
-@interface MTLocalNotification : NSObject <UNUserNotificationCenterDelegate>
+@interface MTLocalNotification : NSObject
 
 /*!
  @enum          MTLocalNotificationType
- @abstract      Specifies a jvm of type jre or jdk.
+ @abstract      Specifies the type of a notification.
  @constant      MTLocalNotificationTypeNoChange Specifies a notification that informs the user that privileges have not been changed.
  @constant      MTLocalNotificationTypeGrantSuccess Specifies a notification that informs the user that administrator privileges have been granted.
  @constant      MTLocalNotificationTypeRevokeSuccess Specifies a notification that informs the user that administrator privileges have been revoked.
  @constant      MTLocalNotificationTypeError Specifies a notification that informs the user that privileges could not be changed due to an error.
+ @constant      MTLocalNotificationTypeRenew Specifies a notification that informs the user that administrator privileges are about to expire and asks to renew privileges.
+ @constant      MTLocalNotificationTypeRenewSuccess Specifies a notification that informs the user that administrator privileges have been renewed.
 */
 typedef enum {
     MTLocalNotificationTypeNoChange         = 0,
     MTLocalNotificationTypeGrantSuccess     = 1,
     MTLocalNotificationTypeRevokeSuccess    = 2,
-    MTLocalNotificationTypeError            = 3
+    MTLocalNotificationTypeError            = 3,
+    MTLocalNotificationTypeRenew            = 4,
+    MTLocalNotificationTypeRenewSuccess     = 5,
 } MTLocalNotificationType;
+
+@property (nonatomic, strong, readwrite) NSArray<UNNotificationAction*> *actions;
+@property (nonatomic, strong, readwrite) NSString *categoryIdentifier;
+@property (weak) id <UNUserNotificationCenterDelegate> delegate;
 
 /*!
  @method        requestAuthorizationWithCompletionHandler:
@@ -51,6 +59,7 @@ typedef enum {
  @param         message The notification body (the message).
  @param         userInfo An optional dictionary containing custom data to associate with the notification.
  @param         replaceExisting A boolean specifying if existing notification should be removed or not.
+ @param         action A boolean specifying if the notification should have an action attached.
  @param         completionHandler The handler to call when the request is complete.
  @discussion    The returned error object might contain error information if an error occurred or will be nil if no error occurred.
  */
@@ -58,6 +67,7 @@ typedef enum {
                           message:(NSString*)message
                          userInfo:(NSDictionary*)userInfo
                   replaceExisting:(BOOL)replaceExisting
+                           action:(BOOL)action
                 completionHandler:(void (^)(NSError *error))completionHandler;
 
 @end

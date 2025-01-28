@@ -1,6 +1,6 @@
 /*
     MTTabViewController.m
-    Copyright 2023-2024 SAP SE
+    Copyright 2023-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,8 +16,28 @@
 */
 
 #import "MTTabViewController.h"
+#import "Constants.h"
+
+@interface MTTabViewController ()
+@property (assign) BOOL allowSelection;
+@end
 
 @implementation MTTabViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // select the last tab the user selected
+    NSInteger selectedTabIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kMTDefaultsSettingsSelectedTabKey];
+    _allowSelection = YES;
+    
+    if (selectedTabIndex >= 0 && selectedTabIndex < [[self tabViewItems] count]) {
+        [self setSelectedTabViewItemIndex:selectedTabIndex];
+    } else {
+        [self setSelectedTabViewItemIndex:0];
+    }
+}
 
 - (void)viewWillAppear
 {
@@ -29,6 +49,14 @@
 {
     [super tabView:tabView didSelectTabViewItem:tabViewItem];
     [self updateWindowTitle];
+
+    // we ignore the initial tab selection (the one we had to define in Xcode)
+    if (_allowSelection) {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:[tabView indexOfTabViewItem:[tabView selectedTabViewItem]]
+                                                   forKey:kMTDefaultsSettingsSelectedTabKey
+        ];
+    }
 }
 
 - (void)updateWindowTitle

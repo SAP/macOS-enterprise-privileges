@@ -1,6 +1,6 @@
 /*
     MTPrivileges.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -36,67 +36,11 @@
         } else {
             _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
         }
-        
+                
         _currentUser = [[MTPrivilegesUser alloc] init];
     }
     
     return self;
-}
-
-- (BOOL)useIsRestrictedForUser:(MTPrivilegesUser*)privilegesUser
-{
-    NSString *enforcedPrivileges = ([_userDefaults objectIsForcedForKey:kMTDefaultsEnforcePrivilegesKey]) ? [_userDefaults objectForKey:kMTDefaultsEnforcePrivilegesKey] : nil;
-    id limitToUser = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToUserKey]) ? [_userDefaults objectForKey:kMTDefaultsLimitToUserKey] : nil;
-    id limitToGroup = ([_userDefaults objectIsForcedForKey:kMTDefaultsLimitToGroupKey]) ? [_userDefaults objectForKey:kMTDefaultsLimitToGroupKey] : nil;
-    
-    BOOL userRestricted = YES;
-    BOOL groupRestricted = YES;
-    
-    if (limitToUser) {
-        
-        if ([limitToUser isKindOfClass:[NSString class]]) {
-            
-            userRestricted = ([limitToUser caseInsensitiveCompare:[privilegesUser userName]] != NSOrderedSame);
-            
-        } else if ([limitToUser isKindOfClass:[NSArray class]]) {
-            
-            for (NSString *userName in limitToUser) {
-                
-                if ([userName caseInsensitiveCompare:[privilegesUser userName]] == NSOrderedSame) {
-                    userRestricted = NO;
-                    break;
-                }
-            }
-        }
-    }
-    
-    if (limitToGroup) {
-        
-        if ([limitToGroup isKindOfClass:[NSString class]]) {
-            
-            groupRestricted = ![MTIdentity getGroupMembershipForUser:[privilegesUser userName] groupName:limitToGroup error:nil];
-            
-        } else if ([limitToGroup isKindOfClass:[NSArray class]]) {
-            
-            for (NSString *groupName in limitToGroup) {
-                
-                if ([MTIdentity getGroupMembershipForUser:[privilegesUser userName] groupName:groupName error:nil]) {
-                    groupRestricted = NO;
-                    break;
-                }
-            }
-        }
-    }
-    
-    BOOL isRestricted = (
-                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeNone] ||
-                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeAdmin] ||
-                         [enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeUser] ||
-                         (limitToUser && userRestricted) ||
-                         (!limitToUser && limitToGroup && groupRestricted)
-                         );
-    
-    return isRestricted;
 }
 
 - (NSString*)enforcedPrivilegeType
@@ -269,7 +213,7 @@
 
 - (BOOL)privilegesShouldBeRevokedAtLogin
 {
-    BOOL remove = YES;
+    BOOL remove = NO;
     
     if ([_userDefaults objectForKey:kMTDefaultsRevokeAtLoginKey]) {
         
@@ -279,17 +223,15 @@
     } else {
         
         NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        if ([appGroupDefaults objectForKey:kMTDefaultsRevokeAtLoginKey]) {
-            remove = [appGroupDefaults boolForKey:kMTDefaultsRevokeAtLoginKey];
-        }
+        remove = [appGroupDefaults boolForKey:kMTDefaultsRevokeAtLoginKey];
     }
-    
-    return remove;
+
+    return (remove && ![[self currentUser] isExcludedFromRevokeAtLogin]);
 }
 
 - (BOOL)allowCLIBiometricAuthentication
 {
-    return ([_userDefaults boolForKey:kMTDefaultsAuthCLIBiometricsAllowedKey]);
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthCLIBiometricsAllowedKey] && [_userDefaults boolForKey:kMTDefaultsAuthCLIBiometricsAllowedKey]);
 }
 
 - (void)setPrivilegesShouldBeRevokedAtLogin:(BOOL)revoke
@@ -300,7 +242,7 @@
 
 - (BOOL)privilegesShouldBeRevokedAtLoginIsForced
 {
-    return ([_userDefaults objectIsForcedForKey:kMTDefaultsRevokeAtLoginKey]);
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsRevokeAtLoginKey] || [[self currentUser] isExcludedFromRevokeAtLogin]);
 }
 
 - (BOOL)hideOtherWindows
@@ -359,12 +301,12 @@
 
 - (NSDictionary*)remoteLoggingConfiguration
 {
-    return [_userDefaults objectForKey:kMTDefaultsRemoteLoggingKey];
+    return [_userDefaults dictionaryForKey:kMTDefaultsRemoteLoggingKey];
 }
 
 - (BOOL)runActionAfterGrantOnly
 {
-    BOOL grantOnly = YES;
+    BOOL grantOnly = NO;
     
     if ([_userDefaults objectForKey:kMTDefaultsPostChangeActionOnGrantOnlyKey]) {
         
@@ -399,6 +341,156 @@
 - (BOOL)hideSettingsFromDockMenu
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsHideSettingsFromDockMenuKey] && [_userDefaults boolForKey:kMTDefaultsHideSettingsFromDockMenuKey]);
+}
+
+- (BOOL)hideSettingsFromStatusItem
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsHideSettingsFromStatusItemKey] && [_userDefaults boolForKey:kMTDefaultsHideSettingsFromStatusItemKey]);
+}
+
+- (BOOL)privilegeRenewalAllowed
+{
+    BOOL allow = NO;
+    
+    if ([_userDefaults objectForKey:kMTDefaultsAllowPrivilegeRenewalKey]) {
+
+        allow = [_userDefaults boolForKey:kMTDefaultsAllowPrivilegeRenewalKey];
+        
+    // if we got no value back, we try to get the value from our app group defaults
+    } else {
+
+        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+        
+        if ([appGroupDefaults objectForKey:kMTDefaultsAllowPrivilegeRenewalKey]) {
+            
+            allow = [appGroupDefaults boolForKey:kMTDefaultsAllowPrivilegeRenewalKey];
+            
+        } else {
+            
+            // Because our Dock Tile plugin cannot access our group container we also
+            // check ~/Library/Preferences/corp.sap.privileges.docktileplugin which the
+            // Dock Tile plugin can read. This is the only app setting the Dock needs
+            // access to.
+            NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+            
+            if ([privilegesSharedDefaults objectForKey:kMTDefaultsAllowPrivilegeRenewalKey]) {
+
+                allow = [privilegesSharedDefaults boolForKey:kMTDefaultsAllowPrivilegeRenewalKey];
+            }
+        }
+    }
+    
+    return allow;
+}
+
+- (BOOL)privilegeRenewalAllowedIsForced
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsAllowPrivilegeRenewalKey]);
+}
+
+- (void)setPrivilegeRenewalAllowed:(BOOL)isAllowed
+{
+    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+    [appGroupDefaults setBool:isAllowed forKey:kMTDefaultsAllowPrivilegeRenewalKey];
+    
+    // Because our Dock Tile plugin can't access our group container, and
+    // because of a bug in macOS 15, it can't access the application's
+    // container directory either, the application needs a sandbox exception to
+    // write values to ~/Library/Preferences/corp.sap.privileges.docktileplugin,
+    // which the Dock Tile plugin can then read.
+    NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+    [privilegesSharedDefaults setBool:isAllowed forKey:kMTDefaultsAllowPrivilegeRenewalKey];
+}
+
+- (BOOL)hideHelpButton
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsHideHelpButtonKey] && [_userDefaults boolForKey:kMTDefaultsHideHelpButtonKey]);
+}
+
+- (NSURL*)helpButtonURL
+{
+    NSURL *helpURL = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsHelpButtonCustomURLKey]) {
+        
+        NSString *urlString = [_userDefaults stringForKey:kMTDefaultsHelpButtonCustomURLKey];
+        
+        if ([urlString length] > 0) {
+            
+            NSURL *tmpHelpURL = [NSURL URLWithString:urlString];
+
+            if (tmpHelpURL &&
+                ([[[tmpHelpURL scheme] lowercaseString] isEqualToString:@"https"] ||
+                [[[tmpHelpURL scheme] lowercaseString] isEqualToString:@"http"])) {
+                helpURL = tmpHelpURL;
+            }
+        }
+    }
+    
+    return helpURL;
+}
+
+- (BOOL)renewalFollowsAuthSetting
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalFollowsAuthSettingKey] && [_userDefaults boolForKey:kMTDefaultsRenewalFollowsAuthSettingKey]);
+}
+
+- (BOOL)passReasonToExecutable
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsPassReasonToExecutableKey] && [_userDefaults boolForKey:kMTDefaultsPassReasonToExecutableKey]);
+}
+
+- (BOOL)showInMenuBar
+{
+    BOOL show = NO;
+    
+    if ([_userDefaults objectForKey:kMTDefaultsShowInMenuBarKey]) {
+        
+        show = [_userDefaults boolForKey:kMTDefaultsShowInMenuBarKey];
+        
+    // if we got no value back, we try to get the value from our app group defaults
+    } else {
+        
+        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+        show = [appGroupDefaults boolForKey:kMTDefaultsShowInMenuBarKey];
+    }
+        
+    return show;
+}
+
+- (BOOL)showInMenuBarIsForced
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsShowInMenuBarKey]);
+}
+
+- (void)setShowInMenuBar:(BOOL)show
+{
+    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+    
+    if (show) {
+        [appGroupDefaults setBool:YES forKey:kMTDefaultsShowInMenuBarKey];
+    } else {
+        [appGroupDefaults removeObjectForKey:kMTDefaultsShowInMenuBarKey];
+    }
+}
+
++ (NSString *)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale
+{
+    NSMeasurement *durationMeasurement = [[NSMeasurement alloc] initWithDoubleValue:duration
+                                                                               unit:[NSUnitDuration minutes]
+    ];
+    NSMeasurementFormatter *durationFormatter = [[NSMeasurementFormatter alloc] init];
+    [[durationFormatter numberFormatter] setMaximumFractionDigits:0];
+    if (!localized) { [durationFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]]; }
+    [durationFormatter setUnitStyle:NSFormattingUnitStyleLong];
+    
+    if (naturalScale) {
+        [durationFormatter setUnitOptions:NSMeasurementFormatterUnitOptionsNaturalScale];
+    } else {
+        [durationFormatter setUnitOptions:NSMeasurementFormatterUnitOptionsProvidedUnit];
+    }
+    
+    return [durationFormatter stringFromMeasurement:durationMeasurement];
 }
 
 @end

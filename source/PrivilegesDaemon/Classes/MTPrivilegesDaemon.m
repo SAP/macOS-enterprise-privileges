@@ -1,6 +1,6 @@
 /*
     MTPrivilegesDaemon.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -108,7 +108,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     });
         
                 } else {
-                        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
+                    
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
                 }
                     
                 CFRelease(taskRef);

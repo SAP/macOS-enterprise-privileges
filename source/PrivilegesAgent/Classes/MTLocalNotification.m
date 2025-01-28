@@ -1,6 +1,6 @@
 /*
     MTLocalNotification.m
-    Copyright 2022-2024 SAP SE
+    Copyright 2022-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -37,21 +37,36 @@
                           message:(NSString*)message
                          userInfo:(NSDictionary*)userInfo
                   replaceExisting:(BOOL)replaceExisting
+                           action:(BOOL)action
                 completionHandler:(void (^)(NSError *error))completionHandler;
 {
+
+    
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    [center setDelegate:_delegate];
+    
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     [content setTitle:title];
     [content setBody:message];
     [content setSound:[UNNotificationSound defaultSound]];
     [content setUserInfo:userInfo];
+    
+    if (action && [_actions count] > 0 && _categoryIdentifier) {
+        
+        UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:_categoryIdentifier
+                                                                                  actions:_actions
+                                                                        intentIdentifiers:[NSArray new]
+                                                                                  options:UNNotificationCategoryOptionCustomDismissAction
+        ];
+        
+        [content setCategoryIdentifier:_categoryIdentifier];
+        [center setNotificationCategories:[NSSet setWithObject:category]];
+    }
 
     UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[[NSUUID UUID] UUIDString]
                                                                           content:content
                                                                           trigger:nil
     ];
-    
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    [center setDelegate:self];
             
     // remove existing notifications
     if (replaceExisting) {
@@ -64,17 +79,6 @@
         
         if (completionHandler) { completionHandler(error); }
     }];
-}
-
-#pragma mark UNUserNotificationCenterDelegate
-
-- (void)userNotificationCenter:(UNUserNotificationCenter*)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    completionHandler(UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner);
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
-{
-    completionHandler();
 }
 
 @end

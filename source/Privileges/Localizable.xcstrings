@@ -9,6 +9,12 @@
             "value" : "إلغاء"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмени"
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -251,6 +257,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "بعد %@"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "След %@"
           }
         },
         "ca" : {
@@ -497,6 +509,12 @@
             "value" : "ليس لديك الإذن اللازم لفتح هذا التطبيق."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нямате разрешение да отворите това приложение."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -733,490 +751,810 @@
         }
       }
     },
-    "minLength1" : {
+    "minLengthPlaceholder" : {
       "localizations" : {
         "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يجب إدخال حرف واحد على الأقل."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال %ld أحرف على الأقل."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال %ld حرفاً على الأقل."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال حرف واحد على الأقل."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال %ld حرف على الأقل."
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال حرفين على الأقل."
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "يجب إدخال %ld حرف على الأقل."
+                }
+              }
+            }
+          }
+        },
+        "bg-BG" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Трябва да се въведе поне един символ."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Трябва да се въведат поне %ld символа."
+                }
+              }
+            }
           }
         },
         "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "S'ha d'introduir almenys un caràcter."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "S'ha d'introduir almenys un caràcter."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "S'han d'introduir almenys %ld caràcters."
+                }
+              }
+            }
           }
         },
         "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Musí být zadán alespoň jeden znak."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Je třeba zadat alespoň %ld znaky."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Je třeba zadat alespoň %ld znaku."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Musí být zadán alespoň jeden znak."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Je třeba zadat alespoň %ld znaků."
+                }
+              }
+            }
           }
         },
         "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der skal indtastes mindst ét tegn."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der skal indtastes mindst ét tegn."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der skal indtastes mindst %ld tegn."
+                }
+              }
+            }
           }
         },
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es muss mindestens ein Zeichen eingegeben werden."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es muss mindestens ein Zeichen eingegeben werden."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es müssen mindestens %ld Zeichen eingegeben werden."
+                }
+              }
+            }
           }
         },
         "el" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Πρέπει να εισαχθεί τουλάχιστον ένας χαρακτήρας."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Πρέπει να εισαχθεί τουλάχιστον ένας χαρακτήρας."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Πρέπει να εισαχθούν τουλάχιστον %ld χαρακτήρες."
+                }
+              }
+            }
           }
         },
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least one character must be entered."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least one character must be entered."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least %ld characters must be entered."
+                }
+              }
+            }
           }
         },
         "en-AU" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least one character must be entered."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least one character must be entered."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least %ld characters must be entered."
+                }
+              }
+            }
           }
         },
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least one character must be entered."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least one character must be entered."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "At least %ld characters must be entered."
+                }
+              }
+            }
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debe introducir al menos un carácter."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Debe introducir al menos un carácter."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deben introducirse al menos %ld caracteres."
+                }
+              }
+            }
           }
         },
         "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debe introducir al menos un carácter."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Debe introducir al menos un carácter."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deben introducirse al menos %ld caracteres."
+                }
+              }
+            }
           }
         },
         "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vähintään yksi merkki on syötettävä."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vähintään yksi merkki on syötettävä."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vähintään %ld merkkiä on syötettävä."
+                }
+              }
+            }
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Au moins un caractère doit être saisi."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Au moins un caractère doit être saisi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Au moins %ld caractères doivent être saisis."
+                }
+              }
+            }
           }
         },
         "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Au moins un caractère doit être saisi."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Au moins un caractère doit être saisi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Au moins %ld caractères doivent être saisis."
+                }
+              }
+            }
           }
         },
         "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "יש להזין לפחות תו אחד."
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "יש להזין לפחות %ld תווים."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "יש להזין לפחות תו אחד."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "יש להזין לפחות %ld תווים."
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "יש להזין לפחות %ld תווים."
+                }
+              }
+            }
           }
         },
         "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कम से कम एक वर्ण दर्ज किया जाना आवश्यक है."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "कम से कम एक वर्ण दर्ज किया जाना आवश्यक है."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "कम से कम %ld वर्ण दर्ज किए जाने चाहिए।"
+                }
+              }
+            }
           }
         },
         "hr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mora se unijeti barem jedan znak."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Potrebno je unijeti najmanje %ld znaka."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mora se unijeti barem jedan znak."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Potrebno je unijeti najmanje %ld znakova."
+                }
+              }
+            }
           }
         },
         "hu" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Legalább egy karaktert be kell írni."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Legalább egy karaktert be kell írni."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Legalább %ld karaktert be kell írni."
+                }
+              }
+            }
           }
         },
         "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setidaknya satu karakter harus dimasukkan."
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Setidaknya %ld karakter harus dimasukkan."
+                }
+              }
+            }
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "È necessario inserire almeno un carattere."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "È necessario inserire almeno un carattere."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "È necessario inserire almeno %ld caratteri."
+                }
+              }
+            }
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "少なくとも1文字は入力しなければならない。"
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "少なくとも%ld文字は入力しなければならない。"
+                }
+              }
+            }
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "하나 이상의 문자를 입력해야 합니다."
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%ld자 이상 입력해야 합니다."
+                }
+              }
+            }
           }
         },
         "ms" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sekurang-kurangnya satu aksara mesti dimasukkan."
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sekurang-kurangnya %ld aksara mesti dimasukkan."
+                }
+              }
+            }
           }
         },
         "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minst ett tegn må legges inn."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Minst ett tegn må legges inn."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Minst %ld tegn må legges inn."
+                }
+              }
+            }
           }
         },
         "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er moet minstens één teken worden ingevoerd."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Er moet minstens één teken worden ingevoerd."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Er moeten minstens %ld tekens worden ingevoerd."
+                }
+              }
+            }
           }
         },
         "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Należy wprowadzić co najmniej jeden znak."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Należy wprowadzić co najmniej %ld znaki."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Należy wprowadzić co najmniej %ld znaków."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Należy wprowadzić co najmniej jeden znak."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Należy wprowadzić co najmniej %ld znaku."
+                }
+              }
+            }
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pelo menos um caractere deve ser inserido."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pelo menos um caractere deve ser inserido."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Devem ser inseridos pelo menos %ld caracteres."
+                }
+              }
+            }
           }
         },
         "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deve ser introduzido pelo menos um carácter."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deve ser introduzido pelo menos um carácter."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Devem ser introduzidos pelo menos %ld caracteres."
+                }
+              }
+            }
           }
         },
         "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trebuie introdus cel puțin un caracter."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Trebuie introduse cel puțin %ld caractere."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Trebuie introdus cel puțin un caracter."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Trebuie introduse cel puțin %ld de caractere."
+                }
+              }
+            }
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Необходимо ввести хотя бы один символ."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необходимо ввести не менее %ld символов."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необходимо ввести не менее %ld символов."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необходимо ввести хотя бы один символ."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необходимо ввести не менее %ld символа."
+                }
+              }
+            }
           }
         },
         "sk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Musí byť zadaný aspoň jeden znak."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Musia byť zadané aspoň %ld znaky."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Je potrebné zadať aspoň %ld znaku."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Musí byť zadaný aspoň jeden znak."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Je potrebné zadať aspoň %ld znakov."
+                }
+              }
+            }
           }
         },
         "sl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vpisati je treba vsaj en znak."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vpisati je treba vsaj %ld znake."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vpisati je treba vsaj en znak."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vpisati je treba vsaj %ld znakov."
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vpisati je treba vsaj %ld znaka."
+                }
+              }
+            }
           }
         },
         "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minst ett tecken måste anges."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Minst ett tecken måste anges."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Minst %ld tecken måste anges."
+                }
+              }
+            }
           }
         },
         "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ต้องป้อนอักขระอย่างน้อยหนึ่งตัว"
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "ต้องป้อนอักขระอย่างน้อย %ld ตัว"
+                }
+              }
+            }
           }
         },
         "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En az bir karakter girilmelidir."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En az bir karakter girilmelidir."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En az %ld karakter girilmelidir."
+                }
+              }
+            }
           }
         },
         "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Необхідно ввести принаймні один символ."
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необхідно ввести щонайменше %ld символи."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необхідно ввести щонайменше %ld символів."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необхідно ввести принаймні один символ."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Необхідно ввести щонайменше %ld символу."
+                }
+              }
+            }
           }
         },
         "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Phải nhập ít nhất một ký tự."
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Phải nhập ít nhất %ld ký tự."
+                }
+              }
+            }
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必须至少输入一个字符。"
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "必须输入至少 %ld 个字符。"
+                }
+              }
+            }
           }
         },
         "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必须至少输入一个字符。"
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "必須輸入至少 %ld 個字元。"
+                }
+              }
+            }
           }
         },
         "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必須至少輸入一個字元。"
-          }
-        }
-      }
-    },
-    "minLength2" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يجب إدخال %ld حرفاً على الأقل."
-          }
-        },
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "S'han d'introduir almenys %ld caràcters."
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimální počet zadávaných znaků: %ld."
-          }
-        },
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der skal indtastes mindst %ld tegn."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es müssen mindestens %ld Zeichen eingegeben werden."
-          }
-        },
-        "el" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Πρέπει να εισαχθούν τουλάχιστον %ld χαρακτήρες."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least %ld characters must be entered."
-          }
-        },
-        "en-AU" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least %ld characters must be entered."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least %ld characters must be entered."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deben introducirse al menos %ld caracteres."
-          }
-        },
-        "es-419" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deben introducirse al menos %ld caracteres."
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vähintään %ld merkkiä on syötettävä."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Au moins %ld caractères doivent être saisis."
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Au moins %ld caractères doivent être saisis."
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "יש להזין לפחות %ld תווים."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कम से कम %ld वर्ण दर्ज किए जाने चाहिए।"
-          }
-        },
-        "hr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimalni broj znakova koji se unose: %ld."
-          }
-        },
-        "hu" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Legalább %ld karaktert be kell írni."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setidaknya %ld karakter harus dimasukkan."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "È necessario inserire almeno %ld caratteri."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "少なくとも%ld文字は入力しなければならない。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%ld자 이상 입력해야 합니다."
-          }
-        },
-        "ms" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sekurang-kurangnya %ld aksara mesti dimasukkan."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minst %ld tegn må legges inn."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er moeten minstens %ld tekens worden ingevoerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimalna liczba znaków do wprowadzenia: %ld."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Devem ser inseridos pelo menos %ld caracteres."
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Devem ser introduzidos pelo menos %ld caracteres."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trebuie introduse cel puțin %ld de caractere."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Минимальное количество символов для ввода: %ld."
-          }
-        },
-        "sk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimálny počet znakov, ktoré sa majú zadať: %ld."
-          }
-        },
-        "sl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Najmanjše število znakov, ki jih je treba vnesti: %ld."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minst %ld tecken måste anges."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ต้องป้อนอักขระอย่างน้อย %ld ตัว"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En az %ld karakter girilmelidir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Мінімальна кількість символів для введення: %ld."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Phải nhập ít nhất %ld ký tự."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必须输入至少 %ld 个字符。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必須輸入至少 %ld 個字元。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "必須輸入至少 %ld 個字元。"
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "必須輸入至少 %ld 個字元。"
+                }
+              }
+            }
           }
         }
       }
@@ -1227,6 +1565,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "موافق"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         },
         "ca" : {
@@ -1473,6 +1817,12 @@
             "value" : "أخرى…"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Други…"
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1715,6 +2065,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "أنت حاليًا مسؤول. عند التراجع عن الامتيازات، تصبح مستخدمًا قياسيًا."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В момента сте администратор. Когато върнете привилегиите, ставате стандартен потребител."
           }
         },
         "ca" : {
@@ -1961,6 +2317,12 @@
             "value" : "هل تريد بالتأكيد التراجع عن الامتيازات؟"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сигурни ли сте, че искате да върнете привилегиите?"
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2197,12 +2559,518 @@
         }
       }
     },
+    "privilegesDialogRenewMessage" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند تجديد امتيازات المسؤول، تظل مسؤولاً لمدة %@ إضافية."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когато подновявате администраторски привилегии, вие оставате администратор за още %@."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quan renoveu els privilegis de l'administrador, continueu sent administrador durant %@ més."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po obnovení oprávnění správce zůstanete správcem po dobu dalších %@."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når du fornyer administratorrettigheder, forbliver du administrator i yderligere %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn Du Deine Administratorrechte verlängerst, bleibst Du für weitere %@ Administrator."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Όταν ανανεώνετε τα προνόμια διαχειριστή, παραμένετε διαχειριστής για %@ επιπλέον."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you renew administrator privileges, you remain an administrator for an additional %@."
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you renew administrator privileges, you remain an administrator for an additional %@."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you renew administrator privileges, you remain an administrator for an additional %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando renovar los privilegios de administrador, usted sigue siendo un administrador durante %@ adicionales."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando renovar los privilegios de administrador, usted sigue siendo un administrador durante %@ adicionales."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun uusit ylläpitäjän oikeuksia, pysyt ylläpitäjänä vielä %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous renouvelez votre privilèges d'administrateur, vous restez administrateur pendant %@ supplémentaires."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous renouvelez votre privilèges d'administrateur, vous restez administrateur pendant %@ supplémentaires."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "כשאתה מחדש הרשאות מנהל מערכת, אתה נשאר מנהל מערכת למשך %@ נוספות."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जब आप व्यवस्थापक विशेषाधिकारों को नवीनीकृत करते हैं, तो आप अतिरिक्त %@ के लिए एक व्यवस्थापक बने रहते हैं."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kad obnovite administratorske povlastice, ostat ćete administrator dodatnih %@."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Az adminisztrátori jogosultságok megújításakor további %@ marad adminisztrátor."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketika Anda memperbarui hak administrator, Anda tetap menjadi administrator selama %@ tambahan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando si rinnovano i privilegi di amministratore, si rimane amministratori per altri %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者権限を更新すると、さらに%@、管理者のままとなる。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자 권한을 갱신하면 추가로 %@ 동안 관리자 권한이 유지됩니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apabila anda memperbaharui keistimewaan pentadbir, anda kekal pentadbir untuk %@ tambahan."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når du fornyer administratorrettighetene, forblir du administrator i ytterligere %@."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wanneer je de beheerdersbevoegdheden vernieuwt, blijf je %@ langer beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po odnowieniu uprawnień administratora użytkownik pozostaje administratorem przez dodatkowe %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao renovar os privilégios de administrador, você permanece como administrador por mais %@."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando renova os privilégios de administrador, permanece como administrador durante mais %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atunci când reînnoiți privilegii de administrator, rămâneți administrator pentru încă %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При возобновлении прав администратора вы остаетесь администратором еще %@."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keď obnovíte oprávnenia správcu, zostanete správcom ďalších %@."
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko obnovite skrbniške pravice, ostanete skrbnik še dodatnih %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När du förnyar administratörsbehörigheten förblir du administratör i ytterligare %@."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เมื่อคุณต่ออายุสิทธิพิเศษของผู้ดูแลระบบ คุณจะยังคงเป็นผู้ดูแลระบบอีก %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yönetici ayrıcalıkları yenilediğinizde, %@ daha yönetici olarak kalırsınız."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли ви поновлюєте права адміністратора, ви залишаєтеся адміністратором ще на %@."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi bạn gia hạn đặc quyền người quản trị, bạn vẫn là quản trị viên trong %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当您更新管理员权限时，您的管理员身份将延长 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您更新管理員權限時，您仍可保持管理員資格 %@。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當您更新管理員權限時，您仍可保持管理員資格 %@。"
+          }
+        }
+      }
+    },
+    "privilegesDialogRenewTitle" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل أنت متأكد من رغبتك في تجديد امتيازات المسؤول؟"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сигурни ли сте, че искате да подновите администраторски привилегии?"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segur que vols renovar privilegis d'administrador?"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jste si jisti, že chcete obnovit oprávnění správce?"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er du sikker på, at du vil forny administratorrettigheder?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bist Du sicher, dass Du Deine Administratorrechte verlängern möchtest?"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Σίγουρα θέλετε να ανανεώσετε τα προνόμια διαχειριστή;"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to renew administrator privileges?"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to renew administrator privileges?"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to renew administrator privileges?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seguro que desea renovar los privilegios de administrador?"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Estás seguro de que deseas renovar privilegios de administrador?"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haluatko varmasti uudistaa ylläpitäjän oikeuksia?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voulez-vous vraiment renouveler des autorisations d’administrateur ?"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voulez-vous vraiment renouveler des autorisations d’administrateur ?"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם אתה בטוח שברצונך לחדש הרשאות מנהל מערכת?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्या आप वाकई व्यवस्थापक विशेषाधिकार नवीनीकृत करना चाहते हैं?"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Želite li zaista obnoviti administratorske povlastice?"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biztos, hogy meg akarja újítani az adminisztrátori jogosultságokat?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apakah Anda yakin ingin memperbarui hak istimewa administrator?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desideri davvero rinnovare i privilegi di amministratore?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本当に管理者権限を更新しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자 권한을 갱신하시겠습니까?"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adakah anda pasti ingin memperbaharui keistimewaan pentadbir?"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er du sikker på at du vil fornye administratorrettighetene?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weet je zeker dat je de beheerdersbevoegdheden wilt vernieuwen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czy na pewno chcesz odnowić uprawnienia administratora?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem certeza de que deseja renovar os privilégios de administrador?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem a certeza de que pretende renovar os privilégios de administrador?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigur dorești să reînnoiți privilegii de administrator?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Действительно возобновить привилегии администратора?"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naozaj chcete obnoviť oprávnenia správcu?"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Res želite obnoviti skrbniške pravice?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du förnya administratörsbehörighet?"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คุณแน่ใจหรือไม่ว่าต้องการต่ออายุสิทธิพิเศษของผู้ดูแล?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yönetici ayrıcalıkları yenilemek istediğinizden emin misiniz?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви дійсно хочете поновити права адміністратора?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn có chắc là bạn muốn gia hạn đặc quyền quản trị viên không?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您确定要更新管理员权限吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您確定要更新管理員權限嗎？"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您確定要更新管理員權限嗎？"
+          }
+        }
+      }
+    },
     "privilegesDialogRequestMessage" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "أنت حاليًا مستخدم قياسي. إذا طلبت امتيازات المسؤول، فستتم ترقيتك لتصبح مسؤولًا بهذا الكمبيوتر."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В момента сте стандартен потребител. Ако поискате администраторски привилегии, ще получите право да администрирате този компютър."
           }
         },
         "ca" : {
@@ -2449,6 +3317,12 @@
             "value" : "أنت حاليًا مستخدم قياسي. إذا رغبت في طلب امتيازات المسؤول، يرجى إدخال سبب حاجتك إلى الترقية لتصبح مسؤولًا بهذا الكمبيوتر في الحقل النصي أدناه."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В момента сте стандартен потребител. Ако желаете да поискате администраторски привилегии, моля, въведете причината, поради която трябва да получите права за администриране на този компютър, в текстовото поле по-долу."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2482,19 +3356,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
           }
         },
         "en-AU" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please enter the reason you need to be elevated to administer this computer in the text field below."
           }
         },
         "es" : {
@@ -2693,6 +3567,12 @@
             "value" : "أنت حاليًا مستخدم قياسي. إذا رغبت في طلب امتيازات المسؤول، يرجى تحديد سبب حاجتك إلى الترقية لتصبح مسؤولًا بهذا الكمبيوتر من القائمة أدناه."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В момента сте стандартен потребител. Ако желаете да поискате администраторски привилегии, моля, изберете причината, поради която трябва да получите права за администриране на този компютър, от менюто по-долу."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2726,19 +3606,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
           }
         },
         "en-AU" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are currently a standard user. If you would you like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
+            "value" : "You are currently a standard user. If you would like to request administrator privileges, please select the reason you need to be elevated to administer this computer from the menu below."
           }
         },
         "es" : {
@@ -2936,6 +3816,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "تنتهي صلاحية امتيازات المسؤول في %@."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Администраторските привилегии изтичат след %@."
           }
         },
         "ca" : {
@@ -3180,6 +4066,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "هل تريد بالتأكيد طلب امتيازات المسؤول؟"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сигурни ли сте, че искате да поискате администраторски привилегии?"
           }
         },
         "ca" : {
@@ -3427,6 +4319,12 @@
             "value" : "التراجع عن الامتيازات"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Връщане на привилегиите"
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3663,6 +4561,256 @@
         }
       }
     },
+    "renewButton" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تجديد الامتيازات"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подновяване на привилегии"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renovar privilegis"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovení oprávnění"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forny rettigheder"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorrechte verlängern"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ανανέωση Προνομίων"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew Privileges"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew Privileges"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew Privileges"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renovar privilegios"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renovar privilegios"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uudistaa oikeuksia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renouveler les autorisations"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renouveler les autorisations"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חדש הרשאות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विशेषाधिकार नवीनीकृत करें"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovi povlastice"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jogosultságok megújítása"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memperbarui Hak Istimewa"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rinnovare privilegi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "権限を更新"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "권한 갱신"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memperbaharui keistimewaan"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forny rettigheter"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bevoegdheden vernieuwen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odnowienie uprawnienia"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renovar privilégios"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renovar privilégios"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reînnoiți privilegii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Возобновить привилегии"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovenie oprávnenia"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovite pravice"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Förnya behörighet"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ต่ออายุสิทธิพิเศษ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayrıcalıkları yenileyin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поновити права"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gia hạn đặc quyền"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新特权"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新權限"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新權限"
+          }
+        }
+      }
+    },
     "requestButton" : {
       "comment" : "This menu entry means \"the user requests administrator privileges\" to become an administrator.",
       "localizations" : {
@@ -3670,6 +4818,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "طلب الامتيازات"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заявяване на привилегии"
           }
         },
         "ca" : {
@@ -3916,6 +5070,12 @@
             "value" : "قام المسؤول بتقييد استخدام هذا التطبيق."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вашият администратор е ограничил използването на това приложение."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4160,6 +5320,12 @@
             "value" : "لقد منحك المسؤول امتيازات المسؤول الدائمة."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вашият администратор ви е предоставил постоянни администраторски права."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4402,6 +5568,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "لقد منحك المسؤول امتيازات المستخدم القياسي الدائمة."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вашият администратор ви е предоставил постоянни стандартни потребителски права."
           }
         },
         "ca" : {
@@ -4649,6 +5821,12 @@
             "value" : "ليس لديك إذن لاستخدام هذا التطبيق."
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нямате разрешение да използвате това приложение."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4891,6 +6069,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "لا يمكنك تشغيل هذا التطبيق كمستخدم جذري!"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не можете да стартирате това приложение като потребител root!"
           }
         },
         "ca" : {
@@ -5137,6 +6321,12 @@
             "value" : "تحديد"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изберете"
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5381,6 +6571,12 @@
             "value" : "الإعدادات…"
           }
         },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предпочитания..."
+          }
+        },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5623,6 +6819,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "مطلقًا"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Никога"
           }
         },
         "ca" : {

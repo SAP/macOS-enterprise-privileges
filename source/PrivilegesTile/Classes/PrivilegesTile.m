@@ -1,6 +1,6 @@
 /*
     PrivilegesTile.m
-    Copyright 2016-2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 @property (retain) id configurationObserver;
 @property (nonatomic, strong, readwrite) MTPrivileges *privilegesApp;
 @property (nonatomic, strong, readwrite) NSBundle *pluginBundle;
-@property (nonatomic, strong, readwrite) NSString *appPath;
+@property (nonatomic, strong, readwrite) NSURL *appURL;
 @property (nonatomic, strong, readwrite) NSString *cliPath;
 @property (nonatomic, strong, readwrite) NSMenu *dockTileMenu;
 @end
@@ -43,8 +43,8 @@
         _pluginBundle = [NSBundle bundleForClass:[self class]];
         
         // get the path to our command line tool
-        _appPath = [[[[_pluginBundle bundlePath] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
-        NSBundle *mainBundle = [NSBundle bundleWithPath:_appPath];
+        _appURL = [[[[_pluginBundle bundleURL] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
+        NSBundle *mainBundle = [NSBundle bundleWithURL:_appURL];
         _cliPath = [mainBundle pathForAuxiliaryExecutable:@"PrivilegesCLI"];
         
         // add observers to get notified if something important happens
@@ -55,7 +55,6 @@
             
             [self updateDockTileIcon:dockTile];
             if (![[self->_privilegesApp currentUser] hasAdminPrivileges]) { [self setBadgeOfDockTile:dockTile toMinutesLeft:0]; }
-            
         }];
         
         _timeLeftObserver = [notificationCenter addObserverForName:kMTNotificationNameExpirationTimeLeft
@@ -136,37 +135,55 @@
 
          if (hasAdminPrivileges) {
              
-             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"revertMenuItem", @"Localizable", _pluginBundle, nil)];
+             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"revertMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
              [privilegesItem setAction:@selector(revertPrivileges)];
              
          } else {
              
-             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"requestMenuItem", @"Localizable", _pluginBundle, nil)];
+             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"requestMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
              [privilegesItem setAction:@selector(requestPrivileges)];
          }
          
          [privilegesItem setTarget:self];
          
-         if ([_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]] ||
+         if ([[_privilegesApp currentUser] useIsRestricted] ||
              (!hasAdminPrivileges && (([_privilegesApp authenticationRequired] && ![_privilegesApp allowCLIBiometricAuthentication]) || [_privilegesApp reasonRequired]))) {
              [privilegesItem setEnabled:NO];
          }
          
          [_dockTileMenu addItem:privilegesItem];
+         
+         // we allow renewals from the Dock item if the user has admin rights AND privilege renewal
+         // is enabled AND (either "authentication is not required" OR "authentication is required but
+         // not for renewals" OR "authentication is required for renewals AND biometric authentication
+         // has been enabled for the command line tool".
+         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] &&
+             (![_privilegesApp authenticationRequired] ||
+              ([_privilegesApp authenticationRequired] && ![_privilegesApp renewalFollowsAuthSetting]) ||
+              ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting] && [_privilegesApp allowCLIBiometricAuthentication]))) {
+             
+             NSMenuItem *renewalItem = [[NSMenuItem alloc] init];
+             [renewalItem setTitle:NSLocalizedStringFromTableInBundle(@"renewMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+             [renewalItem setAction:@selector(requestPrivileges)];
+             [renewalItem setTarget:self];
+             [renewalItem setAlternate:YES];
+             [renewalItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+             [_dockTileMenu addItem:renewalItem];
+         }
      }
      
 #pragma mark add the settings item
      
-     if (_appPath && ![_privilegesApp hideSettingsFromDockMenu]) {
+     if (_appURL && ![_privilegesApp hideSettingsFromDockMenu]) {
          
          NSNumber *isBundle = nil;
-         NSURL *executableURL = [NSURL fileURLWithPath:_appPath];
          
-         if ([executableURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+         if ([_appURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
              
              NSMenuItem *settingsItem = [[NSMenuItem alloc] init];
-             [settingsItem setTitle:NSLocalizedStringFromTableInBundle(@"settingsMenuItem", @"Localizable", _pluginBundle, nil)];
-             [settingsItem setAction:@selector(showSettings)];
+             [settingsItem setTitle:NSLocalizedStringFromTableInBundle(@"settingsMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+             [settingsItem setAction:@selector(showSettings:)];
+             [settingsItem setRepresentedObject:_appURL];
              [settingsItem setTarget:self];
              
              [_dockTileMenu addItem:[NSMenuItem separatorItem]];
@@ -195,7 +212,7 @@
             soundPath = @"/System/Library/Frameworks/SecurityInterface.framework/Versions/A/Resources/lockClosing.aif";
         }
         
-        if ([_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]]) { iconName = [iconName stringByAppendingString:@"_managed"]; }
+        if ([[_privilegesApp currentUser] useIsRestricted]) { iconName = [iconName stringByAppendingString:@"_managed"]; }
         
         // play a lock/unlock sound if VoiceOver is enbled
         if ([[NSWorkspace sharedWorkspace] isVoiceOverEnabled]) {
@@ -268,23 +285,19 @@
     ];
 }
 
-- (void)showSettings
+- (void)showSettings:(id)sender
 {
-    if (_appPath) {
+    NSURL *executableURL = [sender representedObject];
 
-        NSNumber *isBundle = nil;
-        NSURL *executableURL = [NSURL fileURLWithPath:_appPath];
+    if (executableURL) {
+
+        NSWorkspaceOpenConfiguration *openConfiguration = [NSWorkspaceOpenConfiguration configuration];
+        [openConfiguration setArguments:[NSArray arrayWithObject:@"--showSettings"]];
         
-        if ([executableURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
-
-            NSWorkspaceOpenConfiguration *openConfiguration = [NSWorkspaceOpenConfiguration configuration];
-            [openConfiguration setArguments:[NSArray arrayWithObject:@"--showSettings"]];
-            
-            [[NSWorkspace sharedWorkspace] openApplicationAtURL:executableURL
-                                                  configuration:openConfiguration
-                                              completionHandler:nil
-            ];
-        }
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:executableURL
+                                              configuration:openConfiguration
+                                          completionHandler:nil
+        ];
     }
 }
 

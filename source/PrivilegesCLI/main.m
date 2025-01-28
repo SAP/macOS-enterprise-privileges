@@ -1,6 +1,6 @@
 /*
     main.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MTPrivileges.h"
-#import "MTAgentConnection.h"
 #import "Constants.h"
 
 @interface Main : NSObject
@@ -27,8 +26,10 @@
 
 @implementation Main
 
-- (void)run
+- (int)run
 {
+    __block int exitCode = 0;
+    
     // don't run this as root
     if (getuid() != 0) {
         
@@ -42,7 +43,7 @@
         
             if (hasAdminPrivileges) {
                 
-                [self writeConsole:[NSString stringWithFormat:@"User %@ has administrator privileges.", [[privilegesApp currentUser] userName]]];
+                [self writeConsole:[NSString stringWithFormat:@"User %@ has administrator privileges", [[privilegesApp currentUser] userName]]];
                 
                 if ([privilegesApp expirationInterval] > 0) {
                     
@@ -52,7 +53,12 @@
                         
                         if (remaining > 0) {
                             
-                            [self writeConsole:[NSString stringWithFormat:@"Administrator privileges expire in %@.", [self stringForDuration:remaining]]];
+                            [self writeConsole:[NSString stringWithFormat:@"Administrator privileges expire in %@", [MTPrivileges stringForDuration:remaining
+                                                                                                                                          localized:NO
+                                                                                                                                       naturalScale:NO
+                                                                                                                    ]
+                                               ]
+                            ];
                         }
                         
                         dispatch_semaphore_signal(semaphore);
@@ -63,27 +69,28 @@
                 
             } else {
                 
-                [self writeConsole:[NSString stringWithFormat:@"User %@ has standard user privileges.", [[privilegesApp currentUser] userName]]];
+                [self writeConsole:[NSString stringWithFormat:@"User %@ has standard user privileges", [[privilegesApp currentUser] userName]]];
             }
             
         } else if ([lastArgument isEqualToString:@"-a"] || [lastArgument isEqualToString:@"--add"] ||
                    [lastArgument isEqualToString:@"-r"] || [lastArgument isEqualToString:@"--remove"]) {
             
-            if ([privilegesApp useIsRestrictedForUser:[privilegesApp currentUser]]) {
+            if ([[privilegesApp currentUser] useIsRestricted]) {
                 
-                [self writeConsole:@"You cannot use this application to change your privileges because your administrator has restricted the use of this application."];
+                [self writeConsole:@"You cannot use this application to change your privileges because your administrator has restricted the use of this application"];
                 
                 if ([[privilegesApp enforcedPrivilegeType] isEqualToString:kMTEnforcedPrivilegeTypeAdmin]) {
-                    [self writeConsole:[NSString stringWithFormat:@"Administrator privileges have been assigned by your administrator."]];
+                    [self writeConsole:[NSString stringWithFormat:@"Administrator privileges have been assigned by your administrator"]];
                 } else if ([[privilegesApp enforcedPrivilegeType] isEqualToString:kMTEnforcedPrivilegeTypeUser]) {
-                    [self writeConsole:[NSString stringWithFormat:@"Standard user privileges have been assigned by your administrator."]];
+                    [self writeConsole:[NSString stringWithFormat:@"Standard user privileges have been assigned by your administrator"]];
                 }
                 
             } else {
                 
-                BOOL requestAdminPrivileges = ([lastArgument isEqualToString:@"-a"] || [lastArgument isEqualToString:@"--add"]) ? YES : NO;
+                BOOL requestAdminPrivileges = ([lastArgument isEqualToString:@"-a"] || [lastArgument isEqualToString:@"--add"]);
+                BOOL renewAdminPrivileges = (requestAdminPrivileges && hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed] && [privilegesApp expirationInterval] > 0);
                 
-                if (requestAdminPrivileges == hasAdminPrivileges) {
+                if (requestAdminPrivileges == hasAdminPrivileges && !renewAdminPrivileges) {
                     
                     [self writeConsole:[NSString stringWithFormat:@"User %@ already has the requested privileges. Nothing to do.", [[privilegesApp currentUser] userName]]];
                     
@@ -97,7 +104,7 @@
                         __block BOOL authSuccess = YES;
                          
 #pragma mark Reason
-                        if ([privilegesApp reasonRequired]) {
+                        if ([privilegesApp reasonRequired] && !renewAdminPrivileges) {
                             
                             NSInteger minReasonLength = [privilegesApp reasonMinLength];
                             NSInteger maxReasonLength = [privilegesApp reasonMaxLength];
@@ -124,7 +131,8 @@
                         
 #pragma mark Authentication
                         
-                        if ([privilegesApp authenticationRequired]) {
+                        if (([privilegesApp authenticationRequired] && !renewAdminPrivileges) ||
+                            ([privilegesApp authenticationRequired] && renewAdminPrivileges && [privilegesApp renewalFollowsAuthSetting])) {
                             
                             authSuccess = NO;
                             
@@ -155,37 +163,69 @@
                                         
                                     } else if (i > 0) {
                                         
-                                        [self writeConsole:@"Sorry, try again."];
+                                        [self writeConsole:@"Sorry, try again"];
                                     }
                                 }
                             }
                             
                             if (!authSuccess) {
-                                [self writeConsole:@"3 incorrect password attempts."];
+                                [self writeConsole:@"3 incorrect password attempts"];
+                                exitCode = 1;
                             }
                         }
                         
                         if (authSuccess) {
                             
-                            [[privilegesApp currentUser] requestAdminPrivilegesWithReason:privilegesReason
-                                                                        completionHandler:^(BOOL success) {
+                            if (renewAdminPrivileges) {
+                                
+                                [[privilegesApp currentUser] renewAdminPrivilegesWithCompletionHandler:^(BOOL success) {
                                     
-                                if (success) {
+                                    if (success) {
+                                            
+                                        [self writeConsole:[NSString stringWithFormat:@"Administrator privileges have been renewed and will expire in %@", [MTPrivileges stringForDuration:[privilegesApp expirationInterval]
+                                                                                                                                                      localized:NO
+                                                                                                                                                   naturalScale:NO
+                                                                                                                                ]
+                                                           ]
+                                        ];
                                         
-                                    [self writeConsole:[NSString stringWithFormat:@"User %@ now has administrator privileges.", [[privilegesApp currentUser] userName]]];
-                                    
-                                    if ([privilegesApp expirationInterval] > 0) {
+                                    } else {
                                         
-                                        [self writeConsole:[NSString stringWithFormat:@"Administrator privileges expire in %@.", [self stringForDuration:[privilegesApp expirationInterval]]]];
+                                        [self writeConsole:[NSString stringWithFormat:@"Failed to renew privileges for user %@", [[privilegesApp currentUser] userName]]];
+                                        exitCode = 2;
                                     }
                                     
-                                } else {
-                                    
-                                    [self writeConsole:[NSString stringWithFormat:@"Failed to change privileges for user %@.", [[privilegesApp currentUser] userName]]];
-                                }
+                                    dispatch_semaphore_signal(semaphore);
+                                }];
                                 
-                                dispatch_semaphore_signal(semaphore);
-                            }];
+                            } else {
+                                
+                                [[privilegesApp currentUser] requestAdminPrivilegesWithReason:privilegesReason
+                                                                            completionHandler:^(BOOL success) {
+                                    
+                                    if (success) {
+                                        
+                                        [self writeConsole:[NSString stringWithFormat:@"User %@ now has administrator privileges", [[privilegesApp currentUser] userName]]];
+                                        
+                                        if ([privilegesApp expirationInterval] > 0) {
+                                            
+                                            [self writeConsole:[NSString stringWithFormat:@"Administrator privileges expire in %@", [MTPrivileges stringForDuration:[privilegesApp expirationInterval]
+                                                                                                                                                          localized:NO
+                                                                                                                                                       naturalScale:NO
+                                                                                                                                    ]
+                                                               ]
+                                            ];
+                                        }
+                                        
+                                    } else {
+                                        
+                                        [self writeConsole:[NSString stringWithFormat:@"Failed to change privileges for user %@", [[privilegesApp currentUser] userName]]];
+                                        exitCode = 2;
+                                    }
+                                    
+                                    dispatch_semaphore_signal(semaphore);
+                                }];
+                            }
                             
                             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                         }
@@ -195,9 +235,10 @@
                         [[privilegesApp currentUser] revokeAdminPrivilegesWithCompletionHandler:^(BOOL success) {
                                                             
                             if (success) {
-                                [self writeConsole:[NSString stringWithFormat:@"User %@ now has standard user privileges.", [[privilegesApp currentUser] userName]]];
+                                [self writeConsole:[NSString stringWithFormat:@"User %@ now has standard user privileges", [[privilegesApp currentUser] userName]]];
                             } else {
                                 [self writeConsole:[NSString stringWithFormat:@"Failed to change privileges for user %@", [[privilegesApp currentUser] userName]]];
+                                exitCode = 2;
                             }
                             
                             dispatch_semaphore_signal(semaphore);
@@ -219,31 +260,20 @@
     } else {
         
         [self writeConsole:@"You cannot run this application as root!"];
+        exitCode = 3;
+        
         _shouldTerminate = YES;
     }
     
     // run until _shouldTerminate is true
     while (!_shouldTerminate && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+    
+    return exitCode;
 }
 
 - (void)writeConsole:(NSString*)consoleMessage
 {
     fprintf(stderr, "%s\n", [consoleMessage UTF8String]);
-}
-
-- (NSString*)stringForDuration:(NSUInteger)duration
-{
-    NSMeasurement *durationMeasurement = [[NSMeasurement alloc] initWithDoubleValue:duration
-                                                                               unit:[NSUnitDuration minutes]
-    ];
-    
-    NSMeasurementFormatter *durationFormatter = [[NSMeasurementFormatter alloc] init];
-    [[durationFormatter numberFormatter] setMaximumFractionDigits:0];
-    [durationFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-    [durationFormatter setUnitStyle:NSFormattingUnitStyleLong];
-    [durationFormatter setUnitOptions:NSMeasurementFormatterUnitOptionsProvidedUnit];
-    
-    return [durationFormatter stringFromMeasurement:durationMeasurement];
 }
 
 - (void) printUsage
@@ -262,12 +292,14 @@ int main(int argc, const char * argv[])
 {
 #pragma unused(argc)
 #pragma unused(argv)
+    
+    int exitCode = 0;
         
     @autoreleasepool {
             
         Main *m = [[Main alloc] init];
-        [m run];
+        exitCode = [m run];
     }
     
-    return EXIT_SUCCESS;
+    return exitCode;
 }

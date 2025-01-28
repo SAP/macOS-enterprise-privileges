@@ -1,6 +1,6 @@
 /*
     AppDelegate.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 #import "PrivilegesAgentProtocol.h"
 #import "MTSyslogMessage.h"
 #import "MTWebhook.h"
-#import "MTLocalNotification.h"
+#import "MTStatusItemMenu.h"
 #import <os/log.h>
 
 @interface AppDelegate ()
@@ -34,9 +34,13 @@
 @property (nonatomic, strong, readwrite) NSTimer *expirationTimer;
 @property (nonatomic, strong, readwrite) NSDate *timerExpirationDate;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readwrite) NSUserDefaults *appGroupDefaults;
 @property (nonatomic, strong, readwrite) MTLocalNotification *userNotification;
 @property (nonatomic, strong, readwrite) MTDaemonConnection *daemonConnection;
+@property (nonatomic, strong, readwrite) NSStatusItem *statusItem;
+@property (nonatomic, strong, readwrite) MTStatusItemMenu *statusMenu;
 @property (atomic, strong, readwrite) NSXPCListener *listener;
+@property (assign) BOOL observingStatusItem;
 @end
 
 @interface ExtendedNSXPCConnection : NSXPCConnection
@@ -58,50 +62,53 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     _privilegesApp = [[MTPrivileges alloc] init];
     _daemonConnection = [[MTDaemonConnection alloc] init];
     _userDefaults = [NSUserDefaults standardUserDefaults];
+    _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
     
     _userNotification = [[MTLocalNotification alloc] init];
+    [_userNotification setDelegate:self];
     [_userNotification requestAuthorizationWithCompletionHandler:nil];
+    [_userNotification setCategoryIdentifier:kMTNotificationCategoryIdentifier];
+    [_userNotification setActions:[NSArray arrayWithObject:
+                                       [UNNotificationAction actionWithIdentifier:kMTNotificationActionIdentifierRenew
+                                                                            title:NSLocalizedString(@"renewButton", nil)
+                                                                          options:0
+                                       ]
+                                  ]
+    ];
         
     BOOL removeSavedTimer = YES;
     
     // enforce fixed privileges
-    if ([_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]]) {
+    if ([[_privilegesApp currentUser] useIsRestricted]) {
         
         [self enforceFixedPrivileges];
         
-    // revoke administrator privileges if needed
-    } else if ([_privilegesApp privilegesShouldBeRevokedAtLogin] && 
-               [[_privilegesApp currentUser] hasAdminPrivileges] &&
-               [[NSDate date] timeIntervalSinceDate:[MTSystemInfo sessionStartDate]] < kMTRevokeAtLoginThreshold) {
-        
-        [self revokeAdminRightsWithCompletionHandler:nil];
-        
-    // check for a running timer
-    } else if ([_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey]) {
-        
-        NSDate *previousDate = [_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey];
-
-        // is the timer still valid?
-        if ([[NSDate date] compare:previousDate] == NSOrderedAscending) {
-            
-            removeSavedTimer = NO;
-            NSUInteger remainingTime = ceil([previousDate timeIntervalSinceNow]/60);
-            if (remainingTime > [_privilegesApp expirationInterval]) { remainingTime = [_privilegesApp expirationInterval]; }
-            [self scheduleExpirationTimerWithInterval:remainingTime isExisitingTimer:YES];
-            
-        } else {
+    } else if ([self userHasAdminPrivileges]) {
+               
+        // revoke administrator privileges if needed
+        if ([_privilegesApp privilegesShouldBeRevokedAtLogin] &&
+            [[NSDate date] timeIntervalSinceDate:[MTSystemInfo sessionStartDate]] < kMTRevokeAtLoginThreshold) {
             
             [self revokeAdminRightsWithCompletionHandler:nil];
+        
+        // check for a running timer
+        } else if ([_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey]) {
+            
+            NSDate *previousDate = [_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey];
+            
+            // is the timer still valid?
+            if ([[NSDate date] compare:previousDate] == NSOrderedAscending) {
+                
+                removeSavedTimer = NO;
+                NSUInteger remainingTime = ceil([previousDate timeIntervalSinceNow]/60.0);
+                if (remainingTime > [_privilegesApp expirationInterval]) { remainingTime = [_privilegesApp expirationInterval]; }
+                [self scheduleExpirationTimerWithInterval:remainingTime isSavedTimer:YES];
+                
+            } else {
+                
+                [self revokeAdminRightsWithCompletionHandler:nil];
+            }
         }
-        
-    // if (for whatever reason) the user is an admin and
-    // the expiration interval is geater than 0 but there's
-    // no active timer, we schedule a new timer to make sure
-    // the administrator privileges expire at some point.
-    } else if ([[_privilegesApp currentUser] hasAdminPrivileges] && [_privilegesApp expirationInterval] > 0) {
-        
-        removeSavedTimer = NO;
-        [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isExisitingTimer:NO];
     }
     
     if (removeSavedTimer) {
@@ -110,19 +117,22 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
     // define the keys in our prefs we need to observe
     _keysToObserve = [[NSArray alloc] initWithObjects:
-                      kMTDefaultsExpirationIntervalKey,
-                      kMTDefaultsAutoExpirationIntervalMaxKey,
-                      kMTDefaultsHideOtherWindowsKey,
-                      kMTDefaultsRevokeAtLoginKey,
-                      kMTDefaultsPostChangeExecutablePathKey,
-                      kMTDefaultsEnforcePrivilegesKey,
-                      kMTDefaultsLimitToUserKey,
-                      kMTDefaultsLimitToGroupKey,
-                      nil
+                        kMTDefaultsExpirationIntervalKey,
+                        kMTDefaultsAutoExpirationIntervalMaxKey,
+                        kMTDefaultsAllowPrivilegeRenewalKey,
+                        kMTDefaultsHideOtherWindowsKey,
+                        kMTDefaultsRevokeAtLoginKey,
+                        kMTDefaultsRevokeAtLoginExcludedUsersKey,
+                        kMTDefaultsPostChangeExecutablePathKey,
+                        kMTDefaultsEnforcePrivilegesKey,
+                        kMTDefaultsLimitToUserKey,
+                        kMTDefaultsLimitToGroupKey,
+                        kMTDefaultsShowInMenuBarKey,
+                        nil
     ];
             
-    // Start observing our preferences to make sure we'll get notified as soon as someting changes
-    // (e.g. a configuration profile has been installed).
+    // Start observing our preferences to make sure we'll get notified as soon as
+    // something changes (e.g. a configuration profile has been installed).
     for (NSString *aKey in _keysToObserve) {
         
         [[_privilegesApp userDefaults] addObserver:self
@@ -131,6 +141,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                            context:nil
         ];
     }
+    
+    [_appGroupDefaults addObserver:self
+                        forKeyPath:kMTDefaultsShowInMenuBarKey
+                           options:NSKeyValueObservingOptionNew
+                           context:nil
+    ];
 
     // add an observer to detect wake from sleep
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
@@ -138,6 +154,9 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                                                name:NSWorkspaceDidWakeNotification
                                                              object:nil
     ];
+    
+    // show the status item (if enabled)
+    [self showStatusItem:[_privilegesApp showInMenuBar]];
 }
 
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
@@ -182,7 +201,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 os_log(OS_LOG_DEFAULT, "SAPCorp: %{public}@ established", newConnection);
     
             } else {
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
+                
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
             }
                 
             CFRelease(taskRef);
@@ -195,19 +215,27 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     return acceptConnection;
 }
 
-- (void)invalidateXPC
+- (void)scheduleExpirationTimerWithInterval:(NSUInteger)interval isSavedTimer:(BOOL)savedTimer
 {
-    [_listener invalidate];
-    _listener = nil;
-}
-
-- (void)scheduleExpirationTimerWithInterval:(NSUInteger)interval isExisitingTimer:(BOOL)existing
-{
-    if (existing && [self->_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey]) {
+    if (savedTimer && [self->_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey]) {
+        
+        if (_expirationTimer) { [self invalidateExpirationTimer]; }
         
         self->_timerExpirationDate = [self->_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey];
 
     } else {
+        
+        if (_expirationTimer) {
+            
+            os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have been renewed (%{public}@)", [[self->_privilegesApp currentUser] userName], [MTPrivileges stringForDuration:[_privilegesApp expirationInterval] localized:NO naturalScale:NO]);
+            
+            // remote logging
+            if ([self->_privilegesApp remoteLoggingConfiguration]) {
+                [self remoteLoggingTaskWithReason:@"renewed by user"];
+            }
+            
+            [self invalidateExpirationTimer];
+        }
         
         self->_timerExpirationDate = [NSDate dateWithTimeIntervalSinceNow:(interval * 60)];
         
@@ -218,7 +246,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
     // post a notification to update the Dock tile
     [self postAutoRevokeIntervalUpdateNotificationWithInterval:interval];
-            
+        
     dispatch_async(dispatch_get_main_queue(), ^{
         
         self->_expirationTimer = [NSTimer scheduledTimerWithTimeInterval:60
@@ -226,11 +254,26 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                                                    block:^(NSTimer *timer) {
             
             NSInteger minutesLeft = [self privilegesTimeLeft];
-                                        
+
             if (minutesLeft > 0) {
                 
                 // post a notification to update the Dock tile
                 [self postAutoRevokeIntervalUpdateNotificationWithInterval:minutesLeft];
+                
+                // update the status item's tooltip
+                if ([self->_privilegesApp showInMenuBar]) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self showStatusItem:YES];
+                    });
+                }
+                
+                // if the administrator privileges are about to expire and privilege renewal
+                // is allowed, we post a notification and ask the user to renew the privileges
+                if (minutesLeft == 1 && [self->_privilegesApp expirationInterval] > 1 && [self->_privilegesApp privilegeRenewalAllowed]) {
+                    
+                    [self displayNotificationOfType:MTLocalNotificationTypeRenew];
+                }
                 
             }  else {
                 
@@ -238,7 +281,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     
                     [self revokeAdminRightsWithCompletionHandler:^(BOOL success) {
                         
-                        os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have expired.", [[self->_privilegesApp currentUser] userName]);
+                        os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have expired", [[self->_privilegesApp currentUser] userName]);
                     }];
                 });
             }
@@ -260,20 +303,28 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
+- (void)invalidateExpirationTimer
+{
+    if (_expirationTimer) {
+        
+        [_expirationTimer invalidate];
+        _expirationTimer = nil;
+        _timerExpirationDate = nil;
+        
+        [self postAutoRevokeIntervalUpdateNotificationWithInterval:0];
+    }
+    
+    [self->_userDefaults removeObjectForKey:kMTDefaultsAgentTimerExpirationKey];
+}
+
 - (void)enforceFixedPrivileges
 {
     NSString *enforcedPrivileges = [_privilegesApp enforcedPrivilegeType];
-    BOOL userHasAdminPrivileges = [[_privilegesApp currentUser] hasAdminPrivileges];
+    BOOL userHasAdminPrivileges = [self userHasAdminPrivileges];
     
-    if (enforcedPrivileges || [_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]]) {
+    if (enforcedPrivileges || [[_privilegesApp currentUser] useIsRestricted]) {
         
-        if (_expirationTimer) {
-            [_expirationTimer invalidate];
-            _expirationTimer = nil;
-            _timerExpirationDate = nil;
-            
-            [self postAutoRevokeIntervalUpdateNotificationWithInterval:0];
-        }
+        [self invalidateExpirationTimer];
         
         if ([enforcedPrivileges isEqualToString:kMTEnforcedPrivilegeTypeAdmin] && !userHasAdminPrivileges) {
             
@@ -290,24 +341,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         // expiration interval is applied after the profile is removed
         if (userHasAdminPrivileges && [_privilegesApp expirationInterval] > 0) {
         
-            [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval]
-                                     isExisitingTimer:NO
-            ];
+            [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
         }
     }
 }
 
-- (NSUInteger)privilegesTimeLeft
-{
-    return (ceil([_timerExpirationDate timeIntervalSinceNow]/60));
-}
-
-- (BOOL)userHasAdminPrivileges
-{
-    return ([[_privilegesApp currentUser] hasAdminPrivileges]);
-}
-
-- (void)launchExecutable
+- (void)launchExecutableAndProvideReason:(NSString*)reason
 {
     NSString *executablePath = [_privilegesApp postChangeExecutablePath];
     
@@ -317,11 +356,13 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
         if (executableURL) {
             
-            NSArray *launchArguments = [NSArray arrayWithObjects:
-                                            [[self->_privilegesApp currentUser] userName],
-                                        ([[self->_privilegesApp currentUser] hasAdminPrivileges]) ? @"admin" : @"user",
-                                        nil
+            NSMutableArray *launchArguments = [NSMutableArray arrayWithObjects:
+                                               [[self->_privilegesApp currentUser] userName],
+                                               ([[self->_privilegesApp currentUser] hasAdminPrivileges]) ? @"admin" : @"user",
+                                               nil
             ];
+            
+            if ([reason length] > 0) { [launchArguments addObject:reason]; }
             
             // get the executable for a selected bundle…
             NSNumber *isBundle = nil;
@@ -393,6 +434,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         } else if ([[logServerType lowercaseString] isEqualToString:kMTRemoteLoggingServerTypeWebhook]) {
 
             NSString *webhookURL = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingServerAddressKey];
+            NSDictionary *customData = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingWebhookDataKey];
             
             if (webhookURL && [webhookURL length] > 0) {
 
@@ -400,6 +442,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 [webHook postToWebhookForUser:[_privilegesApp currentUser]
                                        reason:reason
                                expirationDate:_timerExpirationDate
+                                   customData:([customData isKindOfClass:[NSDictionary class]]) ? customData : nil
                             completionHandler:^(NSError *error) {
                     
                     if (error) {
@@ -451,6 +494,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 - (void)displayNotificationOfType:(MTLocalNotificationType)type
 {
     NSString *notificationMessage = nil;
+    BOOL hasAction = NO;
     
     switch (type) {
             
@@ -466,6 +510,15 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             notificationMessage = NSLocalizedString(@"notificationMessage_Error", nil);
             break;
             
+        case MTLocalNotificationTypeRenew:
+            notificationMessage = NSLocalizedString(@"notificationMessage_Renew", nil);
+            hasAction = YES;
+            break;
+            
+        case MTLocalNotificationTypeRenewSuccess:
+            notificationMessage = NSLocalizedString(@"notificationMessage_RenewSuccess", nil);
+            break;
+            
         default:
             break;
     }
@@ -476,6 +529,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                              message:notificationMessage
                                             userInfo:nil
                                      replaceExisting:YES
+                                           action:hasAction
                                    completionHandler:nil
         ];
     }
@@ -494,15 +548,219 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         } else if ([keyPath isEqualToString:kMTDefaultsExpirationIntervalKey] ||
                    [keyPath isEqualToString:kMTDefaultsAutoExpirationIntervalMaxKey]) {
             
-            if ([self privilegesTimeLeft] > [_privilegesApp expirationInterval]) {
+            // invalidate or (re)schedule our timer if needed
+            if ([_privilegesApp expirationInterval] == 0) {
+                
+                [self invalidateExpirationTimer];
+                                
+            } else if ([self privilegesTimeLeft] > [_privilegesApp expirationInterval] ||
+                       ([self userHasAdminPrivileges] && [self privilegesTimeLeft] == 0)) {
              
-                [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval]
-                                         isExisitingTimer:NO
-                ];
+                [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
             }
         }
-            
+        
+        // update the status item if needed
+        [self showStatusItem:[self->_privilegesApp showInMenuBar]];
+
         [self postConfigurationChangeNotificationForKeyPath:keyPath];
+        
+    } else if ((object == _appGroupDefaults && [keyPath isEqualToString:kMTDefaultsShowInMenuBarKey]) ||
+               (object == _statusItem && [keyPath isEqualToString:@"visible"])) {
+        
+        if (object == _statusItem) { [_appGroupDefaults setBool:NO forKey:kMTDefaultsShowInMenuBarKey]; }
+        [self showStatusItem:[self->_privilegesApp showInMenuBar]];
+        
+        [self postConfigurationChangeNotificationForKeyPath:kMTDefaultsShowInMenuBarKey];
+    }
+}
+
+#pragma mark AppleScriptDataProvider
+
+- (NSUInteger)privilegesTimeLeft
+{
+    return (NSUInteger)(ceil([_timerExpirationDate timeIntervalSinceNow]/60.0));
+}
+
+- (BOOL)userHasAdminPrivileges
+{
+    return ([[_privilegesApp currentUser] hasAdminPrivileges]);
+}
+
+#pragma mark NSStatusItem
+
+- (void)showStatusItem:(BOOL)status
+{
+    if (status) {
+        
+        if (!_statusItem) {
+            
+            _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+            [_statusItem button];
+            
+            _statusMenu = [[MTStatusItemMenu alloc] init];
+            
+            NSMenuItem *privilegesItem = [[NSMenuItem alloc] init];
+            [privilegesItem setTitle:NSLocalizedStringFromTable(@"requestMenuItem", @"LocalizableMenu", nil)];
+            [privilegesItem setAction:@selector(changePrivilegesFromStatusItem)];
+            [privilegesItem setTarget:self];
+            [privilegesItem setTag:1000];
+            [_statusMenu addItem:privilegesItem];
+            
+            NSMenuItem *renewalItem = [[NSMenuItem alloc] init];
+            [renewalItem setTitle:NSLocalizedStringFromTable(@"renewMenuItem", @"LocalizableMenu", nil)];
+            [renewalItem setAction:@selector(renewPrivilegesFromStatusItem)];
+            [renewalItem setTarget:self];
+            [renewalItem setAlternate:YES];
+            [renewalItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+            [renewalItem setTag:2000];
+            [_statusMenu addItem:renewalItem];
+            
+            NSURL *executableURL = [[[[[NSBundle mainBundle] bundleURL] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
+            
+            if (executableURL && ![_privilegesApp hideSettingsFromStatusItem]) {
+                
+                NSNumber *isBundle = nil;
+                
+                if ([executableURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+                    
+                    NSMenuItem *settingsItem = [[NSMenuItem alloc] init];
+                    [settingsItem setTitle:NSLocalizedStringFromTable(@"settingsMenuItem", @"LocalizableMenu", nil)];
+                    [settingsItem setAction:@selector(showSettings:)];
+                    [settingsItem setRepresentedObject:executableURL];
+                    [settingsItem setTarget:self];
+                    
+                    [_statusMenu addItem:[NSMenuItem separatorItem]];
+                    [_statusMenu addItem:settingsItem];
+                }
+            }
+            
+            [_statusItem setMenu:_statusMenu];
+            
+        } else if (_statusMenu) {
+            
+            [_statusMenu updateMenu];
+        }
+        
+        // set the tooltip
+        [[_statusItem button] setToolTip:([self privilegesTimeLeft] > 0) ? [MTPrivileges stringForDuration:[self privilegesTimeLeft]
+                                                                                                 localized:YES
+                                                                                              naturalScale:NO
+                                                                           ] : nil
+        ];
+        
+        // set the behavior
+        if (![_privilegesApp showInMenuBarIsForced]) {
+
+            [_statusItem setBehavior:NSStatusItemBehaviorRemovalAllowed];
+
+            if (!_observingStatusItem) {
+                
+                [_statusItem addObserver:self
+                              forKeyPath:@"visible"
+                                 options:NSKeyValueObservingOptionNew
+                                 context:nil
+                ];
+                
+                _observingStatusItem = YES;
+            }
+            
+        } else {
+            
+            [_statusItem setBehavior:0];
+            
+            // remove our observer
+            if (_observingStatusItem) {
+                
+                [_statusItem removeObserver:self forKeyPath:@"visible" context:nil];
+                _observingStatusItem = NO;
+            }
+        }
+                
+        // set the image
+        NSString *iconName = ([self userHasAdminPrivileges]) ? @"unlocked" : @"locked";
+        if ([[_privilegesApp currentUser] useIsRestricted]) { iconName = [iconName stringByAppendingString:@"_managed"]; }
+        [[_statusItem button] setImage:[NSImage imageNamed:iconName]];
+        
+    } else {
+        
+        if (_statusItem) {
+            
+            // remove our observer
+            [_statusItem removeObserver:self forKeyPath:@"visible" context:nil];
+            _observingStatusItem = NO;
+            
+            // remove the status item
+            [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
+            _statusItem = nil;
+            _statusMenu = nil;
+        }
+    }
+}
+
+- (void)changePrivilegesFromStatusItem
+{
+    if ([self userHasAdminPrivileges]) {
+        
+        // we provide dummy completion handlers here instead of nil,
+        // to make sure the script or application runs after privileges
+        // changed (if configured)
+        [self revokeAdminRightsWithCompletionHandler:^(BOOL success) { return; }];
+        
+    } else {
+        
+        if ([_privilegesApp authenticationRequired]) {
+            
+            [self authenticateUserWithCompletionHandler:^(BOOL success) {
+                
+                if (success) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self requestAdminRightsWithReason:nil completionHandler:^(BOOL success) { return; }];
+                    });
+                }
+            }];
+            
+        } else {
+            
+            [self requestAdminRightsWithReason:nil completionHandler:^(BOOL success) { return; }];
+        }
+    }
+}
+
+- (void)renewPrivilegesFromStatusItem
+{
+    if ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting]) {
+        
+        [self authenticateUserWithCompletionHandler:^(BOOL success) {
+            
+            if (success) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self renewAdminRightsWithCompletionHandler:nil];
+                });
+            }
+        }];
+        
+    } else {
+        
+        [self renewAdminRightsWithCompletionHandler:nil];
+    }
+}
+
+- (void)showSettings:(id)sender
+{
+    NSURL *executableURL = [sender representedObject];
+    
+    if (executableURL) {
+
+        NSWorkspaceOpenConfiguration *openConfiguration = [NSWorkspaceOpenConfiguration configuration];
+        [openConfiguration setArguments:[NSArray arrayWithObject:@"--showSettings"]];
+        
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:executableURL
+                                              configuration:openConfiguration
+                                          completionHandler:nil
+        ];
     }
 }
 
@@ -544,7 +802,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
 - (void)requestAdminRightsWithReason:(NSString*)reason completionHandler:(void(^)(BOOL success))completionHandler
 {
-    BOOL isRestricted = [_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]];
+    BOOL isRestricted = [[_privilegesApp currentUser] useIsRestricted];
     BOOL adminEnforced = [[_privilegesApp enforcedPrivilegeType] isEqualToString:kMTEnforcedPrivilegeTypeAdmin];
     
     if (!isRestricted || adminEnforced) {
@@ -570,23 +828,17 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     // post a notification to inform the Dock tile plugin
                     [self postPrivilegesChangedNotification];
                     
+                    // update the status item
+                    dispatch_async(dispatch_get_main_queue(), ^{ [self showStatusItem:[self->_privilegesApp showInMenuBar]]; });
+                    
                     if (!isRestricted && !adminEnforced) {
                         
                         NSUInteger removeAfterMinutes = [self->_privilegesApp expirationInterval];
                         
                         if (removeAfterMinutes > 0) {
                             
-                            NSMeasurement *durationMeasurement = [[NSMeasurement alloc] initWithDoubleValue:removeAfterMinutes
-                                                                                                       unit:[NSUnitDuration minutes]];
-                            
-                            NSMeasurementFormatter *durationFormatter = [[NSMeasurementFormatter alloc] init];
-                            [[durationFormatter numberFormatter] setMaximumFractionDigits:0];
-                            [durationFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-                            [durationFormatter setUnitStyle:NSFormattingUnitStyleLong];
-                            [durationFormatter setUnitOptions:NSMeasurementFormatterUnitOptionsProvidedUnit];
-                            
-                            os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges are automatically revoked in %{public}@", [durationFormatter stringFromMeasurement:durationMeasurement]);
-                            [self scheduleExpirationTimerWithInterval:removeAfterMinutes isExisitingTimer:NO];
+                            os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges are automatically revoked in %{public}@", [MTPrivileges stringForDuration:removeAfterMinutes localized:NO naturalScale:NO]);
+                            [self scheduleExpirationTimerWithInterval:removeAfterMinutes isSavedTimer:NO];
                         }
                         
                         // remote logging
@@ -596,7 +848,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         
                         // run a script or application if configured
                         if (completionHandler && [self->_privilegesApp postChangeExecutablePath]) {
-                            [self launchExecutable];
+                            [self launchExecutableAndProvideReason:([self->_privilegesApp passReasonToExecutable]) ? reason : nil];
                         }
                     }
                 }
@@ -614,20 +866,13 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
 - (void)revokeAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler
 {
-    BOOL isRestricted = [_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]];
+    BOOL isRestricted = [[_privilegesApp currentUser] useIsRestricted];
     BOOL userEnforced = [[_privilegesApp enforcedPrivilegeType] isEqualToString:kMTEnforcedPrivilegeTypeUser];
     NSString *reason = ([self privilegesTimeLeft] > 0) ? @"requested by user" : @"privileges expired";
     
     if (!isRestricted || userEnforced) {
         
-        if (_expirationTimer) {
-            
-            [_expirationTimer invalidate];
-            _expirationTimer = nil;
-            _timerExpirationDate = nil;
-        }
-        
-        [_userDefaults removeObjectForKey:kMTDefaultsAgentTimerExpirationKey];
+        [self invalidateExpirationTimer];
         
         [_daemonConnection connectToDaemonAndExecuteCommandBlock:^{
             
@@ -650,6 +895,9 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     // post a notification to inform the Dock tile plugin
                     [self postPrivilegesChangedNotification];
                     
+                    // update the status item
+                    dispatch_async(dispatch_get_main_queue(), ^{ [self showStatusItem:[self->_privilegesApp showInMenuBar]]; });
+                    
                     if (!isRestricted && !userEnforced) {
                         
                         // remote logging
@@ -661,7 +909,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         if (![self->_privilegesApp runActionAfterGrantOnly]) {
                             
                             if (completionHandler && [self->_privilegesApp postChangeExecutablePath]) {
-                                [self launchExecutable];
+                                [self launchExecutableAndProvideReason:([self->_privilegesApp passReasonToExecutable]) ? reason : nil];
                             }
                         }
                     }
@@ -678,9 +926,25 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
+- (void)renewAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler
+{
+    BOOL success = NO;
+    
+    if ([self userHasAdminPrivileges] && [_expirationTimer isValid]) {
+            
+        [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+        success = YES;
+    }
+    
+    [self displayNotificationOfType:(success) ? MTLocalNotificationTypeRenewSuccess : MTLocalNotificationTypeError];
+    
+    if (completionHandler) { completionHandler(success); }
+    
+}
+
 - (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success))completionHandler
 {
-    if (![_privilegesApp useIsRestrictedForUser:[_privilegesApp currentUser]]) {
+    if (![[_privilegesApp currentUser] useIsRestricted]) {
         
         [MTIdentity authenticateUserWithReason:[NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]]
                              completionHandler:^(BOOL success, NSError *error) {
@@ -709,6 +973,37 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         BOOL executable = [MTSystemInfo isExecutableFileAtURL:url];
         reply(executable);
     }
+}
+
+#pragma mark UNUserNotificationCenterDelegate
+
+- (void)userNotificationCenter:(UNUserNotificationCenter*)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    completionHandler(UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner);
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+    if ([[response actionIdentifier] isEqualToString:kMTNotificationActionIdentifierRenew]) {
+        
+        if ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting]) {
+            
+            [self authenticateUserWithCompletionHandler:^(BOOL success) {
+                
+                if (success) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self renewAdminRightsWithCompletionHandler:nil];
+                    });
+                }
+            }];
+            
+        } else {
+            
+            [self renewAdminRightsWithCompletionHandler:nil];
+        }
+    }
+    
+    completionHandler();
 }
 
 @end

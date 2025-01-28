@@ -1,6 +1,6 @@
 /*
     MTWebhook.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #import "MTWebhook.h"
 #import "MTSystemInfo.h"
+#import "Constants.h"
 
 @interface MTWebhook ()
 @property (nonatomic, strong, readwrite) NSURL *url;
@@ -39,24 +40,26 @@
 - (void)postToWebhookForUser:(MTPrivilegesUser*)user
                       reason:(NSString*)reason
               expirationDate:(NSDate*)expiration
+                  customData:(NSDictionary*)customData
            completionHandler:(void (^) (NSError *error))completionHandler
 {
     NSString *expirationDateString = @"";
     NSISO8601DateFormatter *dateFormatter = [[NSISO8601DateFormatter alloc] init];
     
-    if ([user hasAdminPrivileges] && expiration) {
-        expirationDateString = [dateFormatter stringFromDate:expiration];
-    }
+    if ([user hasAdminPrivileges] && expiration) { expirationDateString = [dateFormatter stringFromDate:expiration]; }
 
-    NSDictionary *jsonDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [user userName], @"user",
-                              [NSNumber numberWithBool:[user hasAdminPrivileges]], @"admin",
-                              expirationDateString, @"expires",
-                              (reason) ? reason : @"", @"reason",
-                              [MTSystemInfo machineUUID], @"machine",
-                              [dateFormatter stringFromDate:[NSDate now]], @"timestamp",
-                              nil
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     [user userName], @"user",
+                                     [NSNumber numberWithBool:[user hasAdminPrivileges]], @"admin",
+                                     expirationDateString, @"expires",
+                                     (reason) ? reason : @"", @"reason",
+                                     ([user hasAdminPrivileges]) ? kMTWebhookEventTypeGranted : kMTWebhookEventTypeRevoked, @"event",
+                                     [MTSystemInfo machineUUID], @"machine",
+                                     [dateFormatter stringFromDate:[NSDate now]], @"timestamp",
+                                     nil
     ];
+    
+    if ([[customData allKeys] count] > 0) { [jsonDict setObject:customData forKey:@"custom_data"]; }
     
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict

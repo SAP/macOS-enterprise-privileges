@@ -1,6 +1,6 @@
 /*
     MTReasonAccessoryController.m
-    Copyright 2024 SAP SE
+    Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,12 +35,7 @@
     [[_predefinedReasonsButton menu] removeAllItems];
     
     NSInteger minLength = [privilegesApp reasonMinLength];
-    
-    if (minLength == 1) {
-        _reasonPlaceHolder = NSLocalizedString(@"minLength1", nil);
-    } else if (minLength > 1) {
-        _reasonPlaceHolder = [NSString localizedStringWithFormat:NSLocalizedString(@"minLength2", nil), minLength];
-    }
+    _reasonPlaceHolder = [NSString localizedStringWithFormat:NSLocalizedString(@"minLengthPlaceholder", nil), minLength];
     
     [_reasonTextField setPlaceholderString:_reasonPlaceHolder];
         
