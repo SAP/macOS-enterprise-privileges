@@ -1,5 +1,7 @@
 ![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/github%20banner%20new.png)
 
+<br/>
+
 # Privileges
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/macOS-enterprise-privileges)](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges)
@@ -18,6 +20,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 >[!NOTE]
 >It seems that macOS 13 erroneously reports a launch constraint violation and terminates the appliction immediately. Therefore starting with version 2.2, we'll provide two different versions of the application. One with launch constraints and one whithout. Nevertheless, we recommend using the version with launch constraints whenever possible.
+<br/>
 
 # Features
 
@@ -30,6 +33,8 @@ Working as standard user instead of an administrator adds another layer of secur
 :closed_lock_with_key: Enjoy standard user security
 
 :fire: Command line use supported
+
+<br/>
 
 ## New Privileges 2.1 features 🔥
 
@@ -53,6 +58,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 🔠 Localized in 41 languages
 
+<br/>
 
 # Demo
 
@@ -60,11 +66,12 @@ Working as standard user instead of an administrator adds another layer of secur
 
 ![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/DemoGIF.gif)
 
-
-
+<br/>
 
 # Application Management
 As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
+
+<br/>
 
 # Articles
 
@@ -72,6 +79,7 @@ We are happy to share with you the article about Privileges from 9to5Mac:
 
 [Apple @ Work: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
 
+<br/>
 
 # Documentation
 
@@ -83,13 +91,19 @@ We are happy to share with you the article about Privileges from 9to5Mac:
 * [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
 * [Frequently Asked Questions](https://github.com/SAP/macOS-enterprise-privileges/wiki/Frequently-Asked-Questions)
 
+<br/>
+
 # License
 
 Copyright (c) 2018-2025 SAP SE or an SAP affiliate company and macOS-enterprise-privileges contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges).
 
+<br/>
+
 # Security
 
 Found a security-related issue or vulnerability and want to notify us? [Please see here for how to report it](https://github.com/SAP/macOS-enterprise-privileges/security/policy).
+
+<br/>
 
 # Support
 
