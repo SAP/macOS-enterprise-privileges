@@ -12,9 +12,12 @@ Working as standard user instead of an administrator adds another layer of secur
 
 * macOS 15.x
 * macOS 14.x
-* macOS 13.x
+* macOS 13.x (!)
 * macOS 12.x
 * macOS 11.x
+
+>[!NOTE]
+>It seems that macOS 13 erroneously reports a launch constraint violation and terminates the appliction immediately. Therefore starting with version 2.2, we'll provide two different versions of the application. One with launch constraints and one whithout. Nevertheless, we recommend using the version with launch constraints whenever possible.
 
 # Features
 
