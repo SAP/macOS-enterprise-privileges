@@ -12,7 +12,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 * macOS 15.x
 * macOS 14.x
-* macOS 13.x (!)
+* macOS 13.x (*)
 * macOS 12.x
 * macOS 11.x
 
