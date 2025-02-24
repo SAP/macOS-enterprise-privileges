@@ -39,7 +39,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 <br/>
 
-## New Privileges 2.1 features 🔥
+## New Privileges 2 features 🔥
 
 📦 Installer package
 
@@ -48,6 +48,8 @@ Working as standard user instead of an administrator adds another layer of secur
 ⏳ Unified expiration interval for administrator privileges
 
 🔁 Renew expiring administrator privileges
+
+🪪 Smart card support
 
 ▶️ Run actions on privilege change
 
