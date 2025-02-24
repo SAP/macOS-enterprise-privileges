@@ -66,6 +66,16 @@
 + (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
 
 /*!
+@method        authenticatePIVUserWithReason:completionHandler
+@abstract      Authenticate the user either by using a smart card/PIV token or password.
+@param         authReason The reason for requesting authentication, which displays in the authentication dialog presented to the user.
+@param         completionHandler The handler to call when the request is complete.
+@discussion    Returns YES if authentication succeeded, otherwise returns NO. If an error occurred, the completion handler's NSError object
+ contains error details.
+*/
++ (void)authenticatePIVUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
+
+/*!
 @method        verifyPassword:forUser
 @abstract      Verifies if a given password can be used to authenticate a given user.
 @param         userPassword The user's password.

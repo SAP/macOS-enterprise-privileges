@@ -20,6 +20,7 @@
 #define kMTAgentMachServiceName                 @"corp.sap.privileges.agent.xpc"
 #define kMTXPCServiceName                       @"corp.sap.privileges.xpcservice"
 #define kMTAppBundleIdentifier                  @"corp.sap.privileges"
+#define kMTAuthRightName                        "corp.sap.privileges.auth"
 #define kMTAppGroupIdentifier                   @"7R5ZEU67FQ.corp.sap.privileges"
 #define kMTDockTilePluginBundleIdentifier       @"corp.sap.privileges.docktileplugin"
 #define kMTErrorDomain                          @"corp.sap.privileges.ErrorDomain"
@@ -81,6 +82,7 @@
 #define kMTDefaultsPassReasonToExecutableKey        @"PassReasonToExecutable"
 #define kMTDefaultsShowInMenuBarKey                 @"ShowInMenuBar"
 #define kMTDefaultsSettingsSelectedTabKey           @"SettingsSelectedTab"
+#define kMTDefaultsEnableSmartCardSupportKey        @"EnableSmartCardSupport"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange  @"corp.sap.privileges.PrivilegesDidChange"

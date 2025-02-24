@@ -17,11 +17,11 @@
 
 #import <Foundation/Foundation.h>
 #import "MTPrivileges.h"
+#import "MTProcessInfo.h"
 #import "Constants.h"
 
 @interface Main : NSObject
 @property (atomic, assign) BOOL shouldTerminate;
-@property (assign) BOOL authSuccess;
 @end
 
 @implementation Main
@@ -33,13 +33,11 @@
     // don't run this as root
     if (getuid() != 0) {
         
-        NSArray *theArguments = [NSArray arrayWithArray:[[NSProcessInfo processInfo] arguments]];
-        NSString *lastArgument = [theArguments lastObject];
-        
+        MTProcessInfo *appArguments = [[MTProcessInfo alloc] init];
         MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
         BOOL hasAdminPrivileges = [[privilegesApp currentUser] hasAdminPrivileges];
 
-        if ([lastArgument isEqualToString:@"-s"] || [lastArgument isEqualToString:@"--status"]) {
+        if ([appArguments showStatus]) {
         
             if (hasAdminPrivileges) {
                 
@@ -72,8 +70,7 @@
                 [self writeConsole:[NSString stringWithFormat:@"User %@ has standard user privileges", [[privilegesApp currentUser] userName]]];
             }
             
-        } else if ([lastArgument isEqualToString:@"-a"] || [lastArgument isEqualToString:@"--add"] ||
-                   [lastArgument isEqualToString:@"-r"] || [lastArgument isEqualToString:@"--remove"]) {
+        } else if ([appArguments requestPrivileges] || [appArguments revertPrivileges]) {
             
             if ([[privilegesApp currentUser] useIsRestricted]) {
                 
@@ -87,7 +84,7 @@
                 
             } else {
                 
-                BOOL requestAdminPrivileges = ([lastArgument isEqualToString:@"-a"] || [lastArgument isEqualToString:@"--add"]);
+                BOOL requestAdminPrivileges = [appArguments requestPrivileges];
                 BOOL renewAdminPrivileges = (requestAdminPrivileges && hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed] && [privilegesApp expirationInterval] > 0);
                 
                 if (requestAdminPrivileges == hasAdminPrivileges && !renewAdminPrivileges) {
@@ -99,33 +96,51 @@
                     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
                                         
                     if (requestAdminPrivileges) {
-                        
-                        NSString *privilegesReason = nil;
-                        __block BOOL authSuccess = YES;
-                         
+
 #pragma mark Reason
+                        NSString *privilegesReason = nil;
+                        
                         if ([privilegesApp reasonRequired] && !renewAdminPrivileges) {
                             
                             NSInteger minReasonLength = [privilegesApp reasonMinLength];
                             NSInteger maxReasonLength = [privilegesApp reasonMaxLength];
+                            NSString *reasonText = [appArguments requestReason];
                             
-                            while (!privilegesReason) {
-                                
-                                NSMutableData *zeroedData = [NSMutableData dataWithCapacity:maxReasonLength];
-                                const void *bufferBytes = [zeroedData bytes];
-                                char *buffer = (char*)bufferBytes;
-                                char *reason = NULL;
-                                
-                                printf("Please enter the reason you need administrator privileges (at least %ld characters): ", (long)minReasonLength);
-                                reason = fgets(buffer, (int)maxReasonLength, stdin);
-                                
-                                NSString *reasonText = [NSString stringWithUTF8String:reason];
-
+                            if (reasonText) {
+                                                                
                                 if ([privilegesApp checkReasonString:[privilegesApp cleanedReasonStringWithString:reasonText]]) {
+                                    
                                     privilegesReason = reasonText;
+                                    
                                 } else {
+                                    
                                     [self writeConsole:@"The provided reason does not match the requirements!"];
-                                }                                
+                                    exitCode = 4;
+                                }
+                                
+                            } else {
+                                
+                                while (!privilegesReason) {
+                                    
+                                    NSMutableData *zeroedData = [NSMutableData dataWithCapacity:maxReasonLength];
+                                    const void *bufferBytes = [zeroedData bytes];
+                                    char *buffer = (char*)bufferBytes;
+                                    char *reason = NULL;
+                                    
+                                    printf("Please enter the reason you need administrator privileges (at least %ld characters): ", (long)minReasonLength);
+                                    reason = fgets(buffer, (int)maxReasonLength, stdin);
+                                    
+                                    reasonText = [NSString stringWithUTF8String:reason];
+                                    
+                                    if ([privilegesApp checkReasonString:[privilegesApp cleanedReasonStringWithString:reasonText]]) {
+                                        
+                                        privilegesReason = reasonText;
+                                        
+                                    } else {
+                                        
+                                        [self writeConsole:@"The provided reason does not match the requirements!"];
+                                    }
+                                }
                             }
                         }
                         
@@ -134,7 +149,7 @@
                         if (([privilegesApp authenticationRequired] && !renewAdminPrivileges) ||
                             ([privilegesApp authenticationRequired] && renewAdminPrivileges && [privilegesApp renewalFollowsAuthSetting])) {
                             
-                            authSuccess = NO;
+                            __block BOOL authSuccess = NO;
                             
                             int i = 3;
                             
@@ -174,7 +189,7 @@
                             }
                         }
                         
-                        if (authSuccess) {
+                        if (exitCode == 0) {
                             
                             if (renewAdminPrivileges) {
                                 
@@ -279,9 +294,13 @@
 - (void) printUsage
 {
     fprintf(stderr, "\nUsage: PrivilegesCLI <arg>\n\n");
-    fprintf(stderr, "  -a, --add     Adds the current user to the admin group\n");
-    fprintf(stderr, "  -r, --remove  Removes the current user from the admin group\n");
-    fprintf(stderr, "  -s, --status  Displays the current user's privileges\n\n");
+    fprintf(stderr, "  -a [-n text],             Adds the current user to the admin group. A reason\n");
+    fprintf(stderr, "  --add [--reason text]     for requesting administrator privileges may also be\n");
+    fprintf(stderr, "                            specified. This is optional. If a reason is required\n");
+    fprintf(stderr, "                            but not has been specified, the tool will\n");
+    fprintf(stderr, "                            interactively prompt for a reason.\n\n");
+    fprintf(stderr, "  -r, --remove              Removes the current user from the admin group.\n\n");
+    fprintf(stderr, "  -s, --status              Displays the current user's privileges.\n\n");
     
     _shouldTerminate = YES;
 }

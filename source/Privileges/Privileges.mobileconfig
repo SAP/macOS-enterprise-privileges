@@ -120,6 +120,18 @@
                                 <true/>
                                 
                                 <!--
+                                    key:    EnableSmartCardSupport
+                                    value:  a boolean
+                                    
+                                    Specifies whether to enable smart card support for authentication. Since
+                                    the modern Local Authentication framework does not yet support smart
+                                    cards/PIV tokens, enabling this option will cause the application to
+                                    fall back to the older Authorization Services.
+                                -->
+                                <key>EnableSmartCardSupport</key>
+                                <true/>
+                                
+                                <!--
                                     key:    PostChangeExecutablePath
                                     value:  a string containing the absolute path to an application or script
                                     
@@ -448,7 +460,7 @@
                                     	value:  a dictionary containing syslog-specific options:
                                 
                                             key:    ServerPort
-                                            value:  a integer specifying the port of the logging server.
+                                            value:  an integer specifying the port of the logging server
                                             
                                             If not specified, the port defaults to 514 or to 6514 if TLS is enabled.
                                     	

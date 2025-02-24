@@ -164,8 +164,23 @@
     } else {
         
         NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+        
         if ([appGroupDefaults objectForKey:kMTDefaultsExpirationIntervalKey]) {
+            
             interval = [appGroupDefaults integerForKey:kMTDefaultsExpirationIntervalKey];
+            
+        } else {
+                
+            // Because our Dock Tile plugin cannot access our group container we also
+            // check ~/Library/Preferences/corp.sap.privileges.docktileplugin which the
+            // Dock Tile plugin can read. This is the only app setting the Dock needs
+            // access to.
+            NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+            
+            if ([privilegesSharedDefaults objectForKey:kMTDefaultsExpirationIntervalKey]) {
+
+                interval = [privilegesSharedDefaults integerForKey:kMTDefaultsExpirationIntervalKey];
+            }
         }
     }
     
@@ -183,6 +198,14 @@
 {
     NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
     [appGroupDefaults setInteger:interval forKey:kMTDefaultsExpirationIntervalKey];
+    
+    // Because our Dock Tile plugin can't access our group container, and
+    // because of a bug in macOS 15, it can't access the application's
+    // container directory either, the application needs a sandbox exception to
+    // write values to ~/Library/Preferences/corp.sap.privileges.docktileplugin,
+    // which the Dock Tile plugin can then read.
+    NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+    [privilegesSharedDefaults setInteger:interval forKey:kMTDefaultsExpirationIntervalKey];
 }
 
 - (NSInteger)expirationIntervalMax
@@ -472,6 +495,11 @@
     } else {
         [appGroupDefaults removeObjectForKey:kMTDefaultsShowInMenuBarKey];
     }
+}
+
+- (BOOL)smartCardSupportEnabled
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSmartCardSupportKey] && [_userDefaults boolForKey:kMTDefaultsEnableSmartCardSupportKey]);
 }
 
 + (NSString *)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale

@@ -339,6 +339,13 @@
 - (BOOL)showInMenuBarIsForced;
 
 /*!
+ @method        smartCardSupportEnabled
+ @abstract      Get whether smart cards/PIV tokens should be used for authentication.
+ @discussion    Returns YES if smart cards/PIV token should be used for authentication, otherwise returns NO.
+ */
+- (BOOL)smartCardSupportEnabled;
+
+/*!
  @method        stringForDuration:localized:naturalScale:
  @abstract      Return the duration string for the given duration.
  @param         duration The duration.

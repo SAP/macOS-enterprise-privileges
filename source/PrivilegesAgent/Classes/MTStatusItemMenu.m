@@ -60,7 +60,7 @@
     }
         
     [[self itemWithTag:1000] setEnabled:!([[privilegesApp currentUser] useIsRestricted] || (!hasAdminPrivileges && [privilegesApp reasonRequired]))];
-    [[self itemWithTag:2000] setAlternate:(hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed])];
+    [[self itemWithTag:2000] setAlternate:(hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed] && [privilegesApp expirationInterval] > 0)];
     [[self itemWithTag:2000] setHidden:![[self itemWithTag:2000] isAlternate]];
 }
 

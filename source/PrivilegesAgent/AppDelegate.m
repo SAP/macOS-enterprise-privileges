@@ -685,15 +685,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     } else {
         
         if (_statusItem) {
-            
-            // remove our observer
-            [_statusItem removeObserver:self forKeyPath:@"visible" context:nil];
-            _observingStatusItem = NO;
-            
+
             // remove the status item
             [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
-            _statusItem = nil;
             _statusMenu = nil;
+            _statusItem = nil;
+            _observingStatusItem = NO;
         }
     }
 }
@@ -945,12 +942,29 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 - (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success))completionHandler
 {
     if (![[_privilegesApp currentUser] useIsRestricted]) {
-        
-        [MTIdentity authenticateUserWithReason:[NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]]
-                             completionHandler:^(BOOL success, NSError *error) {
+                
+        if ([_privilegesApp smartCardSupportEnabled]) {
             
-            if (completionHandler) { completionHandler(success); }
-        }];
+            NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationTextPIV", nil), kMTAppName,
+                                      [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]]
+            ];
+            
+            [MTIdentity authenticatePIVUserWithReason:reasonString
+                                    completionHandler:^(BOOL success, NSError *error) {
+                
+                if (completionHandler) { completionHandler(success); }
+            }];
+            
+        } else {
+            
+            NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]];
+            
+            [MTIdentity authenticateUserWithReason:reasonString
+                                 completionHandler:^(BOOL success, NSError *error) {
+                
+                if (completionHandler) { completionHandler(success); }
+            }];
+        }
         
     } else {
         

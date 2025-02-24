@@ -16,6 +16,8 @@
 */
 
 #import "MTIdentity.h"
+#import "Constants.h"
+#import <os/log.h>
 
 @implementation MTIdentity
 
@@ -83,21 +85,104 @@
 
 + (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
 {
-    NSError *error = nil;
-    LAContext *myContext = [[LAContext alloc] init];
-    
-    if ([myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error]) {
+    if (authReason) {
         
-        [myContext evaluatePolicy:kLAPolicyDeviceOwnerAuthentication
-                  localizedReason:authReason
-                            reply:^(BOOL success, NSError *error) {
+        NSError *error = nil;
+        LAContext *myContext = [[LAContext alloc] init];
+        
+        if ([myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error]) {
             
-            if (completionHandler) { completionHandler(success, error); }
-        }];
+            [myContext evaluatePolicy:kLAPolicyDeviceOwnerAuthentication
+                      localizedReason:authReason
+                                reply:^(BOOL success, NSError *error) {
+                
+                if (completionHandler) { completionHandler(success, error); }
+            }];
+            
+        } else {
+            
+            if (completionHandler) { completionHandler(NO, error); }
+        }
+    
+    } else {
+        
+        if (completionHandler) { completionHandler(NO, nil); }
+    }
+}
+
++ (void)authenticatePIVUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
+{
+    // Since Local Authentication does not currently support smartcard/PIV
+    // tokens, we have to use Authorization Services instead.
+    
+    if (authReason) {
+        
+        // create an empty right
+        AuthorizationRef authRef;
+        OSStatus status = AuthorizationCreate(NULL, NULL, 0, &authRef);
+        
+        if (status == noErr) {
+            
+            // check if the right already exists or create it
+            status = AuthorizationRightGet(kMTAuthRightName, NULL);
+            
+            if (status == errAuthorizationDenied) {
+                
+                status = AuthorizationRightSet(
+                                               authRef,
+                                               kMTAuthRightName,
+                                               CFSTR(kAuthorizationRuleAuthenticateAsSessionUser),
+                                               NULL,
+                                               NULL,
+                                               NULL
+                                               );
+                
+                if (status != noErr) {
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to ceate default right: (%d)", (int)status);
+                }
+            }
+            
+            if (status == noErr) {
+                        
+                AuthorizationItem authItem = {kMTAuthRightName, 0, NULL, 0};
+                AuthorizationRights authRights = {1, &authItem};
+                AuthorizationFlags authFlags = (kAuthorizationFlagExtendRights | kAuthorizationFlagInteractionAllowed);
+                
+                AuthorizationItem dialogItem = {kAuthorizationEnvironmentPrompt, strlen([authReason UTF8String]), (char *)[authReason UTF8String], 0};
+                AuthorizationEnvironment authEnvironment = {1, &dialogItem };
+                
+                status = AuthorizationCopyRights(
+                                                 authRef,
+                                                 &authRights,
+                                                 &authEnvironment,
+                                                 authFlags,
+                                                 NULL
+                                                 );
+                
+                if (status == errAuthorizationSuccess) {
+                    
+                    if (completionHandler) { completionHandler(YES, nil); }
+                    AuthorizationFree(authRef, kAuthorizationFlagDestroyRights);
+                    
+                } else {
+                    
+                    if (completionHandler) {
+                        
+                        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+                        completionHandler(NO, error);
+                    }
+                }
+                
+            } else {
+                
+                NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+                if (completionHandler) { completionHandler(NO, error); }
+            }
+        }
         
     } else {
         
-        if (completionHandler) { completionHandler(NO, error); }
+        if (completionHandler) { completionHandler(NO, nil); }
     }
 }
 

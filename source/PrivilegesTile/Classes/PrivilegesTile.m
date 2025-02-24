@@ -157,7 +157,7 @@
          // is enabled AND (either "authentication is not required" OR "authentication is required but
          // not for renewals" OR "authentication is required for renewals AND biometric authentication
          // has been enabled for the command line tool".
-         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] &&
+         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 &&
              (![_privilegesApp authenticationRequired] ||
               ([_privilegesApp authenticationRequired] && ![_privilegesApp renewalFollowsAuthSetting]) ||
               ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting] && [_privilegesApp allowCLIBiometricAuthentication]))) {
