@@ -96,6 +96,7 @@
         },
         "HelpButtonCustomURL": {
             "type": "string",
+            "default": "https://",
             "title": "Help Button Custom URL",
             "description": "If specified, this url is called instead of the Privileges GitHub url if the user clicks the help button. Malformed urls and non-http(s) urls are ignored.",
             "links": [
@@ -289,6 +290,7 @@
             "type": "array",
             "items": {
                 "type": "object",
+                "title": "reason",
                 "properties": {
                     "ar": {
                         "type": "string",
