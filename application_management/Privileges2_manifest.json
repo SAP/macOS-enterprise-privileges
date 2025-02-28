@@ -1,7 +1,7 @@
 {
     "title": "Privileges (corp.sap.privileges)",
     "description": "Settings for the SAP Privileges application.",
-    "__version": "1.0.1",
+    "__version": "1.0.2",
     "properties": {
         "AllowCLIBiometricAuthentication": {
             "type": "boolean",
@@ -691,6 +691,7 @@
                             "type": "integer",
                             "title": "Maximum Message Size",
                             "default": 480,
+                            "minimum": 480,
                             "description": "If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end. Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further information.",
                             "links": [
                                 {
