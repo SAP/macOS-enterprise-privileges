@@ -181,6 +181,10 @@
                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToGroup"
                 }
             ],
+            "items": {
+            	"type": "string",
+            	"title": "Group"
+            },
             "property_order": 130
         },
         
@@ -194,6 +198,10 @@
                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToUser"
                 }
             ],
+            "items": {
+            	"type": "string",
+            	"title": "User"
+            },
             "property_order": 140
         },
         "PassReasonToExecutable": {
@@ -729,6 +737,10 @@
                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAtLoginExcludedUsers"
                 }
             ],
+            "items": {
+            	"type": "string",
+            	"title": "User"
+            },
             "property_order": 260
         },
         "RevokePrivilegesAtLogin": {
