@@ -69,6 +69,7 @@
         "ExpirationInterval": {
             "type": "integer",
             "default": 20,
+            "minimum": 0,
             "title": "Expiration Interval",
             "description": "Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.",
             "links": [
@@ -82,6 +83,7 @@
         "ExpirationIntervalMax": {
             "type": "integer",
             "default": 20,
+            "minimum": 0,
             "title": "Expiration Interval Max",
             "description": "Set a maximum time interval for a user to request administrative privileges. This generally works the same way as ExpirationInterval, but allows the user to choose any timeout value up to the specified one. So if the admin would set ExpirationIntervalMax to 20 minutes, the user can choose to set it to a value up to 20 minutes instead of being forced to use the 20 minute timeout. For usability reasons, we recommend using ExpirationIntervalMax instead of ExpirationInterval. If both ExpirationIntervalMax and ExpirationInterval are set, the value of ExpirationInterval takes precedence over ExpirationIntervalMax.",
             "links": [
@@ -248,6 +250,8 @@
        "ReasonMaxLength": {
             "type": "integer",
             "default": 200,
+            "minimum": 1,
+            "maximum": 250,
             "title": "Reason Max Length",
             "description": "If ReasonRequired is set to true, this key specifies the maximum number of characters the user can enter as the reason for becoming an admin. If not set, the value defaults to 250. If a value > 250 is specified or if ReasonMaxLength is <= ReasonMinLength, the value is set to default.",
             "links": [
@@ -261,8 +265,10 @@
        "ReasonMinLength": {
             "type": "integer",
             "default": 10,
+            "minimum": 1,
+            "maximum": 250,
             "title": "Reason Min Length",
-            "description": "If ReasonRequired is set to true, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value < 1 is specified or if ReasonMinLength is > 254, the value is set to default.",
+            "description": "If ReasonRequired is set to true, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value < 1 is specified or if ReasonMinLength is > 250, the value is set to default.",
             "links": [
                 {
                     "rel": "Official documentation",
@@ -570,6 +576,8 @@
                             "type": "integer",
                             "title": "Log Facility",
                             "default": 4,
+                            "minimum": 0,
+           					"maximum": 23,
                             "description": "Configure syslog facility.",
                             "links": [
                                 {
@@ -636,6 +644,8 @@
                             "type": "integer",
                             "title": "Log Severity",
                             "default": 6,
+                            "minimum": 0,
+            				"maximum": 7,
                             "description": "Configure syslog severity.",
                             "links": [
                                 {
