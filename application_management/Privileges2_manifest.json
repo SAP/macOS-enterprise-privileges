@@ -1,6 +1,7 @@
 {
     "title": "Privileges (corp.sap.privileges)",
     "description": "Settings for the SAP Privileges application.",
+    "__version": "1.0.1",
     "properties": {
         "AllowCLIBiometricAuthentication": {
             "type": "boolean",
