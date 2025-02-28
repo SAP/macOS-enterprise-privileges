@@ -1,5 +1,5 @@
 {
-    "title": "Privileges",
+    "title": "Privileges (corp.sap.privileges)",
     "description": "Settings for the SAP Privileges application.",
     "properties": {
         "AllowCLIBiometricAuthentication": {
@@ -276,30 +276,169 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "ar": {
+                        "type": "string",
+                        "title": "Localization (Arabic)"
+                    },
+                    "bg": {
+                        "type": "string",
+                        "title": "Localization (Bulgarian)"
+                    },
+                    "ca": {
+                        "type": "string",
+                        "title": "Localization (Catalan)"
+                    },
+                    "zh-HK": {
+                        "type": "string",
+                        "title": "Localization (Chinese, Hong Kong)"
+                    },
+                    "zh-Hans": {
+                        "type": "string",
+                        "title": "Localization (Chinese, Simplified)"
+                    },
+                    "zh-Hant": {
+                        "type": "string",
+                        "title": "Localization (Chinese, Traditional)"
+                    },
+                    "hr": {
+                        "type": "string",
+                        "title": "Localization (Croatian)"
+                    },
+                    "cs": {
+                        "type": "string",
+                        "title": "Localization (Czech)"
+                    },
+                    "da": {
+                        "type": "string",
+                        "title": "Localization (Danish)"
+                    },
+                    "nl": {
+                        "type": "string",
+                        "title": "Localization (Dutch)"
+                    },
+                    "en-AU": {
+                        "type": "string",
+                        "title": "Localization (English, Australia)"
+                    },
+                    "en-GB": {
+                        "type": "string",
+                        "title": "Localization (English, United Kingdom)"
+                    },
+                    "fi": {
+                        "type": "string",
+                        "title": "Localization (Finnish)"
+                    },
+                    "fr": {
+                        "type": "string",
+                        "title": "Localization (French)"
+                    },
+                    "fr-CA": {
+                        "type": "string",
+                        "title": "Localization (French, Canada)"
+                    },
                     "de": {
                         "type": "string",
-                        "title": "Localization",
-                        "description": "Localization (de)"
+                        "title": "Localization (German)"
                     },
-                    "en": {
+                    "el": {
                         "type": "string",
-                        "title": "Localization",
-                        "description": "Localization (en)"
+                        "title": "Localization (Greek)"
                     },
-                    "es": {
+                    "he": {
                         "type": "string",
-                        "title": "Localization",
-                        "description": "Localization (es)"
+                        "title": "Localization (Hebrew)"
+                    },
+                    "hi": {
+                        "type": "string",
+                        "title": "Localization (Hindi)"
+                    },
+                    "hu": {
+                        "type": "string",
+                        "title": "Localization (Hungarian)"
+                    },
+                    "id": {
+                        "type": "string",
+                        "title": "Localization (Indonesian)"
                     },
                     "it": {
                         "type": "string",
-                        "title": "Localization",
-                        "description": "Localization (it)"
+                        "title": "Localization (Italian)"
+                    },
+                    "ja": {
+                        "type": "string",
+                        "title": "Localization (Japanese)"
+                    },
+                    "ko": {
+                        "type": "string",
+                        "title": "Localization (Korean)"
+                    },
+                    "ms": {
+                        "type": "string",
+                        "title": "Localization (Malay)"
+                    },
+                    "nb": {
+                        "type": "string",
+                        "title": "Localization (Norwegian Bokmål)"
+                    },
+                    "pl": {
+                        "type": "string",
+                        "title": "Localization (Polish)"
+                    },
+                    "pt-BR": {
+                        "type": "string",
+                        "title": "Localization (Portugese, Brasil)"
+                    },
+                    "pt-PT": {
+                        "type": "string",
+                        "title": "Localization (Portugese, Portugal)"
+                    },
+                    "ro": {
+                        "type": "string",
+                        "title": "Localization (Romanian)"
+                    },
+                    "ru": {
+                        "type": "string",
+                        "title": "Localization (Russian)"
+                    },
+                    "sk": {
+                        "type": "string",
+                        "title": "Localization (Slovak)"
+                    },
+                    "sl": {
+                        "type": "string",
+                        "title": "Localization (Slovenian)"
+                    },
+                    "es": {
+                        "type": "string",
+                        "title": "Localization (Spanish)"
+                    },
+                    "es-419": {
+                        "type": "string",
+                        "title": "Localization (Spanish, Latin America)"
+                    },
+                    "sv": {
+                        "type": "string",
+                        "title": "Localization (Swedish)"
+                    },
+                    "th": {
+                        "type": "string",
+                        "title": "Localization (Thai)"
+                    },
+                    "tr": {
+                        "type": "string",
+                        "title": "Localization (Turkish)"
+                    },
+                    "uk": {
+                        "type": "string",
+                        "title": "Localization (Ukrainian)"
+                    },
+                    "vi": {
+                        "type": "string",
+                        "title": "Localization (Vietnamese)"
                     },
                     "default": {
                         "type": "string",
-                        "title": "Unlocalized",
-                        "description": "Unlocalization"
+                        "title": "Unlocalized (English)"
                     }
                 }
             },
@@ -370,7 +509,7 @@
             		]
                 },
                 "WebhookCustomData": {
-                    "type": "string",
+                    "type": "object",
                     "title": "Webhook Custom Data",
                     "description": "You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's json as custom_data.",
                     "links": [
@@ -378,7 +517,19 @@
                    			"rel": "Official documentation",
                     		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#WebhookCustomData"
                 		}
-            		]
+            		],
+            		"properties": {
+            			"name": {
+                    		"type": "string",
+                    		"title": "Computer name",
+                    		"default": "$COMPUTERNAME"
+                		},
+                		"serial": {
+                    		"type": "string",
+                    		"title": "Serial number",
+                    		"default": "$SERIALNUMBER"
+                		}
+            		}
                 },
                 "SyslogOptions": {
                     "type": "object",
@@ -560,7 +711,7 @@
         },
         "RevokeAtLoginExcludedUsers": {
             "type": "array",
-            "title": "Revoke At Login ExcludedUsers",
+            "title": "Revoke At Login Excluded Users",
             "description": "If RevokePrivilegesAtLogin is set to true, the specified users are excluded from privilege revocation at login. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
             "links": [
                 {
