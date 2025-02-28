@@ -1,7 +1,7 @@
 {
     "title": "Privileges (corp.sap.privileges)",
     "description": "Settings for the SAP Privileges application.",
-    "__version": "1.0.2",
+    "__version": "1.0.3",
     "properties": {
         "AllowCLIBiometricAuthentication": {
             "type": "boolean",
@@ -292,6 +292,7 @@
             "items": {
                 "type": "object",
                 "title": "reason",
+                "minProperties": 1,
                 "properties": {
                     "ar": {
                         "type": "string",
@@ -535,6 +536,7 @@
                     		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#WebhookCustomData"
                 		}
             		],
+            		"minProperties": 1,
             		"properties": {
             			"name": {
                     		"type": "string",
@@ -558,6 +560,7 @@
                     		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#SyslogOptions"
                 		}
             		],
+            		"minProperties": 1,
             		"properties": {
             			"ServerPort": {
                     		"type": "integer",
@@ -703,6 +706,7 @@
             		}
             	}
             },
+            "required": ["ServerType", "ServerAddress"],
             "property_order": 230
         },
         "RenewalFollowsAuthSetting": {
