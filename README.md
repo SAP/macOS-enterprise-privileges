@@ -80,9 +80,13 @@ As of Privileges 1.5.0, it is possible to manage settings for Privileges or the 
 
 # Articles
 
-We are happy to share with you the article about Privileges from 9to5Mac:
+See who's talking about _Privileges_…
 
-[Apple @ Work: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
+* [9To5Mac: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
+* [Mac & i: SAP-Werkzeug erleichtert Arbeit als Standardnutzer (German language)](https://www.heise.de/-7192631)
+* [ifun.de: Privileges.app von SAP: Nur noch auf Zuruf zum Admin (German language)](https://www.ifun.de/privileges-app-von-sap-nur-noch-auf-zuruf-zum-admin-191491/)
+* [Leveling Up - Rich Trouton's session at MacSysAdmin 2022](https://docs.macsysadmin.se/2022/video/day1session2.mp4)
+* [The Great Debate: Admin or Standard Users? - A talk hosted by Kandji](https://youtu.be/LCj59EIKFDg)
 
 <br/>
 
