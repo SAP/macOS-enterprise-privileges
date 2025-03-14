@@ -88,7 +88,7 @@ We are happy to share with you the article about Privileges from 9to5Mac:
 
 # Documentation
 
-📚 If you want to learn more about _Privileges_ features, make sure to take a look at our [wiki](https://github.com/SAP/macOS-enterprise-privileges/wiki) or the links below:
+📚 If you want to learn more about _Privileges_ features, make sure to take a look at our [Wiki](https://github.com/SAP/macOS-enterprise-privileges/wiki) or the links below:
 
 * [Installation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Installation)
 * [Uninstallation](https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation)
