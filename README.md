@@ -74,7 +74,7 @@ Working as standard user instead of an administrator adds another layer of secur
 <br/>
 
 # Application Management
-As of Privileges 1.5.0, it is possible to manage settings for Privileges or the PrivilegesCLI command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
+As of _Privileges_ 1.5.0, it is possible to manage settings for _Privileges_ or the _PrivilegesCLI_ command line tool using a macOS configuration profile. [For more details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
 
 <br/>
 
