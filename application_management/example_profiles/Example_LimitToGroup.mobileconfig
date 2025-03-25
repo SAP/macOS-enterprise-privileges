@@ -23,7 +23,10 @@
                                     					groups.
                                 				-->
 								<key>LimitToGroup</key>
-								<string>group_name_goes_here</string>
+								<array>
+									<string>group_name_goes_here</string>
+									<string>another_group_name_goes_here</string>
+								</array>
 							</dict>
 						</dict>
 					</array>
