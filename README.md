@@ -55,7 +55,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 🔒 Status item
 
-👆 Command line tool now also supports Touch ID
+👆 Command line tool now supports Touch ID
 
 ⚙️ AppleScript support
 
