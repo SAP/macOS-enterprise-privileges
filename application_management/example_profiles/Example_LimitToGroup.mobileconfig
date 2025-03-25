@@ -16,11 +16,9 @@
 							<dict>
   								<!--
                                     					key:    LimitToGroup
-                                    					value:  a string containing the name of the group or an array of strings
-                                            					containing the group names
+                                    					value:  an array of strings containing the group names
                                     
-                                    					Restricts use of the application to the specified group or list of
-                                    					groups.
+                                    					Restricts use of the application to the specified list of groups.
                                 				-->
 								<key>LimitToGroup</key>
 								<array>
