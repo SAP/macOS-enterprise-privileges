@@ -1,781 +1,1654 @@
-{
-    "title": "Privileges (corp.sap.privileges)",
-    "description": "Settings for the SAP Privileges application.",
-    "__version": "1.0.3",
-    "properties": {
-        "AllowCLIBiometricAuthentication": {
-            "type": "boolean",
-            "default": false,
-            "title": "Allow CLI Biometric Authentication",
-            "description": "Specifies whether to allow biometric authentication in the PrivilegesCLI to obtain administrator privileges. When set to true, the Privileges agent prompts the user for the account password (or Touch ID, if available).",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowCLIBiometricAuthentication"
-                }
-            ],
-            "property_order": 10
-        },
-        "AllowPrivilegeRenewal": {
-            "type": "boolean",
-            "default": false,
-            "title": "Allow Privilege Renewal",
-            "description": "Specifies whether expiring administrator privileges can be renewed. If set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowPrivilegeRenewal"
-                }
-            ],
-            "property_order": 20
-        },
-        "EnableSmartCardSupport": {
-            "type": "boolean",
-            "default": false,
-            "title": "Enable Smart Card Support",
-            "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSmartCardSupport"
-                }
-            ],
-            "property_order": 30
-        },
-        "EnforcePrivileges": {
-            "type": "string",
-            "default": "admin",
-            "title": "Enforce Privileges",
-            "description": "Enforces specific privileges. The privileges are immediately enforced by the Privileges Dock tile plugin (even if Privileges is not in Dock). If EnforcePrivileges is set to none, it is no longer possible to change privileges with the Privileges application or any of its bundled applications.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnforcePrivileges"
-                }
-            ],
-            "enum": [
-                "admin",
-                "user",
-                "none"
-            ],
-            "options": {
-                "enum_titles": [
-                    "Admin",
-                    "User",
-                    "None"
-                ]
-            },
-            "property_order": 40
-        },
-        "ExpirationInterval": {
-            "type": "integer",
-            "default": 20,
-            "minimum": 0,
-            "title": "Expiration Interval",
-            "description": "Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationInterval"
-                }
-            ],
-            "property_order": 50
-        },
-        "ExpirationIntervalMax": {
-            "type": "integer",
-            "default": 20,
-            "minimum": 0,
-            "title": "Expiration Interval Max",
-            "description": "Set a maximum time interval for a user to request administrative privileges. This generally works the same way as ExpirationInterval, but allows the user to choose any timeout value up to the specified one. So if the admin would set ExpirationIntervalMax to 20 minutes, the user can choose to set it to a value up to 20 minutes instead of being forced to use the 20 minute timeout. For usability reasons, we recommend using ExpirationIntervalMax instead of ExpirationInterval. If both ExpirationIntervalMax and ExpirationInterval are set, the value of ExpirationInterval takes precedence over ExpirationIntervalMax.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationIntervalMax"
-                }
-            ],
-            "property_order": 60
-        },
-        "HelpButtonCustomURL": {
-            "type": "string",
-            "default": "https://",
-            "title": "Help Button Custom URL",
-            "description": "If specified, this url is called instead of the Privileges GitHub url if the user clicks the help button. Malformed urls and non-http(s) urls are ignored.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HelpButtonCustomURL"
-                }
-            ],
-            "property_order": 70
-        },
-        "HideHelpButton": {
-            "type": "boolean",
-            "default": false,
-            "title": "Hide Help Button",
-            "description": "If set to true, the Help (?) button is no longer displayed in the app.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideHelpButton"
-                }
-            ],
-            "property_order": 80
-        },
-        "HideOtherWindows": {
-            "type": "boolean",
-            "default": true,
-            "title": "Hide Other Windows",
-            "description": "By default, Privileges hides open windows to show the desktop and ensure that only the Privileges window is visible on the screen. Set HideOtherWindows to false to disable this function.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideOtherWindows"
-                }
-            ],
-            "property_order": 90
-        },
-        "HideSettingsButton": {
-            "type": "boolean",
-            "default": false,
-            "title": "Hide Settings Button",
-            "description": "If set to true, the Settings button is no longer displayed in the app.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsButton"
-                }
-            ],
-            "property_order": 100
-        },
-        "HideSettingsFromDockMenu": {
-            "type": "boolean",
-            "default": false,
-            "title": "Hide Settings From Dock Menu",
-            "description": "If set to true, the Settings menu item is no longer displayed in the Dock tile's menu.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromDockMenu"
-                }
-            ],
-            "property_order": 110
-        },
-        "HideSettingsFromStatusItem": {
-            "type": "boolean",
-            "default": false,
-            "title": "Hide Settings From Status Item",
-            "description": "If set to true, the Settings menu item is no longer displayed in the status item's menu.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromStatusItem"
-                }
-            ],
-            "property_order": 120
-        },
-        "LimitToGroup": {
-            "type": "array",
-            "title": "Limit To Group",
-            "description": "Restricts use of the application to the specified list of groups.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToGroup"
-                }
-            ],
-            "items": {
-            	"type": "string",
-            	"title": "Group"
-            },
-            "property_order": 130
-        },
-        
-        "LimitToUser": {
-            "type": "array",
-            "title": "Limit To User",
-            "description": "Restricts use of the application to the specified list of users. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToUser"
-                }
-            ],
-            "items": {
-            	"type": "string",
-            	"title": "User"
-            },
-            "property_order": 140
-        },
-        "PassReasonToExecutable": {
-            "type": "boolean",
-            "default": false,
-            "title": "Pass Reason To Executable",
-            "description": "Specifies whether the reason that the user entered when requesting administrator privileges should be passed to the executable configured with the PostChangeExecutablePath key. This is disabled by default. If enabled, the reason is passed to the executable as $3.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PassReasonToExecutable"
-                }
-            ],
-            "property_order": 150
-        },
-        "PostChangeActionOnGrantOnly": {
-            "type": "boolean",
-            "default": false,
-            "title": "Post Change Action On Grant Only",
-            "description": "If set to true, the application or script, specified in PostChangeExecutablePath, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeActionOnGrantOnly"
-                }
-            ],
-            "property_order": 160
-        },
-        "PostChangeExecutablePath": {
-            "type": "string",
-            "title": "Post Change Executable Path",
-            "description": "If set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath"
-                }
-            ],
-            "property_order": 170
-        },
-        "ReasonCheckingEnabled": {
-            "type": "boolean",
-            "default": false,
-            "title": "Reason Checking Enabled",
-            "description": "If set to true, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense. This feature is experimental and disabled by default. If you enable it, please check carefully that it works as expected in your environment.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonCheckingEnabled"
-                }
-            ],
-            "property_order": 180
-        },
-       "ReasonMaxLength": {
-            "type": "integer",
-            "default": 200,
-            "minimum": 1,
-            "maximum": 250,
-            "title": "Reason Max Length",
-            "description": "If ReasonRequired is set to true, this key specifies the maximum number of characters the user can enter as the reason for becoming an admin. If not set, the value defaults to 250. If a value > 250 is specified or if ReasonMaxLength is <= ReasonMinLength, the value is set to default.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMaxLength"
-                }
-            ],
-            "property_order": 190
-        },
-       "ReasonMinLength": {
-            "type": "integer",
-            "default": 10,
-            "minimum": 1,
-            "maximum": 250,
-            "title": "Reason Min Length",
-            "description": "If ReasonRequired is set to true, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value < 1 is specified or if ReasonMinLength is > 250, the value is set to default.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMinLength"
-                }
-            ],
-            "property_order": 200
-        },
-        "ReasonPresetList": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "title": "reason",
-                "minProperties": 1,
-                "properties": {
-                    "ar": {
-                        "type": "string",
-                        "title": "Localization (Arabic)"
-                    },
-                    "bg": {
-                        "type": "string",
-                        "title": "Localization (Bulgarian)"
-                    },
-                    "ca": {
-                        "type": "string",
-                        "title": "Localization (Catalan)"
-                    },
-                    "zh-HK": {
-                        "type": "string",
-                        "title": "Localization (Chinese, Hong Kong)"
-                    },
-                    "zh-Hans": {
-                        "type": "string",
-                        "title": "Localization (Chinese, Simplified)"
-                    },
-                    "zh-Hant": {
-                        "type": "string",
-                        "title": "Localization (Chinese, Traditional)"
-                    },
-                    "hr": {
-                        "type": "string",
-                        "title": "Localization (Croatian)"
-                    },
-                    "cs": {
-                        "type": "string",
-                        "title": "Localization (Czech)"
-                    },
-                    "da": {
-                        "type": "string",
-                        "title": "Localization (Danish)"
-                    },
-                    "nl": {
-                        "type": "string",
-                        "title": "Localization (Dutch)"
-                    },
-                    "en-AU": {
-                        "type": "string",
-                        "title": "Localization (English, Australia)"
-                    },
-                    "en-GB": {
-                        "type": "string",
-                        "title": "Localization (English, United Kingdom)"
-                    },
-                    "fi": {
-                        "type": "string",
-                        "title": "Localization (Finnish)"
-                    },
-                    "fr": {
-                        "type": "string",
-                        "title": "Localization (French)"
-                    },
-                    "fr-CA": {
-                        "type": "string",
-                        "title": "Localization (French, Canada)"
-                    },
-                    "de": {
-                        "type": "string",
-                        "title": "Localization (German)"
-                    },
-                    "el": {
-                        "type": "string",
-                        "title": "Localization (Greek)"
-                    },
-                    "he": {
-                        "type": "string",
-                        "title": "Localization (Hebrew)"
-                    },
-                    "hi": {
-                        "type": "string",
-                        "title": "Localization (Hindi)"
-                    },
-                    "hu": {
-                        "type": "string",
-                        "title": "Localization (Hungarian)"
-                    },
-                    "id": {
-                        "type": "string",
-                        "title": "Localization (Indonesian)"
-                    },
-                    "it": {
-                        "type": "string",
-                        "title": "Localization (Italian)"
-                    },
-                    "ja": {
-                        "type": "string",
-                        "title": "Localization (Japanese)"
-                    },
-                    "ko": {
-                        "type": "string",
-                        "title": "Localization (Korean)"
-                    },
-                    "ms": {
-                        "type": "string",
-                        "title": "Localization (Malay)"
-                    },
-                    "nb": {
-                        "type": "string",
-                        "title": "Localization (Norwegian Bokmål)"
-                    },
-                    "pl": {
-                        "type": "string",
-                        "title": "Localization (Polish)"
-                    },
-                    "pt-BR": {
-                        "type": "string",
-                        "title": "Localization (Portugese, Brasil)"
-                    },
-                    "pt-PT": {
-                        "type": "string",
-                        "title": "Localization (Portugese, Portugal)"
-                    },
-                    "ro": {
-                        "type": "string",
-                        "title": "Localization (Romanian)"
-                    },
-                    "ru": {
-                        "type": "string",
-                        "title": "Localization (Russian)"
-                    },
-                    "sk": {
-                        "type": "string",
-                        "title": "Localization (Slovak)"
-                    },
-                    "sl": {
-                        "type": "string",
-                        "title": "Localization (Slovenian)"
-                    },
-                    "es": {
-                        "type": "string",
-                        "title": "Localization (Spanish)"
-                    },
-                    "es-419": {
-                        "type": "string",
-                        "title": "Localization (Spanish, Latin America)"
-                    },
-                    "sv": {
-                        "type": "string",
-                        "title": "Localization (Swedish)"
-                    },
-                    "th": {
-                        "type": "string",
-                        "title": "Localization (Thai)"
-                    },
-                    "tr": {
-                        "type": "string",
-                        "title": "Localization (Turkish)"
-                    },
-                    "uk": {
-                        "type": "string",
-                        "title": "Localization (Ukrainian)"
-                    },
-                    "vi": {
-                        "type": "string",
-                        "title": "Localization (Vietnamese)"
-                    },
-                    "default": {
-                        "type": "string",
-                        "title": "Unlocalized (English)"
-                    }
-                }
-            },
-            "title": "Reason Preset List",
-            "description": "If ReasonRequired is set to true, this key allows to pre-define a list of possible reasons (for becoming an admin) the user can choose from. If set, an additional pop-up menu will appear in the dialog box. This only works for the GUI version of Privileges.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonPresetList"
-                }
-            ],
-            "property_order": 210
-        },
-        "ReasonRequired": {
-            "type": "boolean",
-            "default": false,
-            "title": "Reason Required",
-            "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonRequired"
-                }
-            ],
-            "property_order": 220
-        },
-        "RemoteLogging": {
-            "type": "object",
-            "title": "Remote Logging",
-            "description": "Remote logging settings",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RemoteLogging"
-                }
-            ],
-            "properties": {
-                "ServerType": {
-                    "type": "string",
-                    "title": "Server Type",
-                    "description": "At the moment syslog and webhook are the only supported values.",
-                    "links": [
-                		{
-                   			"rel": "Official documentation",
-                    		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerType"
-                		}
-            		],
-                    "enum": [
-                        "syslog",
-                        "webhook"
-                    ],
-                    "options": {
-                        "enum_titles": [
-                            "Syslog",
-                            "Webhook"
-                        ]
-                    }
-                },
-                "ServerAddress": {
-                    "type": "string",
-                    "title": "Server Address",
-                    "description": "The server address can be an ip address or host name if a syslog server is configured. For webhooks please provide a http(s) url.",
-                    "links": [
-                		{
-                   			"rel": "Official documentation",
-                    		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerAddress"
-                		}
-            		]
-                },
-                "WebhookCustomData": {
-                    "type": "object",
-                    "title": "Webhook Custom Data",
-                    "description": "You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's json as custom_data.",
-                    "links": [
-                		{
-                   			"rel": "Official documentation",
-                    		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#WebhookCustomData"
-                		}
-            		],
-            		"minProperties": 1,
-            		"properties": {
-            			"name": {
-                    		"type": "string",
-                    		"title": "Computer name",
-                    		"default": "$COMPUTERNAME"
-                		},
-                		"serial": {
-                    		"type": "string",
-                    		"title": "Serial number",
-                    		"default": "$SERIALNUMBER"
-                		}
-            		}
-                },
-                "SyslogOptions": {
-                    "type": "object",
-                    "title": "Syslog Options",
-                    "description": "Syslog-specific options.",
-                    "links": [
-                		{
-                   			"rel": "Official documentation",
-                    		"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#SyslogOptions"
-                		}
-            		],
-            		"minProperties": 1,
-            		"properties": {
-            			"ServerPort": {
-                    		"type": "integer",
-                    		"title": "Server Port",
-                    		"default": 514,
-                    		"description": "The port of the logging server. If not specified, the port defaults to 514 or to 6514 if TLS is enabled.",
-                    		"links": [
-                				{
-                   					"rel": "Official documentation",
-                    				"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerPort"
-                				}
-            				]
-                		},
-                		"UseTLS": {
-                    		"type": "boolean",
-                    		"title": "Use TLS",
-                    		"default": false,
-                    		"description": "If set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.",
-                    		"links": [
-                				{
-                   					"rel": "Official documentation",
-                    				"href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#UseTLS"
-                				}
-            				]
-                		},
-            			"LogFacility": {
-                            "type": "integer",
-                            "title": "Log Facility",
-                            "default": 4,
-                            "minimum": 0,
-           					"maximum": 23,
-                            "description": "Configure syslog facility.",
-                            "links": [
-                                {
-                                    "rel": "Official documentation",
-                                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogFacility"
-                                }
-                            ],
-                            "enum": [
-                                0,
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10,
-                                11,
-                                12,
-                                13,
-                                14,
-                                15,
-                                16,
-                                17,
-                                18,
-                                19,
-                                20,
-                                21,
-                                22,
-                                23
-                            ],
-                            "options": {
-                                "enum_titles": [
-                                    "Kernel messages",
-                                    "User-level messages",
-                                    "Mail system",
-                                    "System daemons",
-                                    "Security/Authorization messages",
-                                    "Messages generated internally by syslogd",
-                                    "Line Printer subsystem",
-                                    "Network News subsystem",
-                                    "UUCP subsystem",
-                                    "Clock daemon",
-                                    "Security/Authorization messages",
-                                    "FTP daemon",
-                                    "NTP subsystem",
-                                    "Log audit",
-                                    "Log alert",
-                                    "Clock daemon (note 2)",
-                                    "Local use 0 (local0)",
-                                    "Local use 1 (local1)",
-                                    "Local use 2 (local2)",
-                                    "Local use 3 (local3)",
-                                    "Local use 4 (local4)",
-                                    "Local use 5 (local5)",
-                                    "Local use 6 (local6)",
-                                    "Local use 7 (local7)"
-                                ]
-                            }
-                        },
-                        "LogSeverity": {
-                            "type": "integer",
-                            "title": "Log Severity",
-                            "default": 6,
-                            "minimum": 0,
-            				"maximum": 7,
-                            "description": "Configure syslog severity.",
-                            "links": [
-                                {
-                                    "rel": "Official documentation",
-                                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogSeverity"
-                                }
-                            ],
-                            "enum": [
-                                0,
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7
-                            ],
-                            "options": {
-                                "enum_titles": [
-                                    "Emergency",
-                                    "Alert",
-                                    "Critical",
-                                    "Error",
-                                    "Warning",
-                                    "Notice",
-                                    "Informational",
-                                    "Debug"
-                                ]
-                            }
-                        },
-                        "MaximumMessageSize": {
-                            "type": "integer",
-                            "title": "Maximum Message Size",
-                            "default": 480,
-                            "minimum": 480,
-                            "description": "If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end. Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further information.",
-                            "links": [
-                                {
-                                    "rel": "Official documentation",
-                                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MaximumMessageSize"
-                                }
-                            ]
-                        }
-            		}
-            	}
-            },
-            "required": ["ServerType", "ServerAddress"],
-            "property_order": 230
-        },
-        "RenewalFollowsAuthSetting": {
-            "type": "boolean",
-            "default": false,
-            "title": "Renewal Follows Auth Setting",
-            "description": "If set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalFollowsAuthSetting"
-                }
-            ],
-            "property_order": 240
-        },
-       "RequireAuthentication": {
-            "type": "boolean",
-            "default": false,
-            "title": "Require Authentication",
-            "description": "Specifies whether authentication is required to obtain administrator privileges. If set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireAuthentication"
-                }
-            ],
-            "property_order": 250
-        },
-        "RevokeAtLoginExcludedUsers": {
-            "type": "array",
-            "title": "Revoke At Login Excluded Users",
-            "description": "If RevokePrivilegesAtLogin is set to true, the specified users are excluded from privilege revocation at login. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAtLoginExcludedUsers"
-                }
-            ],
-            "items": {
-            	"type": "string",
-            	"title": "User"
-            },
-            "property_order": 260
-        },
-        "RevokePrivilegesAtLogin": {
-            "type": "boolean",
-            "default": false,
-            "title": "Revoke Privileges At Login",
-            "description": "If set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAtLogin"
-                }
-            ],
-            "property_order": 270
-        },
-        "ShowInMenuBar": {
-            "type": "boolean",
-            "default": false,
-            "title": "Show In Menu Bar",
-            "description": "If set to true, a Privileges status item is displayed in the Menu Bar.",
-            "links": [
-                {
-                    "rel": "Official documentation",
-                    "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowInMenuBar"
-                }
-            ],
-            "property_order": 280
-        }
-    }
+{ 
+   "$schema": "http://json-schema.org/draft-04/schema#", 
+   "$id": "https://raw.githubusercontent.com/SAP/macOS-enterprise-privileges/refs/heads/main/application_management/Privileges2_manifest.json", 
+   "title": "Configure Privileges (corp.sap.privileges) with…", 
+   "__preferencedomain": "corp.sap.privileges", 
+   "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
+   "__version": "2.3.0.0", 
+   "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
+   "type": "object", 
+   "options": { 
+      "remove_empty_properties": true, 
+      "keep_oneof_values": false 
+   }, 
+   "properties": { 
+      "_infoMain": { 
+         "format": "info", 
+         "title": "Please read this first!", 
+         "description": "This form changes dynamically based on the options you select or deselect. Options that are not needed will be hidden, and only the options that match your configuration will be displayed. Please start your configuration by selecting the way you want Privileges to work from the menu above. If you don't want to configure certain options, please disable them using the \"Add/Remove properties\" button above. For more information about Privileges and its configuration options, please visit our GitHub page.", 
+         "links": [ 
+            { 
+               "rel": "Privileges on GitHub", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges" 
+            } 
+         ] 
+      }, 
+      "_infoBanner": { 
+         "format": "info", 
+         "title": " ", 
+         "links": [ 
+            { 
+               "href": "https://raw.githubusercontent.com/SAP/macOS-enterprise-privileges/main/readme_images/github%20banner%20new.png", 
+               "mediaType": "image/png" 
+            } 
+         ] 
+      }, 
+      "_manifestSelectedType": { 
+         "type": "string", 
+         "options": { 
+            "hidden": true 
+         } 
+      } 
+   }, 
+   "required": [ 
+      "_manifestSelectedType" 
+   ], 
+   "oneOf": [ 
+      { 
+         "title": "a fixed expiration interval", 
+         "type": "object", 
+         "properties": { 
+            "_manifestSelectedType": { 
+               "type": "string", 
+               "enum": [ 
+                  "ExpirationInterval" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "ExpirationInterval": { 
+               "$ref": "#/definitions/ExpirationInterval" 
+            }, 
+            "AllowPrivilegeRenewal": { 
+               "$ref": "#/definitions/AllowPrivilegeRenewal" 
+            }, 
+            "RenewalCustomAction": { 
+               "$ref": "#/definitions/RenewalCustomAction" 
+            }, 
+            "RenewalFollowsAuthSetting": { 
+               "$ref": "#/definitions/RenewalFollowsAuthSetting" 
+            }, 
+            "HideHelpButton": { 
+               "$ref": "#/definitions/HideHelpButton" 
+            }, 
+            "HelpButtonCustomURL": { 
+               "$ref": "#/definitions/HelpButtonCustomURL" 
+            }, 
+            "HideOtherWindows": { 
+               "$ref": "#/definitions/HideOtherWindows" 
+            }, 
+            "HideSettingsButton": { 
+               "$ref": "#/definitions/HideSettingsButton" 
+            }, 
+            "HideSettingsFromDockMenu": { 
+               "$ref": "#/definitions/HideSettingsFromDockMenu" 
+            }, 
+            "HideSettingsFromStatusItem": { 
+               "$ref": "#/definitions/HideSettingsFromStatusItem" 
+            }, 
+            "LimitToGroup": { 
+               "$ref": "#/definitions/LimitToGroup" 
+            }, 
+            "LimitToUser": { 
+               "$ref": "#/definitions/LimitToUser" 
+            }, 
+            "PostChangeExecutablePath": { 
+               "$ref": "#/definitions/PostChangeExecutablePath" 
+            }, 
+            "PostChangeActionOnGrantOnly": { 
+               "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
+            }, 
+            "ReasonRequired": { 
+               "$ref": "#/definitions/ReasonRequired" 
+            }, 
+            "PassReasonToExecutable": { 
+               "$ref": "#/definitions/PassReasonToExecutable" 
+            }, 
+            "ReasonCheckingEnabled": { 
+               "$ref": "#/definitions/ReasonCheckingEnabled" 
+            }, 
+            "ReasonMaxLength": { 
+               "$ref": "#/definitions/ReasonMaxLength" 
+            }, 
+            "ReasonMinLength": { 
+               "$ref": "#/definitions/ReasonMinLength" 
+            }, 
+            "ReasonPresetList": { 
+               "$ref": "#/definitions/ReasonPresetList" 
+            }, 
+            "RemoteLogging": { 
+               "$ref": "#/definitions/RemoteLogging" 
+            }, 
+            "RequireAuthentication": { 
+               "$ref": "#/definitions/RequireAuthentication" 
+            }, 
+            "AllowCLIBiometricAuthentication": { 
+               "$ref": "#/definitions/AllowCLIBiometricAuthentication" 
+            }, 
+            "EnableSmartCardSupport": { 
+               "$ref": "#/definitions/EnableSmartCardSupport" 
+            }, 
+            "RevokePrivilegesAtLogin": { 
+               "$ref": "#/definitions/RevokePrivilegesAtLogin" 
+            }, 
+            "RevokeAtLoginExcludedUsers": { 
+               "$ref": "#/definitions/RevokeAtLoginExcludedUsers" 
+            }, 
+            "ShowInMenuBar": { 
+               "$ref": "#/definitions/ShowInMenuBar" 
+            } 
+         }, 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "additionalProperties": false 
+      }, 
+      { 
+         "title": "a maximum expiration interval", 
+         "type": "object", 
+         "properties": { 
+            "_manifestSelectedType": { 
+               "type": "string", 
+               "enum": [ 
+                  "ExpirationIntervalMax" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "ExpirationIntervalMax": { 
+               "$ref": "#/definitions/ExpirationIntervalMax" 
+            }, 
+            "AllowPrivilegeRenewal": { 
+               "$ref": "#/definitions/AllowPrivilegeRenewal" 
+            }, 
+            "RenewalCustomAction": { 
+               "$ref": "#/definitions/RenewalCustomAction" 
+            }, 
+            "RenewalFollowsAuthSetting": { 
+               "$ref": "#/definitions/RenewalFollowsAuthSetting" 
+            }, 
+            "HideHelpButton": { 
+               "$ref": "#/definitions/HideHelpButton" 
+            }, 
+            "HelpButtonCustomURL": { 
+               "$ref": "#/definitions/HelpButtonCustomURL" 
+            }, 
+            "HideOtherWindows": { 
+               "$ref": "#/definitions/HideOtherWindows" 
+            }, 
+            "HideSettingsButton": { 
+               "$ref": "#/definitions/HideSettingsButton" 
+            }, 
+            "HideSettingsFromDockMenu": { 
+               "$ref": "#/definitions/HideSettingsFromDockMenu" 
+            }, 
+            "HideSettingsFromStatusItem": { 
+               "$ref": "#/definitions/HideSettingsFromStatusItem" 
+            }, 
+            "LimitToGroup": { 
+               "$ref": "#/definitions/LimitToGroup" 
+            }, 
+            "LimitToUser": { 
+               "$ref": "#/definitions/LimitToUser" 
+            }, 
+            "PostChangeExecutablePath": { 
+               "$ref": "#/definitions/PostChangeExecutablePath" 
+            }, 
+            "PostChangeActionOnGrantOnly": { 
+               "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
+            }, 
+            "ReasonRequired": { 
+               "$ref": "#/definitions/ReasonRequired" 
+            }, 
+            "PassReasonToExecutable": { 
+               "$ref": "#/definitions/PassReasonToExecutable" 
+            }, 
+            "ReasonCheckingEnabled": { 
+               "$ref": "#/definitions/ReasonCheckingEnabled" 
+            }, 
+            "ReasonMaxLength": { 
+               "$ref": "#/definitions/ReasonMaxLength" 
+            }, 
+            "ReasonMinLength": { 
+               "$ref": "#/definitions/ReasonMinLength" 
+            }, 
+            "ReasonPresetList": { 
+               "$ref": "#/definitions/ReasonPresetList" 
+            }, 
+            "RemoteLogging": { 
+               "$ref": "#/definitions/RemoteLogging" 
+            }, 
+            "RequireAuthentication": { 
+               "$ref": "#/definitions/RequireAuthentication" 
+            }, 
+            "AllowCLIBiometricAuthentication": { 
+               "$ref": "#/definitions/AllowCLIBiometricAuthentication" 
+            }, 
+            "EnableSmartCardSupport": { 
+               "$ref": "#/definitions/EnableSmartCardSupport" 
+            }, 
+            "RevokePrivilegesAtLogin": { 
+               "$ref": "#/definitions/RevokePrivilegesAtLogin" 
+            }, 
+            "RevokeAtLoginExcludedUsers": { 
+               "$ref": "#/definitions/RevokeAtLoginExcludedUsers" 
+            }, 
+            "ShowInMenuBar": { 
+               "$ref": "#/definitions/ShowInMenuBar" 
+            } 
+         }, 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "additionalProperties": false 
+      }, 
+      { 
+         "title": "forced administrator privileges", 
+         "type": "object", 
+         "properties": { 
+            "_manifestSelectedType": { 
+               "type": "string", 
+               "enum": [ 
+                  "EnforcePrivileges" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "_info": { 
+               "format": "info", 
+               "title": "Important:", 
+               "description": "You are configuring Privileges with forced administrator privileges. Therefore, most of the configuration options are not visible because they can't be used when Privileges is running in a locked mode." 
+            }, 
+            "EnforcePrivileges": { 
+               "type": "string", 
+               "enum": [ 
+                  "admin" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "HideOtherWindows": { 
+               "$ref": "#/definitions/HideOtherWindows" 
+            }, 
+            "HideSettingsFromDockMenu": { 
+               "$ref": "#/definitions/HideSettingsFromDockMenu" 
+            }, 
+            "HideSettingsFromStatusItem": { 
+               "$ref": "#/definitions/HideSettingsFromStatusItem" 
+            }, 
+            "ShowInMenuBar": { 
+               "$ref": "#/definitions/ShowInMenuBar" 
+            } 
+         }, 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "additionalProperties": false 
+      }, 
+      { 
+         "title": "forced standard user privileges", 
+         "type": "object", 
+         "properties": { 
+            "_manifestSelectedType": { 
+               "type": "string", 
+               "enum": [ 
+                  "EnforcePrivileges" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "_info": { 
+               "format": "info", 
+               "title": "Important:", 
+               "description": "You are configuring Privileges with forced standard user privileges. Therefore, most of the configuration options are not visible because they can't be used when Privileges is running in a locked mode." 
+            }, 
+            "EnforcePrivileges": { 
+               "type": "string", 
+               "enum": [ 
+                  "user" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "HideOtherWindows": { 
+               "$ref": "#/definitions/HideOtherWindows" 
+            }, 
+            "HideSettingsFromDockMenu": { 
+               "$ref": "#/definitions/HideSettingsFromDockMenu" 
+            }, 
+            "HideSettingsFromStatusItem": { 
+               "$ref": "#/definitions/HideSettingsFromStatusItem" 
+            }, 
+            "ShowInMenuBar": { 
+               "$ref": "#/definitions/ShowInMenuBar" 
+            } 
+         }, 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "additionalProperties": false 
+      }, 
+      { 
+         "title": "forced current privileges", 
+         "type": "object", 
+         "properties": { 
+            "_manifestSelectedType": { 
+               "type": "string", 
+               "enum": [ 
+                  "EnforcePrivileges" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "_info": { 
+               "format": "info", 
+               "title": "Important:", 
+               "description": "You are configuring Privileges with forced current privileges. Therefore, most of the configuration options are not visible because they can't be used when Privileges is running in a locked mode." 
+            }, 
+            "EnforcePrivileges": { 
+               "type": "string", 
+               "enum": [ 
+                  "none" 
+               ], 
+               "options": { 
+                  "hidden": true 
+               } 
+            }, 
+            "HideOtherWindows": { 
+               "$ref": "#/definitions/HideOtherWindows" 
+            }, 
+            "HideSettingsFromDockMenu": { 
+               "$ref": "#/definitions/HideSettingsFromDockMenu" 
+            }, 
+            "HideSettingsFromStatusItem": { 
+               "$ref": "#/definitions/HideSettingsFromStatusItem" 
+            }, 
+            "ShowInMenuBar": { 
+               "$ref": "#/definitions/ShowInMenuBar" 
+            } 
+         }, 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "additionalProperties": false 
+      } 
+   ], 
+   "definitions": { 
+      "ExpirationInterval": { 
+         "type": "integer", 
+         "default": 20, 
+         "minimum": 0, 
+         "title": "Fixed Expiration Interval", 
+         "description": "Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationInterval" 
+            } 
+         ] 
+      }, 
+      "ExpirationIntervalMax": { 
+         "type": "integer", 
+         "default": 20, 
+         "minimum": 0, 
+         "title": "Maximum Expiration Interval", 
+         "description": "Set a maximum time interval for a user to request administrator privileges. This generally works the same way as the fixed interval, but allows the user to choose any timeout value up to the specified one. For example, if the administrator sets the maximum interval to 20 minutes, the user can set it to any value up to 20 minutes instead of being forced to use the 20 minute timeout. For ease of use, we recommend configuring a maximum expiration interval rather than a fixed expiration interval.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationIntervalMax" 
+            } 
+         ] 
+      }, 
+      "AllowPrivilegeRenewal": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Allow Privilege Renewal", 
+         "description": "Specifies whether expiring administrator privileges can be renewed. If set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowPrivilegeRenewal" 
+            } 
+         ] 
+      }, 
+      "RenewalCustomAction": { 
+         "type": "object", 
+         "title": "Renewal Custom Action", 
+         "description": "Specifies a custom action to notify the user about expiring administrator privileges. If configured, the default expiration notifications are disabled and the executable specified by the ExecutablePath key is launched instead. An optional ActionNotificationInterval can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable as the $1 argument.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalCustomAction" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "AllowPrivilegeRenewal": true 
+            } 
+         }, 
+         "properties": { 
+            "ActionExecutablePath": { 
+               "type": "string", 
+               "default": "/path/to/your/script", 
+               "title": "Action Executable Path", 
+               "description": "If configured, the default renewal notifications are disabled and the specified executable is launched instead.", 
+               "links": [ 
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutablePath" 
+                  } 
+               ], 
+               "pattern": "^(\\/[\\w- ]+)+(.[a-zA-Z]+?)$", 
+               "options": { 
+                  "infoText": "Please enter the absolute path to the script or binary.", 
+                  "error_messages": { 
+                     "en": { 
+                        "error_pattern": "Please enter an absulute file path" 
+                     } 
+                  } 
+               } 
+            }, 
+            "ActionNotificationInterval": { 
+               "type": "integer", 
+               "title": "Action Notification Interval", 
+               "default": 1, 
+               "minimum": 1, 
+               "description": "This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using ActionExecutablePath as the $1 argument.", 
+               "links": [ 
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionNotificationInterval" 
+                  } 
+               ] 
+            } 
+         }, 
+         "required": [ 
+            "ActionExecutablePath" 
+         ], 
+         "additionalProperties": false 
+      }, 
+      "RenewalFollowsAuthSetting": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Renewal Follows Auth Setting", 
+         "description": "If set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalFollowsAuthSetting" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "AllowPrivilegeRenewal": true 
+            } 
+         } 
+      }, 
+      "HideHelpButton": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Hide Help Button", 
+         "description": "If set to true, the Help (?) button is no longer displayed in the app.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideHelpButton" 
+            } 
+         ] 
+      }, 
+      "HelpButtonCustomURL": { 
+         "type": "string", 
+         "title": "Help Button Custom URL", 
+         "description": "If specified, this url is called instead of the Privileges GitHub url if the user clicks the help button. Malformed urls and non-http(s) urls are ignored.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HelpButtonCustomURL" 
+            } 
+         ], 
+         "options": { 
+            "inputAttributes": { 
+               "placeholder": "https://server.mycompany.com/privileges.hmtl" 
+            }, 
+            "infoText": "Please enter a http(s) url.", 
+            "dependencies": { 
+               "HideHelpButton": false 
+            }, 
+            "error_messages": { 
+               "en": { 
+                  "error_pattern": "Please enter a valid http(s) url" 
+               } 
+            } 
+         }, 
+         "pattern": "^https?://[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b[-a-zA-Z0-9@:%._\\+~#?&//=]*$" 
+      }, 
+      "HideOtherWindows": { 
+         "type": "boolean", 
+         "default": true, 
+         "title": "Hide Other Windows", 
+         "description": "By default, Privileges hides open windows to show the desktop and ensure that only the Privileges window is visible on the screen. Set HideOtherWindows to false to disable this function.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideOtherWindows" 
+            } 
+         ] 
+      }, 
+      "HideSettingsButton": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Hide Settings Button", 
+         "description": "If set to true, the Settings button is no longer displayed in the app.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsButton" 
+            } 
+         ] 
+      }, 
+      "HideSettingsFromDockMenu": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Hide Settings From Dock Menu", 
+         "description": "If set to true, the Settings menu item is no longer displayed in the Dock tile's menu.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromDockMenu" 
+            } 
+         ] 
+      }, 
+      "HideSettingsFromStatusItem": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Hide Settings From Status Item", 
+         "description": "If set to true, the Settings menu item is no longer displayed in the status item's menu.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromStatusItem" 
+            } 
+         ] 
+      }, 
+      "LimitToGroup": { 
+         "type": "array", 
+         "title": "Limit To Group", 
+         "description": "Restricts use of the application to the specified list of groups.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToGroup" 
+            } 
+         ], 
+         "items": { 
+            "type": "string", 
+            "title": "Group", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "privileges_group" 
+               }, 
+               "infoText": "Please enter the name of a user group.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid group name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
+      "LimitToUser": { 
+         "type": "array", 
+         "title": "Limit To User", 
+         "description": "Restricts use of the application to the specified list of users. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToUser" 
+            } 
+         ], 
+         "items": { 
+            "type": "string", 
+            "title": "User", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "privileges_user" 
+               }, 
+               "infoText": "Please enter a user's short name.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid user name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
+      "PostChangeExecutablePath": { 
+         "type": "string", 
+         "title": "Post Change Executable Path", 
+         "description": "If set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath" 
+            } 
+         ], 
+         "options": { 
+            "inputAttributes": { 
+               "placeholder": "/path/to/your/script" 
+            }, 
+            "infoText": "Please enter the absolute path to the script or binary." 
+         } 
+      }, 
+      "PostChangeActionOnGrantOnly": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Post Change Action On Grant Only", 
+         "description": "If set to true, the application or script, specified in PostChangeExecutablePath, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeActionOnGrantOnly" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "PostChangeExecutablePath": { 
+                  "minLength": 1 
+               } 
+            } 
+         } 
+      }, 
+      "ReasonRequired": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Reason Required", 
+         "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonRequired" 
+            } 
+         ] 
+      }, 
+      "PassReasonToExecutable": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Pass Reason To Executable", 
+         "description": "Specifies whether the reason that the user entered when requesting administrator privileges should be passed to the executable configured with the PostChangeExecutablePath key. This is disabled by default. If enabled, the reason is passed to the executable as $3.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PassReasonToExecutable" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         } 
+      }, 
+      "ReasonCheckingEnabled": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Reason Checking Enabled", 
+         "description": "If set to true, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense. This feature is experimental and disabled by default. If you enable it, please check carefully that it works as expected in your environment.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonCheckingEnabled" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         } 
+      }, 
+      "ReasonMaxLength": { 
+         "type": "integer", 
+         "default": 200, 
+         "minimum": 1, 
+         "maximum": 250, 
+         "title": "Reason Max Length", 
+         "description": "If ReasonRequired is set to true, this key specifies the maximum number of characters the user can enter as the reason for becoming an admin. If not set, the value defaults to 250. If a value > 250 is specified or if ReasonMaxLength is <= ReasonMinLength, the value is set to default.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMaxLength" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         } 
+      }, 
+      "ReasonMinLength": { 
+         "type": "integer", 
+         "default": 10, 
+         "minimum": 1, 
+         "maximum": 250, 
+         "title": "Reason Min Length", 
+         "description": "If ReasonRequired is set to true, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value < 1 is specified or if ReasonMinLength is > 250, the value is set to default.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMinLength" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         } 
+      }, 
+      "ReasonPresetList": { 
+         "type": "array", 
+         "title": "Reason Preset List", 
+         "description": "If ReasonRequired is set to true, this key allows to pre-define a list of possible reasons (for becoming an admin) the user can choose from. If set, an additional pop-up menu will appear in the dialog box. This only works for the GUI version of Privileges.", 
+         "items": { 
+            "type": "object", 
+            "title": "Reason", 
+            "defaultProperties": [ 
+               "default" 
+            ], 
+            "minProperties": 1, 
+            "properties": { 
+               "ar": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Arabic)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "تم منحالامتيازات" 
+                     } 
+                  } 
+               }, 
+               "bg": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Bulgarian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Привилегии" 
+                     } 
+                  } 
+               }, 
+               "ca": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Catalan)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilegis" 
+                     } 
+                  } 
+               }, 
+               "zh-HK": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Chinese, Hong Kong)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "權限" 
+                     } 
+                  } 
+               }, 
+               "zh-Hans": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Chinese, Simplified)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "特权" 
+                     } 
+                  } 
+               }, 
+               "zh-Hant": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Chinese, Traditional)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "權限" 
+                     } 
+                  } 
+               }, 
+               "hr": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Croatian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Povlastice" 
+                     } 
+                  } 
+               }, 
+               "cs": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Czech)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Oprávnění" 
+                     } 
+                  } 
+               }, 
+               "da": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Danish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Rettigheder" 
+                     } 
+                  } 
+               }, 
+               "nl": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Dutch)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Bevoegdheden" 
+                     } 
+                  } 
+               }, 
+               "en-AU": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (English, Australia)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privileges" 
+                     } 
+                  } 
+               }, 
+               "en-GB": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (English, United Kingdom)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privileges" 
+                     } 
+                  } 
+               }, 
+               "fi": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Finnish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Oikeudet" 
+                     } 
+                  } 
+               }, 
+               "fr": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (French)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Autorisations" 
+                     } 
+                  } 
+               }, 
+               "fr-CA": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (French, Canada)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Autorisations" 
+                     } 
+                  } 
+               }, 
+               "de": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (German)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Administratorrechte" 
+                     } 
+                  } 
+               }, 
+               "el": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Greek)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Προνομίων" 
+                     } 
+                  } 
+               }, 
+               "he": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Hebrew)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "הרשאות" 
+                     } 
+                  } 
+               }, 
+               "hi": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Hindi)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "विशेषाधिकार" 
+                     } 
+                  } 
+               }, 
+               "hu": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Hungarian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Jogosultságok" 
+                     } 
+                  } 
+               }, 
+               "id": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Indonesian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Istimewa" 
+                     } 
+                  } 
+               }, 
+               "it": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Italian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilegi" 
+                     } 
+                  } 
+               }, 
+               "ja": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Japanese)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "権限" 
+                     } 
+                  } 
+               }, 
+               "ko": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Korean)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "권한" 
+                     } 
+                  } 
+               }, 
+               "ms": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Malay)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Keistimewaan" 
+                     } 
+                  } 
+               }, 
+               "nb": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Norwegian Bokmål)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Rettigheter" 
+                     } 
+                  } 
+               }, 
+               "pl": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Polish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Uprawnienia" 
+                     } 
+                  } 
+               }, 
+               "pt-BR": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Portugese, Brasil)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilégios" 
+                     } 
+                  } 
+               }, 
+               "pt-PT": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Portugese, Portugal)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilégios" 
+                     } 
+                  } 
+               }, 
+               "ro": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Romanian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilegii" 
+                     } 
+                  } 
+               }, 
+               "ru": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Russian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Привилегии" 
+                     } 
+                  } 
+               }, 
+               "sk": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Slovak)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Oprávnenia" 
+                     } 
+                  } 
+               }, 
+               "sl": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Slovenian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Pravice" 
+                     } 
+                  } 
+               }, 
+               "es": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Spanish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilegios" 
+                     } 
+                  } 
+               }, 
+               "es-419": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Spanish, Latin America)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privilegios" 
+                     } 
+                  } 
+               }, 
+               "sv": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Swedish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Behörighet" 
+                     } 
+                  } 
+               }, 
+               "th": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Thai)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "สิทธิ์" 
+                     } 
+                  } 
+               }, 
+               "tr": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Turkish)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Ayrıcalıklar" 
+                     } 
+                  } 
+               }, 
+               "uk": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Ukrainian)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Права" 
+                     } 
+                  } 
+               }, 
+               "vi": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Localization (Vietnamese)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Quyền" 
+                     } 
+                  } 
+               }, 
+               "default": { 
+                  "type": "string", 
+                  "minLength": 1, 
+                  "title": "Unlocalized (English)", 
+                  "options": { 
+                     "inputAttributes": { 
+                        "placeholder": "Privileges" 
+                     } 
+                  } 
+               } 
+            }, 
+            "additionalProperties": false 
+         }, 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonPresetList" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         }, 
+         "additionalProperties": false 
+      }, 
+      "RemoteLogging": { 
+         "type": "object", 
+         "title": "Remote Logging", 
+         "description": "Remote logging settings", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RemoteLogging" 
+            } 
+         ], 
+         "properties": { 
+            "ServerType": { 
+               "type": "string", 
+               "options": { 
+                  "hidden": true 
+               } 
+            } 
+         }, 
+         "required": [ 
+            "ServerType", 
+            "ServerAddress" 
+         ], 
+         "options": { 
+            "keep_oneof_values": false 
+         }, 
+         "oneOf": [ 
+            { 
+               "title": "Syslog", 
+               "properties": { 
+                  "ServerType": { 
+                     "type": "string", 
+                     "enum": [ 
+                        "syslog" 
+                     ], 
+                     "options": { 
+                        "hidden": true 
+                     } 
+                  }, 
+                  "ServerAddress": { 
+                     "type": "string", 
+                     "default": "0.0.0.0", 
+                     "title": "Syslog Server Address", 
+                     "description": "The server address can be an ip address or a fully-qualified domain name (FQDN).", 
+                     "links": [ 
+                        { 
+                           "rel": "Official documentation", 
+                           "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerAddress" 
+                        } 
+                     ], 
+                     "pattern": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$", 
+                     "options": { 
+                        "error_messages": { 
+                           "en": { 
+                              "error_pattern": "Please enter an ip address or a fully-qualified domain name (FQDN)" 
+                           } 
+                        } 
+                     } 
+                  }, 
+                  "SyslogOptions": { 
+                     "type": "object", 
+                     "title": "Syslog Options", 
+                     "description": "Syslog-specific options.", 
+                     "links": [ 
+                        { 
+                           "rel": "Official documentation", 
+                           "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#SyslogOptions" 
+                        } 
+                     ], 
+                     "additionalProperties": false, 
+                     "properties": { 
+                        "LogFacility": { 
+                           "type": "integer", 
+                           "title": "Log Facility", 
+                           "default": 4, 
+                           "minimum": 0, 
+                           "maximum": 23, 
+                           "description": "Configure syslog facility.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogFacility" 
+                              } 
+                           ], 
+                           "enum": [ 
+                              0, 
+                              1, 
+                              2, 
+                              3, 
+                              4, 
+                              5, 
+                              6, 
+                              7, 
+                              8, 
+                              9, 
+                              10, 
+                              11, 
+                              12, 
+                              13, 
+                              14, 
+                              15, 
+                              16, 
+                              17, 
+                              18, 
+                              19, 
+                              20, 
+                              21, 
+                              22, 
+                              23 
+                           ], 
+                           "options": { 
+                              "enum_titles": [ 
+                                 "Kernel messages", 
+                                 "User-level messages", 
+                                 "Mail system", 
+                                 "System daemons", 
+                                 "Security/Authorization messages", 
+                                 "Messages generated internally by syslogd", 
+                                 "Line Printer subsystem", 
+                                 "Network News subsystem", 
+                                 "UUCP subsystem", 
+                                 "Clock daemon", 
+                                 "Security/Authorization messages", 
+                                 "FTP daemon", 
+                                 "NTP subsystem", 
+                                 "Log audit", 
+                                 "Log alert", 
+                                 "Clock daemon (note 2)", 
+                                 "Local use 0 (local0)", 
+                                 "Local use 1 (local1)", 
+                                 "Local use 2 (local2)", 
+                                 "Local use 3 (local3)", 
+                                 "Local use 4 (local4)", 
+                                 "Local use 5 (local5)", 
+                                 "Local use 6 (local6)", 
+                                 "Local use 7 (local7)" 
+                              ] 
+                           } 
+                        }, 
+                        "LogSeverity": { 
+                           "type": "integer", 
+                           "title": "Log Severity", 
+                           "default": 6, 
+                           "minimum": 0, 
+                           "maximum": 7, 
+                           "description": "Configure syslog severity.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogSeverity" 
+                              } 
+                           ], 
+                           "enum": [ 
+                              0, 
+                              1, 
+                              2, 
+                              3, 
+                              4, 
+                              5, 
+                              6, 
+                              7 
+                           ], 
+                           "options": { 
+                              "enum_titles": [ 
+                                 "Emergency", 
+                                 "Alert", 
+                                 "Critical", 
+                                 "Error", 
+                                 "Warning", 
+                                 "Notice", 
+                                 "Informational", 
+                                 "Debug" 
+                              ] 
+                           } 
+                        }, 
+                        "MaximumMessageSize": { 
+                           "type": "integer", 
+                           "title": "Maximum Message Size", 
+                           "default": 480, 
+                           "minimum": 480, 
+                           "description": "If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end. Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further information.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MaximumMessageSize" 
+                              } 
+                           ] 
+                        }, 
+                        "MessageFormat": { 
+                           "type": "integer", 
+                           "title": "Message Format", 
+                           "default": 1, 
+                           "minimum": 1, 
+                           "maximum": 2, 
+                           "description": "Configure the format of the syslog message.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MessageFormat" 
+                              } 
+                           ], 
+                           "enum": [ 
+                              1, 
+                              2 
+                           ], 
+                           "options": { 
+                              "enum_titles": [ 
+                                 "RFC 5424 (Non-Transparent Framing)", 
+                                 "RFC 5424 (Octet Counting)" 
+                              ] 
+                           } 
+                        }, 
+                        "ServerPort": { 
+                           "type": "integer", 
+                           "title": "Server Port", 
+                           "default": 514, 
+                           "description": "The port of the logging server. If not specified, the port defaults to 514 or to 6514 if TLS is enabled.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerPort" 
+                              } 
+                           ], 
+                           "options": { 
+                              "infoText": "Starting with version 2, Privileges no longer supports syslog over UDP. So please make sure your syslog server accepts TCP connections when upgrading to Privileges 2." 
+                           } 
+                        }, 
+                        "StructuredData": { 
+                           "type": "object", 
+                           "title": "Structured Data", 
+                           "description": "Each SD element contains an SD id (which is the name of the element in the form of a string) and SD parameters. SD parameters are defined in a dictionary. The values of this dictionary must be of type string. Keys must be US-ASCII. Spaces and some special characters are not allowed.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#StructuredData" 
+                              } 
+                           ], 
+                           "defaultProperties": [ 
+                           ], 
+                           "properties": { 
+                              "exampleSDID@32473": { 
+                                 "type": "object", 
+                                 "title": "exampleSDID@32473", 
+                                 "properties": { 
+                                    "iut": { 
+                                       "type": "string", 
+                                       "minLength": 1, 
+                                       "default": "3" 
+                                    }, 
+                                    "eventSource": { 
+                                       "type": "string", 
+                                       "minLength": 1, 
+                                       "default": "Application" 
+                                    }, 
+                                    "eventID": { 
+                                       "type": "string", 
+                                       "minLength": 1, 
+                                       "default": "1011" 
+                                    } 
+                                 } 
+                              } 
+                           } 
+                        }, 
+                        "UseTLS": { 
+                           "type": "boolean", 
+                           "title": "Use TLS", 
+                           "default": false, 
+                           "description": "If set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
+                           "links": [ 
+                              { 
+                                 "rel": "Official documentation", 
+                                 "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#UseTLS" 
+                              } 
+                           ] 
+                        } 
+                     } 
+                  } 
+               }, 
+               "type": "object", 
+               "options": { 
+                  "keep_oneof_values": false 
+               }, 
+               "additionalProperties": false 
+            }, 
+            { 
+               "title": "Webhook", 
+               "properties": { 
+                  "ServerType": { 
+                     "type": "string", 
+                     "enum": [ 
+                        "webhook" 
+                     ], 
+                     "options": { 
+                        "hidden": true 
+                     } 
+                  }, 
+                  "ServerAddress": { 
+                     "type": "string", 
+                     "default": "https://server.mycompany.com/privileges", 
+                     "title": "Webhook URL", 
+                     "description": "The webhook url must be a http(s) url.", 
+                     "links": [ 
+                        { 
+                           "rel": "Official documentation", 
+                           "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerAddress" 
+                        } 
+                     ], 
+                     "pattern": "^https?://[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b[-a-zA-Z0-9@:%._\\+~#?&//=]*$", 
+                     "options": { 
+                        "error_messages": { 
+                           "en": { 
+                              "error_pattern": "Please enter a valid http(s) url" 
+                           } 
+                        } 
+                     } 
+                  }, 
+                  "WebhookCustomData": { 
+                     "type": "object", 
+                     "title": "Webhook Custom Data", 
+                     "description": "You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's json as custom_data.", 
+                     "links": [ 
+                        { 
+                           "rel": "Official documentation", 
+                           "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#WebhookCustomData" 
+                        } 
+                     ], 
+                     "additionalProperties": true, 
+                     "properties": { 
+                        "jssID": { 
+                           "type": "string", 
+                           "minLength": 1, 
+                           "default": "$JSSID" 
+                        }, 
+                        "macAddress": { 
+                           "type": "string", 
+                           "minLength": 1, 
+                           "default": "$MACADDRESS" 
+                        }, 
+                        "computerName": { 
+                           "type": "string", 
+                           "minLength": 1, 
+                           "default": "$COMPUTERNAME" 
+                        }, 
+                        "serialNumber": { 
+                           "type": "string", 
+                           "minLength": 1, 
+                           "default": "$SERIALNUMBER" 
+                        } 
+                     } 
+                  } 
+               }, 
+               "type": "object", 
+               "options": { 
+                  "keep_oneof_values": false 
+               }, 
+               "additionalProperties": false 
+            } 
+         ] 
+      }, 
+      "RequireAuthentication": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Require Authentication", 
+         "description": "Specifies whether authentication is required to obtain administrator privileges. If set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireAuthentication" 
+            } 
+         ] 
+      }, 
+      "AllowCLIBiometricAuthentication": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Allow CLI Biometric Authentication", 
+         "description": "Specifies whether to allow biometric authentication in the PrivilegesCLI to obtain administrator privileges. When set to true, the Privileges agent prompts the user for the account password (or Touch ID, if available).", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowCLIBiometricAuthentication" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RequireAuthentication": true 
+            } 
+         } 
+      }, 
+      "EnableSmartCardSupport": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Enable Smart Card Support", 
+         "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSmartCardSupport" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RequireAuthentication": true 
+            } 
+         } 
+      }, 
+      "RevokePrivilegesAtLogin": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Revoke Privileges At Login", 
+         "description": "If set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAtLogin" 
+            } 
+         ] 
+      }, 
+      "RevokeAtLoginExcludedUsers": { 
+         "type": "array", 
+         "title": "Revoke At Login Excluded Users", 
+         "description": "If RevokePrivilegesAtLogin is set to true, the specified users are excluded from privilege revocation at login. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAtLoginExcludedUsers" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RevokePrivilegesAtLogin": true 
+            } 
+         }, 
+         "items": { 
+            "type": "string", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "title": "User", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "admin" 
+               }, 
+               "infoText": "Please enter a user's short name.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid user name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
+      "ShowInMenuBar": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Show In Menu Bar", 
+         "description": "If set to true, a Privileges status item is displayed in the Menu Bar.", 
+         "links": [ 
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowInMenuBar" 
+            } 
+         ] 
+      } 
+   } 
 }
