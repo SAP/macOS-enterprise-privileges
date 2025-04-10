@@ -2,6 +2,4 @@
 
 # Managing Privileges
 
-For documentation on managing Privileges using configuration profiles, please see the wiki page linked below:
-
-* [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
+For documentation on managing Privileges using configuration profiles, please see the [Managing Privileges](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges) page in our wiki.
