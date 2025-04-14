@@ -18,7 +18,7 @@
 #import "MTPrivilegesDaemon.h"
 #import "MTCodeSigning.h"
 #import "Constants.h"
-#import <Collaboration/Collaboration.h>
+#import "MTIdentity.h"
 #import <os/log.h>
 
 @interface MTPrivilegesDaemon ()
@@ -157,6 +157,17 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
             // commit changes to the identity store to update the group
             success = CSIdentityCommit(csGroupIdentity, NULL, NULL);
+            
+            // because of some issues that have been reported by users,
+            // we check if the group membership is correct
+            if (success) {
+                
+                success = (grant == [MTIdentity groupMembershipForUser:userName
+                                                                  groupID:kMTAdminGroupID
+                                                                    error:nil
+                                    ]
+                           );
+            }
         }
     }
     

@@ -22,6 +22,7 @@
 @interface MTSettingsGeneralController ()
 @property (retain) id configurationObserver;
 @property (nonatomic, strong, readwrite) MTPrivileges *privilegesApp;
+@property (nonatomic, strong, readwrite) NSString *configuredByProfileLabel;
 
 @property (weak) IBOutlet NSButton *hideWindowsButton;
 @property (weak) IBOutlet NSButton *menuBarButton;
@@ -43,6 +44,8 @@
     
     // set the initial state of the "Show in Menu Bar" checkbox
     [self setMenuBarCheckbox];
+    
+    self.configuredByProfileLabel = NSLocalizedString(@"configuredByProfileLabel", nil);
     
     _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
                                                                                           object:nil
@@ -80,14 +83,18 @@
 
 - (void)setHideWindowsCheckbox
 {
+    [self willChangeValueForKey:@"hideWindowsIsForced"];
     [_hideWindowsButton setState:([_privilegesApp hideOtherWindows]) ? NSControlStateValueOn : NSControlStateValueOff];
     [_hideWindowsButton setEnabled:![_privilegesApp hideOtherWindowsIsForced]];
+    [self didChangeValueForKey:@"hideWindowsIsForced"];
 }
 
 - (void)setMenuBarCheckbox
 {
+    [self willChangeValueForKey:@"menuBarIsForced"];
     [_menuBarButton setState:([_privilegesApp showInMenuBar]) ? NSControlStateValueOn : NSControlStateValueOff];
     [_menuBarButton setEnabled:![_privilegesApp showInMenuBarIsForced]];
+    [self didChangeValueForKey:@"menuBarIsForced"];
 }
 
 - (void)dealloc
@@ -95,6 +102,19 @@
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:_configurationObserver];
     _configurationObserver = nil;
 }
+
+#pragma mark Bindings
+
+- (BOOL)hideWindowsIsForced
+{
+    return [_privilegesApp hideOtherWindowsIsForced];
+}
+
+- (BOOL)menuBarIsForced
+{
+    return [_privilegesApp showInMenuBarIsForced];
+}
+
 
 #pragma mark IBActions
 

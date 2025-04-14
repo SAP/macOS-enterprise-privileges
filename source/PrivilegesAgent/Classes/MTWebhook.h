@@ -23,7 +23,7 @@
  @abstract      A class that provides a method to post information about a privilege change to a webhook.
 */
 
-@interface MTWebhook : NSObject
+@interface MTWebhook : NSObject <NSURLSessionDelegate>
 
 /*!
  @method        init

@@ -70,6 +70,25 @@
                 [self writeConsole:[NSString stringWithFormat:@"User %@ has standard user privileges", [[privilegesApp currentUser] userName]]];
             }
             
+        } else if ([appArguments showVersion]) {
+            
+            NSString *versionString = @"unknown version";
+            NSURL *launchURL = [appArguments launchURL];
+            
+            if (launchURL) {
+                
+                NSDictionary *infoDict = CFBridgingRelease(CFBundleCopyInfoDictionaryForURL((CFURLRef)launchURL));
+                NSString *appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+                NSString *appBuild = [infoDict objectForKey:@"CFBundleVersion"];
+                
+                if (appVersion && appBuild) {
+                    
+                    versionString = [NSString stringWithFormat:@"%@ (%@)", appVersion, appBuild];
+                }
+            }
+            
+            [self writeConsole:[NSString stringWithFormat:@"PrivilegesCLI %@", versionString]];
+            
         } else if ([appArguments requestPrivileges] || [appArguments revertPrivileges]) {
             
             if ([[privilegesApp currentUser] useIsRestricted]) {
@@ -301,6 +320,7 @@
     fprintf(stderr, "                            interactively prompt for a reason.\n\n");
     fprintf(stderr, "  -r, --remove              Removes the current user from the admin group.\n\n");
     fprintf(stderr, "  -s, --status              Displays the current user's privileges.\n\n");
+    fprintf(stderr, "  -v, --version             Displays version information.\n\n");
     
     _shouldTerminate = YES;
 }

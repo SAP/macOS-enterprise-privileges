@@ -18,6 +18,7 @@
 #import "MTWebhook.h"
 #import "MTSystemInfo.h"
 #import "Constants.h"
+#import "MTClientCertificate.h"
 
 @interface MTWebhook ()
 @property (nonatomic, strong, readwrite) NSURL *url;
@@ -74,10 +75,15 @@
         [request setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
         
-        NSURLSessionDataTask* dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                              delegate:self
+                                                         delegateQueue:nil
+        ];
+        NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 
             if (completionHandler) { completionHandler(error); }
+            [session finishTasksAndInvalidate];
         }];
         
         [dataTask resume];
@@ -86,6 +92,51 @@
         
         if (completionHandler) { completionHandler(error); }
     }
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
+{
+    BOOL credentialsFound = NO;
+    
+    if ([[[challenge protectionSpace] authenticationMethod] isEqualToString:NSURLAuthenticationMethodClientCertificate]) {
+        
+        CFTypeRef items = NULL;
+        
+        NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   (id)kSecClassIdentity, (id)kSecClass,
+                                    [NSNumber numberWithBool:YES], (id)kSecReturnRef,
+                                    (id)kSecMatchLimitAll, (id)kSecMatchLimit,
+                                    nil
+        ];
+        
+        OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)attrs, &items);
+        
+        if (status == errSecSuccess && items) {
+            
+            NSArray *allSecItems = CFBridgingRelease(items);
+            
+            for (NSData *distinguishedName in [[challenge protectionSpace] distinguishedNames]) {
+                                
+                MTClientCertificate *clientCert = [[MTClientCertificate alloc] initWithDistinguishedName:distinguishedName];
+                SecIdentityRef matchingIdentityRef = [clientCert matchingIdentityWithSecItems:allSecItems];
+                
+                if (matchingIdentityRef) {
+                    
+                    NSURLCredential *credential = [NSURLCredential credentialWithIdentity:matchingIdentityRef
+                                                                             certificates:nil
+                                                                              persistence:NSURLCredentialPersistenceForSession
+                    ];
+                    
+                    credentialsFound = YES;
+                    completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+                                            
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (!credentialsFound) { completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil); }
 }
 
 @end

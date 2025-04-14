@@ -15,32 +15,32 @@
     limitations under the License.
 */
 
-#define kMTAppName                              @"Privileges"
-#define kMTDaemonMachServiceName                @"corp.sap.privileges.daemon.xpc"
-#define kMTAgentMachServiceName                 @"corp.sap.privileges.agent.xpc"
-#define kMTXPCServiceName                       @"corp.sap.privileges.xpcservice"
-#define kMTAppBundleIdentifier                  @"corp.sap.privileges"
-#define kMTAuthRightName                        "corp.sap.privileges.auth"
-#define kMTAppGroupIdentifier                   @"7R5ZEU67FQ.corp.sap.privileges"
-#define kMTDockTilePluginBundleIdentifier       @"corp.sap.privileges.docktileplugin"
-#define kMTErrorDomain                          @"corp.sap.privileges.ErrorDomain"
-#define kMTWebhookEventTypeGranted              @"corp.sap.privileges.granted"
-#define kMTWebhookEventTypeRevoked              @"corp.sap.privileges.revoked"
-#define kMTGitHubURL                            @"https://github.com/SAP/macOS-enterprise-privileges"
+#define kMTAppName                                  @"Privileges"
+#define kMTDaemonMachServiceName                    @"corp.sap.privileges.daemon.xpc"
+#define kMTAgentMachServiceName                     @"corp.sap.privileges.agent.xpc"
+#define kMTXPCServiceName                           @"corp.sap.privileges.xpcservice"
+#define kMTAppBundleIdentifier                      @"corp.sap.privileges"
+#define kMTAuthRightName                            "corp.sap.privileges.auth"
+#define kMTAppGroupIdentifier                       @"7R5ZEU67FQ.corp.sap.privileges"
+#define kMTDockTilePluginBundleIdentifier           @"corp.sap.privileges.docktileplugin"
+#define kMTErrorDomain                              @"corp.sap.privileges.ErrorDomain"
+#define kMTWebhookEventTypeGranted                  @"corp.sap.privileges.granted"
+#define kMTWebhookEventTypeRevoked                  @"corp.sap.privileges.revoked"
+#define kMTGitHubURL                                @"https://github.com/SAP/macOS-enterprise-privileges"
 
-#define kMTAdminGroupID                         80
-#define kMTExpirationDefault                    20
-#define kMTReasonMinLengthDefault               10
-#define kMTReasonMaxLengthDefault               250
-#define kMTFixedExpirationIntervals             @[@0, @5, @10, @20, @30, @60]
-#define kMTRevokeAtLoginThreshold               60
+#define kMTAdminGroupID                             80
+#define kMTExpirationDefault                        20
+#define kMTReasonMinLengthDefault                   10
+#define kMTReasonMaxLengthDefault                   250
+#define kMTFixedExpirationIntervals                 @[@0, @5, @10, @20, @30, @60]
+#define kMTRevokeAtLoginThreshold                   60
 
-#define kMTEnforcedPrivilegeTypeNone            @"none"
-#define kMTEnforcedPrivilegeTypeAdmin           @"admin"
-#define kMTEnforcedPrivilegeTypeUser            @"user"
+#define kMTEnforcedPrivilegeTypeNone                @"none"
+#define kMTEnforcedPrivilegeTypeAdmin               @"admin"
+#define kMTEnforcedPrivilegeTypeUser                @"user"
 
-#define kMTRemoteLoggingServerTypeSyslog        @"syslog"
-#define kMTRemoteLoggingServerTypeWebhook       @"webhook"
+#define kMTRemoteLoggingServerTypeSyslog            @"syslog"
+#define kMTRemoteLoggingServerTypeWebhook           @"webhook"
 
 // NSUserDefaults
 #define kMTDefaultsExpirationIntervalKey            @"ExpirationInterval"
@@ -64,6 +64,8 @@
 #define kMTDefaultsRemoteLoggingSyslogFacilityKey   @"LogFacility"
 #define kMTDefaultsRemoteLoggingSyslogSeverityKey   @"LogSeverity"
 #define kMTDefaultsRemoteLoggingSyslogMaxSizeKey    @"MaximumMessageSize"
+#define kMTDefaultsRemoteLoggingSyslogFormatKey     @"MessageFormat"
+#define kMTDefaultsRemoteLoggingSyslogSDKey         @"StructuredData"
 #define kMTDefaultsRemoteLoggingWebhookDataKey      @"WebhookCustomData"
 #define kMTDefaultsHideOtherWindowsKey              @"HideOtherWindows"
 #define kMTDefaultsRevokeAtLoginKey                 @"RevokePrivilegesAtLogin"
@@ -83,14 +85,19 @@
 #define kMTDefaultsShowInMenuBarKey                 @"ShowInMenuBar"
 #define kMTDefaultsSettingsSelectedTabKey           @"SettingsSelectedTab"
 #define kMTDefaultsEnableSmartCardSupportKey        @"EnableSmartCardSupport"
+#define kMTDefaultsRenewalCustomActionKey           @"RenewalCustomAction"
+#define kMTDefaultsRenewalCustomActionPathKey       @"ActionExecutablePath"
+#define kMTDefaultsRenewalCustomActionIntervalKey   @"ActionNotificationInterval"
+#define kMTDefaultsUnexpectedPrivilegeStateKey      @"UnexpectedPrivilegeState"
 
 // NSNotification
-#define kMTNotificationNamePrivilegesDidChange  @"corp.sap.privileges.PrivilegesDidChange"
-#define kMTNotificationNameExpirationTimeLeft   @"corp.sap.privileges.ExpirationTimeLeft"
-#define kMTNotificationNameConfigDidChange      @"corp.sap.privileges.ConfigDidChange"
-#define kMTNotificationCategoryIdentifier       @"corp.sap.privileges.action"
-#define kMTNotificationActionIdentifierRenew    @"corp.sap.privileges.action.renew"
+#define kMTNotificationNamePrivilegesDidChange      @"corp.sap.privileges.PrivilegesDidChange"
+#define kMTNotificationNameExpirationTimeLeft       @"corp.sap.privileges.ExpirationTimeLeft"
+#define kMTNotificationNameConfigDidChange          @"corp.sap.privileges.ConfigDidChange"
+#define kMTNotificationCategoryIdentifier           @"corp.sap.privileges.action"
+#define kMTNotificationActionIdentifierRenew        @"corp.sap.privileges.action.renew"
+#define kMTNotificationNameAdminGroupDidChange      @"corp.sap.privileges.AdminGroupDidChange"
 
 // NSNotification user info keys
-#define kMTNotificationKeyTimeLeft              @"TimeLeft"
-#define kMTNotificationKeyPreferencesChanged    @"PreferenceKey"
+#define kMTNotificationKeyTimeLeft                  @"TimeLeft"
+#define kMTNotificationKeyPreferencesChanged        @"PreferenceKey"

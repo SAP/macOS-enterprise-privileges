@@ -81,16 +81,36 @@
                                 -->
                                 <key>RenewalFollowsAuthSetting</key>
                                 <true/>
+                                
+                                <!--
+                                    key:    RenewalCustomAction
+                                    value:  a dictionary
+                                    
+                                    Specifies a custom action to notify the user about expiring
+									administrator privileges. If configured, the default renewal
+									notifications are disabled and the executable specified by the
+									ExecutablePath key is launched instead. An optional ActionNotificationInterval
+									can be configured to specify how many minutes before the admin
+									privileges expire the executable should be launched. If not configured,
+									or the configured value is smaller than 1 or bigger than the expiration
+									interval - 1, it defaults to 1 minute. The notification interval is also 
+									passed to the executable as the $1 argument.
+                                -->
+                                <key>RenewalCustomAction</key>
+                                <dict>
+                                	<key>ActionExecutablePath</key>
+                                	<string>/Library/Application Support/Privileges/privileges_renewal.sh</string>
+                                	<key>ActionNotificationInterval</key>
+                                	<integer>5</integer>
+                                </dict>
 								
 								<!--
 									key:    EnforcePrivileges
 									value:  a string containing the value "admin", "user" or "none"
 									
-                                    Enforces specific privileges. The privileges are immediately enforced by
-                                    the Privileges Dock tile plugin (even if Privileges is not in Dock). If
-                                    "EnforcePrivileges" is set to "none", it is no longer possible to change
-                                    privileges with the Privileges application or any of its bundled
-                                    applications.
+                                    Immediately enforces specific privileges. If "EnforcePrivileges" is set
+									to "none", it is no longer possible to change privileges with the
+									Privileges application or any of its bundled applications.
 								-->
 								<key>EnforcePrivileges</key>
 								<string>user</string>
@@ -419,8 +439,9 @@
                                     	key:    ServerAddress
                                     	value:  a string containing the address of the logging server
                                     	
-                                        The server address can be an ip address or host name if a syslog server
-                                        is configured. For webhooks please provide a http(s) url.
+                                        The server address can be an ip address or a fully-qualified domain name 
+                                        (fqdn) if a syslog server is configured. For webhooks please provide a 
+                                        http(s) url.
                                 
                                 
                                         key:    WebhookCustomData
@@ -501,7 +522,30 @@
                                     		
                                             Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
                                             information.
-                                    	
+                                
+                                
+                                            key:    MessageFormat
+                                            value:  an integer specifying the format of the syslog message
+                                            
+                                            If not specified, the value defaults to 1, which describes an RFC 5424
+                                            compliant syslog message that uses non-transparent framing. Set this
+                                            value to 2 if you want to create RFC 5424 compliant syslog messages that
+                                            use octet counting.
+                                            
+                                            Please see https://tools.ietf.org/html/rfc6587#section-3.4.1 and
+                                            https://tools.ietf.org/html/rfc5424#section-6.1 for further information.
+                                
+                                
+                                            key:    StructuredData
+                                            value:  a dictionary containing structured data elements
+                                            
+                                            Each SD element contains an SD id (which is the name of the element in
+                                            the form of a string) and SD parameters. SD parameters are defined in a
+                                            dictionary. The values of this dictionary must be of type string. Keys
+                                            must be US-ASCII. Spaces and some special characters are not allowed.
+                                            
+                                            Please see https://datatracker.ietf.org/doc/html/rfc5424#section-6.3 for further information.
+                                
                                 
                                     Please make sure your firewall rules has been modified to allow access
                                     to the specified protocol, address and port.
@@ -526,6 +570,20 @@
 										<integer>6</integer>
 										<key>MaximumMessageSize</key>
 										<integer>480</integer>
+                                        <key>MessageFormat</key>
+                                        <integer>1</integer>
+                                        <key>StructuredData</key>
+                                        <dict>
+                                            <key>exampleSDID@32473</key>
+                                            <dict>
+                                                <key>iut</key>
+                                                <string>3</string>
+                                                <key>eventSource</key>
+                                                <string>Application</string>
+                                                <key>eventID</key>
+                                                <string>1011</string>
+                                            </dict>
+                                        </dict>
 									</dict>
                                     
                                     <!-- OR -->

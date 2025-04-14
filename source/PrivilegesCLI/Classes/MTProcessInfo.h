@@ -32,6 +32,13 @@
 - (BOOL)showStatus;
 
 /*!
+ @method        showVersion
+ @abstract      Get whether the version should be displayed.
+ @discussion    Returns YES if the version should be displayed, otherwise returns NO.
+ */
+- (BOOL)showVersion;
+
+/*!
  @method        requestPrivileges
  @abstract      Get whether administrator privileges were requested.
  @discussion    Returns YES if administrator privileges were requested, otherwise returns NO.
@@ -44,6 +51,13 @@
  @discussion    Returns YES if administrator privileges should be reverted, otherwise returns NO.
  */
 - (BOOL)revertPrivileges;
+
+/*!
+ @method        launchURL
+ @abstract      Get the launch url of the current process.
+ @discussion    Returns an NSURL object or nil, if an error occurred.
+ */
+- (NSURL*)launchURL;
 
 /*!
  @method        requestReason

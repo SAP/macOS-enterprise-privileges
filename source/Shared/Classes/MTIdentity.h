@@ -36,24 +36,24 @@
 + (int)gidFromGroupName:(NSString*)groupName;
 
 /*!
- @method        getGroupMembershipForUser:groupID:error
+ @method        groupMembershipForUser:groupID:error
  @abstract      Check if a given user is member of a given group.
  @param         userName The short name of the user.
  @param         groupID The id of the group.
  @param         error A reference to an NSError object that contains a detailed error message if an error occurred. May be nil.
  @discussion    Returns YES if the user is member of the group, otherwise returns NO.
  */
-+ (BOOL)getGroupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error;
++ (BOOL)groupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error;
 
 /*!
-@method        getGroupMembershipForUser:groupName:error
+@method        groupMembershipForUser:groupName:error
 @abstract      Check if a given user is member of a given group.
 @param         userName The short name of the user.
 @param         groupName The name of the group.
 @param         error A reference to an NSError object that contains a detailed error message if an error occurred. May be nil.
 @discussion    Returns YES if the user is member of the group, otherwise returns NO.
 */
-+ (BOOL)getGroupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error;
++ (BOOL)groupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error;
 
 /*!
 @method        authenticateUserWithReason:completionHandler

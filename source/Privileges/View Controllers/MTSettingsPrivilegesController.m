@@ -24,12 +24,12 @@
 @interface MTSettingsPrivilegesController ()
 @property (retain) id configurationObserver;
 @property (nonatomic, strong, readwrite) MTPrivileges *privilegesApp;
+@property (nonatomic, strong, readwrite) NSString *configuredByProfileLabel;
 
 @property (weak) IBOutlet NSPopUpButton *autoRemoveMenu;
 @property (weak) IBOutlet NSPopUpButton *postExecutableMenu;
 @property (weak) IBOutlet NSButton *privilegeRenewalButton;
 @property (weak) IBOutlet NSButton *removeAtLoginButton;
-@property (weak) IBOutlet NSButton *hideWindowsButton;
 @property (weak) IBOutlet NSButton *actionAfterGrantOnlyButton;
 @end
 
@@ -53,14 +53,13 @@
     // create the expiration time menu
     [self createAutoRemoveMenu];
     
-    // set the initial state of the "Hide other windows" checkbox
-    [self setHideWindowsCheckbox];
-    
     // create the "Run after privilege change:" menu
     [self createPostExecMenuWithPath:[_privilegesApp postChangeExecutablePath]];
     
     // set the initial state of the "Run only if administrator privileges have been granted" checkbox
     [self setActionAfterGrantOnlyCheckbox];
+    
+    self.configuredByProfileLabel = NSLocalizedString(@"configuredByProfileLabel", nil);
     
     _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
                                                                                           object:nil
@@ -75,7 +74,6 @@
             NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
                                       kMTDefaultsExpirationIntervalKey,
                                       kMTDefaultsAutoExpirationIntervalMaxKey,
-                                      kMTDefaultsHideOtherWindowsKey,
                                       kMTDefaultsRevokeAtLoginKey,
                                       kMTDefaultsRevokeAtLoginExcludedUsersKey,
                                       kMTDefaultsPostChangeExecutablePathKey,
@@ -96,10 +94,6 @@
                         
                         // and our removal checkbox
                         [self setPrivilegeRenewalCheckbox];
-                        
-                    } else if ([changedKey isEqualToString:kMTDefaultsHideOtherWindowsKey]) {
-                        
-                        [self setHideWindowsCheckbox];
                         
                     } else if ([changedKey isEqualToString:kMTDefaultsRevokeAtLoginKey] ||
                                [changedKey isEqualToString:kMTDefaultsRevokeAtLoginExcludedUsersKey]) {
@@ -177,27 +171,27 @@
         }
     }
 
+    [self willChangeValueForKey:@"removalIntervalIsForced"];
     [_autoRemoveMenu selectItemWithTag:removalIntervalValue];
     [_autoRemoveMenu setEnabled:![_privilegesApp expirationIntervalIsForced]];
     [_autoRemoveMenu setAccessibilityLabel:[_autoRemoveMenu titleOfSelectedItem]];
-}
-
-- (void)setHideWindowsCheckbox
-{
-    [_hideWindowsButton setState:([_privilegesApp hideOtherWindows]) ? NSControlStateValueOn : NSControlStateValueOff];
-    [_hideWindowsButton setEnabled:![_privilegesApp hideOtherWindowsIsForced]];
+    [self didChangeValueForKey:@"removalIntervalIsForced"];
 }
 
 - (void)setLoginItemCheckbox
 {
+    [self willChangeValueForKey:@"revokeAtLoginIsForced"];
     [_removeAtLoginButton setState:([_privilegesApp privilegesShouldBeRevokedAtLogin]) ? NSControlStateValueOn : NSControlStateValueOff];
     [_removeAtLoginButton setEnabled:![_privilegesApp privilegesShouldBeRevokedAtLoginIsForced]];
+    [self didChangeValueForKey:@"revokeAtLoginIsForced"];
 }
 
 - (void)setPrivilegeRenewalCheckbox
 {
+    [self willChangeValueForKey:@"renewalIsForced"];
     [_privilegeRenewalButton setState:([_privilegesApp privilegeRenewalAllowed]) ? NSControlStateValueOn : NSControlStateValueOff];
     [_privilegeRenewalButton setEnabled:![_privilegesApp privilegeRenewalAllowedIsForced] && [_privilegesApp expirationInterval] > 0];
+    [self didChangeValueForKey:@"renewalIsForced"];
 }
 
 - (void)createPostExecMenuWithPath:(NSString*)path
@@ -242,20 +236,51 @@
         }
     }
     
+    [self willChangeValueForKey:@"executablePathIsForced"];
     [_postExecutableMenu setEnabled:![_privilegesApp postChangeExecutablePathIsForced]];
     [_postExecutableMenu setAccessibilityLabel:[_postExecutableMenu titleOfSelectedItem]];
+    [self didChangeValueForKey:@"executablePathIsForced"];
 }
 
 - (void)setActionAfterGrantOnlyCheckbox
 {
+    [self willChangeValueForKey:@"execAfterGrantOnlyIsForced"];
     [_actionAfterGrantOnlyButton setState:([_privilegesApp runActionAfterGrantOnly]) ? NSControlStateValueOn : NSControlStateValueOff];
     [_actionAfterGrantOnlyButton setEnabled:(![_privilegesApp runActionAfterGrantOnlyIsForced] && [_privilegesApp postChangeExecutablePath])];
+    [self didChangeValueForKey:@"execAfterGrantOnlyIsForced"];
 }
 
 - (void)dealloc
 {
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:_configurationObserver];
     _configurationObserver = nil;
+}
+
+#pragma mark Bindings
+
+- (BOOL)removalIntervalIsForced
+{
+    return [_privilegesApp expirationIntervalIsForced];
+}
+
+- (BOOL)renewalIsForced
+{
+    return [_privilegesApp privilegeRenewalAllowedIsForced];
+}
+
+- (BOOL)revokeAtLoginIsForced
+{
+    return [_privilegesApp privilegesShouldBeRevokedAtLoginIsForced];
+}
+
+- (BOOL)executablePathIsForced
+{
+    return [_privilegesApp postChangeExecutablePathIsForced];
+}
+
+- (BOOL)execAfterGrantOnlyIsForced
+{
+    return [_privilegesApp runActionAfterGrantOnlyIsForced];
 }
 
 #pragma mark IBActions

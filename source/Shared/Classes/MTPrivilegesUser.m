@@ -18,6 +18,7 @@
 #import "MTPrivilegesUser.h"
 #import "MTAgentConnection.h"
 #import "Constants.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <pwd.h>
 
 @interface MTPrivilegesUser ()
@@ -34,7 +35,12 @@
     
     if (self) {
         
-        _userName = NSUserName();
+        // we need to make sure that we always get the real console user (even if
+        // someone runs PrivilegesCLI with sudo, for example). So we use
+        // SCDynamicStoreCopyConsoleUser instead of NSUserName().
+        CFStringRef console_user = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
+        
+        _userName = CFBridgingRelease(console_user);
         _agentConnection = [[MTAgentConnection alloc] init];
         
         if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kMTAppBundleIdentifier]) {
@@ -49,7 +55,33 @@
 
 - (BOOL)hasAdminPrivileges
 {
-    return [MTIdentity getGroupMembershipForUser:[self userName] groupID:kMTAdminGroupID error:nil];
+    NSError *error = nil;
+    BOOL isMember = [MTIdentity groupMembershipForUser:[self userName] groupID:kMTAdminGroupID error:&error];
+    
+    if (error) {
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to get group membership for user %{public}@: %{public}@", [self userName], error);
+    }
+    
+    return isMember;
+}
+
+- (BOOL)hasUnexpectedPrivilegeState
+{
+    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+    BOOL unexpectedState = [appGroupDefaults boolForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+        
+    return unexpectedState;
+}
+
+- (void)setUnexpectedPrivilegeState:(BOOL)unexpectedState
+{
+    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+    
+    if (unexpectedState) {
+        [appGroupDefaults setBool:YES forKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+    } else {
+        [appGroupDefaults removeObjectForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+    }
 }
 
 - (void)requestAdminPrivilegesWithReason:(NSString *)reason completionHandler:(void (^)(BOOL success))completionHandler
@@ -185,13 +217,13 @@
         
         if ([limitToGroup isKindOfClass:[NSString class]]) {
             
-            groupRestricted = ![MTIdentity getGroupMembershipForUser:_userName groupName:limitToGroup error:nil];
+            groupRestricted = ![MTIdentity groupMembershipForUser:_userName groupName:limitToGroup error:nil];
             
         } else if ([limitToGroup isKindOfClass:[NSArray class]]) {
             
             for (NSString *groupName in limitToGroup) {
                 
-                if ([MTIdentity getGroupMembershipForUser:_userName groupName:groupName error:nil]) {
+                if ([MTIdentity groupMembershipForUser:_userName groupName:groupName error:nil]) {
                     groupRestricted = NO;
                     break;
                 }

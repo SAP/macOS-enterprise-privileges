@@ -37,6 +37,22 @@
     return revert;
 }
 
+- (BOOL)showVersion
+{
+    BOOL show = [[self arguments] containsObject:@"-v"] || [[self arguments] containsObject:@"--version"];
+    return show;
+}
+
+- (NSURL*)launchURL
+{
+    NSURL *url = nil;
+    
+    NSString *launchPath = [[self arguments] firstObject];
+    if (launchPath) { url = [NSURL fileURLWithPath:launchPath]; }
+
+    return url;
+}
+
 - (NSString *)requestReason
 {
     NSString *reason = nil;

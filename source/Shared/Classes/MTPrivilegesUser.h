@@ -40,6 +40,21 @@
 - (BOOL)hasAdminPrivileges;
 
 /*!
+ @method        hasUnexpectedPrivilegeState
+ @abstract      Get whether the privileges of the MTPrivilegesUser have an unexpected state.
+ @discussion    Returns YES if the privileges for the user have been changed by another process and therefore
+                different from the privileges we have set for this user, otherwise returns NO.
+*/
+- (BOOL)hasUnexpectedPrivilegeState;
+
+/*!
+ @method        setUnexpectedPrivilegeState:
+ @abstract      Set whether the privileges for the MTPrivilegesUser are unexpected.
+ @param         unexpectedState A boolean indicating if the privileges are unexpected (YES) or not (NO).
+*/
+- (void)setUnexpectedPrivilegeState:(BOOL)unexpectedState;
+
+/*!
  @method        requestAdminPrivilegesWithReason:completionHandler:
  @abstract      Request administrator privileges for the current MTPrivilegesUser.
  @param         reason A string containing the reason the user requests administrator privileges. May be nil.

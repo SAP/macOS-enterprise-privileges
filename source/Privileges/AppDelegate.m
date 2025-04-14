@@ -163,7 +163,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             [_alert setInformativeText:NSLocalizedString(@"privilegesDialogRemoveMessage", nil)];
             NSButton *removeButton = [_alert addButtonWithTitle:NSLocalizedString(@"removeButton", nil)];
             
-            if ([_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0) {
+            if ([_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 && ![[_privilegesApp currentUser] hasUnexpectedPrivilegeState]) {
                 
                 _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged handler:^NSEvent *(NSEvent *event) {
 
@@ -213,12 +213,9 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             [requestButton setHasDestructiveAction:YES];
             
             if ([_privilegesApp reasonRequired]) {
-                                
+
                 // load the nib file
-                if (!_accessoryController) {
-                    
-                    _accessoryController = [[MTReasonAccessoryController alloc] initWithNibName:@"MTReasonAccessory" bundle:nil];
-                }
+                _accessoryController = [[MTReasonAccessoryController alloc] initWithNibName:@"MTReasonAccessory" bundle:nil];
                 
                 NSView *accessoryView = [_accessoryController view];
                 [[_accessoryController reasonTextField] setDelegate:self];

@@ -19,7 +19,15 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface MTSyslogMessage ()
-@property (assign) MTSyslogMessageParts msgParts;
+@property (nonatomic, assign) MTSyslogMessageFacility facility;
+@property (nonatomic, assign) MTSyslogMessageSeverity severity;
+@property (nonatomic, assign) NSUInteger msgVersion;
+@property (nonatomic, strong, readwrite) NSString *hostName;
+@property (nonatomic, strong, readwrite) NSString *appName;
+@property (nonatomic, strong, readwrite) NSString *procID;
+@property (nonatomic, strong, readwrite) NSString *messageID;
+@property (nonatomic, assign) MTSyslogMessageMaxSize maxSize;
+@property (nonatomic, assign) MTSyslogMessageFormat format;
 @end
 
 @implementation MTSyslogMessage
@@ -30,186 +38,205 @@
     
     if (self) {
         
-        _msgParts.version    = 1;
-        _msgParts.facility   = MTSyslogMessageFacilityUser;
-        _msgParts.severity   = MTSyslogMessageSeverityInformational;
-        _msgParts.appname    = kMTSyslogMessageNilValue;
-        _msgParts.procid     = kMTSyslogMessageNilValue;
-        _msgParts.msgid      = kMTSyslogMessageNilValue;
-        _msgParts.structured = kMTSyslogMessageNilValue;
-        _msgParts.max_size   = MTSyslogMessageMaxSize480;
+        _msgVersion = 1;
+        _facility = MTSyslogMessageFacilityUser;
+        _severity = MTSyslogMessageSeverityInformational;
+        _maxSize = MTSyslogMessageMaxSize480;
+        _format = MTSyslogMessageFormatNone;
     }
     
     return self;
 }
 
+#pragma mark Setters
+
+- (void)setFormat:(MTSyslogMessageFormat)format
+{
+    _format = (format >= 0 && format <= 2) ? format : MTSyslogMessageFormatNonTransparentFraming;
+}
+
 - (void)setFacility:(MTSyslogMessageFacility)facility
 {
-    if (facility >= 0 && facility <= 24) {
-        _msgParts.facility = facility;
-    }
+    _facility = (facility >= 0 && facility <= 24) ? facility : MTSyslogMessageFacilityUser;
 }
 
 - (void)setSeverity:(MTSyslogMessageSeverity)severity
 {
-    if (severity >= 0 && severity <= 7) {
-        _msgParts.severity = severity;
-    }
+    _severity = (severity >= 0 && severity <= 7) ? severity : MTSyslogMessageSeverityInformational;
 }
 
-- (void)setTimestamp:(NSDate*)timestamp
+- (void)setHostName:(NSString*)name
 {
-    if (timestamp) {
-        _msgParts.timestamp = timestamp;
-    }
+    _hostName = [MTSyslogMessageStructuredData cleanString:name maximumLength:255];
 }
 
-- (void)setHostname:(NSString*)hostName
+- (void)setAppName:(NSString*)name
 {
-    hostName = [self cleanHeaderString:hostName maximumLength:255];
-    _msgParts.hostname = hostName;
+    _appName = [MTSyslogMessageStructuredData cleanString:name maximumLength:48];
 }
 
-- (void)setAppName:(NSString*)appName
+- (void)setProcID:(NSString*)pid
 {
-    appName = [self cleanHeaderString:appName maximumLength:48];
-    _msgParts.appname = ([appName length] > 0) ? appName : kMTSyslogMessageNilValue;
+    _procID = [MTSyslogMessageStructuredData cleanString:pid maximumLength:128];
 }
 
-- (void)setProcessId:(NSString*)procId
+- (void)setMessageID:(NSString*)msgId
 {
-    procId = [self cleanHeaderString:procId maximumLength:128];
-    _msgParts.procid = ([procId length] > 0) ? procId : kMTSyslogMessageNilValue;
-}
-
-- (void)setMessageId:(NSString*)msgId
-{
-    msgId = [self cleanHeaderString:msgId maximumLength:32];
-    _msgParts.msgid = ([msgId length] > 0) ? msgId : kMTSyslogMessageNilValue;
-}
-
-- (void)setEventMessage:(NSString*)eventMessage
-{
-    _msgParts.msg = eventMessage;
+    _messageID = [MTSyslogMessageStructuredData cleanString:msgId maximumLength:32 ];
 }
 
 - (void)setMaxSize:(MTSyslogMessageMaxSize)maxSize
 {
-    if (maxSize >= MTSyslogMessageMaxSize480 && maxSize <= MTSyslogMessageMaxSize2048) {
-        _msgParts.max_size = maxSize;
-    }
+    _maxSize = (maxSize >= MTSyslogMessageMaxSize480 && maxSize <= MTSyslogMessageMaxSize2048) ? maxSize : MTSyslogMessageMaxSize480;
 }
 
-- (NSString*)messageString
-{
-    NSString *returnValue = nil;
-    
-    if ([_msgParts.msg length] > 0) {
-        
-        NSMutableString *finalMessage = [[NSMutableString alloc] init];
-        
-        // first we calculate the message priority
-        NSInteger msgPriority = _msgParts.facility * 8 + _msgParts.severity;
-        [finalMessage appendFormat:@"<%ld>", (long)msgPriority];
-        
-        // add the version
-        [finalMessage appendFormat:@"%ld ", (long)_msgParts.version];
-        
-        // set the timestamp
-        if (!_msgParts.timestamp) { _msgParts.timestamp  = [[NSDate alloc] init]; }
+#pragma mark Message composing
 
-        NSISO8601DateFormatter *timestampFormatter = [[NSISO8601DateFormatter alloc] init];
-        [finalMessage appendFormat:@"%@ ", [timestampFormatter stringFromDate:_msgParts.timestamp]];
+- (NSInteger)composedPriority
+{
+    return _facility * 8 + _severity;
+}
+
+- (NSString*)composedTimestamp
+{
+    NSISO8601DateFormatter *timestampFormatter = [[NSISO8601DateFormatter alloc] init];
+    [timestampFormatter setFormatOptions:NSISO8601DateFormatWithFractionalSeconds | NSISO8601DateFormatWithInternetDateTime];
+    NSDate *tempTimeStamp = (_timeStamp) ? _timeStamp : [NSDate now];
+    
+    return [timestampFormatter stringFromDate:tempTimeStamp];
+}
+
+- (NSString*)composedHostName
+{
+    NSString *returnValue = _hostName;
+    
+    if ([returnValue length] == 0) {
         
-        // add the host name
-        if ([_msgParts.hostname length] == 0) {
+        // if no name has been specified, we try to get the local name
+        returnValue = (NSString*)CFBridgingRelease(SCDynamicStoreCopyComputerName(NULL, NULL));
+        
+        // if this didn't work, we use the first local ip address we find
+        if ([returnValue length] == 0) {
             
-            // if no name has been specified, we try to get the local name
-            _msgParts.hostname = (NSString*)CFBridgingRelease(SCDynamicStoreCopyComputerName(NULL, NULL));
-            
-            // if this didn't work, we'll use the first local ip address we find
-            if ([_msgParts.hostname length] == 0) {
+            for (NSString *ipAddress in [[NSHost currentHost] addresses]) {
                 
-                for (NSString *ipAddress in [[NSHost currentHost] addresses]) {
-                    if ([[ipAddress componentsSeparatedByString:@"."] count] == 4  && ![ipAddress isEqualToString:@"127.0.0.1"]) {
-                        _msgParts.hostname = ipAddress;
-                        break;
-                    }
+                if ([[ipAddress componentsSeparatedByString:@"."] count] == 4  && ![ipAddress isEqualToString:@"127.0.0.1"]) {
+                    returnValue = ipAddress;
+                    break;
                 }
             }
-        }
             
-        if ([_msgParts.hostname length] > 0) {
-            
-            [finalMessage appendFormat:@"%@ ", _msgParts.hostname];
-            
-            // add the app name
-            [finalMessage appendFormat:@"%@ ", _msgParts.appname];
-            
-            // add the process id
-            [finalMessage appendFormat:@"%@ ", _msgParts.procid];
-            
-            // add the message id
-            [finalMessage appendFormat:@"%@ ", _msgParts.msgid];
-            
-            // add structured data (not implemented yet)
-            [finalMessage appendFormat:@"%@ ", _msgParts.structured];
-            
-            // add the BOM (0xEFBBBF) to indicate a unicode string. Then
-            // add the log message and make sure, the final message is not longer
-            // than specified in _msgParts.max_length to prevent information loss
-            [finalMessage appendFormat:@"\357\273\277%@\n", _msgParts.msg];
-            NSInteger finalMessageLength = [finalMessage lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-
-            if (finalMessageLength > _msgParts.max_size) {
-                
-                NSData *originalMessageData = [finalMessage dataUsingEncoding:NSUTF8StringEncoding];
-                const char *originalMessageBytes = originalMessageData.bytes;
-                NSData *truncatedMessageData = [NSData dataWithBytes:originalMessageBytes length:_msgParts.max_size];
-                NSString *truncatedString = [[NSString alloc] initWithData:truncatedMessageData encoding:NSUTF8StringEncoding];
-                finalMessage = [NSMutableString stringWithString:[truncatedString stringByAppendingString:@"\n"]];
-            }
-
-            returnValue = finalMessage;
+            // if all this didn't work, return the nil value
+            if ([returnValue length] == 0) { returnValue = kMTSyslogMessageNilValue; }
         }
     }
     
     return returnValue;
 }
 
-+ (MTSyslogMessage*)syslogMessageWithString:(NSString*)eventMessage
+- (NSString*)composedAppName
 {
-    MTSyslogMessage *syslogMessage = [[self alloc] init];
-    [syslogMessage setEventMessage:eventMessage];
+    NSString *returnValue = _appName;
     
-    return syslogMessage;
-}
-    
-- (NSString*)cleanHeaderString:(NSString*)originalString maximumLength:(NSInteger)maxLength
-{
-    NSString *cleanedString = nil;
-    
-    if ([originalString length] > 0) {
-
-        // convert string to US_ASCII
-        NSData *stringData = [originalString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        originalString = [[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding];
+    if ([returnValue length] == 0) {
         
-        // remove all non-prinable characters
-        originalString = [originalString stringByReplacingOccurrencesOfString:@"[^\x21-\x7E]"
-                                                                   withString:@""
-                                                                      options:NSRegularExpressionSearch
-                                                                        range:NSMakeRange(0, [originalString length])];
-
-        // make sure the string does not exceed the allowed length
-        if ([originalString length] > maxLength) {
-            originalString = [originalString substringToIndex:(maxLength - 1)];
-        }
-        
-        if ([originalString length] > 0) { cleanedString = originalString; }
+        // if no name has been specified, we try to get it from the process name
+        NSProcessInfo *processInfo = [[NSProcessInfo alloc] init];
+        returnValue = [processInfo processName];
+            
+        // if this didn't work, return the nil value
+        if ([returnValue length] == 0) { returnValue = kMTSyslogMessageNilValue; }
     }
     
-    return cleanedString;
+    return returnValue;
+}
+
+- (NSString*)composedProcID
+{
+    NSString *returnValue = _procID;
+    
+    if ([returnValue length] == 0) {
+        
+        // if no name has been specified, we try to get it from the path
+        NSProcessInfo *processInfo = [[NSProcessInfo alloc] init];
+        returnValue = [NSString stringWithFormat:@"%d", [processInfo processIdentifier]];
+            
+        // if this didn't work, return the nil value
+        if ([returnValue length] == 0) { returnValue = kMTSyslogMessageNilValue; }
+    }
+    
+    return returnValue;
+}
+
+- (NSString*)composedID
+{
+    NSString *returnValue = ([_messageID length] > 0) ? _messageID : kMTSyslogMessageNilValue;
+    return returnValue;
+}
+
+- (NSString*)composedStructuredData
+{
+    NSString *returnValue = [_structuredData composedString];
+    return (returnValue) ? returnValue : kMTSyslogMessageNilValue;
+}
+
+- (NSString*)composedEvent
+{
+    // the BOM (\357\273\277 -> 0xEFBBBF) indicates a unicode string
+    NSString *returnValue = (_eventMessage) ? [NSString stringWithFormat:@"\357\273\277%@", _eventMessage] : @"";
+    return returnValue;
+}
+
+- (NSString*)composedMessage;
+{
+    NSString *returnValue = nil;
+    
+    NSString *tempMessageString = [NSString stringWithFormat:@"<%ld>%ld %@ %@ %@ %@ %@ %@ %@",
+                                   [self composedPriority],
+                                   _msgVersion,
+                                   [self composedTimestamp],
+                                   [self composedHostName],
+                                   [self composedAppName],
+                                   [self composedProcID],
+                                   [self composedID],
+                                   [self composedStructuredData],
+                                   [self composedEvent]
+    ];
+    
+    if (_format == MTSyslogMessageFormatNonTransparentFraming) {
+        tempMessageString = [tempMessageString stringByAppendingString:@"\n"];
+    }
+    
+    NSInteger messageLength = [tempMessageString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+
+    if (messageLength > _maxSize) {
+        
+        // set the target length. if we use non-transparent framing, make sure
+        // there's enough space to add a newline after truncating the data
+        NSUInteger targetLength = _maxSize;
+        if (_format == MTSyslogMessageFormatNonTransparentFraming) { targetLength--; }
+        
+        NSData *originalMessageData = [tempMessageString dataUsingEncoding:NSUTF8StringEncoding];
+        const char *originalMessageBytes = [originalMessageData bytes];
+        NSData *truncatedMessageData = [NSData dataWithBytes:originalMessageBytes length:targetLength];
+        NSString *truncatedString = [[NSString alloc] initWithData:truncatedMessageData encoding:NSUTF8StringEncoding];
+        tempMessageString = truncatedString;
+        messageLength = targetLength;
+        
+        // if we use non-transparent framing, make sure we add a newline again at the end
+        if (_format == MTSyslogMessageFormatNonTransparentFraming) {
+            tempMessageString = [tempMessageString stringByAppendingString:@"\n"];
+        }
+    }
+    
+    // if we use octet counting, make sure the message starts with the message length
+    if (_format == MTSyslogMessageFormatOctetCounting) {
+        tempMessageString = [NSString stringWithFormat:@"%ld %@", messageLength, tempMessageString];
+    }
+    
+    returnValue = tempMessageString;
+    
+    return returnValue;
 }
 
 @end

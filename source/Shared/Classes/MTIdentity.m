@@ -25,28 +25,31 @@
 {
     int posixID = -1;
     
-    CSIdentityQueryRef groupQuery = CSIdentityQueryCreateForName(NULL, (__bridge CFStringRef)groupName, kCSIdentityQueryStringEquals, kCSIdentityClassGroup, CSGetLocalIdentityAuthority());
-    
-    // run the query
-    CSIdentityQueryExecute(groupQuery, kCSIdentityQueryIncludeHiddenIdentities, NULL);
-    CFArrayRef groupQueryResults = CSIdentityQueryCopyResults(groupQuery);
-    
-    if (groupQueryResults) {
-        long resultsCount = CFArrayGetCount(groupQueryResults);
+    if ([groupName length] > 0) {
         
-        if (resultsCount == 1) {
-            CSIdentityRef groupIdentity = (CSIdentityRef)CFArrayGetValueAtIndex(groupQueryResults, 0);
-            posixID = (int)CSIdentityGetPosixID(groupIdentity);
+        CSIdentityQueryRef groupQuery = CSIdentityQueryCreateForName(NULL, (__bridge CFStringRef)groupName, kCSIdentityQueryStringEquals, kCSIdentityClassGroup, CSGetLocalIdentityAuthority());
+        
+        // run the query
+        CSIdentityQueryExecute(groupQuery, kCSIdentityQueryIncludeHiddenIdentities, NULL);
+        CFArrayRef groupQueryResults = CSIdentityQueryCopyResults(groupQuery);
+        
+        if (groupQueryResults) {
+            long resultsCount = CFArrayGetCount(groupQueryResults);
             
+            if (resultsCount == 1) {
+                CSIdentityRef groupIdentity = (CSIdentityRef)CFArrayGetValueAtIndex(groupQueryResults, 0);
+                posixID = (int)CSIdentityGetPosixID(groupIdentity);
+                
+            }
+            
+            CFRelease(groupQueryResults);
         }
-        
-        CFRelease(groupQueryResults);
     }
     
     return posixID;
 }
 
-+ (BOOL)getGroupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error
++ (BOOL)groupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error
 {
     BOOL isMember = NO;
     NSString *errorMsg;
@@ -76,11 +79,31 @@
     return isMember;
 }
 
-+ (BOOL)getGroupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error
++ (BOOL)groupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error
 {
-    return [self getGroupMembershipForUser:userName
-                                   groupID:[self gidFromGroupName:groupName]
-                                     error:error];
+    BOOL isMember = NO;
+    NSString *errorMsg;
+    
+    gid_t groupID = [self gidFromGroupName:groupName];
+    
+    if (groupID == -1) {
+        
+        errorMsg = [NSString stringWithFormat:@"Unable to get id of group %@", groupName];
+        
+    } else {
+        
+        isMember = [self groupMembershipForUser:userName
+                                           groupID:[self gidFromGroupName:groupName]
+                                             error:error
+        ];
+    }
+    
+    if (errorMsg != nil && error != nil) {
+        NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:errorMsg, NSLocalizedDescriptionKey, nil];
+        *error = [NSError errorWithDomain:[[NSBundle mainBundle] bundleIdentifier] code:100 userInfo:errorDetail];
+    }
+    
+    return isMember;
 }
 
 + (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler

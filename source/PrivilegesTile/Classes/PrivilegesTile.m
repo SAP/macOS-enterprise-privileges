@@ -29,6 +29,7 @@
 @property (nonatomic, strong, readwrite) NSURL *appURL;
 @property (nonatomic, strong, readwrite) NSString *cliPath;
 @property (nonatomic, strong, readwrite) NSMenu *dockTileMenu;
+@property (assign) BOOL showsBadgeLabel;
 @end
 
 @implementation PrivilegesTile
@@ -157,7 +158,7 @@
          // is enabled AND (either "authentication is not required" OR "authentication is required but
          // not for renewals" OR "authentication is required for renewals AND biometric authentication
          // has been enabled for the command line tool".
-         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 &&
+         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 && _showsBadgeLabel &&
              (![_privilegesApp authenticationRequired] ||
               ([_privilegesApp authenticationRequired] && ![_privilegesApp renewalFollowsAuthSetting]) ||
               ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting] && [_privilegesApp allowCLIBiometricAuthentication]))) {
@@ -266,6 +267,8 @@
             
             [dockTile setBadgeLabel:nil];
         }
+        
+        _showsBadgeLabel = ([[dockTile badgeLabel] length] > 0);
     }
 }
 

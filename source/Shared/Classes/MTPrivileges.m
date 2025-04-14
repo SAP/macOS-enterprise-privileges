@@ -324,7 +324,14 @@
 
 - (NSDictionary*)remoteLoggingConfiguration
 {
-    return [_userDefaults dictionaryForKey:kMTDefaultsRemoteLoggingKey];
+    NSDictionary *loggingConfiguration = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsRemoteLoggingKey]) {
+        
+        loggingConfiguration = [_userDefaults dictionaryForKey:kMTDefaultsRemoteLoggingKey];
+    }
+    
+    return loggingConfiguration;
 }
 
 - (BOOL)runActionAfterGrantOnly
@@ -500,6 +507,18 @@
 - (BOOL)smartCardSupportEnabled
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSmartCardSupportKey] && [_userDefaults boolForKey:kMTDefaultsEnableSmartCardSupportKey]);
+}
+
+- (NSDictionary*)renewalCustomAction
+{
+    NSDictionary *customAction = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalCustomActionKey]) {
+        
+        customAction = [_userDefaults dictionaryForKey:kMTDefaultsRenewalCustomActionKey];
+    }
+    
+    return customAction;
 }
 
 + (NSString *)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale

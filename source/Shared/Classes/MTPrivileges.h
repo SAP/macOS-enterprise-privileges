@@ -346,6 +346,15 @@
 - (BOOL)smartCardSupportEnabled;
 
 /*!
+ @method        renewalCustomAction
+ @abstract      Get the configuration for the custom renewal action.
+ @discussion    Returns a dictionary containing the rconfiguration for the custom renewal action or nil if no custom action
+                is configured. For valid configuration keys, see the Privileges.mobileconfig file located in the Resources
+                folder of the Privilege app bundle.
+ */
+- (NSDictionary*)renewalCustomAction;
+
+/*!
  @method        stringForDuration:localized:naturalScale:
  @abstract      Return the duration string for the given duration.
  @param         duration The duration.

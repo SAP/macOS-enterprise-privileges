@@ -1,6 +1,19 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "0Mz-4V-rLx.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"0Mz-4V-rLx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "1Ov-sf-FS8.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Allow expiring administrator privileges to be renewed\"; ObjectID = \"1Ov-sf-FS8\";",
       "extractionState" : "extracted_with_value",
@@ -1261,6 +1274,32 @@
         }
       }
     },
+    "4Yg-iq-7FO.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"4Yg-iq-7FO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "5gJ-73-6dD.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"5gJ-73-6dD\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "5kV-Vb-QxS.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"About Privileges\"; ObjectID = \"5kV-Vb-QxS\";",
       "extractionState" : "extracted_with_value",
@@ -1512,6 +1551,19 @@
           }
         }
       }
+    },
+    "5lH-p7-50A.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"5lH-p7-50A\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "5QF-Oa-p0T.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Edit\"; ObjectID = \"5QF-Oa-p0T\";",
@@ -2520,6 +2572,19 @@
           }
         }
       }
+    },
+    "Avb-eR-psD.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"Avb-eR-psD\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "AYu-sK-qS6.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Main Menu\"; ObjectID = \"AYu-sK-qS6\";",
@@ -4801,6 +4866,19 @@
           }
         }
       }
+    },
+    "hTV-jc-iCJ.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"hTV-jc-iCJ\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "hz9-B4-Xy5.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Services\"; ObjectID = \"hz9-B4-Xy5\";",
@@ -7825,6 +7903,19 @@
           }
         }
       }
+    },
+    "RN8-jG-u9K.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"RN8-jG-u9K\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "Ruw-6m-B2m.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Select All\"; ObjectID = \"Ruw-6m-B2m\";",
