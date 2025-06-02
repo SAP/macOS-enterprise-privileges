@@ -83,6 +83,7 @@ As of _Privileges_ 1.5.0, it is possible to manage settings for _Privileges_ or 
 See who's talking about _Privileges_…
 
 2025
+* [Leveling Up - Managing admin rights in the enterprise - Rich Trouton's session at MacAD.UK 2025](https://youtu.be/JSnCdmV_N5U)
 * [9To5Mac: Privileges 2.1 continues to be one of the must-have macOS apps in the enterprise](https://9to5mac.com/2025/03/15/privileges-2-1-continues-to-be-one-of-the-must-have-macos-apps-in-the-enterprise/)
 * [Caschys Blog: Privileges 2.3.0: Mehr Sicherheit und Kontrolle für Mac-Admins (German language)](https://stadt-bremerhaven.de/privileges-2-3-0-mehr-sicherheit-und-kontrolle-fuer-mac-admins/)
 
