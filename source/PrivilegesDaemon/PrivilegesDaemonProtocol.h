@@ -49,4 +49,8 @@
                            reason:(NSString*)reason
                 completionHandler:(void(^)(BOOL success))completionHandler;
 
+- (void)queuedEventsWithReply:(void(^)(NSArray *queuedEvents, NSError *error))completionHandler;
+
+- (void)queueEventsInArray:(NSArray*)events completionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
+
 @end

@@ -119,7 +119,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         CoreDockSendNotification(CFSTR("com.apple.showdesktop.awake"), NULL);
     }
     
-#pragma mark Build dialog
+#pragma mark - Build dialog
     
     BOOL hasAdminRights = [[_privilegesApp currentUser] hasAdminPrivileges];
     __block BOOL renewAdminPrivileges = NO;
@@ -309,7 +309,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
             if (returnCode == NSAlertFirstButtonReturn) {
               
-#pragma mark Remove admin rights
+#pragma mark - Remove admin rights
                 
                 // remove privileges if the user is admin…
                 if (hasAdminRights && !renewAdminPrivileges) {
@@ -324,7 +324,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                 // …otherwise, check if we can grant admin privileges
                 } else {
                     
-#pragma mark Authentication
+#pragma mark - Authentication
                     
                     NSBlockOperation *authOperation = [[NSBlockOperation alloc] init];
                     [authOperation addExecutionBlock:^{
@@ -352,7 +352,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                         }
                     }];
             
-#pragma mark Grant admin rights
+#pragma mark - Grant admin rights
                     
                     NSBlockOperation *adminOperation = [[NSBlockOperation alloc] init];
                     [adminOperation addExecutionBlock:^{
@@ -483,7 +483,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     
 }
 
-#pragma mark NSTextFieldDelegate
+#pragma mark - NSTextFieldDelegate
 
 - (void)controlTextDidChange:(NSNotification*)aNotification
 {
@@ -507,7 +507,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     }
 }
 
-#pragma mark NSMenuDelegate
+#pragma mark - NSMenuDelegate
 
 - (void)menuDidClose:(NSMenu *)menu
 {

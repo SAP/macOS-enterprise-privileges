@@ -73,7 +73,7 @@
             
             NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
                                       kMTDefaultsExpirationIntervalKey,
-                                      kMTDefaultsAutoExpirationIntervalMaxKey,
+                                      kMTDefaultsExpirationIntervalMaxKey,
                                       kMTDefaultsRevokeAtLoginKey,
                                       kMTDefaultsRevokeAtLoginExcludedUsersKey,
                                       kMTDefaultsPostChangeExecutablePathKey,
@@ -87,7 +87,7 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 
                     if ([changedKey isEqualToString:kMTDefaultsExpirationIntervalKey] ||
-                        [changedKey isEqualToString:kMTDefaultsAutoExpirationIntervalMaxKey]) {
+                        [changedKey isEqualToString:kMTDefaultsExpirationIntervalMaxKey]) {
                         
                         // update our menu
                         [self createAutoRemoveMenu];
@@ -256,7 +256,7 @@
     _configurationObserver = nil;
 }
 
-#pragma mark Bindings
+#pragma mark - Bindings
 
 - (BOOL)removalIntervalIsForced
 {
@@ -283,7 +283,7 @@
     return [_privilegesApp runActionAfterGrantOnlyIsForced];
 }
 
-#pragma mark IBActions
+#pragma mark - IBActions
 
 - (IBAction)setRemovalInterval:(id)sender
 {
@@ -300,11 +300,6 @@
 - (IBAction)setLoginItem:(id)sender
 {
     [_privilegesApp setPrivilegesShouldBeRevokedAtLogin:([(NSButton*)sender state] == NSControlStateValueOn)];
-}
-
-- (IBAction)setHideOtherWindows:(id)sender
-{
-    [_privilegesApp setHideOtherWindows:([(NSButton*)sender state] == NSControlStateValueOn)];
 }
 
 - (IBAction)selectExecutable:(id)sender

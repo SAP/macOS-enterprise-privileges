@@ -46,7 +46,7 @@
 + (BOOL)groupMembershipForUser:(NSString*)userName groupID:(gid_t)groupID error:(NSError**)error;
 
 /*!
-@method        groupMembershipForUser:groupName:error
+@method        groupMembershipForUser:groupName:error:
 @abstract      Check if a given user is member of a given group.
 @param         userName The short name of the user.
 @param         groupName The name of the group.
@@ -56,27 +56,28 @@
 + (BOOL)groupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error;
 
 /*!
-@method        authenticateUserWithReason:completionHandler
+@method        authenticateUserWithReason:requireBiometrics:completionHandler:
 @abstract      Authenticate the user either by using Touch ID (if available) or password.
 @param         authReason The reason for requesting authentication, which displays in the authentication dialog presented to the user.
+@param         biometrics A boolean which forces biometric authentication (if available).
 @param         completionHandler The handler to call when the request is complete.
 @discussion    Returns YES if authentication succeeded, otherwise returns NO. If an error occurred, the completion handler's NSError object
- contains error details.
+               contains error details.
 */
-+ (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
++ (void)authenticateUserWithReason:(NSString*)authReason requireBiometrics:(BOOL)biometrics completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
 
 /*!
-@method        authenticatePIVUserWithReason:completionHandler
+@method        authenticatePIVUserWithReason:completionHandler:
 @abstract      Authenticate the user either by using a smart card/PIV token or password.
 @param         authReason The reason for requesting authentication, which displays in the authentication dialog presented to the user.
 @param         completionHandler The handler to call when the request is complete.
 @discussion    Returns YES if authentication succeeded, otherwise returns NO. If an error occurred, the completion handler's NSError object
- contains error details.
+               contains error details.
 */
 + (void)authenticatePIVUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
 
 /*!
-@method        verifyPassword:forUser
+@method        verifyPassword:forUser:
 @abstract      Verifies if a given password can be used to authenticate a given user.
 @param         userPassword The user's password.
 @param         userName The short name of the user.

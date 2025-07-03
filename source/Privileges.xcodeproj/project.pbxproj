@@ -49,9 +49,19 @@
 		AD7C439E2C25906F00EDDA48 /* AppIcons-Beta.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */; };
 		AD8276B72D116BDE00422701 /* MTSettingsPrivilegesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */; };
 		AD899F1F2D8D4381007B9E73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD899F1B2D8D4381007B9E73 /* main.m */; };
+		AD9B2EC12DACFC460016E982 /* MTSyslog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9B2EC02DACFC460016E982 /* MTSyslog.m */; };
 		AD9CCA4F2C32DA240000E0BC /* MTLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2018B82C0780E80074D275 /* MTLocalNotification.m */; };
 		AD9CCA512C32DB490000E0BC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */; };
 		AD9EE0C52D8AECE200DB523F /* MTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC5EF4B2BFDE6D8004D69B7 /* MTIdentity.m */; };
+		ADAC5B122DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */; };
+		ADAC5B152DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */; };
+		ADAC5B162DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */; };
+		ADAC5B172DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */; };
+		ADAC5B182DAE4DB60091DA98 /* MTSyslogOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */; };
+		ADAC5B192DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */; };
+		ADAC5B1A2DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */; };
+		ADAC5B1B2DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */; };
+		ADBA84D42DE493E50019FFE3 /* MTRemoteLoggingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ADBA84D32DE493E50019FFE3 /* MTRemoteLoggingManager.m */; };
 		ADC1E3FC2C11FF1D0044063F /* MTAgentConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E06F2C088F2700D0B03D /* MTAgentConnection.m */; };
 		ADC1E3FD2C1208540044063F /* MTAgentConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E06F2C088F2700D0B03D /* MTAgentConnection.m */; };
 		ADC35FDC2C2079AD00DE99D6 /* MTPrivilegeStatusCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2542BD2C20607B00F0F363 /* MTPrivilegeStatusCommand.m */; };
@@ -275,10 +285,18 @@
 		AD899F1C2D8D4381007B9E73 /* PrivilegesWatcher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrivilegesWatcher-Info.plist"; sourceTree = "<group>"; };
 		AD899F1D2D8D4381007B9E73 /* PrivilegesWatcher-ParentConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesWatcher-ParentConstraint.coderequirement"; sourceTree = "<group>"; };
 		AD899F1E2D8D4381007B9E73 /* PrivilegesWatcher-SelfConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesWatcher-SelfConstraint.coderequirement"; sourceTree = "<group>"; };
+		AD9B2EBF2DACFC460016E982 /* MTSyslog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSyslog.h; sourceTree = "<group>"; };
+		AD9B2EC02DACFC460016E982 /* MTSyslog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSyslog.m; sourceTree = "<group>"; };
 		AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		ADAC5B102DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MTPrivilegesLoggingConfiguration.h; path = Shared/Classes/MTPrivilegesLoggingConfiguration.h; sourceTree = SOURCE_ROOT; };
+		ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MTPrivilegesLoggingConfiguration.m; path = Shared/Classes/MTPrivilegesLoggingConfiguration.m; sourceTree = SOURCE_ROOT; };
+		ADAC5B132DAE4DB50091DA98 /* MTSyslogOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSyslogOptions.h; sourceTree = "<group>"; };
+		ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSyslogOptions.m; sourceTree = "<group>"; };
 		ADADCC032C5A0F4E009D6E73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		ADB3E5AD2C1B484A00D2DABE /* MTSyslogMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSyslogMessage.h; sourceTree = "<group>"; };
 		ADB3E5AE2C1B484A00D2DABE /* MTSyslogMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSyslogMessage.m; sourceTree = "<group>"; };
+		ADBA84D22DE493E50019FFE3 /* MTRemoteLoggingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTRemoteLoggingManager.h; sourceTree = "<group>"; };
+		ADBA84D32DE493E50019FFE3 /* MTRemoteLoggingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTRemoteLoggingManager.m; sourceTree = "<group>"; };
 		ADC1E3FE2C1211200044063F /* PrivilegesCLI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrivilegesCLI-Info.plist"; sourceTree = "<group>"; };
 		ADC30BFA2C4E3A4100FCB41A /* Privileges-ParentConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Privileges-ParentConstraint.coderequirement"; sourceTree = "<group>"; };
 		ADC30BFB2C4E3A4100FCB41A /* Privileges-SelfConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Privileges-SelfConstraint.coderequirement"; sourceTree = "<group>"; };
@@ -412,8 +430,12 @@
 				AD25429A2C204B9B00F0F363 /* MTPrivilegeExpirationCommand.m */,
 				AD2542BC2C20607B00F0F363 /* MTPrivilegeStatusCommand.h */,
 				AD2542BD2C20607B00F0F363 /* MTPrivilegeStatusCommand.m */,
+				ADBA84D22DE493E50019FFE3 /* MTRemoteLoggingManager.h */,
+				ADBA84D32DE493E50019FFE3 /* MTRemoteLoggingManager.m */,
 				AD2034922D1051980075BE52 /* MTStatusItemMenu.h */,
 				AD2034932D1051980075BE52 /* MTStatusItemMenu.m */,
+				AD9B2EBF2DACFC460016E982 /* MTSyslog.h */,
+				AD9B2EC02DACFC460016E982 /* MTSyslog.m */,
 				ADB3E5AD2C1B484A00D2DABE /* MTSyslogMessage.h */,
 				ADB3E5AE2C1B484A00D2DABE /* MTSyslogMessage.m */,
 				ADD313642D95687E008C5E96 /* MTSyslogMessageStructuredData.h */,
@@ -632,8 +654,12 @@
 				ADC5EF4B2BFDE6D8004D69B7 /* MTIdentity.m */,
 				ADC5EF462BFDE6D8004D69B7 /* MTPrivileges.h */,
 				ADC5EF472BFDE6D8004D69B7 /* MTPrivileges.m */,
+				ADAC5B102DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.h */,
+				ADAC5B112DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m */,
 				ADC5EF482BFDE6D8004D69B7 /* MTPrivilegesUser.h */,
 				ADC5EF4A2BFDE6D8004D69B7 /* MTPrivilegesUser.m */,
+				ADAC5B132DAE4DB50091DA98 /* MTSyslogOptions.h */,
+				ADAC5B142DAE4DB50091DA98 /* MTSyslogOptions.m */,
 				ADEFA3C82C1CA051008CAC9E /* MTSystemInfo.h */,
 				ADEFA3C92C1CA051008CAC9E /* MTSystemInfo.m */,
 			);
@@ -782,7 +808,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					AD43F7102D8D390300FCBA8E = {
@@ -938,11 +964,15 @@
 			files = (
 				AD058DE62C1B11A5000FF5EF /* MTAgentConnection.m in Sources */,
 				AD2034942D1051980075BE52 /* MTStatusItemMenu.m in Sources */,
+				ADAC5B122DAE48930091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */,
 				ADC35FDC2C2079AD00DE99D6 /* MTPrivilegeStatusCommand.m in Sources */,
 				ADD3FEE82D7F30B400895BA8 /* MTClientCertificate.m in Sources */,
 				AD065E472C21589D00F50CD7 /* MTSyslogMessage.m in Sources */,
+				ADBA84D42DE493E50019FFE3 /* MTRemoteLoggingManager.m in Sources */,
+				ADAC5B162DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */,
 				ADEFA3CA2C1CA051008CAC9E /* MTSystemInfo.m in Sources */,
 				ADF76EC72C199AA2001D428E /* main.m in Sources */,
+				AD9B2EC12DACFC460016E982 /* MTSyslog.m in Sources */,
 				ADF76ED92C19A472001D428E /* MTPrivileges.m in Sources */,
 				ADF76EDD2C19A492001D428E /* MTIdentity.m in Sources */,
 				ADD313662D95687E008C5E96 /* MTSyslogMessageStructuredData.m in Sources */,
@@ -963,11 +993,13 @@
 				AD00A83E2C3D7C1E00B54087 /* MTSystemInfo.m in Sources */,
 				AD10E0712C088F2700D0B03D /* MTAgentConnection.m in Sources */,
 				AD8276B72D116BDE00422701 /* MTSettingsPrivilegesController.m in Sources */,
+				ADAC5B192DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */,
 				ADFCC5CB2B9F48B8009B808B /* main.m in Sources */,
 				AD4C96AC2BFF7CB600382426 /* MTReasonAccessoryController.m in Sources */,
 				ADC5EF4C2BFDE6D8004D69B7 /* MTPrivileges.m in Sources */,
 				ADFCC5C12B9F48B6009B808B /* AppDelegate.m in Sources */,
 				ADC5EF4F2BFDE6D8004D69B7 /* MTPrivilegesUser.m in Sources */,
+				ADAC5B172DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */,
 				ADC5EF5C2BFE3E5B004D69B7 /* MTSettingsGeneralController.m in Sources */,
 				ADC5EF522BFDE6D8004D69B7 /* MTIdentity.m in Sources */,
 				AD2D4BCA2C1328C900CB8F5A /* MTCodeSigning.m in Sources */,
@@ -1003,6 +1035,8 @@
 			files = (
 				ADC5EF4E2BFDE6D8004D69B7 /* MTPrivileges.m in Sources */,
 				ADFCC5F92B9F4925009B808B /* main.m in Sources */,
+				ADAC5B1A2DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */,
+				ADAC5B182DAE4DB60091DA98 /* MTSyslogOptions.m in Sources */,
 				AD384B212D47CF9C00ACDCFF /* MTProcessInfo.m in Sources */,
 				ADC5EF542BFDE6D8004D69B7 /* MTIdentity.m in Sources */,
 				ADC1E3FC2C11FF1D0044063F /* MTAgentConnection.m in Sources */,
@@ -1018,6 +1052,8 @@
 				AD058DE82C1B11C2000FF5EF /* MTAgentConnection.m in Sources */,
 				AD2D4BD92C13443400CB8F5A /* MTPrivileges.m in Sources */,
 				AD2D4BDD2C13445A00CB8F5A /* MTIdentity.m in Sources */,
+				ADAC5B1B2DAE4FF30091DA98 /* MTPrivilegesLoggingConfiguration.m in Sources */,
+				ADAC5B152DAE4DB50091DA98 /* MTSyslogOptions.m in Sources */,
 				AD2D4BD22C13347500CB8F5A /* PrivilegesTile.m in Sources */,
 				AD2D4BDA2C13443900CB8F5A /* MTPrivilegesUser.m in Sources */,
 				AD2D4BDC2C13445000CB8F5A /* MTCodeSigning.m in Sources */,
@@ -1078,7 +1114,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1087,7 +1123,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1101,7 +1137,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1110,7 +1146,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1124,7 +1160,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1133,7 +1169,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1208,7 +1244,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2003;
+				CURRENT_PROJECT_VERSION = 2063;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1228,10 +1264,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
 			name = "Release Beta";
@@ -1246,7 +1283,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 507;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1266,10 +1303,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1282,7 +1320,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1294,7 +1332,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1309,7 +1347,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 49;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1319,7 +1357,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1336,7 +1374,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 115;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1344,10 +1382,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1360,7 +1399,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 89;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1371,7 +1410,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1395,7 +1434,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 507;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1415,10 +1454,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1434,7 +1474,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 507;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1454,10 +1494,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1594,7 +1635,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2003;
+				CURRENT_PROJECT_VERSION = 2063;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1614,10 +1655,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
 			name = Debug;
@@ -1632,7 +1674,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2003;
+				CURRENT_PROJECT_VERSION = 2063;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1652,10 +1694,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
 			name = Release;
@@ -1667,7 +1710,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1679,7 +1722,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1695,7 +1738,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1707,7 +1750,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1722,7 +1765,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 49;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1732,7 +1775,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1748,7 +1791,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 49;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1758,7 +1801,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1775,7 +1818,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 115;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1783,10 +1826,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1799,7 +1843,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 115;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1807,10 +1851,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 			};
@@ -1823,7 +1868,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 89;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1834,7 +1879,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1855,7 +1900,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 89;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
@@ -1866,7 +1911,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

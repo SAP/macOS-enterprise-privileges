@@ -41,13 +41,13 @@
                                     and allows the user to request permanent administrator privileges.
 								-->
 								<key>ExpirationInterval</key>
-								<integer>15</integer>
+								<integer>10</integer>
 								
 								<!--
 									key:    ExpirationIntervalMax
 									value:  a positive integer
 									
-                                    Set a maximum time interval for a user to request administrative
+                                    Set a maximum time interval for a user to request administrator 
                                     privileges. This generally works the same way as "ExpirationInterval",
                                     but allows the user to choose any timeout value up to the specified one.
                                     So if the admin would set "ExpirationIntervalMax" to 20 minutes, the
@@ -58,7 +58,22 @@
                                     "ExpirationInterval" takes precedence over "ExpirationIntervalMax".
 								-->
 								<key>ExpirationIntervalMax</key>
-								<integer>20</integer>
+								<integer>60</integer>
+                                
+                                <!--
+                                    key:    MaxIntervalInitial
+                                    value:  a positive integer
+                                    
+                                    Sets the initial time interval if ExpirationIntervalMax has been
+                                    configured. If not set and the user never selected an expiration
+                                    interval, the initial expiration interval is set to 20 minutes. If you
+                                    want to define an expiration interval that is less than the maximum
+                                    expiration interval, use this option to define it. As mentioned earlier,
+                                    this option has no effect if a user has already selected an expiration
+                                    interval.
+                                -->
+                                <key>MaxIntervalInitial</key>
+                                <integer>10</integer>
                                 
                                 <!--
                                     key:    AllowPrivilegeRenewal
@@ -133,10 +148,27 @@
                                     value:  a boolean
                                     
                                     Specifies whether to allow biometric authentication in the PrivilegesCLI
-                                    to obtain administrator privileges. If set to true, the Privileges agent
+                                    to obtain administrator privileges. If set to true, the PrivilegesAgent
                                     prompts the user for the account password (or Touch ID, if available).
+                                    To make this option work, you must enable the "RequireAuthentication"
+                                    option.
                                 -->
                                 <key>AllowCLIBiometricAuthentication</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    RequireBiometricAuthentication
+                                    value:  a boolean
+                                    
+                                    Specifies whether biometric authentication is required to obtain
+                                    administrator privileges. If set to true, the PrivilegesAgent prompts
+                                    the user for Touch ID and does not offer an alternative option. If Touch
+                                    ID is unavailable or has not been configured, the user is prompted for
+                                    their account password instead. To make this option work, you must
+                                    enable the "RequireAuthentication" option and "EnableSmartCardSupport"
+                                    must be disabled.
+                                -->
+                                <key>RequireBiometricAuthentication</key>
                                 <true/>
                                 
                                 <!--
@@ -146,7 +178,9 @@
                                     Specifies whether to enable smart card support for authentication. Since
                                     the modern Local Authentication framework does not yet support smart
                                     cards/PIV tokens, enabling this option will cause the application to
-                                    fall back to the older Authorization Services.
+                                    fall back to the older Authorization Services. To make this option work,
+                                    you must enable the "RequireAuthentication" option. Please note that
+                                    enabling "EnableSmartCardSupport" will disable "RequireBiometricAuthentication".
                                 -->
                                 <key>EnableSmartCardSupport</key>
                                 <true/>
@@ -468,6 +502,7 @@
                                               "name":"Testuser's Mac",
                                               "serial":"XYZ1234567"
                                            },
+                                           "delayed":false,
                                            "event":"corp.sap.privileges.granted",
                                            "expires":"2024-11-28T07:40:59Z",
                                            "machine":"E60E8CCB-32F1-4495-A436-BD1939C2BC32",
@@ -475,6 +510,25 @@
                                            "timestamp":"2024-11-28T07:20:59Z",
                                            "user":"testuser"
                                         }
+                                
+                                
+                                        key:    QueueUnsentEvents
+                                        value:  a boolean
+                                        
+                                        When set to true, syslog and webhook events that could not be sent are
+                                        queued. When a user changes privileges, PrivilegesAgent attempts to
+                                        resend these events. For webhook events, these resent events have the
+                                        "delayed" key set to true. The maximum number of queued events can be
+                                        set using the "QueuedEventsMax" key. If not set, a maximum of 20 events
+                                        will be queued.
+                                
+                                
+                                        key:    QueuedEventsMax
+                                        value:  a positive integer
+                                        
+                                        Specifies the maximum number of queued events. If not set, a maximum of
+                                        20 events will be queued. If set to 0, an unlimited number of events 
+                                        will be queued.
                                 
                                 
                                     	key:    SyslogOptions
@@ -557,6 +611,10 @@
 									<string>syslog</string>
 									<key>ServerAddress</key>
 									<string>192.168.19.89</string>
+									<key>QueueUnsentEvents</key>
+									<true/>
+                                    <key>QueuedEventsMax</key>
+                                    <integer>10</integer>
                                     
 									<key>SyslogOptions</key>
 									<dict>

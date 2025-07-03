@@ -116,7 +116,7 @@
                                         
                     if (requestAdminPrivileges) {
 
-#pragma mark Reason
+#pragma mark - Reason
                         NSString *privilegesReason = nil;
                         
                         if ([privilegesApp reasonRequired] && !renewAdminPrivileges) {
@@ -163,48 +163,61 @@
                             }
                         }
                         
-#pragma mark Authentication
+#pragma mark - Authentication
                         
                         if (([privilegesApp authenticationRequired] && !renewAdminPrivileges) ||
                             ([privilegesApp authenticationRequired] && renewAdminPrivileges && [privilegesApp renewalFollowsAuthSetting])) {
                             
                             __block BOOL authSuccess = NO;
                             
-                            int i = 3;
-                            
-                            while (i > 0 && !authSuccess) {
-                            
-                                if ([privilegesApp allowCLIBiometricAuthentication]) {
+                            if ([privilegesApp biometricAuthenticationRequired] && ![privilegesApp allowCLIBiometricAuthentication]) {
+                                
+                                [self writeConsole:@"Biometric authentication is required but has not been enabled for PrivilegesCLI"];
+                                exitCode = 1;
+                                
+                            } else {
+                                
+                                int i = 3;
+                                
+                                while (i > 0 && !authSuccess) {
                                     
-                                    [[privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
+                                    if ([privilegesApp allowCLIBiometricAuthentication]) {
                                         
-                                        authSuccess = success;
-                                        dispatch_semaphore_signal(semaphore);
-                                    }];
+                                        [[privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
+                                            
+                                            authSuccess = success;
+                                            dispatch_semaphore_signal(semaphore);
+                                        }];
+                                        
+                                        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                                    }
                                     
-                                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                                }
-                            
-                                if (!authSuccess) {
-                                    
-                                    char *password = getpass("Please enter your account password: ");
-                                    NSString *userPassword = [NSString stringWithUTF8String:password];
-                                    i--;
-                                    
-                                    if ([userPassword length] > 0 && [MTIdentity verifyPassword:userPassword forUser:[[privilegesApp currentUser] userName]]) {
+                                    if (!authSuccess) {
                                         
-                                        authSuccess = YES;
+                                        i--;
                                         
-                                    } else if (i > 0) {
-                                        
-                                        [self writeConsole:@"Sorry, try again"];
+                                        if (![privilegesApp biometricAuthenticationRequired]) {
+                                            
+                                            char *password = getpass("Please enter your account password: ");
+                                            NSString *userPassword = [NSString stringWithUTF8String:password];
+                                            
+                                            if ([userPassword length] > 0 && [MTIdentity verifyPassword:userPassword forUser:[[privilegesApp currentUser] userName]]) {
+                                                
+                                                authSuccess = YES;
+                                                
+                                            } else if (i > 0) {
+                                                
+                                                [self writeConsole:@"Sorry, try again"];
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                            
-                            if (!authSuccess) {
-                                [self writeConsole:@"3 incorrect password attempts"];
-                                exitCode = 1;
+                                
+                                if (!authSuccess) {
+                                    
+                                    [self writeConsole:@"3 incorrect password attempts"];
+                                    exitCode = 1;
+                                }
                             }
                         }
                         

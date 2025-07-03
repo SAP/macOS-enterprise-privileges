@@ -106,16 +106,25 @@
     return isMember;
 }
 
-+ (void)authenticateUserWithReason:(NSString*)authReason completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
++ (void)authenticateUserWithReason:(NSString*)authReason
+                 requireBiometrics:(BOOL)biometrics
+                 completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
 {
     if (authReason) {
         
         NSError *error = nil;
         LAContext *myContext = [[LAContext alloc] init];
+        LAPolicy policy = kLAPolicyDeviceOwnerAuthentication;
         
-        if ([myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error]) {
+        if (biometrics && [myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
             
-            [myContext evaluatePolicy:kLAPolicyDeviceOwnerAuthentication
+            policy = kLAPolicyDeviceOwnerAuthenticationWithBiometrics;
+            [myContext setLocalizedFallbackTitle:@""];
+        }
+        
+        if ([myContext canEvaluatePolicy:policy error:&error]) {
+            
+            [myContext evaluatePolicy:policy
                       localizedReason:authReason
                                 reply:^(BOOL success, NSError *error) {
                 

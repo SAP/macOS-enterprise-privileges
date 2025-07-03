@@ -1,193 +1,244 @@
 /*
     MTClientCertificate.m
     Copyright 2016-2025 SAP SE
-     
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-     
+
     http://www.apache.org/licenses/LICENSE-2.0
-     
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
 */
 
 #import "MTClientCertificate.h"
 #import <Security/Security.h>
 
 @interface MTClientCertificate ()
-@property (nonatomic, copy, readwrite) NSDictionary *dictionaryRepresentation;
+@property (nonatomic, copy, readwrite) NSArray *decodedDN;
 @end
 
 @implementation MTClientCertificate
 
 - (instancetype)initWithDistinguishedName:(NSData*)encodedData {
-  
+    
     self = [super init];
     
     if (self) {
-    
-        // parse the encoded data into a dictionary representation
-        _dictionaryRepresentation = [self dictionaryRepresentationWithData:encodedData];
-        if ([[_dictionaryRepresentation allKeys] count] == 0) { self = nil; }
+        
+        // parse the encoded data into an array of dictionaries
+        _decodedDN = [self decodedDNWithData:encodedData];
+        if ([_decodedDN count] == 0) { self = nil; }
     }
     
     return self;
 }
 
-- (NSDictionary*)dictionaryRepresentationWithData:(NSData*)encodedData
+- (NSArray<NSDictionary*>*)decodedDNWithData:(NSData*)encodedData
 {
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    if (!encodedData) { return nil; }
     
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+
     const char *bytes = [encodedData bytes];
-    NSInteger length = [encodedData length];
-    NSInteger i = 0;
-   
-    while (i < length) {
+    NSUInteger length = [encodedData length];
+    NSUInteger index = 0;
+
+    // must start with a AttributeTypeAndValue sequence
+    if (bytes[index++] != 0x30) { return nil; }
+    
+    NSUInteger sequenceLength = [self decodeLengthFromBytes:bytes
+                                                  maxLength:length
+                                                      index:&index
+    ];
+    NSUInteger endOfSequence = index + sequenceLength;
+
+    // process relative distinguished name (RDN) components
+    while (index < endOfSequence) {
         
-        // check for the start of a new Relative Distinguished Name (RDN) component
-        if (bytes[i] == 0x31) {
-           
-            // move past the RDN identifier and the length byte
-            i+=2;
-           
-            // check for the AttributeTypeAndValue sequence
-            if (bytes[i] == 0x30) {
-               
-                // move past the identifier and length
-                i+=2;
-               
-                // parse the AttributeType (OID)
-                if (bytes[i] == 0x06) {
-                   
-                    // move past the OID identifier
-                    i++;
-                   
-                    NSInteger oidLength = bytes[i++];
-                    NSString *oid = [self decodeOIDWithBytes:(unsigned char*)&bytes[i] length:oidLength];
-                    i += oidLength;
+        if (bytes[index++] != 0x31) { break; } // SET
+        
+        NSUInteger setLength = [self decodeLengthFromBytes:bytes maxLength:length index:&index];
+        NSUInteger endOfSet = index + setLength;
+
+        // process AttributeTypeAndValue within this RDN
+        while (index < endOfSet) {
+            
+            if (bytes[index++] != 0x30) { break; } // start of a AttributeTypeAndValue sequence
+            
+            NSUInteger atavLength = [self decodeLengthFromBytes:bytes maxLength:length index:&index];
+            NSUInteger endOfATAV = index + atavLength;
+            
+            // parse the AttributeType (OID)
+            if (index < endOfATAV && bytes[index++] == 0x06) {
+                
+                if (index >= endOfATAV) { break; }
+                
+                NSUInteger oidLength = [self decodeLengthFromBytes:bytes maxLength:length index:&index];
+                if (index + oidLength > endOfATAV) { break; }
+                
+                NSString *oid = [self decodeOIDWithBytes:&bytes[index] length:oidLength];
+                index += oidLength;
+                
+                // only process the value if we have a valid OID
+                if (oid && index < endOfATAV) {
                     
-                    // only process the value if we have a valid OID
-                    if (oid) {
+                    // parse the AttributeValue
+                    UInt8 valueTag = bytes[index++];
+                    
+                    if (index < endOfATAV) {
                         
-                        // parse the AttributeValue
-                        if (bytes[i] == 0x13 || bytes[i] == 0x0C) {
+                        NSUInteger valueLength = [self decodeLengthFromBytes:(const char *)bytes maxLength:length index:&index];
+                        if (index + valueLength > endOfATAV) { break; }
+                        
+                        NSStringEncoding encoding = 0;
+                        
+                        switch (valueTag) {
+                                
+                            case 0x13:
+                            case 0x14:
+                                
+                                // Printable/Teletex
+                                encoding = NSASCIIStringEncoding;
+                                break;
+                                
+                            case 0x1E:
+                                
+                                // BMP
+                                encoding = NSUTF16BigEndianStringEncoding;
+                                break;
+                                
+                            case 0x0C:
+                                
+                                // UTF8
+                                encoding = NSUTF8StringEncoding;
+                                break;
+                                
+                            case 0x16:
+                            case 0x22:
+                                
+                                // IA5 or IA5String
+                                encoding = NSASCIIStringEncoding;
+                                break;
+                        }
+                        
+                        if (encoding > 0) {
                             
-                            // move past the string identifier
-                            i++;
+                            NSData *valueData = [NSData dataWithBytes:&bytes[index] length:valueLength];
+                            NSString *value = [[NSString alloc] initWithData:valueData encoding:encoding];
                             
-                            NSInteger valueLength = bytes[i++];
-                            NSString *value = [[NSString alloc] initWithBytes:&bytes[i]
-                                                                       length:valueLength
-                                                                     encoding:NSUTF8StringEncoding
-                            ];
+                            if (value) { [result addObject:[NSDictionary dictionaryWithObject:value forKey:oid]]; }
                             
-                            i += valueLength;
-                            
-                            if (value) { [result setObject:value forKey:oid]; }
+                            index += valueLength;
                         }
                     }
-               }
-           }
-           
-       } else {
-           
-           // move to the next byte if we
-           // didn't find an RDN start
-           i++;
-       }
-    }
-       
-    return result;
-}
-
-- (NSString *)decodeOIDWithBytes:(unsigned char *)bytes length:(NSUInteger)length
-{
-    if (length < 2) { return nil; }
-   
-    NSMutableString *oidString = [[NSMutableString alloc] init];
-        
-    // first byte determines the first two parts of the OID, so we have
-    // to split it. therefore we have to divide the value by 40 to get
-    // the first value and the rest of this division is our second value.
-    unsigned char firstByte = bytes[0];
-    [oidString appendFormat:@"%u.%u", firstByte / 40, firstByte % 40];
-        
-    // decoding  rest of the OID. starting with the second
-    // byte as we already handled the first byte
-    unsigned int value = 0;
-    
-    for (int i = 1; i < length; i++) {
-        
-        value = (value << 7) | (bytes[i] & 0x7F);
-        
-        if (!(bytes[i] & 0x80)) {
-            [oidString appendFormat:@".%u", value];
-            value = 0;
+                }
+            }
         }
     }
     
+    return result;
+}
+
+- (NSInteger)decodeLengthFromBytes:(const char *)bytes maxLength:(NSUInteger)maxLength index:(NSUInteger *)index
+{
+    if (*index >= maxLength) { return 0; }
+    
+    UInt8 first = bytes[(*index)++];
+    
+    if ((first & 0x80) == 0) { return first; }
+
+    UInt8 numBytes = first & 0x7F;
+    if (numBytes == 0 || *index + numBytes > maxLength) { return 0; }
+    
+    NSInteger length = 0;
+    
+    for (int i = 0; i < numBytes; i++) {
+        length = (length << 8) | ((UInt8)bytes[(*index)++]);
+    }
+    
+    return length;
+}
+
+- (NSString *)decodeOIDWithBytes:(const char *)bytes length:(NSUInteger)length
+{
+    if (length < 1) { return nil; }
+
+    NSMutableString *oidString = [[NSMutableString alloc] init];
+    
+    // first byte determines the first two parts of the OID, so we have
+    // to split it. therefore we have to divide the value by 40 to get
+    // the first value and the rest of this division is our second value.
+    unsigned char first = bytes[0];
+    [oidString appendFormat:@"%u.%u", first / 40, first % 40];
+
+    // decoding  rest of the OID. starting with the second
+    // byte as we already handled the first byte
+    NSUInteger i = 1;
+    
+    while (i < length) {
+        
+        UInt64 value = 0;
+        BOOL continueFlag;
+        
+        do {
+            value = (value << 7) | (bytes[i] & 0x7F);
+            continueFlag = (bytes[i] & 0x80) != 0;
+            i++;
+            
+        } while (i < length && continueFlag);
+        
+        [oidString appendFormat:@".%llu", value];
+    }
+
     return oidString;
 }
 
 - (SecIdentityRef)matchingIdentityWithSecItems:(NSArray*)secItems
 {
+    if ([_decodedDN count] == 0) { return NULL; }
+
     SecIdentityRef matchedIdentity = NULL;
-    
-    // check if _dictionaryRepresentation is empty
-    if ([_dictionaryRepresentation count] == 0) {
-        
-        return NULL;
-    }
-    
-    // sort the SecItems by creation date
     NSArray *sortedSecItems = [self identitiesSortedByCreationDate:secItems];
-        
+
     for (id aSecItem in sortedSecItems) {
         
         // ensure the item is a SecIdentityRef
         if (CFGetTypeID((CFTypeRef)aSecItem) == SecIdentityGetTypeID()) {
             
-            // extract the certificate from the identity reference
-            SecCertificateRef certRef = NULL;
             SecIdentityRef identityRef = (__bridge SecIdentityRef)aSecItem;
-            OSStatus status = SecIdentityCopyCertificate(identityRef, &certRef);
+            NSArray *valArray = [self issuerNamesWithIdentity:identityRef];
             
-            if (status == errSecSuccess && certRef) {
+            if ([valArray count] > 0) {
                 
-                const void *keys[] = { kSecOIDX509V1IssuerName };
-                CFArrayRef keySelection = CFArrayCreate(NULL, keys , sizeof(keys)/sizeof(keys[0]), &kCFTypeArrayCallBacks);
+                BOOL isMatching = YES;
                 
-                NSDictionary *values = CFBridgingRelease(SecCertificateCopyValues(certRef, keySelection, NULL));
-                CFRelease(keySelection);
-                
-                if (values) {
+                for (NSDictionary *rdn in _decodedDN) {
                     
-                    NSDictionary *issuerDict = [values objectForKey:(__bridge NSString *)kSecOIDX509V1IssuerName];
-                    NSArray *valArray = [issuerDict objectForKey:(__bridge NSString *)kSecPropertyKeyValue];
+                    NSArray *matchingIdentities = nil;
+                    NSString *oidString = [[rdn allKeys] firstObject];
+                    NSString *oidValue = [rdn objectForKey:oidString];
                     
-                    BOOL isMatching = YES;
-                    
-                    for (NSString *aKey in _dictionaryRepresentation) {
-
-                        NSString *expectedValue = [_dictionaryRepresentation objectForKey:aKey];
-                        NSString *actualValue = [self stringValueForLabel:aKey inValuesArray:valArray];
+                    if (oidString && oidValue) {
                         
-                        if (![expectedValue isEqualToString:actualValue]) {
-                            
-                            isMatching = NO;
-                            break;
-                        }
+                        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@ AND %K == %@",
+                                                  kSecPropertyKeyLabel,
+                                                  oidString,
+                                                  kSecPropertyKeyValue,
+                                                  oidValue
+                        ];
+
+                        matchingIdentities = [valArray filteredArrayUsingPredicate:predicate];
                     }
                     
-                    if (isMatching) {
-
-                        matchedIdentity = identityRef;
+                    if ([matchingIdentities count] == 0) {
+                        
+                        isMatching = NO;
                         break;
                     }
+                }
+
+                if (isMatching) {
+                    matchedIdentity = (SecIdentityRef)CFRetain(identityRef);
+                    break;
                 }
             }
         }
@@ -196,22 +247,83 @@
     return matchedIdentity;
 }
 
-// helper method to extract the string value for a
-// given label from certificate values array
-- (NSString*)stringValueForLabel:(NSString*)label inValuesArray:(NSArray<NSDictionary*>*)array
+- (NSArray<NSDictionary*>*)issuerNamesWithIdentity:(SecIdentityRef)identityRef
 {
-    NSString *returnValue = nil;
+    NSMutableArray *result = nil;
     
-    for (NSDictionary *aDict in array) {
+    if (!identityRef) { return nil; }
+    
+    // extract the certificate from the identity reference
+    SecCertificateRef certRef = NULL;
+    OSStatus status = SecIdentityCopyCertificate(identityRef, &certRef);
+    
+    if (status == errSecSuccess && certRef) {
         
-        NSString *valueLabel = [aDict objectForKey:(NSString*)kSecPropertyKeyLabel];
+        NSArray *keys = [NSArray arrayWithObject:(__bridge id)kSecOIDX509V1IssuerName];
+        
+        NSDictionary *certValues = CFBridgingRelease(SecCertificateCopyValues(
+                                                                              certRef,
+                                                                              (__bridge CFArrayRef)keys,
+                                                                              NULL
+                                                                              )
+                                                     );
+        
+        if (certValues) {
+            
+            NSDictionary *issuerDict = [certValues objectForKey:(__bridge NSString *)kSecOIDX509V1IssuerName];
+            
+            if (issuerDict) {
 
-        if ([valueLabel isEqualToString:label]) {
-            returnValue = [aDict objectForKey:(NSString*)kSecPropertyKeyValue];
+                result = [[NSMutableArray alloc] init];
+                
+                // get the actual value
+                NSArray<NSDictionary*> *valArray = [issuerDict objectForKey:(__bridge NSString *)kSecPropertyKeyValue];
+                
+                for (NSDictionary *oid in valArray) {
+                    
+                    NSString *objectType = [oid objectForKey:(__bridge NSString *)kSecPropertyKeyType];
+                    
+                    if ([objectType isEqualToString:(NSString*)kSecPropertyTypeSection]) {
+                        
+                        NSArray *fields = [oid objectForKey:(NSString*)kSecPropertyKeyValue];
+                        
+                        for (NSDictionary *field in fields) {
+                            
+                            NSString *label = [field objectForKey:(NSString*)kSecPropertyKeyLabel];
+                            id value = [field objectForKey:(NSString*)kSecPropertyKeyValue];
+                            
+                            if (label && value) {
+                                
+                                [result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   label, (NSString*)kSecPropertyKeyLabel,
+                                                   value, (NSString*)kSecPropertyKeyValue,
+                                                   nil
+                                                  ]
+                                ];
+                            }
+                        }
+                        
+                    } else {
+                        
+                        NSString *label = [oid objectForKey:(NSString*)kSecPropertyKeyLabel];
+                        id value = [oid objectForKey:(NSString*)kSecPropertyKeyValue];
+                        
+                        if (label && value) {
+                            
+                            [result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               label, (NSString*)kSecPropertyKeyLabel,
+                                               value, (NSString*)kSecPropertyKeyValue,
+                                               nil
+                                              ]
+                            ];
+                        }
+                    }
+                }
+            }
         }
     }
     
-    return returnValue;
+    return result;
 }
 
 // sort identities by creation date (most recent first)
@@ -220,26 +332,25 @@
     NSMutableArray *sortedSecItems = [NSMutableArray arrayWithArray:secItems];
 
     [sortedSecItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-      
-        // extract the certificate from the identity reference
+        
         SecIdentityRef identity1 = (__bridge SecIdentityRef)(obj1);
         SecIdentityRef identity2 = (__bridge SecIdentityRef)(obj2);
+
         SecCertificateRef certRef1 = NULL;
         SecCertificateRef certRef2 = NULL;
         OSStatus status1 = SecIdentityCopyCertificate(identity1, &certRef1);
         OSStatus status2 = SecIdentityCopyCertificate(identity2, &certRef2);
-        
+
         if (status1 != errSecSuccess || status2 != errSecSuccess) {
             
             // if there's an error copying the certificate,
             // we treat the identities as equal
             return NSOrderedSame;
         }
-        
-        // get the validity not-before date (creation date) from the certificates
+
         const void *keys[] = { kSecOIDX509V1ValidityNotBefore };
         CFArrayRef keySelection = CFArrayCreate(NULL, keys, sizeof(keys)/sizeof(keys[0]), &kCFTypeArrayCallBacks);
-        
+
         NSDictionary *values1 = CFBridgingRelease(SecCertificateCopyValues(certRef1, keySelection, NULL));
         NSDictionary *values2 = CFBridgingRelease(SecCertificateCopyValues(certRef2, keySelection, NULL));
         CFRelease(keySelection);

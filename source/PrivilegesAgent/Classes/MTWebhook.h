@@ -23,7 +23,30 @@
  @abstract      A class that provides a method to post information about a privilege change to a webhook.
 */
 
+#define kMTWebhookContentKeyUserName            @"user"
+#define kMTWebhookContentKeyAdminRights         @"admin"
+#define kMTWebhookContentKeyExpiration          @"expires"
+#define kMTWebhookContentKeyReason              @"reason"
+#define kMTWebhookContentKeyEventType           @"event"
+#define kMTWebhookContentKeyMachineIdentifier   @"machine"
+#define kMTWebhookContentKeyTimestamp           @"timestamp"
+#define kMTWebhookContentKeyDelayed             @"delayed"
+#define kMTWebhookContentKeyCustomData          @"custom_data"
+
 @interface MTWebhook : NSObject <NSURLSessionDelegate>
+
+/*!
+ @property      facility
+ @abstract      Returns the syslog message's facility.
+ @discussion    The value of this property is MTSyslogMessageFacility and the
+                default value is MTSyslogMessageFacilityUser.
+*/
+@property (nonatomic, strong, readwrite) NSString *reason;
+@property (nonatomic, strong, readwrite) NSDate *expirationDate;
+@property (nonatomic, strong, readwrite) NSDictionary *customData;
+@property (nonatomic, strong, readwrite) MTPrivilegesUser *privilegesUser;
+@property (nonatomic, strong, readonly) NSDate *timeStamp;
+@property (assign) BOOL delayed;
 
 /*!
  @method        init
@@ -40,20 +63,33 @@
 - (instancetype)initWithURL:(NSURL*)url NS_DESIGNATED_INITIALIZER;
 
 /*!
+ @method        dictionaryRepresentation
+ @abstract      Returns a dictionary representation of the webhook data.
+*/
+- (NSDictionary*)dictionaryRepresentation;
+
+/*!
+ @method        composedData
+ @abstract      Returns the composed webhook data.
+*/
+- (NSData*)composedData;
+
+/*!
  @method        postToWebhookForUser:reason:expirationDate:completionHandler:
  @abstract      Post data about a privilege change to the webhook.
- @param         user The MTPrivilegesUser the privilege change belongs to.
- @param         reason The reason for the privilege change. Might be nil.
- @param         expiration The date the administrator privileges expire. Might be nil.
- @param         customData An optional dictionary that is added to the webhook data.
+ @param         data An NSData object containing the data to post.
  @param         completionHandler The handler to call when the request is complete.
- @discussion    The returned error object might contain error information if an error occurred or will be nil if no error occurred.
+ @discussion    Returns an NSError object that contains a detailed error message if an error occurred. May be nil.
 */
-- (void)postToWebhookForUser:(MTPrivilegesUser*)user
-                      reason:(NSString*)reason
-              expirationDate:(NSDate*)expiration
-                  customData:(NSDictionary*)customData
-           completionHandler:(void (^) (NSError *error))completionHandler;
+- (void)postData:(NSData*)data completionHandler:(void (^) (NSError *error))completionHandler;
+
+/*!
+ @method        composedDataWithDictionary:
+ @abstract      Returns the composed webhook data from a given dictionary.
+ @param         dict A dictionary containing the information for composing the webhook data.
+ @discussion    Returns an NSData object or nil if an error occurred.
+*/
++ (NSData*)composedDataWithDictionary:(NSDictionary*)dict;
 
 @end
 

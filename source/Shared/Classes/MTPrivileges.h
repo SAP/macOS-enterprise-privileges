@@ -17,6 +17,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MTPrivilegesUser.h"
+#import "MTPrivilegesLoggingConfiguration.h"
 
 /*!
  @class         MTPrivileges
@@ -136,6 +137,14 @@
 - (BOOL)expirationIntervalMaxIsForced;
 
 /*!
+ @method        maxIntervalInitial
+ @abstract      Get the initial value of the maximum expiration interval.
+ @discussion    Returns an integer representing the initial expiration interval in minutes or -1 if there's no
+                initial expiration interval configured.
+ */
+- (NSInteger)maxIntervalInitial;
+
+/*!
  @method        authenticationRequired
  @abstract      Get whether the user must authenticate to get admin rights.
  @discussion    Returns YES if authentication is required, otherwise returns NO.
@@ -145,9 +154,18 @@
 /*!
  @method        allowCLIBiometricAuthentication
  @abstract      Get whether the biometric authentication is allowed for the command-line tool.
- @discussion    Returns YES if biometric authentication is allowed, otherwise returns NO.
+ @discussion    Returns YES if biometric authentication is allowed, otherwise returns NO. This option has no effect if
+                @c authenticationRequired is set to NO.
  */
 - (BOOL)allowCLIBiometricAuthentication;
+
+/*!
+ @method        biometricAuthenticationRequired
+ @abstract      Get whether biometric authentication is required to get admin rights.
+ @discussion    Returns YES if biometric authentication is required, otherwise returns NO. This option has no effect if
+                @c authenticationRequired is set to NO or if @c smartCardSupportEnabled is set to YES.
+ */
+- (BOOL)biometricAuthenticationRequired;
 
 /*!
  @method        privilegesShouldBeRevokedAtLogin
@@ -238,11 +256,9 @@
 /*!
  @method        remoteLoggingConfiguration
  @abstract      Get the remote logging configuration.
- @discussion    Returns a dictionary containing the remote logging configuration or nil if remote logging is not configured.
-                For valid remote logging configuration keys, see the Privileges.mobileconfig file located in the Resources
-                folder of the Privilege app bundle.
+ @discussion    Returns an MTPrivilegesLoggingConfiguration object or nil if remote logging is not configured.
  */
-- (NSDictionary*)remoteLoggingConfiguration;
+- (MTPrivilegesLoggingConfiguration*)remoteLoggingConfiguration;
 
 /*!
  @method        hideSettingsButton
@@ -342,6 +358,7 @@
  @method        smartCardSupportEnabled
  @abstract      Get whether smart cards/PIV tokens should be used for authentication.
  @discussion    Returns YES if smart cards/PIV token should be used for authentication, otherwise returns NO.
+                This option has no effect if @c authenticationRequired is set to NO.
  */
 - (BOOL)smartCardSupportEnabled;
 

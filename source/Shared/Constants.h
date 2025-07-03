@@ -19,6 +19,7 @@
 #define kMTDaemonMachServiceName                    @"corp.sap.privileges.daemon.xpc"
 #define kMTAgentMachServiceName                     @"corp.sap.privileges.agent.xpc"
 #define kMTXPCServiceName                           @"corp.sap.privileges.xpcservice"
+#define kMTQueuedEventsPlistName                    @"QueuedEvents.plist"
 #define kMTAppBundleIdentifier                      @"corp.sap.privileges"
 #define kMTAuthRightName                            "corp.sap.privileges.auth"
 #define kMTAppGroupIdentifier                       @"7R5ZEU67FQ.corp.sap.privileges"
@@ -33,7 +34,10 @@
 #define kMTReasonMinLengthDefault                   10
 #define kMTReasonMaxLengthDefault                   250
 #define kMTFixedExpirationIntervals                 @[@0, @5, @10, @20, @30, @60]
+#define kMTRemoteLoggingRetryIntervals              @[@300, @900, @1800, @3600]
 #define kMTRevokeAtLoginThreshold                   60
+#define kMTQueuedEventsMaxDefault                   20
+#define kMTQueuedEventsTreatAsDelayedInterval       5
 
 #define kMTEnforcedPrivilegeTypeNone                @"none"
 #define kMTEnforcedPrivilegeTypeAdmin               @"admin"
@@ -44,10 +48,12 @@
 
 // NSUserDefaults
 #define kMTDefaultsExpirationIntervalKey            @"ExpirationInterval"
-#define kMTDefaultsAutoExpirationIntervalMaxKey     @"ExpirationIntervalMax"
+#define kMTDefaultsExpirationIntervalMaxKey         @"ExpirationIntervalMax"
+#define kMTDefaultsMaxIntervalInitialKey            @"MaxIntervalInitial"
 #define kMTDefaultsEnforcePrivilegesKey             @"EnforcePrivileges"
 #define kMTDefaultsAuthRequiredKey                  @"RequireAuthentication"
 #define kMTDefaultsAuthCLIBiometricsAllowedKey      @"AllowCLIBiometricAuthentication"
+#define kMTDefaultsAuthRequireBiometricsKey         @"RequireBiometricAuthentication"
 #define kMTDefaultsLimitToUserKey                   @"LimitToUser"
 #define kMTDefaultsLimitToGroupKey                  @"LimitToGroup"
 #define kMTDefaultsRequireReasonKey                 @"ReasonRequired"
@@ -67,6 +73,8 @@
 #define kMTDefaultsRemoteLoggingSyslogFormatKey     @"MessageFormat"
 #define kMTDefaultsRemoteLoggingSyslogSDKey         @"StructuredData"
 #define kMTDefaultsRemoteLoggingWebhookDataKey      @"WebhookCustomData"
+#define kMTDefaultsRemoteLoggingQueueEventsKey      @"QueueUnsentEvents"
+#define kMTDefaultsRemoteLoggingQueuedEventsMaxKey  @"QueuedEventsMax"
 #define kMTDefaultsHideOtherWindowsKey              @"HideOtherWindows"
 #define kMTDefaultsRevokeAtLoginKey                 @"RevokePrivilegesAtLogin"
 #define kMTDefaultsRevokeAtLoginExcludedUsersKey    @"RevokeAtLoginExcludedUsers"

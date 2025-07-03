@@ -24,6 +24,7 @@
 @interface MTPrivilegesUser ()
 @property (nonatomic, strong, readwrite) MTAgentConnection *agentConnection;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readwrite) NSUserDefaults *appGroupDefaults;
 @property (nonatomic, strong, readwrite) NSString *userName;
 @end
 
@@ -48,6 +49,8 @@
         } else {
             _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
         }
+        
+        _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
     }
     
     return self;
@@ -67,20 +70,17 @@
 
 - (BOOL)hasUnexpectedPrivilegeState
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    BOOL unexpectedState = [appGroupDefaults boolForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+    BOOL unexpectedState = [_appGroupDefaults boolForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
         
     return unexpectedState;
 }
 
 - (void)setUnexpectedPrivilegeState:(BOOL)unexpectedState
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    
     if (unexpectedState) {
-        [appGroupDefaults setBool:YES forKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+        [_appGroupDefaults setBool:YES forKey:kMTDefaultsUnexpectedPrivilegeStateKey];
     } else {
-        [appGroupDefaults removeObjectForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
+        [_appGroupDefaults removeObjectForKey:kMTDefaultsUnexpectedPrivilegeStateKey];
     }
 }
 
@@ -247,10 +247,12 @@
     BOOL userIsExcluded = NO;
     
     NSArray *excludedUsers = ([_userDefaults objectIsForcedForKey:kMTDefaultsRevokeAtLoginExcludedUsersKey]) ? [_userDefaults arrayForKey:kMTDefaultsRevokeAtLoginExcludedUsersKey] : nil;
-
+    
     for (NSString *userName in excludedUsers) {
-        
-        if ([userName caseInsensitiveCompare:_userName] == NSOrderedSame) {
+
+        if ([userName isKindOfClass:[NSString class]] &&
+            [userName caseInsensitiveCompare:_userName] == NSOrderedSame) {
+            
             userIsExcluded = YES;
             break;
         }

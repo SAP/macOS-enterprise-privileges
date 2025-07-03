@@ -23,9 +23,10 @@
 #import "Constants.h"
 #import "MTIdentity.h"
 #import "PrivilegesAgentProtocol.h"
-#import "MTSyslogMessage.h"
+#import "MTSyslog.h"
 #import "MTWebhook.h"
 #import "MTStatusItemMenu.h"
+#import "MTRemoteLoggingManager.h"
 #import <os/log.h>
 
 @interface AppDelegate ()
@@ -39,6 +40,7 @@
 @property (nonatomic, strong, readwrite) MTDaemonConnection *daemonConnection;
 @property (nonatomic, strong, readwrite) NSStatusItem *statusItem;
 @property (nonatomic, strong, readwrite) MTStatusItemMenu *statusMenu;
+@property (nonatomic, strong, readwrite) MTRemoteLoggingManager *logManager;
 @property (atomic, strong, readwrite) NSXPCListener *listener;
 @property (retain) id adminGroupObserver;
 @property (assign) BOOL observingStatusItem;
@@ -126,7 +128,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     // define the keys in our prefs we need to observe
     _keysToObserve = [[NSArray alloc] initWithObjects:
                         kMTDefaultsExpirationIntervalKey,
-                        kMTDefaultsAutoExpirationIntervalMaxKey,
+                        kMTDefaultsExpirationIntervalMaxKey,
                         kMTDefaultsAllowPrivilegeRenewalKey,
                         kMTDefaultsHideOtherWindowsKey,
                         kMTDefaultsRevokeAtLoginKey,
@@ -137,6 +139,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         kMTDefaultsLimitToUserKey,
                         kMTDefaultsLimitToGroupKey,
                         kMTDefaultsShowInMenuBarKey,
+                        kMTDefaultsRemoteLoggingKey,
                         nil
     ];
             
@@ -164,7 +167,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                                              object:nil
     ];
     
-#pragma mark check for unexpected permission changes
+#pragma mark - check for unexpected permission changes
     
     _adminGroupObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameAdminGroupDidChange
                                                                                        object:nil
@@ -198,6 +201,9 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
     // show the status item (if enabled)
     [self showStatusItem:[_privilegesApp showInMenuBar]];
+    
+    // initialize the logging manager
+    [self initializeLogManager];
 }
 
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
@@ -450,116 +456,118 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 ];
                 
                 if (error) {
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "%{public}@", [NSString stringWithFormat:@"SAPCorp: Failed to launch %@: %@", [executableURL path], error]);
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch %{public}@: %{public}@", [executableURL path], error);
                 }
             }
             
         } else {
             
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "%{public}@", @"SAPCorp: Failed to launch executable: Invalid file url");
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch executable: Invalid file url");
+        }
+    }
+}
+
+- (void)initializeLogManager
+{
+    if (_logManager) {
+        
+        [_logManager cancelRetries];
+        _logManager = nil;
+    }
+        
+    MTPrivilegesLoggingConfiguration *remoteLoggingConfiguration = [_privilegesApp remoteLoggingConfiguration];
+    
+    if (remoteLoggingConfiguration) {
+        
+        _logManager = [[MTRemoteLoggingManager alloc] initWithRetryIntervals:kMTRemoteLoggingRetryIntervals];
+        [_logManager setQueueUnsentEvents:[remoteLoggingConfiguration queueUnsentEvents]];
+        BOOL success = [_logManager start];
+    
+        if (success) {
+            os_log(OS_LOG_DEFAULT, "SAPCorp: Successfully initialized remote logging manager");
+        } else {
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to initialize remote logging manager");
         }
     }
 }
 
 - (void)remoteLoggingTaskWithReason:(NSString*)reason
 {
+    if (!_logManager) { [self initializeLogManager]; }
+    
     // check if remote logging is configured
-    MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
-    NSDictionary *remoteLoggingConfiguration = [privilegesApp remoteLoggingConfiguration];
+    MTPrivilegesLoggingConfiguration *remoteLoggingConfiguration = [_privilegesApp remoteLoggingConfiguration];
     
     if (remoteLoggingConfiguration) {
-
-        NSString *logServerType = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingServerTypeKey];
         
-        if ([[logServerType lowercaseString] isEqualToString:kMTRemoteLoggingServerTypeSyslog]) {
+        NSDictionary *eventToSend = nil;
+                
+        if ([[remoteLoggingConfiguration serverType] isEqualToString:kMTRemoteLoggingServerTypeSyslog]) {
             
+            MTSyslogOptions *syslogOptions = [remoteLoggingConfiguration syslogOptions];
+            
+            // create the syslog message
             NSString *logMessage = nil;
             
             if ([[self->_privilegesApp currentUser] hasAdminPrivileges]) {
                 
                 logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has administrator privileges", [[self->_privilegesApp currentUser] userName]];
                 if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" for the following reason: \"%@\"", reason]; }
-            
+                
             } else {
-            
+                
                 logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has standard user privileges", [[self->_privilegesApp currentUser] userName]];
                 if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" (%@)", reason]; }
             }
-                                            
-            [self writeToSyslog:logMessage user:[_privilegesApp currentUser] completionHandler:^(NSError *error) {
+            
+            MTSyslogMessage *syslogMessage = [[MTSyslogMessage alloc] init];
+            [syslogMessage setFormat:[syslogOptions messageFormat]];
+            [syslogMessage setFacility:[syslogOptions logFacility]];
+            [syslogMessage setSeverity:[syslogOptions logSeverity]];
+            [syslogMessage setAppName:kMTAppName];
+            [syslogMessage setMessageID:([[_privilegesApp currentUser] hasAdminPrivileges]) ? @"PRIV_A" : @"PRIV_S"];
+            [syslogMessage setMaxSize:[syslogOptions maxSize]];
+            [syslogMessage setEventMessage:logMessage];
+            
+            MTSyslogMessageStructuredData *syslogSD = [[MTSyslogMessageStructuredData alloc] init];
+            [syslogSD structuredDataWithDictionary:[syslogOptions structuredData]];
+            [syslogMessage setStructuredData:syslogSD];
+            
+            NSData *syslogData = [[syslogMessage composedMessage] dataUsingEncoding:NSUTF8StringEncoding];
+            
+            if (syslogData) {
                 
-                if (error) {
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote logging failed: %{public}@", error);
-                }
-            }];
+                eventToSend = [NSDictionary dictionaryWithObject:syslogData
+                                                          forKey:kMTRemoteLoggingServerTypeSyslog
+                ];
+            }
             
-        } else if ([[logServerType lowercaseString] isEqualToString:kMTRemoteLoggingServerTypeWebhook]) {
+        } else if ([[remoteLoggingConfiguration serverType] isEqualToString:kMTRemoteLoggingServerTypeWebhook]) {
 
-            NSString *webhookURL = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingServerAddressKey];
-            NSDictionary *customData = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingWebhookDataKey];
+            MTWebhook *webhookEvent = [[MTWebhook alloc] initWithURL:nil];
+            [webhookEvent setPrivilegesUser:[self->_privilegesApp currentUser]];
+            [webhookEvent setReason:reason];
+            [webhookEvent setExpirationDate:self->_timerExpirationDate];
+            [webhookEvent setCustomData:[remoteLoggingConfiguration webhookCustomData]];
             
-            if (webhookURL && [webhookURL length] > 0) {
-
-                MTWebhook *webHook = [[MTWebhook alloc] initWithURL:[NSURL URLWithString:webhookURL]];
-                [webHook postToWebhookForUser:[_privilegesApp currentUser]
-                                       reason:reason
-                               expirationDate:_timerExpirationDate
-                                   customData:([customData isKindOfClass:[NSDictionary class]]) ? customData : nil
-                            completionHandler:^(NSError *error) {
-                    
-                    if (error) {
-                        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote logging failed: %{public}@", error);
-                    }
-                }];
+            NSData *webhookData = [webhookEvent composedData];
+            
+            if (webhookData) {
+                
+                eventToSend = [NSDictionary dictionaryWithObject:webhookData
+                                                          forKey:kMTRemoteLoggingServerTypeWebhook
+                ];
             }
         }
-    }
-}
-
-- (void)writeToSyslog:(NSString*)message user:(MTPrivilegesUser*)user completionHandler:(void (^) (NSError *error))completionHandler
-{
-    MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
-    NSDictionary *remoteLoggingConfiguration = [privilegesApp remoteLoggingConfiguration];
-    
-    NSString *serverAddress = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingServerAddressKey];
-    NSDictionary *syslogOptions = [remoteLoggingConfiguration objectForKey:kMTDefaultsRemoteLoggingSyslogOptionsKey];
-    
-    NSInteger serverPort = [[syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogServerPortKey] integerValue];
-    BOOL useTLS = [[syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogUseTLSKey] boolValue];
-    
-    if (serverPort == 0) { serverPort = (useTLS) ? 6514 : 514; }
-    
-    MTSyslogMessageFacility logFacility = ([syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogFacilityKey]) ? [[syslogOptions valueForKey:kMTDefaultsRemoteLoggingSyslogFacilityKey] intValue] : MTSyslogMessageFacilityAuth;
-    MTSyslogMessageSeverity logSeverity = ([syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogSeverityKey]) ? [[syslogOptions valueForKey:kMTDefaultsRemoteLoggingSyslogSeverityKey] intValue] : MTSyslogMessageSeverityInformational;
-    MTSyslogMessageMaxSize maxSize = ([syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogMaxSizeKey]) ? [[syslogOptions valueForKey:kMTDefaultsRemoteLoggingSyslogMaxSizeKey] intValue] : 0;
-    MTSyslogMessageFormat messageFormat = ([syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogFormatKey]) ? [[syslogOptions valueForKey:kMTDefaultsRemoteLoggingSyslogFormatKey] intValue] : MTSyslogMessageFormatNonTransparentFraming;
-    
-    MTSyslogMessage *syslogMessage = [[MTSyslogMessage alloc] init];
-    [syslogMessage setFormat:messageFormat];
-    [syslogMessage setFacility:logFacility];
-    [syslogMessage setSeverity:logSeverity];
-    [syslogMessage setAppName:kMTAppName];
-    [syslogMessage setMessageID:([user hasAdminPrivileges]) ? @"PRIV_A" : @"PRIV_S"];
-    [syslogMessage setMaxSize:maxSize];
-    [syslogMessage setEventMessage:message];
-    
-    NSDictionary *structuredData = [syslogOptions objectForKey:kMTDefaultsRemoteLoggingSyslogSDKey];
-    
-    if (structuredData) {
         
-        MTSyslogMessageStructuredData *syslogSD = [[MTSyslogMessageStructuredData alloc] init];
-        [syslogSD structuredDataWithDictionary:structuredData];
-        [syslogMessage setStructuredData:syslogSD];
+        // send the event
+        [_logManager sendEvent:eventToSend completionHandler:^(BOOL success, NSError *error) {
+            
+            if (!success) {
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote logging failed: %{public}@", error);
+            }
+        }];
     }
-    
-    NSURLSessionStreamTask *syslogTask = [[NSURLSession sharedSession] streamTaskWithHostName:serverAddress port:serverPort];
-    if (useTLS) { [syslogTask startSecureConnection]; }
-    [syslogTask resume];
-    
-    [syslogTask writeData:[[syslogMessage composedMessage] dataUsingEncoding:NSUTF8StringEncoding]
-                  timeout:10
-        completionHandler:completionHandler
-    ];
 }
 
 - (void)displayNotificationOfType:(MTLocalNotificationType)type
@@ -617,7 +625,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             [self enforceFixedPrivileges];
             
         } else if ([keyPath isEqualToString:kMTDefaultsExpirationIntervalKey] ||
-                   [keyPath isEqualToString:kMTDefaultsAutoExpirationIntervalMaxKey]) {
+                   [keyPath isEqualToString:kMTDefaultsExpirationIntervalMaxKey]) {
             
             // invalidate or (re)schedule our timer if needed
             if ([_privilegesApp expirationInterval] == 0) {
@@ -629,6 +637,10 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
              
                 [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
             }
+            
+        } else if ([keyPath isEqualToString:kMTDefaultsRemoteLoggingKey]) {
+
+            [self initializeLogManager];
         }
         
         // update the status item if needed
@@ -646,7 +658,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
-#pragma mark AppleScriptDataProvider
+#pragma mark - AppleScriptDataProvider
 
 - (NSUInteger)privilegesTimeLeft
 {
@@ -658,7 +670,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     return ([[_privilegesApp currentUser] hasAdminPrivileges]);
 }
 
-#pragma mark NSStatusItem
+#pragma mark - NSStatusItem
 
 - (void)showStatusItem:(BOOL)status
 {
@@ -842,7 +854,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
-#pragma mark Notifications
+#pragma mark - Notifications
 
 - (void)postPrivilegesChangedNotification
 {
@@ -871,7 +883,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
      ];
 }
 
-#pragma mark Exported methods
+#pragma mark - Exported methods
 
 - (void)connectWithEndpointReply:(void (^)(NSXPCListenerEndpoint *endpoint))reply
 {
@@ -1080,6 +1092,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]];
             
             [MTIdentity authenticateUserWithReason:reasonString
+                                 requireBiometrics:[_privilegesApp biometricAuthenticationRequired]
                                  completionHandler:^(BOOL success, NSError *error) {
                 
                 if (completionHandler) { completionHandler(success); }
@@ -1109,7 +1122,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
-#pragma mark UNUserNotificationCenterDelegate
+#pragma mark - UNUserNotificationCenterDelegate
 
 - (void)userNotificationCenter:(UNUserNotificationCenter*)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
     completionHandler(UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner);

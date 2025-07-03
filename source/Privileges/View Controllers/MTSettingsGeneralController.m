@@ -103,7 +103,7 @@
     _configurationObserver = nil;
 }
 
-#pragma mark Bindings
+#pragma mark - Bindings
 
 - (BOOL)hideWindowsIsForced
 {
@@ -116,7 +116,7 @@
 }
 
 
-#pragma mark IBActions
+#pragma mark - IBActions
 
 - (IBAction)setHideOtherWindows:(id)sender
 {

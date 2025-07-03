@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -216,7 +216,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="219"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
                                 <rect key="frame" x="23" y="152" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="tED-Ce-nm6">
                                     <font key="font" metaFont="smallSystem"/>
@@ -249,7 +249,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="7yK-i3-jMD"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="0Mz-4V-rLx">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -318,7 +318,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="4gA-hb-vnk"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5lH-p7-50A">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -391,7 +391,7 @@
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MQF-rL-q3r">
                                 <rect key="frame" x="25" y="333" width="430" height="5"/>
                             </box>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
                                 <rect key="frame" x="23" y="454" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="DAL-x6-96Y">
                                     <font key="font" metaFont="smallSystem"/>
@@ -406,7 +406,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="HN1-EZ-wPg">
                                         <rect key="frame" x="0.0" y="17" width="398" height="20"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
                                                 <rect key="frame" x="-2" y="3" width="192" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Administrator privileges expire:" id="RJJ-AF-o6j">
                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -449,7 +449,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="uX9-mP-hAE"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="RN8-jG-u9K">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -491,7 +491,7 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
                                 <rect key="frame" x="23" y="273" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="BxH-Vb-uHJ">
                                     <font key="font" metaFont="smallSystem"/>
@@ -524,7 +524,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="hQt-Yq-Pkc"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="hTV-jc-iCJ">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -593,7 +593,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="S8C-CZ-8NH"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="4Yg-iq-7FO">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -635,7 +635,7 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
                                 <rect key="frame" x="23" y="123" width="434" height="56"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="Hqj-Uh-Ag3">
                                     <font key="font" metaFont="smallSystem"/>
@@ -650,7 +650,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Raj-OA-kDh">
                                         <rect key="frame" x="0.0" y="17" width="373" height="20"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
                                                 <rect key="frame" x="-2" y="3" width="167" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Run after privilege change:" id="L7H-FM-m4u">
                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -707,7 +707,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="g9D-Mi-mBG"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5gJ-73-6dD">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -773,7 +773,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="oPG-MY-xHd"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="Avb-eR-psD">
                                                     <font key="font" metaFont="smallSystem"/>

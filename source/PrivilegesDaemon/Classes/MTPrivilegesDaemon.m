@@ -174,7 +174,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     return success;
 }
 
-#pragma mark Exported methods
+#pragma mark - Exported methods
 
 - (void)grantAdminRightsToUser:(NSString*)userName
                         reason:(NSString*)reason
@@ -229,5 +229,69 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
     if (completionHandler) { completionHandler(success); }
 }
+
+- (void)queuedEventsWithReply:(void (^)(NSArray *queuedEvents, NSError *error))completionHandler
+{
+    NSError *error = nil;
+    NSArray *queuedEvents = nil;
+    
+    NSURL *appSupportDir = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory
+                                                                  inDomain:NSLocalDomainMask
+                                                         appropriateForURL:nil
+                                                                    create:NO
+                                                                     error:&error
+    ];
+    
+    if (!error) {
+        
+        NSURL *plistURL = [appSupportDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@", kMTAppName, kMTQueuedEventsPlistName]];
+        if (plistURL) { queuedEvents = [[NSArray alloc] initWithContentsOfURL:plistURL]; }
+    }
+    
+    if (completionHandler) { completionHandler(queuedEvents, error); }
+}
+
+
+- (void)queueEventsInArray:(NSArray*)events completionHandler:(void (^)(BOOL success, NSError *error))completionHandler
+{
+    NSError *error = nil;
+    BOOL success = NO;
+    
+    if (events) {
+    
+        NSURL *appSupportDir = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory
+                                                                      inDomain:NSLocalDomainMask
+                                                             appropriateForURL:nil
+                                                                        create:NO
+                                                                         error:&error
+        ];
+        
+        if (!error) {
+            
+            NSURL *plistURL = [appSupportDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@", kMTAppName, kMTQueuedEventsPlistName]];
+                        
+            NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithShort:0755], NSFilePosixPermissions,
+                                            @"root", NSFileOwnerAccountName,
+                                            @"wheel", NSFileGroupOwnerAccountName,
+                                            nil
+            ];
+            
+            if ([[NSFileManager defaultManager] createDirectoryAtURL:[plistURL URLByDeletingLastPathComponent]
+                                         withIntermediateDirectories:YES
+                                                          attributes:attributesDict
+                                                               error:&error
+                ]) {
+                
+                success = [events writeToURL:plistURL error:&error];
+            }
+        }
+    }
+    
+    if (completionHandler) { completionHandler(success, error); }
+}
+
+
+
 
 @end

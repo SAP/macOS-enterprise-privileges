@@ -20,6 +20,7 @@
 
 @interface MTPrivileges ()
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readwrite) NSUserDefaults *appGroupDefaults;
 @property (nonatomic, strong, readwrite) MTPrivilegesUser *currentUser;
 @end
 
@@ -36,6 +37,8 @@
         } else {
             _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
         }
+        
+        _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
                 
         _currentUser = [[MTPrivilegesUser alloc] init];
     }
@@ -162,12 +165,10 @@
 
     // if we got no value back, we try to get the value from our app group defaults
     } else {
-        
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        
-        if ([appGroupDefaults objectForKey:kMTDefaultsExpirationIntervalKey]) {
+                
+        if ([_appGroupDefaults objectForKey:kMTDefaultsExpirationIntervalKey]) {
             
-            interval = [appGroupDefaults integerForKey:kMTDefaultsExpirationIntervalKey];
+            interval = [_appGroupDefaults integerForKey:kMTDefaultsExpirationIntervalKey];
             
         } else {
                 
@@ -183,21 +184,39 @@
             }
         }
     }
+
+    NSInteger intervalMax = [self expirationIntervalMax];
     
+    // make sure the configured expiration time is
+    // lower then the maximum expiration time
     if (interval >= 0) {
 
-        NSInteger intervalMax = [self expirationIntervalMax];
         if (intervalMax > 0 && interval > intervalMax) { interval = intervalMax; }
         returnValue = interval;
-    }
+    
+    // it seems like there's no expiration interval configured/selected,
+    // so we check if a maximum interval and it's initial value have
+    // been configured.
+    } else {
         
+        NSInteger initialInterval = [self maxIntervalInitial];
+        
+        if (intervalMax >= 0 && initialInterval >= 0) {
+            
+            if ((intervalMax > 0 && (initialInterval > 0 && initialInterval <= intervalMax)) || intervalMax == 0) {
+                returnValue = initialInterval;
+            } else {
+                returnValue = intervalMax;
+            }
+        }
+    }
+    
     return returnValue;
 }
 
 - (void)setExpirationInterval:(NSUInteger)interval
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    [appGroupDefaults setInteger:interval forKey:kMTDefaultsExpirationIntervalKey];
+    [_appGroupDefaults setInteger:interval forKey:kMTDefaultsExpirationIntervalKey];
     
     // Because our Dock Tile plugin can't access our group container, and
     // because of a bug in macOS 15, it can't access the application's
@@ -212,8 +231,8 @@
 {
     NSInteger returnValue = -1;
     
-    if ([_userDefaults objectForKey:kMTDefaultsAutoExpirationIntervalMaxKey]) {
-        returnValue = [_userDefaults integerForKey:kMTDefaultsAutoExpirationIntervalMaxKey];
+    if ([_userDefaults objectForKey:kMTDefaultsExpirationIntervalMaxKey]) {
+        returnValue = [_userDefaults integerForKey:kMTDefaultsExpirationIntervalMaxKey];
     }
     
     return returnValue;
@@ -226,12 +245,23 @@
 
 - (BOOL)expirationIntervalMaxIsForced
 {
-    return [_userDefaults objectIsForcedForKey:kMTDefaultsAutoExpirationIntervalMaxKey];
+    return [_userDefaults objectIsForcedForKey:kMTDefaultsExpirationIntervalMaxKey];
+}
+
+- (NSInteger)maxIntervalInitial
+{
+    NSInteger returnValue = -1;
+    
+    if ([_userDefaults objectForKey:kMTDefaultsMaxIntervalInitialKey]) {
+        returnValue = [_userDefaults integerForKey:kMTDefaultsMaxIntervalInitialKey];
+    }
+    
+    return returnValue;
 }
 
 - (BOOL)authenticationRequired
 {
-    return ([_userDefaults boolForKey:kMTDefaultsAuthRequiredKey]);
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthRequiredKey] && [_userDefaults boolForKey:kMTDefaultsAuthRequiredKey]);
 }
 
 - (BOOL)privilegesShouldBeRevokedAtLogin
@@ -245,8 +275,7 @@
     // if we got no value back, we try to get the value from our app group defaults
     } else {
         
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        remove = [appGroupDefaults boolForKey:kMTDefaultsRevokeAtLoginKey];
+        remove = [_appGroupDefaults boolForKey:kMTDefaultsRevokeAtLoginKey];
     }
 
     return (remove && ![[self currentUser] isExcludedFromRevokeAtLogin]);
@@ -254,13 +283,24 @@
 
 - (BOOL)allowCLIBiometricAuthentication
 {
-    return ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthCLIBiometricsAllowedKey] && [_userDefaults boolForKey:kMTDefaultsAuthCLIBiometricsAllowedKey]);
+    return ([self authenticationRequired] &&
+            [_userDefaults objectIsForcedForKey:kMTDefaultsAuthCLIBiometricsAllowedKey] &&
+            [_userDefaults boolForKey:kMTDefaultsAuthCLIBiometricsAllowedKey]
+            );
+}
+
+- (BOOL)biometricAuthenticationRequired
+{
+    return ([self authenticationRequired] &&
+            ![self smartCardSupportEnabled] && 
+            [_userDefaults objectIsForcedForKey:kMTDefaultsAuthRequireBiometricsKey] &&
+            [_userDefaults boolForKey:kMTDefaultsAuthRequireBiometricsKey]
+            );
 }
 
 - (void)setPrivilegesShouldBeRevokedAtLogin:(BOOL)revoke
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    [appGroupDefaults setBool:revoke forKey:kMTDefaultsRevokeAtLoginKey];
+    [_appGroupDefaults setBool:revoke forKey:kMTDefaultsRevokeAtLoginKey];
 }
 
 - (BOOL)privilegesShouldBeRevokedAtLoginIsForced
@@ -304,8 +344,7 @@
     // if we got no value back, we try to get the value from our app group defaults
     } else {
         
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        executablePath = [appGroupDefaults stringForKey:kMTDefaultsPostChangeExecutablePathKey];
+        executablePath = [_appGroupDefaults stringForKey:kMTDefaultsPostChangeExecutablePathKey];
     }
         
     return ([executablePath length] > 0) ? executablePath : nil;
@@ -318,17 +357,16 @@
 
 - (void)setPostChangeExecutablePath:(NSString*)path
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    [appGroupDefaults setObject:path forKey:kMTDefaultsPostChangeExecutablePathKey];
+    [_appGroupDefaults setObject:path forKey:kMTDefaultsPostChangeExecutablePathKey];
 }
 
-- (NSDictionary*)remoteLoggingConfiguration
+- (MTPrivilegesLoggingConfiguration*)remoteLoggingConfiguration
 {
-    NSDictionary *loggingConfiguration = nil;
+    MTPrivilegesLoggingConfiguration *loggingConfiguration = nil;
     
     if ([_userDefaults objectIsForcedForKey:kMTDefaultsRemoteLoggingKey]) {
         
-        loggingConfiguration = [_userDefaults dictionaryForKey:kMTDefaultsRemoteLoggingKey];
+        loggingConfiguration = [[MTPrivilegesLoggingConfiguration alloc] initWithDictionary:[_userDefaults dictionaryForKey:kMTDefaultsRemoteLoggingKey]];
     }
     
     return loggingConfiguration;
@@ -345,8 +383,7 @@
     // if we got no value back, we try to get the value from our app group defaults
     } else {
         
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        grantOnly = [appGroupDefaults boolForKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
+        grantOnly = [_appGroupDefaults boolForKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
     }
     
     return grantOnly;
@@ -359,8 +396,7 @@
 
 - (void)setRunActionAfterGrantOnly:(BOOL)grantOnly
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    [appGroupDefaults setBool:grantOnly forKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
+    [_appGroupDefaults setBool:grantOnly forKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
 }
 
 - (BOOL)hideSettingsButton
@@ -388,12 +424,10 @@
         
     // if we got no value back, we try to get the value from our app group defaults
     } else {
-
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
         
-        if ([appGroupDefaults objectForKey:kMTDefaultsAllowPrivilegeRenewalKey]) {
+        if ([_appGroupDefaults objectForKey:kMTDefaultsAllowPrivilegeRenewalKey]) {
             
-            allow = [appGroupDefaults boolForKey:kMTDefaultsAllowPrivilegeRenewalKey];
+            allow = [_appGroupDefaults boolForKey:kMTDefaultsAllowPrivilegeRenewalKey];
             
         } else {
             
@@ -420,8 +454,7 @@
 
 - (void)setPrivilegeRenewalAllowed:(BOOL)isAllowed
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    [appGroupDefaults setBool:isAllowed forKey:kMTDefaultsAllowPrivilegeRenewalKey];
+    [_appGroupDefaults setBool:isAllowed forKey:kMTDefaultsAllowPrivilegeRenewalKey];
     
     // Because our Dock Tile plugin can't access our group container, and
     // because of a bug in macOS 15, it can't access the application's
@@ -481,8 +514,7 @@
     // if we got no value back, we try to get the value from our app group defaults
     } else {
         
-        NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-        show = [appGroupDefaults boolForKey:kMTDefaultsShowInMenuBarKey];
+        show = [_appGroupDefaults boolForKey:kMTDefaultsShowInMenuBarKey];
     }
         
     return show;
@@ -495,18 +527,19 @@
 
 - (void)setShowInMenuBar:(BOOL)show
 {
-    NSUserDefaults *appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-    
     if (show) {
-        [appGroupDefaults setBool:YES forKey:kMTDefaultsShowInMenuBarKey];
+        [_appGroupDefaults setBool:YES forKey:kMTDefaultsShowInMenuBarKey];
     } else {
-        [appGroupDefaults removeObjectForKey:kMTDefaultsShowInMenuBarKey];
+        [_appGroupDefaults removeObjectForKey:kMTDefaultsShowInMenuBarKey];
     }
 }
 
 - (BOOL)smartCardSupportEnabled
 {
-    return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSmartCardSupportKey] && [_userDefaults boolForKey:kMTDefaultsEnableSmartCardSupportKey]);
+    return ([self authenticationRequired] &&
+            [_userDefaults objectIsForcedForKey:kMTDefaultsEnableSmartCardSupportKey] &&
+            [_userDefaults boolForKey:kMTDefaultsEnableSmartCardSupportKey]
+            );
 }
 
 - (NSDictionary*)renewalCustomAction

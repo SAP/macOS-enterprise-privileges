@@ -40,13 +40,6 @@
 - (instancetype)initWithDistinguishedName:(NSData*)encodedData NS_DESIGNATED_INITIALIZER;
 
 /*!
- @method        dictionaryRepresentation
- @abstract      Get a dictionary representation of the DN containing all its OIDs and their respective values.
- @discussion    Returns a NSDictionary with OIDs and its values or nil if an error occurred.
-*/
-- (NSDictionary*)dictionaryRepresentation;
-
-/*!
  @method        matchingIdentityWithSecItems:
  @abstract      Initialize a MTClientCertificate object with a given NSData object containing a DER
                 encoded distinguished name.

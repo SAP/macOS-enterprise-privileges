@@ -19,9 +19,12 @@
 #import "MTSystemInfo.h"
 #import "Constants.h"
 #import "MTClientCertificate.h"
+#import <os/log.h>
 
 @interface MTWebhook ()
 @property (nonatomic, strong, readwrite) NSURL *url;
+@property (nonatomic, strong, readwrite) NSURLSession *session;
+@property (nonatomic, strong, readwrite) NSDate *timeStamp;
 @end
 
 @implementation MTWebhook
@@ -31,79 +34,91 @@
     self = [super init];
     
     if (self) {
+        
         _url = url;
+        _timeStamp = [NSDate now];
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
     }
     
     return self;
 }
 
-
-- (void)postToWebhookForUser:(MTPrivilegesUser*)user
-                      reason:(NSString*)reason
-              expirationDate:(NSDate*)expiration
-                  customData:(NSDictionary*)customData
-           completionHandler:(void (^) (NSError *error))completionHandler
+- (NSDictionary*)dictionaryRepresentation
 {
     NSString *expirationDateString = @"";
     NSISO8601DateFormatter *dateFormatter = [[NSISO8601DateFormatter alloc] init];
+    BOOL hasAdminPrivileges = [_privilegesUser hasAdminPrivileges];
     
-    if ([user hasAdminPrivileges] && expiration) { expirationDateString = [dateFormatter stringFromDate:expiration]; }
+    if (hasAdminPrivileges && _expirationDate) { expirationDateString = [dateFormatter stringFromDate:_expirationDate]; }
 
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     [user userName], @"user",
-                                     [NSNumber numberWithBool:[user hasAdminPrivileges]], @"admin",
-                                     expirationDateString, @"expires",
-                                     (reason) ? reason : @"", @"reason",
-                                     ([user hasAdminPrivileges]) ? kMTWebhookEventTypeGranted : kMTWebhookEventTypeRevoked, @"event",
-                                     [MTSystemInfo machineUUID], @"machine",
-                                     [dateFormatter stringFromDate:[NSDate now]], @"timestamp",
-                                     nil
+    NSMutableDictionary *dictRep = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [_privilegesUser userName], kMTWebhookContentKeyUserName,
+                                    [NSNumber numberWithBool:hasAdminPrivileges], kMTWebhookContentKeyAdminRights,
+                                    expirationDateString, kMTWebhookContentKeyExpiration,
+                                    (_reason) ? _reason : @"", kMTWebhookContentKeyReason,
+                                    (hasAdminPrivileges) ? kMTWebhookEventTypeGranted : kMTWebhookEventTypeRevoked, kMTWebhookContentKeyEventType,
+                                    [MTSystemInfo machineUUID], kMTWebhookContentKeyMachineIdentifier,
+                                    [dateFormatter stringFromDate:_timeStamp], kMTWebhookContentKeyTimestamp,
+                                    [NSNumber numberWithBool:_delayed], kMTWebhookContentKeyDelayed,
+                                    nil
     ];
     
-    if ([[customData allKeys] count] > 0) { [jsonDict setObject:customData forKey:@"custom_data"]; }
+    // add custom data (if available)
+    if ([[_customData allKeys] count] > 0) { [dictRep setObject:_customData forKey:kMTWebhookContentKeyCustomData]; }
     
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict
-                                                       options:NSJSONWritingSortedKeys
-                                                         error:&error
-    ];
+    return dictRep;
+}
+
++ (NSData*)composedDataWithDictionary:(NSDictionary*)dict
+{
+    NSData *jsonData = nil;
     
-    if (!error) {
+    if (dict) {
         
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                              delegate:self
-                                                         delegateQueue:nil
+        jsonData = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:NSJSONWritingSortedKeys
+                                                     error:nil
         ];
-        NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request
-                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                
-            if (completionHandler) { completionHandler(error); }
-            [session finishTasksAndInvalidate];
-        }];
-        
-        [dataTask resume];
-        
-    } else {
-        
-        if (completionHandler) { completionHandler(error); }
     }
+    
+    return jsonData;
+}
+
+- (NSData*)composedData
+{
+    NSData *jsonData = [MTWebhook composedDataWithDictionary:[self dictionaryRepresentation]];
+    
+    return jsonData;
+}
+
+- (void)postData:(NSData*)data completionHandler:(void (^) (NSError *error))completionHandler
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    
+    NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request
+                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            
+        if (completionHandler) { completionHandler(error); }
+    }];
+    
+    [dataTask resume];
 }
 
 - (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
 {
-    BOOL credentialsFound = NO;
+    NSURLProtectionSpace *protectionSpace = [challenge protectionSpace];
     
-    if ([[[challenge protectionSpace] authenticationMethod] isEqualToString:NSURLAuthenticationMethodClientCertificate]) {
+    if ([[protectionSpace authenticationMethod] isEqualToString:NSURLAuthenticationMethodClientCertificate]) {
         
         CFTypeRef items = NULL;
         
         NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   (id)kSecClassIdentity, (id)kSecClass,
+                                    (id)kSecClassIdentity, (id)kSecClass,
                                     [NSNumber numberWithBool:YES], (id)kSecReturnRef,
                                     (id)kSecMatchLimitAll, (id)kSecMatchLimit,
                                     nil
@@ -115,8 +130,8 @@
             
             NSArray *allSecItems = CFBridgingRelease(items);
             
-            for (NSData *distinguishedName in [[challenge protectionSpace] distinguishedNames]) {
-                                
+            for (NSData *distinguishedName in [protectionSpace distinguishedNames]) {
+                
                 MTClientCertificate *clientCert = [[MTClientCertificate alloc] initWithDistinguishedName:distinguishedName];
                 SecIdentityRef matchingIdentityRef = [clientCert matchingIdentityWithSecItems:allSecItems];
                 
@@ -127,16 +142,21 @@
                                                                               persistence:NSURLCredentialPersistenceForSession
                     ];
                     
-                    credentialsFound = YES;
                     completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
-                                            
-                    break;
+                    CFRelease(matchingIdentityRef);
+                    
+                    return;
                 }
             }
         }
     }
     
-    if (!credentialsFound) { completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil); }
+    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+}
+
+- (void)dealloc
+{
+    [_session invalidateAndCancel];
 }
 
 @end

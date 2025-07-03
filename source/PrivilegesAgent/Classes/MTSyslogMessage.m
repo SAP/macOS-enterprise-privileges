@@ -48,7 +48,7 @@
     return self;
 }
 
-#pragma mark Setters
+#pragma mark - Setters
 
 - (void)setFormat:(MTSyslogMessageFormat)format
 {
@@ -90,7 +90,7 @@
     _maxSize = (maxSize >= MTSyslogMessageMaxSize480 && maxSize <= MTSyslogMessageMaxSize2048) ? maxSize : MTSyslogMessageMaxSize480;
 }
 
-#pragma mark Message composing
+#pragma mark - Message composing
 
 - (NSInteger)composedPriority
 {

@@ -127,7 +127,7 @@
          [_dockTileMenu removeAllItems];
      }
      
-#pragma mark add the action item
+#pragma mark - add the action item
      
      if (_cliPath && [[NSFileManager defaultManager] isExecutableFileAtPath:_cliPath]) {
          
@@ -173,7 +173,7 @@
          }
      }
      
-#pragma mark add the settings item
+#pragma mark - add the settings item
      
      if (_appURL && ![_privilegesApp hideSettingsFromDockMenu]) {
          
@@ -272,7 +272,7 @@
     }
 }
 
-#pragma mark Menu actions
+#pragma mark - Menu actions
 
 - (void)requestPrivileges
 {
