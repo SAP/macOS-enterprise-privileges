@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.3.0.0", 
+   "__version": "2.4.0.0", 
    "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -16,7 +16,7 @@
          "format": "info", 
          "title": "Please read this first!", 
          "description": "This form changes dynamically based on the options you select or deselect. Options that are not needed will be hidden, and only the options that match your configuration will be displayed. Please start your configuration by selecting the way you want Privileges to work from the menu above. If you don't want to configure certain options, please disable them using the \"Add/Remove properties\" button above. For more information about Privileges and its configuration options, please visit our GitHub page.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Privileges on GitHub", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges" 
@@ -26,7 +26,7 @@
       "_infoBanner": { 
          "format": "info", 
          "title": " ", 
-         "links": [ 
+         "links": [
             { 
                "href": "https://raw.githubusercontent.com/SAP/macOS-enterprise-privileges/main/readme_images/github%20banner%20new.png", 
                "mediaType": "image/png" 
@@ -43,7 +43,7 @@
    "required": [ 
       "_manifestSelectedType" 
    ], 
-   "oneOf": [ 
+   "oneOf": [
       { 
          "title": "a fixed expiration interval", 
          "type": "object", 
@@ -129,6 +129,9 @@
             "EnableSmartCardSupport": { 
                "$ref": "#/definitions/EnableSmartCardSupport" 
             }, 
+            "RequireBiometricAuthentication": {
+               "$ref": "#/definitions/RequireBiometricAuthentication"
+            },
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
@@ -159,6 +162,9 @@
             }, 
             "ExpirationIntervalMax": { 
                "$ref": "#/definitions/ExpirationIntervalMax" 
+            }, 
+            "MaxIntervalInitial": { 
+               "$ref": "#/definitions/MaxIntervalInitial" 
             }, 
             "AllowPrivilegeRenewal": { 
                "$ref": "#/definitions/AllowPrivilegeRenewal" 
@@ -229,6 +235,9 @@
             "EnableSmartCardSupport": { 
                "$ref": "#/definitions/EnableSmartCardSupport" 
             }, 
+            "RequireBiometricAuthentication": {
+               "$ref": "#/definitions/RequireBiometricAuthentication"
+            },
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
@@ -381,13 +390,59 @@
       } 
    ], 
    "definitions": { 
+      "AllowCLIBiometricAuthentication": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Allow CLI Biometric Authentication", 
+         "description": "Specifies whether to allow biometric authentication in the PrivilegesCLI to obtain administrator privileges. When set to true, the Privileges agent prompts the user for the account password (or Touch ID, if available).", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowCLIBiometricAuthentication" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RequireAuthentication": true 
+            } 
+         } 
+      }, 
+      "AllowPrivilegeRenewal": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Allow Privilege Renewal", 
+         "description": "Specifies whether expiring administrator privileges can be renewed. If set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowPrivilegeRenewal" 
+            } 
+         ] 
+      }, 
+      "EnableSmartCardSupport": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Enable Smart Card Support", 
+         "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSmartCardSupport" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RequireAuthentication": true 
+            } 
+         } 
+      }, 
       "ExpirationInterval": { 
          "type": "integer", 
          "default": 20, 
          "minimum": 0, 
          "title": "Fixed Expiration Interval", 
          "description": "Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationInterval" 
@@ -400,107 +455,10 @@
          "minimum": 0, 
          "title": "Maximum Expiration Interval", 
          "description": "Set a maximum time interval for a user to request administrator privileges. This generally works the same way as the fixed interval, but allows the user to choose any timeout value up to the specified one. For example, if the administrator sets the maximum interval to 20 minutes, the user can set it to any value up to 20 minutes instead of being forced to use the 20 minute timeout. For ease of use, we recommend configuring a maximum expiration interval rather than a fixed expiration interval.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ExpirationIntervalMax" 
-            } 
-         ] 
-      }, 
-      "AllowPrivilegeRenewal": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Allow Privilege Renewal", 
-         "description": "Specifies whether expiring administrator privileges can be renewed. If set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowPrivilegeRenewal" 
-            } 
-         ] 
-      }, 
-      "RenewalCustomAction": { 
-         "type": "object", 
-         "title": "Renewal Custom Action", 
-         "description": "Specifies a custom action to notify the user about expiring administrator privileges. If configured, the default expiration notifications are disabled and the executable specified by the ExecutablePath key is launched instead. An optional ActionNotificationInterval can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable as the $1 argument.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalCustomAction" 
-            } 
-         ], 
-         "options": { 
-            "dependencies": { 
-               "AllowPrivilegeRenewal": true 
-            } 
-         }, 
-         "properties": { 
-            "ActionExecutablePath": { 
-               "type": "string", 
-               "default": "/path/to/your/script", 
-               "title": "Action Executable Path", 
-               "description": "If configured, the default renewal notifications are disabled and the specified executable is launched instead.", 
-               "links": [ 
-                  { 
-                     "rel": "Official documentation", 
-                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutablePath" 
-                  } 
-               ], 
-               "pattern": "^(\\/[\\w- ]+)+(.[a-zA-Z]+?)$", 
-               "options": { 
-                  "infoText": "Please enter the absolute path to the script or binary.", 
-                  "error_messages": { 
-                     "en": { 
-                        "error_pattern": "Please enter an absulute file path" 
-                     } 
-                  } 
-               } 
-            }, 
-            "ActionNotificationInterval": { 
-               "type": "integer", 
-               "title": "Action Notification Interval", 
-               "default": 1, 
-               "minimum": 1, 
-               "description": "This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using ActionExecutablePath as the $1 argument.", 
-               "links": [ 
-                  { 
-                     "rel": "Official documentation", 
-                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionNotificationInterval" 
-                  } 
-               ] 
-            } 
-         }, 
-         "required": [ 
-            "ActionExecutablePath" 
-         ], 
-         "additionalProperties": false 
-      }, 
-      "RenewalFollowsAuthSetting": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Renewal Follows Auth Setting", 
-         "description": "If set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalFollowsAuthSetting" 
-            } 
-         ], 
-         "options": { 
-            "dependencies": { 
-               "AllowPrivilegeRenewal": true 
-            } 
-         } 
-      }, 
-      "HideHelpButton": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Hide Help Button", 
-         "description": "If set to true, the Help (?) button is no longer displayed in the app.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideHelpButton" 
             } 
          ] 
       }, 
@@ -508,7 +466,7 @@
          "type": "string", 
          "title": "Help Button Custom URL", 
          "description": "If specified, this url is called instead of the Privileges GitHub url if the user clicks the help button. Malformed urls and non-http(s) urls are ignored.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HelpButtonCustomURL" 
@@ -530,12 +488,24 @@
          }, 
          "pattern": "^https?://[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b[-a-zA-Z0-9@:%._\\+~#?&//=]*$" 
       }, 
+      "HideHelpButton": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Hide Help Button", 
+         "description": "If set to true, the Help (?) button is no longer displayed in the app.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideHelpButton" 
+            } 
+         ] 
+      }, 
       "HideOtherWindows": { 
          "type": "boolean", 
          "default": true, 
          "title": "Hide Other Windows", 
          "description": "By default, Privileges hides open windows to show the desktop and ensure that only the Privileges window is visible on the screen. Set HideOtherWindows to false to disable this function.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideOtherWindows" 
@@ -547,7 +517,7 @@
          "default": false, 
          "title": "Hide Settings Button", 
          "description": "If set to true, the Settings button is no longer displayed in the app.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsButton" 
@@ -559,7 +529,7 @@
          "default": false, 
          "title": "Hide Settings From Dock Menu", 
          "description": "If set to true, the Settings menu item is no longer displayed in the Dock tile's menu.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromDockMenu" 
@@ -571,7 +541,7 @@
          "default": false, 
          "title": "Hide Settings From Status Item", 
          "description": "If set to true, the Settings menu item is no longer displayed in the status item's menu.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#HideSettingsFromStatusItem" 
@@ -582,7 +552,7 @@
          "type": "array", 
          "title": "Limit To Group", 
          "description": "Restricts use of the application to the specified list of groups.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToGroup" 
@@ -609,7 +579,7 @@
          "type": "array", 
          "title": "Limit To User", 
          "description": "Restricts use of the application to the specified list of users. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LimitToUser" 
@@ -632,21 +602,34 @@
             } 
          } 
       }, 
-      "PostChangeExecutablePath": { 
-         "type": "string", 
-         "title": "Post Change Executable Path", 
-         "description": "If set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.", 
-         "links": [ 
+      "MaxIntervalInitial": { 
+         "type": "integer", 
+         "minimum": 0, 
+         "default": 10, 
+         "title": "Initial Value Of The Expiration Interval", 
+         "description": "Sets the initial time interval if ExpirationIntervalMax has been configured. If not set and the user never selected an expiration interval, the initial expiration interval is set to 20 minutes. If you want to define an expiration interval that is less than the maximum expiration interval, use this option to define it. As mentioned earlier, this option has no effect if a user has already selected an expiration interval.", 
+         "links": [
             { 
                "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath" 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MaxIntervalInitial" 
+            } 
+         ] 
+      }, 
+      "PassReasonToExecutable": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Pass Reason To Executable", 
+         "description": "Specifies whether the reason that the user entered when requesting administrator privileges should be passed to the executable configured with the PostChangeExecutablePath key. This is disabled by default. If enabled, the reason is passed to the executable as $3.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PassReasonToExecutable" 
             } 
          ], 
          "options": { 
-            "inputAttributes": { 
-               "placeholder": "/path/to/your/script" 
-            }, 
-            "infoText": "Please enter the absolute path to the script or binary." 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
          } 
       }, 
       "PostChangeActionOnGrantOnly": { 
@@ -654,7 +637,7 @@
          "default": false, 
          "title": "Post Change Action On Grant Only", 
          "description": "If set to true, the application or script, specified in PostChangeExecutablePath, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeActionOnGrantOnly" 
@@ -668,33 +651,21 @@
             } 
          } 
       }, 
-      "ReasonRequired": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Reason Required", 
-         "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu.", 
-         "links": [ 
+      "PostChangeExecutablePath": { 
+         "type": "string", 
+         "title": "Post Change Executable Path", 
+         "description": "If set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.", 
+         "links": [
             { 
                "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonRequired" 
-            } 
-         ] 
-      }, 
-      "PassReasonToExecutable": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Pass Reason To Executable", 
-         "description": "Specifies whether the reason that the user entered when requesting administrator privileges should be passed to the executable configured with the PostChangeExecutablePath key. This is disabled by default. If enabled, the reason is passed to the executable as $3.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PassReasonToExecutable" 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath" 
             } 
          ], 
          "options": { 
-            "dependencies": { 
-               "ReasonRequired": true 
-            } 
+            "inputAttributes": { 
+               "placeholder": "/path/to/your/script" 
+            }, 
+            "infoText": "Please enter the absolute path to the script or binary." 
          } 
       }, 
       "ReasonCheckingEnabled": { 
@@ -702,7 +673,7 @@
          "default": false, 
          "title": "Reason Checking Enabled", 
          "description": "If set to true, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense. This feature is experimental and disabled by default. If you enable it, please check carefully that it works as expected in your environment.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonCheckingEnabled" 
@@ -721,7 +692,7 @@
          "maximum": 250, 
          "title": "Reason Max Length", 
          "description": "If ReasonRequired is set to true, this key specifies the maximum number of characters the user can enter as the reason for becoming an admin. If not set, the value defaults to 250. If a value > 250 is specified or if ReasonMaxLength is <= ReasonMinLength, the value is set to default.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMaxLength" 
@@ -740,7 +711,7 @@
          "maximum": 250, 
          "title": "Reason Min Length", 
          "description": "If ReasonRequired is set to true, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value < 1 is specified or if ReasonMinLength is > 250, the value is set to default.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonMinLength" 
@@ -1177,7 +1148,7 @@
             }, 
             "additionalProperties": false 
          }, 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonPresetList" 
@@ -1190,11 +1161,23 @@
          }, 
          "additionalProperties": false 
       }, 
+      "ReasonRequired": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Reason Required", 
+         "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu or the status item menu.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonRequired" 
+            } 
+         ] 
+      }, 
       "RemoteLogging": { 
          "type": "object", 
          "title": "Remote Logging", 
          "description": "Remote logging settings", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RemoteLogging" 
@@ -1215,7 +1198,7 @@
          "options": { 
             "keep_oneof_values": false 
          }, 
-         "oneOf": [ 
+         "oneOf": [
             { 
                "title": "Syslog", 
                "properties": { 
@@ -1233,7 +1216,7 @@
                      "default": "0.0.0.0", 
                      "title": "Syslog Server Address", 
                      "description": "The server address can be an ip address or a fully-qualified domain name (FQDN).", 
-                     "links": [ 
+                     "links": [
                         { 
                            "rel": "Official documentation", 
                            "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerAddress" 
@@ -1248,11 +1231,17 @@
                         } 
                      } 
                   }, 
+                  "QueueUnsentEvents": { 
+                     "$ref": "#/definitions/RemoteLogging/definitions/QueueUnsentEvents" 
+                  }, 
+                  "QueuedEventsMax": { 
+                     "$ref": "#/definitions/RemoteLogging/definitions/QueuedEventsMax" 
+                  }, 
                   "SyslogOptions": { 
                      "type": "object", 
                      "title": "Syslog Options", 
                      "description": "Syslog-specific options.", 
-                     "links": [ 
+                     "links": [
                         { 
                            "rel": "Official documentation", 
                            "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#SyslogOptions" 
@@ -1267,7 +1256,7 @@
                            "minimum": 0, 
                            "maximum": 23, 
                            "description": "Configure syslog facility.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogFacility" 
@@ -1335,7 +1324,7 @@
                            "minimum": 0, 
                            "maximum": 7, 
                            "description": "Configure syslog severity.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#LogSeverity" 
@@ -1370,7 +1359,7 @@
                            "default": 480, 
                            "minimum": 480, 
                            "description": "If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end. Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further information.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MaximumMessageSize" 
@@ -1384,7 +1373,7 @@
                            "minimum": 1, 
                            "maximum": 2, 
                            "description": "Configure the format of the syslog message.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#MessageFormat" 
@@ -1406,7 +1395,7 @@
                            "title": "Server Port", 
                            "default": 514, 
                            "description": "The port of the logging server. If not specified, the port defaults to 514 or to 6514 if TLS is enabled.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerPort" 
@@ -1420,7 +1409,7 @@
                            "type": "object", 
                            "title": "Structured Data", 
                            "description": "Each SD element contains an SD id (which is the name of the element in the form of a string) and SD parameters. SD parameters are defined in a dictionary. The values of this dictionary must be of type string. Keys must be US-ASCII. Spaces and some special characters are not allowed.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#StructuredData" 
@@ -1457,7 +1446,7 @@
                            "title": "Use TLS", 
                            "default": false, 
                            "description": "If set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
-                           "links": [ 
+                           "links": [
                               { 
                                  "rel": "Official documentation", 
                                  "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#UseTLS" 
@@ -1490,7 +1479,7 @@
                      "default": "https://server.mycompany.com/privileges", 
                      "title": "Webhook URL", 
                      "description": "The webhook url must be a http(s) url.", 
-                     "links": [ 
+                     "links": [
                         { 
                            "rel": "Official documentation", 
                            "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ServerAddress" 
@@ -1505,11 +1494,17 @@
                         } 
                      } 
                   }, 
+                  "QueueUnsentEvents": { 
+                     "$ref": "#/definitions/RemoteLogging/definitions/QueueUnsentEvents" 
+                  }, 
+                  "QueuedEventsMax": { 
+                     "$ref": "#/definitions/RemoteLogging/definitions/QueuedEventsMax" 
+                  }, 
                   "WebhookCustomData": { 
                      "type": "object", 
                      "title": "Webhook Custom Data", 
                      "description": "You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's json as custom_data.", 
-                     "links": [ 
+                     "links": [
                         { 
                            "rel": "Official documentation", 
                            "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#WebhookCustomData" 
@@ -1546,71 +1541,148 @@
                }, 
                "additionalProperties": false 
             } 
-         ] 
+         ], 
+         "definitions": { 
+            "QueuedEventsMax": { 
+               "type": "integer", 
+               "default": 20, 
+               "minimum": 0, 
+               "title": "Maximum Number Of Queued Events", 
+               "description": "Specifies the maximum number of queued events. If not set, a maximum of 20 events will be queued. If set to 0, an unlimited number of events will be  queued.", 
+               "links": [
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#QueuedEventsMax" 
+                  } 
+               ], 
+               "options": { 
+                  "dependencies": { 
+                     "QueueUnsentEvents": true 
+                  } 
+               } 
+            }, 
+            "QueueUnsentEvents": { 
+               "type": "boolean", 
+               "default": false, 
+               "title": "Queue Unsent Events", 
+               "description": "When set to true, syslog and webhook events that could not be sent are queued. When a user changes privileges, PrivilegesAgent attempts to resend these events. For webhook events, these resent events have the \"delayed\" key set to true. The maximum number of queued events can be set using the \"QueuedEventsMax\" key. If not set, a maximum of 20 events will be queued.", 
+               "links": [
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#QueueUnsentEvents" 
+                  } 
+               ] 
+            } 
+         } 
+      }, 
+      "RenewalCustomAction": { 
+         "type": "object", 
+         "title": "Renewal Custom Action", 
+         "description": "Specifies a custom action to notify the user about expiring administrator privileges. If configured, the default expiration notifications are disabled and the executable specified by the ExecutablePath key is launched instead. An optional ActionNotificationInterval can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable as the $1 argument.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalCustomAction" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "AllowPrivilegeRenewal": true 
+            } 
+         }, 
+         "properties": { 
+            "ActionExecutablePath": { 
+               "type": "string", 
+               "default": "/path/to/your/script", 
+               "title": "Action Executable Path", 
+               "description": "If configured, the default renewal notifications are disabled and the specified executable is launched instead.", 
+               "links": [
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutablePath" 
+                  } 
+               ], 
+               "pattern": "^(\\/[\\w- ]+)+(.[a-zA-Z]+?)$", 
+               "options": { 
+                  "infoText": "Please enter the absolute path to the script or binary.", 
+                  "error_messages": { 
+                     "en": { 
+                        "error_pattern": "Please enter an absulute file path" 
+                     } 
+                  } 
+               } 
+            }, 
+            "ActionNotificationInterval": { 
+               "type": "integer", 
+               "title": "Action Notification Interval", 
+               "default": 1, 
+               "minimum": 1, 
+               "description": "This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using ActionExecutablePath as the $1 argument.", 
+               "links": [
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionNotificationInterval" 
+                  } 
+               ] 
+            } 
+         }, 
+         "required": [ 
+            "ActionExecutablePath" 
+         ], 
+         "additionalProperties": false 
+      }, 
+      "RenewalFollowsAuthSetting": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Renewal Follows Auth Setting", 
+         "description": "If set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalFollowsAuthSetting" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "AllowPrivilegeRenewal": true 
+            } 
+         } 
       }, 
       "RequireAuthentication": { 
          "type": "boolean", 
          "default": false, 
          "title": "Require Authentication", 
          "description": "Specifies whether authentication is required to obtain administrator privileges. If set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireAuthentication" 
             } 
          ] 
       }, 
-      "AllowCLIBiometricAuthentication": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Allow CLI Biometric Authentication", 
-         "description": "Specifies whether to allow biometric authentication in the PrivilegesCLI to obtain administrator privileges. When set to true, the Privileges agent prompts the user for the account password (or Touch ID, if available).", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AllowCLIBiometricAuthentication" 
-            } 
-         ], 
-         "options": { 
-            "dependencies": { 
-               "RequireAuthentication": true 
-            } 
-         } 
-      }, 
-      "EnableSmartCardSupport": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Enable Smart Card Support", 
-         "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSmartCardSupport" 
-            } 
-         ], 
-         "options": { 
-            "dependencies": { 
-               "RequireAuthentication": true 
-            } 
-         } 
-      }, 
-      "RevokePrivilegesAtLogin": { 
-         "type": "boolean", 
-         "default": false, 
-         "title": "Revoke Privileges At Login", 
-         "description": "If set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.", 
-         "links": [ 
-            { 
-               "rel": "Official documentation", 
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAtLogin" 
-            } 
-         ] 
-      }, 
+      "RequireBiometricAuthentication": {
+         "type": "boolean",
+         "default": false,
+         "title": "Require Biometric Authentication",
+         "description": "Specifies whether biometric authentication is required to obtain administrator privileges. If set to true, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireBiometricAuthentication"
+            }
+         ],
+         "options": {
+            "dependencies": {
+               "RequireAuthentication": true,
+               "EnableSmartCardSupport": false
+            }
+         }
+      },
       "RevokeAtLoginExcludedUsers": { 
          "type": "array", 
          "title": "Revoke At Login Excluded Users", 
          "description": "If RevokePrivilegesAtLogin is set to true, the specified users are excluded from privilege revocation at login. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAtLoginExcludedUsers" 
@@ -1638,12 +1710,24 @@
             } 
          } 
       }, 
+      "RevokePrivilegesAtLogin": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Revoke Privileges At Login", 
+         "description": "If set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAtLogin" 
+            } 
+         ] 
+      }, 
       "ShowInMenuBar": { 
          "type": "boolean", 
          "default": false, 
          "title": "Show In Menu Bar", 
          "description": "If set to true, a Privileges status item is displayed in the Menu Bar.", 
-         "links": [ 
+         "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowInMenuBar" 
