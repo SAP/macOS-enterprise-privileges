@@ -20,7 +20,6 @@ Working as standard user instead of an administrator adds another layer of secur
 
 <br/>
 
-
 >[!NOTE]
 >It seems that macOS 13 erroneously reports a launch constraint violation and immediately terminates the application. Therefore, starting with version 2.2, we are providing two versions of the application: one with launch constraints and one without. However, we recommend using the version with launch constraints whenever possible.
 <br/>
@@ -117,6 +116,11 @@ Copyright (c) 2018-2025 SAP SE or an SAP affiliate company and macOS-enterprise-
 <br/>
 
 # Security
+
+>[!IMPORTANT]
+>Local administrators on macOS have extensive capabilities to make changes to a Mac. This can include completely removing the _Privileges_ application. Therefore, _Privileges_ cannot guarantee that elevated permissions will be removed from the user account at all or on any specific schedule. _Privileges_ cannot undo other changes made by a user - or processes acting as the user - when that user has elevated rights. Organizations should consider this when designing their client management, device compliance, security hardening, and auditing policies.
+
+<br/>
 
 Found a security-related issue or vulnerability and want to notify us? [Please see here for how to report it](https://github.com/SAP/macOS-enterprise-privileges/security/policy).
 
