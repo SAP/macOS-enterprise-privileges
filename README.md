@@ -12,6 +12,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 **Privileges supports the following macOS versions:**
 
+* macOS 26.x
 * macOS 15.x
 * macOS 14.x
 * macOS 13.x (*)
