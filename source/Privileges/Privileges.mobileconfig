@@ -91,7 +91,7 @@
                                     key:    RenewalFollowsAuthSetting
                                     value:  a boolean
                                   
-                                    If set to true, renewing privileges requires the same kind of
+                                    When set to true, renewing privileges requires the same kind of
                                     authentication as initially requesting administrator privileges.
                                 -->
                                 <key>RenewalFollowsAuthSetting</key>
@@ -118,6 +118,20 @@
                                 	<key>ActionNotificationInterval</key>
                                 	<integer>5</integer>
                                 </dict>
+                                
+                                <!--
+                                    key:    RenewalNotificationInterval
+                                    value:  a positive integer
+                                  
+                                    Specifies the number of minutes before the expiration of administrator
+                                    privileges when Privileges should notify users to renew their
+                                    privileges. This number must be lower than the expiration interval,
+                                    otherwise it defaults to 1. If a RenewalCustomAction is specified, its
+                                    ActionNotificationInterval overwrites the configured
+                                    RenewalNotificationInterval.
+                                -->
+                                <key>RenewalNotificationInterval</key>
+                                <integer>1</integer>
 								
 								<!--
 									key:    EnforcePrivileges
@@ -135,10 +149,10 @@
                                     value:  a boolean
                                     
                                     Specifies whether authentication is required to obtain administrator
-                                    privileges. If set to true, the user is prompted for the account
-                                    password (or Touch ID, if available). Note that once this option is
-                                    enabled, privileges cannot be changed from the Privileges Dock tile menu
-                                    unless AllowCLIBiometricAuthentication is also enabled.
+									privileges. When set to true, the user is prompted for the account
+									password (or Touch ID, if available). Note that once this option is
+									enabled, privileges cannot be changed directly from the Privileges Dock
+									tile menu unless AllowCLIBiometricAuthentication is also enabled.
                                 -->
                                 <key>RequireAuthentication</key>
                                 <true/>
@@ -148,7 +162,7 @@
                                     value:  a boolean
                                     
                                     Specifies whether to allow biometric authentication in the PrivilegesCLI
-                                    to obtain administrator privileges. If set to true, the PrivilegesAgent
+                                    to obtain administrator privileges. When set to true, the PrivilegesAgent
                                     prompts the user for the account password (or Touch ID, if available).
                                     To make this option work, you must enable the "RequireAuthentication"
                                     option.
@@ -161,7 +175,7 @@
                                     value:  a boolean
                                     
                                     Specifies whether biometric authentication is required to obtain
-                                    administrator privileges. If set to true, the PrivilegesAgent prompts
+                                    administrator privileges. When set to true, the PrivilegesAgent prompts
                                     the user for Touch ID and does not offer an alternative option. If Touch
                                     ID is unavailable or has not been configured, the user is prompted for
                                     their account password instead. To make this option work, you must
@@ -213,7 +227,7 @@
                                     key:    PostChangeActionOnGrantOnly
                                     value:  a boolean
                                     
-                                    If set to true, the application or script, specified in
+                                    When set to true, the application or script, specified in
                                     PostChangeExecutablePath, will only be executed if administrator
                                     privileges are granted to a user, but not the privileges are revoked.
                                 -->
@@ -224,7 +238,7 @@
                                     key:    RevokePrivilegesAtLogin
                                     value:  a boolean
                                     
-                                    If set to true, the user's administrator privileges are revoked at
+                                    When set to true, the user's administrator privileges are revoked at
                                     login.
                                     
                                     For those who use fixed admin accounts on their machines: If you want to
@@ -250,6 +264,21 @@
                                     <string>privileges_user2</string>
                                     <string>privileges_user3</string>
                                 </array>
+                                
+                                <!--
+                                    key:    RevokePrivilegesAfterSystemTimeChange
+                                    value:  a boolean
+                                    
+                                    When set to true, the user's administrator privileges are revoked if the
+                                    system time did change. Enable this feature to prevent users from
+                                    extending their admin time by adjusting the time on their Mac.
+
+                                    If you enable this feature, please be aware that admin users can extend
+                                    or retain their admin rights in various other ways. Therefore, this
+                                    feature offers no protection against users misusing their admin rights.
+                                -->
+                                <key>RevokePrivilegesAfterSystemTimeChange</key>
+                                <true/>
                                 
                                 <!--
                                     key:    HideOtherWindows
@@ -315,10 +344,8 @@
                                     key:    ReasonRequired
                                     value:  a boolean
                                     
-                                    If set to true, the user must provide a reason for requesting
-                                    administrator privileges. The reason is logged. Note that once this
-                                    option is enabled, administrator privileges can no longer be requested
-                                    from the Privileges Dock tile menu or the status item menu.
+                                    When set to true, the user must provide a reason for requesting
+                                    administrator privileges. The reason is logged.
                                 -->
 								<key>ReasonRequired</key>
 								<true/>
@@ -389,7 +416,7 @@
                                     key:    ReasonCheckingEnabled
                                     value:  a boolean
                                   
-                                    If set to true, the text the user enters for a reason is roughly parsed
+                                    When set to true, the text the user enters for a reason is roughly parsed
                                     for valid words. If the text does not contain any valid words, the
                                     "Request Privileges" button remains grayed out, even if the minimum
                                     number of characters has been entered. The test passes if the text 
@@ -405,7 +432,7 @@
                                     key:    HideSettingsButton
                                     value:  a boolean
                                   
-                                    If set to true, the "Settings" button is no longer displayed in the app.
+                                    When set to true, the "Settings" button is no longer displayed in the app.
                                 -->
                                 <key>HideSettingsButton</key>
                                 <true/>
@@ -414,7 +441,7 @@
                                     key:    HideSettingsFromDockMenu
                                     value:  a boolean
                                   
-                                    If set to true, the "Settings" menu item is no longer displayed in the
+                                    When set to true, the "Settings" menu item is no longer displayed in the
                                     Dock tile's menu.
                                 -->
                                 <key>HideSettingsFromDockMenu</key>
@@ -424,7 +451,7 @@
                                     key:    HideSettingsFromStatusItem
                                     value:  a boolean
                                   
-                                    If set to true, the "Settings" menu item is no longer displayed in the
+                                    When set to true, the "Settings" menu item is no longer displayed in the
                                     status item's menu.
                                 -->
                                 <key>HideSettingsFromStatusItem</key>
@@ -434,7 +461,7 @@
                                     key:    HideHelpButton
                                     value:  a boolean
                                   
-                                    If set to true, the "Help (?)" button is no longer displayed in the app.
+                                    When set to true, the "Help (?)" button is no longer displayed in the app.
                                 -->
                                 <key>HideHelpButton</key>
                                 <true/>
@@ -454,11 +481,36 @@
                                     key:    ShowInMenuBar
                                     value:  a boolean
                                   
-                                    If set to true, a Privileges status item is displayed in the Menu Bar.
+                                    When set to true, a Privileges status item is displayed in the Menu Bar.
                                 -->
                                 <key>ShowInMenuBar</key>
                                 <true/>
-                                								
+                                
+                                <!--
+                                    key:    ShowRemainingTimeInMenuBar
+                                    value:  a boolean
+                                  
+                                    When set to true, a timer displaying the remaining admin time is shown
+                                    in the Privileges status item.
+                                -->
+                                <key>ShowRemainingTimeInMenuBar</key>
+                                <true/>
+                                
+                                <!--
+                                    key:    ForceUpdatePrebootVolume
+                                    value:  a boolean
+                                  
+                                    When set to true, the PrivilegesDaemon runs the command
+                                    "/usr/sbin/diskutil apfs updatePreboot /" whenever a user's privileges
+                                    change. You should normally never have to enable this function because
+                                    the preboot volume is updated automatically after a while. However, we
+                                    implemented this feature because it seems to be needed in some
+                                    environments. Please only enable this function if you know precisely why
+                                    you are doing so.
+                                -->
+                                <key>ForceUpdatePrebootVolume</key>
+                                <true/>
+                                                                								
 								<!--
                                     key:    RemoteLogging
                                     value:  a dictionary containing the server information:
@@ -527,7 +579,7 @@
                                         value:  a positive integer
                                         
                                         Specifies the maximum number of queued events. If not set, a maximum of
-                                        20 events will be queued. If set to 0, an unlimited number of events 
+                                        20 events will be queued. When set to 0, an unlimited number of events 
                                         will be queued.
                                 
                                 
@@ -543,7 +595,7 @@
                                             key:    UseTLS
                                             value:  a boolean
                                 
-                                            If set to true, TLS is enabled for the connection. Please make sure your
+                                            When set to true, TLS is enabled for the connection. Please make sure your
                                             clients have a certificate installed that matches Apple's requirements.
                                 
                                             Please see https://support.apple.com/en-us/103769 for further information.

@@ -518,6 +518,258 @@
         }
       }
     },
+    "2WK-su-O7w.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show remaining time while having administrator privileges\"; ObjectID = \"2WK-su-O7w\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إظهار الوقت المتبقي أثناء وجود امتيازات المسؤول"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показване на оставащото време, докато имате администраторски привилегии"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra el temps restant mentre té privilegis d’administrador"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazení zbývajícího času při oprávnění správce"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis resterende tid, mens du har administratorrettigheder"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibende Zeit mit Administratorrechten anzeigen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Εμφάνιση υπολειπόμενου χρόνου ενώ έχετε δικαιώματα διαχειριστή"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show remaining time while having administrator privileges"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show remaining time while having administrator privileges"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show remaining time while having administrator privileges"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar el tiempo restante teniendo privilegios de administrador"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar el tiempo restante teniendo privilegios de administrador"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Näytä jäljellä oleva aika, kun sinulla on järjestelmänvalvojan oikeudet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le temps restant lorsque l'on dispose de privilèges d'administrateur"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le temps restant lorsque l'on dispose de privilèges d'administrateur"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג זמן שנותר בזמן שיש לו הרשאות מנהל מערכת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "व्यवस्थापक विशेषाधिकार होने के दौरान शेष समय दिखाएं"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaži preostalo vrijeme dok imate administratorske ovlasti"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A hátralévő idő megjelenítése rendszergazdai jogosultságok birtokában"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan waktu yang tersisa saat memiliki hak istimewa administrator"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il tempo rimanente quando si hanno i privilegi di amministratore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者権限で残り時間を表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자 권한이 있는 동안 남은 시간 표시"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tunjukkan baki masa semasa mempunyai keistimewaan pentadbir"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis gjenværende tid mens du har administratorrettigheter"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resterende tijd weergeven met beheerdersrechten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyświetlanie pozostałego czasu przy uprawnieniach administratora"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar o tempo restante enquanto tiver privilégios de administrador"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar o tempo restante com privilégios de administrador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afișați timpul rămas în timp ce aveți privilegii de administrator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать оставшееся время при наличии прав администратора"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazenie zostávajúceho času s oprávneniami správcu"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prikaz preostalega časa s skrbniškimi privilegiji"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visa återstående tid när du har administratörsbehörighet"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แสดงเวลาที่เหลือในขณะที่มีสิทธิพิเศษของผู้ดูแลระบบ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yönetici ayrıcalıklarına sahipken kalan süreyi gösterme"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати час, що залишився з правами адміністратора"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiển thị thời gian còn lại khi có đặc quyền của quản trị viên"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示拥有管理员权限时的剩余时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "擁有管理員權限時顯示剩餘時間"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "擁有管理員權限時顯示剩餘時間"
+          }
+        }
+      }
+    },
     "3dJ-LR-FRM.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Hide windows of other applications\"; ObjectID = \"3dJ-LR-FRM\";",
       "extractionState" : "extracted_with_value",
@@ -3606,6 +3858,19 @@
           }
         }
       }
+    },
+    "Ftm-sX-1Uq.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"This setting has been configured by a profile.\"; ObjectID = \"Ftm-sX-1Uq\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This setting has been configured by a profile."
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "GRe-Bc-0cq.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Window\"; ObjectID = \"GRe-Bc-0cq\";",

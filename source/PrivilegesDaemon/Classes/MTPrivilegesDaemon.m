@@ -162,6 +162,30 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             // we check if the group membership is correct
             if (success) {
                 
+                // update the preboot volume if configured
+                NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
+                
+                if ([userDefaults objectIsForcedForKey:kMTDefaultsForceUpdatePrebootVolumeKey] &&
+                    [userDefaults boolForKey:kMTDefaultsForceUpdatePrebootVolumeKey]) {
+                    
+                    [NSTask launchedTaskWithExecutableURL:[NSURL fileURLWithPath:kMTDiskutilPath]
+                                                arguments:[NSArray arrayWithObjects:
+                                                               @"apfs",
+                                                               @"updatePreboot",
+                                                               @"/",
+                                                               nil
+                                                          ]
+                                                    error:nil
+                                       terminationHandler:^(NSTask *task) {
+                        
+                        if ([task terminationStatus] == 0) {
+                            os_log(OS_LOG_DEFAULT, "SAPCorp: Preboot volume has been updated");
+                        } else {
+                            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to update preboot volume");
+                        }
+                    }];
+                }
+                
                 success = (grant == [MTIdentity groupMembershipForUser:userName
                                                                   groupID:kMTAdminGroupID
                                                                     error:nil

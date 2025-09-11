@@ -26,6 +26,7 @@
 
 @property (weak) IBOutlet NSButton *hideWindowsButton;
 @property (weak) IBOutlet NSButton *menuBarButton;
+@property (weak) IBOutlet NSButton *menuBarTimerButton;
 @end
 
 @implementation MTSettingsGeneralController
@@ -45,6 +46,9 @@
     // set the initial state of the "Show in Menu Bar" checkbox
     [self setMenuBarCheckbox];
     
+    // set the initial state of the "Show Timer" checkbox
+    [self setMenuBarTimerCheckbox];
+    
     self.configuredByProfileLabel = NSLocalizedString(@"configuredByProfileLabel", nil);
     
     _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
@@ -60,6 +64,7 @@
             NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
                                       kMTDefaultsHideOtherWindowsKey,
                                       kMTDefaultsShowInMenuBarKey,
+                                      kMTDefaultsShowRemainingTimeInMenuBarKey,
                                       nil
             ];
             
@@ -74,6 +79,11 @@
                     } else if ([changedKey isEqualToString:kMTDefaultsShowInMenuBarKey]) {
                         
                         [self setMenuBarCheckbox];
+                        [self setMenuBarTimerCheckbox];
+                    
+                    } else if ([changedKey isEqualToString:kMTDefaultsShowRemainingTimeInMenuBarKey]) {
+                        
+                        [self setMenuBarTimerCheckbox];
                     }
                 });
             }
@@ -97,6 +107,14 @@
     [self didChangeValueForKey:@"menuBarIsForced"];
 }
 
+- (void)setMenuBarTimerCheckbox
+{
+    [self willChangeValueForKey:@"menuBarTimerIsForced"];
+    [_menuBarTimerButton setState:([_privilegesApp showRemainingTimeInMenuBar]) ? NSControlStateValueOn : NSControlStateValueOff];
+    [_menuBarTimerButton setEnabled:(![_privilegesApp showRemainingTimeInMenuBarIsForced] && [_menuBarButton state] == NSControlStateValueOn)];
+    [self didChangeValueForKey:@"menuBarTimerIsForced"];
+}
+
 - (void)dealloc
 {
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:_configurationObserver];
@@ -115,6 +133,11 @@
     return [_privilegesApp showInMenuBarIsForced];
 }
 
+- (BOOL)menuBarTimerIsForced
+{
+    return [_privilegesApp showRemainingTimeInMenuBarIsForced];
+}
+
 
 #pragma mark - IBActions
 
@@ -126,6 +149,12 @@
 - (IBAction)setShowInMenuBar:(id)sender
 {
     [_privilegesApp setShowInMenuBar:([(NSButton*)sender state] == NSControlStateValueOn)];
+    [self setMenuBarTimerCheckbox];
+}
+
+- (IBAction)setShowTimerInMenuBar:(id)sender
+{
+    [_privilegesApp setShowRemainingTimeInMenuBar:([(NSButton*)sender state] == NSControlStateValueOn)];
 }
 
 @end

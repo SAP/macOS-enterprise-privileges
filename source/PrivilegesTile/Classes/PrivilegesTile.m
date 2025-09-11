@@ -19,6 +19,7 @@
 #import "MTPrivileges.h"
 #import "Constants.h"
 #import <AudioToolbox/AudioServices.h>
+#import <os/log.h>
 
 @interface PrivilegesTile ()
 @property (retain) id privilegesObserver;
@@ -41,67 +42,71 @@
     if (dockTile) {
         
         _privilegesApp = [[MTPrivileges alloc] init];
-        _pluginBundle = [NSBundle bundleForClass:[self class]];
         
-        // get the path to our command line tool
-        _appURL = [[[[_pluginBundle bundleURL] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
-        NSBundle *mainBundle = [NSBundle bundleWithURL:_appURL];
-        _cliPath = [mainBundle pathForAuxiliaryExecutable:@"PrivilegesCLI"];
-        
-        // add observers to get notified if something important happens
-        _privilegesObserver = [notificationCenter addObserverForName:kMTNotificationNamePrivilegesDidChange
-                                                              object:nil
-                                                               queue:nil
-                                                          usingBlock:^(NSNotification *notification) {
+        if (_privilegesApp) {
             
-            [self updateDockTileIcon:dockTile];
-            if (![[self->_privilegesApp currentUser] hasAdminPrivileges]) { [self setBadgeOfDockTile:dockTile toMinutesLeft:0]; }
-        }];
-        
-        _timeLeftObserver = [notificationCenter addObserverForName:kMTNotificationNameExpirationTimeLeft
-                                                            object:nil
-                                                             queue:nil
-                                                        usingBlock:^(NSNotification *notification) {
+            _pluginBundle = [NSBundle bundleForClass:[self class]];
             
-            NSDictionary *userInfo = [notification userInfo];
-
-            if (userInfo) {
+            // get the path to our command line tool
+            _appURL = [[[[_pluginBundle bundleURL] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
+            NSBundle *mainBundle = [NSBundle bundleWithURL:_appURL];
+            _cliPath = [mainBundle pathForAuxiliaryExecutable:@"PrivilegesCLI"];
+            
+            // add observers to get notified if something important happens
+            _privilegesObserver = [notificationCenter addObserverForName:kMTNotificationNamePrivilegesDidChange
+                                                                  object:nil
+                                                                   queue:nil
+                                                              usingBlock:^(NSNotification *notification) {
                 
-                NSInteger minutesLeft = [[userInfo valueForKey:kMTNotificationKeyTimeLeft] integerValue];
-                [self setBadgeOfDockTile:dockTile toMinutesLeft:minutesLeft];
-            }
-        }];
-        
-        _configurationObserver = [notificationCenter addObserverForName:kMTNotificationNameConfigDidChange
-                                                                 object:nil
-                                                                  queue:nil
-                                                             usingBlock:^(NSNotification *notification) {
+                [self updateDockTileIcon:dockTile];
+                if (![[self->_privilegesApp currentUser] hasAdminPrivileges]) { [self setBadgeOfDockTile:dockTile toMinutesLeft:0]; }
+            }];
             
-            NSDictionary *userInfo = [notification userInfo];
-            
-            if (userInfo) {
+            _timeLeftObserver = [notificationCenter addObserverForName:kMTNotificationNameExpirationTimeLeft
+                                                                object:nil
+                                                                 queue:nil
+                                                            usingBlock:^(NSNotification *notification) {
                 
-                NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
-                NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
-                                          kMTDefaultsEnforcePrivilegesKey,
-                                          kMTDefaultsLimitToUserKey,
-                                          kMTDefaultsLimitToGroupKey,
-                                          nil
-                ];
+                NSDictionary *userInfo = [notification userInfo];
                 
-                if (changedKey && [keysToObserve containsObject:changedKey]) {
+                if (userInfo) {
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        
-                        [self updateDockTileIcon:dockTile];
-                    });
+                    NSInteger minutesLeft = [[userInfo valueForKey:kMTNotificationKeyTimeLeft] integerValue];
+                    [self setBadgeOfDockTile:dockTile toMinutesLeft:minutesLeft];
                 }
-            }
-        }];
-        
-        // make sure the Dock tile has the correct icon on load
-        [self updateDockTileIcon:dockTile];
+            }];
+            
+            _configurationObserver = [notificationCenter addObserverForName:kMTNotificationNameConfigDidChange
+                                                                     object:nil
+                                                                      queue:nil
+                                                                 usingBlock:^(NSNotification *notification) {
                 
+                NSDictionary *userInfo = [notification userInfo];
+                
+                if (userInfo) {
+                    
+                    NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
+                    NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
+                                                  kMTDefaultsEnforcePrivilegesKey,
+                                              kMTDefaultsLimitToUserKey,
+                                              kMTDefaultsLimitToGroupKey,
+                                              nil
+                    ];
+                    
+                    if (changedKey && [keysToObserve containsObject:changedKey]) {
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            
+                            [self updateDockTileIcon:dockTile];
+                        });
+                    }
+                }
+            }];
+            
+            // make sure the Dock tile has the correct icon on load
+            [self updateDockTileIcon:dockTile];
+        }
+        
     } else {
         
         // remove our observers
@@ -127,68 +132,73 @@
          [_dockTileMenu removeAllItems];
      }
      
+     if (!_privilegesApp) {
+         
+         os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Fatal error! Unable to create Dock Tile menu");
+         
+     } else {
+         
 #pragma mark - add the action item
-     
-     if (_cliPath && [[NSFileManager defaultManager] isExecutableFileAtPath:_cliPath]) {
          
-         NSMenuItem *privilegesItem = [[NSMenuItem alloc] init];
-         BOOL hasAdminPrivileges = [[_privilegesApp currentUser] hasAdminPrivileges];
-
-         if (hasAdminPrivileges) {
+         if (_cliPath && [[NSFileManager defaultManager] isExecutableFileAtPath:_cliPath]) {
              
-             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"revertMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
-             [privilegesItem setAction:@selector(revertPrivileges)];
+             NSMenuItem *privilegesItem = [[NSMenuItem alloc] init];
+             BOOL hasAdminPrivileges = [[_privilegesApp currentUser] hasAdminPrivileges];
              
-         } else {
+             if (hasAdminPrivileges) {
+                 
+                 [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"revertMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+                 [privilegesItem setAction:@selector(revertPrivileges)];
+                 
+             } else {
+                 
+                 [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"requestMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+                 [privilegesItem setAction:@selector(requestPrivileges)];
+             }
              
-             [privilegesItem setTitle:NSLocalizedStringFromTableInBundle(@"requestMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
-             [privilegesItem setAction:@selector(requestPrivileges)];
+             [privilegesItem setTarget:self];
+             
+             // disable the item if required
+             [privilegesItem setEnabled:![[_privilegesApp currentUser] useIsRestricted]];
+             
+             [_dockTileMenu addItem:privilegesItem];
+             
+             // we allow renewals from the Dock item if the user has admin rights AND privilege renewal
+             // is enabled AND (either "authentication is not required" OR "authentication is required but
+             // not for renewals" OR "authentication is required for renewals AND biometric authentication
+             // has been enabled for the command line tool".
+             if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 && _showsBadgeLabel &&
+                 (![_privilegesApp authenticationRequired] ||
+                  ([_privilegesApp authenticationRequired] && ![_privilegesApp renewalFollowsAuthSetting]) ||
+                  ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting] && [_privilegesApp allowCLIBiometricAuthentication]))) {
+                 
+                 NSMenuItem *renewalItem = [[NSMenuItem alloc] init];
+                 [renewalItem setTitle:NSLocalizedStringFromTableInBundle(@"renewMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+                 [renewalItem setAction:@selector(requestPrivileges)];
+                 [renewalItem setTarget:self];
+                 [renewalItem setAlternate:YES];
+                 [renewalItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+                 [_dockTileMenu addItem:renewalItem];
+             }
          }
          
-         [privilegesItem setTarget:self];
-         
-         if ([[_privilegesApp currentUser] useIsRestricted] ||
-             (!hasAdminPrivileges && (([_privilegesApp authenticationRequired] && ![_privilegesApp allowCLIBiometricAuthentication]) || [_privilegesApp reasonRequired]))) {
-             [privilegesItem setEnabled:NO];
-         }
-         
-         [_dockTileMenu addItem:privilegesItem];
-         
-         // we allow renewals from the Dock item if the user has admin rights AND privilege renewal
-         // is enabled AND (either "authentication is not required" OR "authentication is required but
-         // not for renewals" OR "authentication is required for renewals AND biometric authentication
-         // has been enabled for the command line tool".
-         if (hasAdminPrivileges && [_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 && _showsBadgeLabel &&
-             (![_privilegesApp authenticationRequired] ||
-              ([_privilegesApp authenticationRequired] && ![_privilegesApp renewalFollowsAuthSetting]) ||
-              ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting] && [_privilegesApp allowCLIBiometricAuthentication]))) {
-             
-             NSMenuItem *renewalItem = [[NSMenuItem alloc] init];
-             [renewalItem setTitle:NSLocalizedStringFromTableInBundle(@"renewMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
-             [renewalItem setAction:@selector(requestPrivileges)];
-             [renewalItem setTarget:self];
-             [renewalItem setAlternate:YES];
-             [renewalItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
-             [_dockTileMenu addItem:renewalItem];
-         }
-     }
-     
 #pragma mark - add the settings item
-     
-     if (_appURL && ![_privilegesApp hideSettingsFromDockMenu]) {
          
-         NSNumber *isBundle = nil;
-         
-         if ([_appURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+         if (_appURL && ![_privilegesApp hideSettingsFromDockMenu]) {
              
-             NSMenuItem *settingsItem = [[NSMenuItem alloc] init];
-             [settingsItem setTitle:NSLocalizedStringFromTableInBundle(@"settingsMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
-             [settingsItem setAction:@selector(showSettings:)];
-             [settingsItem setRepresentedObject:_appURL];
-             [settingsItem setTarget:self];
+             NSNumber *isBundle = nil;
              
-             [_dockTileMenu addItem:[NSMenuItem separatorItem]];
-             [_dockTileMenu addItem:settingsItem];
+             if ([_appURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+                 
+                 NSMenuItem *settingsItem = [[NSMenuItem alloc] init];
+                 [settingsItem setTitle:NSLocalizedStringFromTableInBundle(@"settingsMenuItem", @"LocalizableMenu", _pluginBundle, nil)];
+                 [settingsItem setAction:@selector(showSettings:)];
+                 [settingsItem setRepresentedObject:_appURL];
+                 [settingsItem setTarget:self];
+                 
+                 [_dockTileMenu addItem:[NSMenuItem separatorItem]];
+                 [_dockTileMenu addItem:settingsItem];
+             }
          }
      }
      
@@ -212,6 +222,9 @@
             iconName = @"locked";
             soundPath = @"/System/Library/Frameworks/SecurityInterface.framework/Versions/A/Resources/lockClosing.aif";
         }
+        
+        // make sure we use the new icons for macOS 26 and newer
+//        if (@available(macOS 26.0, *)) { iconName = [iconName stringByAppendingString:@"_new"]; }
         
         if ([[_privilegesApp currentUser] useIsRestricted]) { iconName = [iconName stringByAppendingString:@"_managed"]; }
         
@@ -276,9 +289,19 @@
 
 - (void)requestPrivileges
 {
-    [NSTask launchedTaskWithLaunchPath:_cliPath
-                             arguments:[NSArray arrayWithObject:@"--add"]
-    ];
+    // in some cases we cannot request admin privileges from the Dock Tile.
+    // in these cases we just open the Privileges app instead to allow the
+    // user to request admin privileges there.
+    if (([_privilegesApp authenticationRequired] && ![_privilegesApp allowCLIBiometricAuthentication]) || [_privilegesApp reasonRequired]) {
+        
+        [MTPrivileges openMainApplication];
+        
+    } else {
+        
+        [NSTask launchedTaskWithLaunchPath:_cliPath
+                                 arguments:[NSArray arrayWithObject:@"--add"]
+        ];
+    }
 }
 
 - (void)revertPrivileges

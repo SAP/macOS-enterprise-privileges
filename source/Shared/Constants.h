@@ -28,6 +28,7 @@
 #define kMTWebhookEventTypeGranted                  @"corp.sap.privileges.granted"
 #define kMTWebhookEventTypeRevoked                  @"corp.sap.privileges.revoked"
 #define kMTGitHubURL                                @"https://github.com/SAP/macOS-enterprise-privileges"
+#define kMTDiskutilPath                             @"/usr/sbin/diskutil"
 
 #define kMTAdminGroupID                             80
 #define kMTExpirationDefault                        20
@@ -38,6 +39,7 @@
 #define kMTRevokeAtLoginThreshold                   60
 #define kMTQueuedEventsMaxDefault                   20
 #define kMTQueuedEventsTreatAsDelayedInterval       5
+#define kMTRenewalNotificationIntervalDefault       1
 
 #define kMTEnforcedPrivilegeTypeNone                @"none"
 #define kMTEnforcedPrivilegeTypeAdmin               @"admin"
@@ -77,6 +79,7 @@
 #define kMTDefaultsRemoteLoggingQueuedEventsMaxKey  @"QueuedEventsMax"
 #define kMTDefaultsHideOtherWindowsKey              @"HideOtherWindows"
 #define kMTDefaultsRevokeAtLoginKey                 @"RevokePrivilegesAtLogin"
+#define kMTDefaultsRevokeAfterSystemTimeChangeKey   @"RevokePrivilegesAfterSystemTimeChange"
 #define kMTDefaultsRevokeAtLoginExcludedUsersKey    @"RevokeAtLoginExcludedUsers"
 #define kMTDefaultsPostChangeExecutablePathKey      @"PostChangeExecutablePath"
 #define kMTDefaultsPostChangeActionOnGrantOnlyKey   @"PostChangeActionOnGrantOnly"
@@ -87,16 +90,19 @@
 #define kMTDefaultsHideSettingsFromStatusItemKey    @"HideSettingsFromStatusItem"
 #define kMTDefaultsAllowPrivilegeRenewalKey         @"AllowPrivilegeRenewal"
 #define kMTDefaultsRenewalFollowsAuthSettingKey     @"RenewalFollowsAuthSetting"
+#define kMTDefaultsRenewalNotificationIntervalKey   @"RenewalNotificationInterval"
 #define kMTDefaultsHideHelpButtonKey                @"HideHelpButton"
 #define kMTDefaultsHelpButtonCustomURLKey           @"HelpButtonCustomURL"
 #define kMTDefaultsPassReasonToExecutableKey        @"PassReasonToExecutable"
 #define kMTDefaultsShowInMenuBarKey                 @"ShowInMenuBar"
+#define kMTDefaultsShowRemainingTimeInMenuBarKey    @"ShowRemainingTimeInMenuBar"
 #define kMTDefaultsSettingsSelectedTabKey           @"SettingsSelectedTab"
 #define kMTDefaultsEnableSmartCardSupportKey        @"EnableSmartCardSupport"
 #define kMTDefaultsRenewalCustomActionKey           @"RenewalCustomAction"
 #define kMTDefaultsRenewalCustomActionPathKey       @"ActionExecutablePath"
 #define kMTDefaultsRenewalCustomActionIntervalKey   @"ActionNotificationInterval"
 #define kMTDefaultsUnexpectedPrivilegeStateKey      @"UnexpectedPrivilegeState"
+#define kMTDefaultsForceUpdatePrebootVolumeKey      @"ForceUpdatePrebootVolume"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange      @"corp.sap.privileges.PrivilegesDidChange"
