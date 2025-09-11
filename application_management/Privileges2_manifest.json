@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.4.0.0", 
+   "__version": "2.4.1.0", 
    "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -69,6 +69,12 @@
             "RenewalFollowsAuthSetting": { 
                "$ref": "#/definitions/RenewalFollowsAuthSetting" 
             }, 
+            "RenewalNotificationInterval": {
+               "$ref": "#/definitions/RenewalNotificationInterval"
+            },
+            "ForceUpdatePrebootVolume": {
+               "$ref": "#/definitions/ForceUpdatePrebootVolume"
+            },
             "HideHelpButton": { 
                "$ref": "#/definitions/HideHelpButton" 
             }, 
@@ -132,6 +138,9 @@
             "RequireBiometricAuthentication": {
                "$ref": "#/definitions/RequireBiometricAuthentication"
             },
+            "RevokePrivilegesAfterSystemTimeChange": {
+               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
+            },
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
@@ -140,7 +149,10 @@
             }, 
             "ShowInMenuBar": { 
                "$ref": "#/definitions/ShowInMenuBar" 
-            } 
+            } ,
+            "ShowRemainingTimeInMenuBar": {
+               "$ref": "#/definitions/ShowRemainingTimeInMenuBar"
+            }
          }, 
          "options": { 
             "keep_oneof_values": false 
@@ -175,6 +187,12 @@
             "RenewalFollowsAuthSetting": { 
                "$ref": "#/definitions/RenewalFollowsAuthSetting" 
             }, 
+            "RenewalNotificationInterval": {
+               "$ref": "#/definitions/RenewalNotificationInterval"
+            },
+            "ForceUpdatePrebootVolume": {
+               "$ref": "#/definitions/ForceUpdatePrebootVolume"
+            },
             "HideHelpButton": { 
                "$ref": "#/definitions/HideHelpButton" 
             }, 
@@ -238,6 +256,9 @@
             "RequireBiometricAuthentication": {
                "$ref": "#/definitions/RequireBiometricAuthentication"
             },
+            "RevokePrivilegesAfterSystemTimeChange": {
+               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
+            },
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
@@ -246,7 +267,10 @@
             }, 
             "ShowInMenuBar": { 
                "$ref": "#/definitions/ShowInMenuBar" 
-            } 
+            } ,
+            "ShowRemainingTimeInMenuBar": {
+               "$ref": "#/definitions/ShowRemainingTimeInMenuBar"
+            }
          }, 
          "options": { 
             "keep_oneof_values": false 
@@ -411,7 +435,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Allow Privilege Renewal", 
-         "description": "Specifies whether expiring administrator privileges can be renewed. If set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.", 
+         "description": "Specifies whether expiring administrator privileges can be renewed. When set to true, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -462,6 +486,18 @@
             } 
          ] 
       }, 
+      "ForceUpdatePrebootVolume": {
+         "type": "boolean",
+         "default": false,
+         "title": "Force Update Preboot Volume",
+         "description": "When set to true, the PrivilegesDaemon runs the command \"/usr/sbin/diskutil apfs updatePreboot /\" whenever a user's privileges change. You should normally never have to enable this function because the preboot volume is updated automatically after a while. However, we implemented this feature because it seems to be needed in some environments. Please only enable this function if you know precisely why you are doing so.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ForceUpdatePrebootVolume"
+            }
+         ]
+      },
       "HelpButtonCustomURL": { 
          "type": "string", 
          "title": "Help Button Custom URL", 
@@ -492,7 +528,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Hide Help Button", 
-         "description": "If set to true, the Help (?) button is no longer displayed in the app.", 
+         "description": "When set to true, the Help (?) button is no longer displayed in the app.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -516,7 +552,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Hide Settings Button", 
-         "description": "If set to true, the Settings button is no longer displayed in the app.", 
+         "description": "When set to true, the Settings button is no longer displayed in the app.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -528,7 +564,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Hide Settings From Dock Menu", 
-         "description": "If set to true, the Settings menu item is no longer displayed in the Dock tile's menu.", 
+         "description": "When set to true, the Settings menu item is no longer displayed in the Dock tile's menu.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -540,7 +576,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Hide Settings From Status Item", 
-         "description": "If set to true, the Settings menu item is no longer displayed in the status item's menu.", 
+         "description": "When set to true, the Settings menu item is no longer displayed in the status item's menu.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -636,7 +672,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Post Change Action On Grant Only", 
-         "description": "If set to true, the application or script, specified in PostChangeExecutablePath, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.", 
+         "description": "When set to true, the application or script, specified in PostChangeExecutablePath, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -654,7 +690,7 @@
       "PostChangeExecutablePath": { 
          "type": "string", 
          "title": "Post Change Executable Path", 
-         "description": "If set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.", 
+         "description": "When set, the PrivilegesAgent executes the given application or script and provides the current user's user name ($1) and its privileges (admin or user, $2) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -672,7 +708,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Reason Checking Enabled", 
-         "description": "If set to true, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense. This feature is experimental and disabled by default. If you enable it, please check carefully that it works as expected in your environment.", 
+         "description": "When set to true, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense. This feature is experimental and disabled by default. If you enable it, please check carefully that it works as expected in your environment.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -726,7 +762,7 @@
       "ReasonPresetList": { 
          "type": "array", 
          "title": "Reason Preset List", 
-         "description": "If ReasonRequired is set to true, this key allows to pre-define a list of possible reasons (for becoming an admin) the user can choose from. If set, an additional pop-up menu will appear in the dialog box. This only works for the GUI version of Privileges.", 
+         "description": "If ReasonRequired is set to true, this key allows to pre-define a list of possible reasons (for becoming an admin) the user can choose from. When set, an additional pop-up menu will appear in the dialog box. This only works for the GUI version of Privileges.", 
          "items": { 
             "type": "object", 
             "title": "Reason", 
@@ -1165,7 +1201,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Reason Required", 
-         "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu or the status item menu.", 
+         "description": "When set to true, the user must provide a reason for requesting administrator privileges. The reason is logged.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -1445,7 +1481,7 @@
                            "type": "boolean", 
                            "title": "Use TLS", 
                            "default": false, 
-                           "description": "If set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
+                           "description": "When set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
                            "links": [
                               { 
                                  "rel": "Official documentation", 
@@ -1548,7 +1584,7 @@
                "default": 20, 
                "minimum": 0, 
                "title": "Maximum Number Of Queued Events", 
-               "description": "Specifies the maximum number of queued events. If not set, a maximum of 20 events will be queued. If set to 0, an unlimited number of events will be  queued.", 
+               "description": "Specifies the maximum number of queued events. If not set, a maximum of 20 events will be queued. When set to 0, an unlimited number of events will be  queued.", 
                "links": [
                   { 
                      "rel": "Official documentation", 
@@ -1635,7 +1671,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Renewal Follows Auth Setting", 
-         "description": "If set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.", 
+         "description": "When set to true, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -1648,11 +1684,29 @@
             } 
          } 
       }, 
+      "RenewalNotificationInterval": {
+         "type": "integer",
+         "default": 1,
+         "minimum": 1,
+         "title": "Renewal Notification Interval",
+         "description": "Specifies the number of minutes before the expiration of administrator privileges when Privileges should notify users to renew their privileges. This number must be lower than the expiration interval, otherwise it defaults to 1. If a RenewalCustomAction is specified, its ActionNotificationInterval overwrites the configured RenewalNotificationInterval.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalNotificationInterval"
+            }
+         ],
+         "options": {
+            "dependencies": {
+               "AllowPrivilegeRenewal": true
+            }
+         }
+      },
       "RequireAuthentication": { 
          "type": "boolean", 
          "default": false, 
          "title": "Require Authentication", 
-         "description": "Specifies whether authentication is required to obtain administrator privileges. If set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.", 
+         "description": "Specifies whether authentication is required to obtain administrator privileges. When set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed directly from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -1664,7 +1718,7 @@
          "type": "boolean",
          "default": false,
          "title": "Require Biometric Authentication",
-         "description": "Specifies whether biometric authentication is required to obtain administrator privileges. If set to true, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.",
+         "description": "Specifies whether biometric authentication is required to obtain administrator privileges. When set to true, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.",
          "links": [
             {
                "rel": "Official documentation",
@@ -1710,11 +1764,23 @@
             } 
          } 
       }, 
+      "RevokePrivilegesAfterSystemTimeChange": {
+         "type": "boolean",
+         "default": false,
+         "title": "Revoke Privileges After System Time Change",
+         "description": "When set to true, the user's administrator privileges are revoked if the system time did change. Enable this feature to prevent users from extending their admin time by adjusting the time on their Mac. If you enable this feature, please be aware that admin users can extend or retain their admin rights in various other ways. Therefore, this feature offers no protection against users misusing their admin rights.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAfterSystemTimeChange"
+            }
+         ]
+      },
       "RevokePrivilegesAtLogin": { 
          "type": "boolean", 
          "default": false, 
          "title": "Revoke Privileges At Login", 
-         "description": "If set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.", 
+         "description": "When set to true, the user's administrator privileges are revoked at login. For those who use fixed admin accounts on their machines: If you want to enable this feature, please make sure you exclude the admin account(s) using the RevokeAtLoginExcludedUsers key. Otherwise these accounts become standard user accounts at next log in.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -1726,13 +1792,30 @@
          "type": "boolean", 
          "default": false, 
          "title": "Show In Menu Bar", 
-         "description": "If set to true, a Privileges status item is displayed in the Menu Bar.", 
+         "description": "When set to true, a Privileges status item is displayed in the Menu Bar.", 
          "links": [
             { 
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowInMenuBar" 
             } 
          ] 
-      } 
+      } ,
+      "ShowRemainingTimeInMenuBar": {
+         "type": "boolean",
+         "default": false,
+         "title": "Show Remaining Time In Menu Bar",
+         "description": "When set to true, a timer displaying the remaining admin time is shown in the Privileges status item.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowRemainingTimeInMenuBar"
+            }
+         ],
+         "options": {
+            "dependencies": {
+               "ShowInMenuBar": true
+            }
+         }
+      }
    } 
 }
