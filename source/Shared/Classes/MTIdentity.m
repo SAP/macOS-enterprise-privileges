@@ -54,22 +54,26 @@
     BOOL isMember = NO;
     NSString *errorMsg;
     
-    // get the identity for the current user
-    CBIdentity *userIdentity = [CBIdentity identityWithName:userName authority:[CBIdentityAuthority defaultIdentityAuthority]];
-    
-    if (userIdentity != nil) {
+    if ([userName length] > 0) {
         
-        // get the identity of the admin group
-        CBGroupIdentity *groupIdentity = [CBGroupIdentity groupIdentityWithPosixGID:groupID authority:[CBIdentityAuthority localIdentityAuthority]];
+        // get the identity for the current user
+        CBIdentity *userIdentity = [CBIdentity identityWithName:userName authority:[CBIdentityAuthority defaultIdentityAuthority]];
         
-        if (groupIdentity != nil) {
+        if (userIdentity != nil) {
             
-            // check if the user is currently a member of the admin group
-            isMember = [userIdentity isMemberOfGroup:groupIdentity];
+            // get the identity of the admin group
+            CBGroupIdentity *groupIdentity = [CBGroupIdentity groupIdentityWithPosixGID:groupID authority:[CBIdentityAuthority localIdentityAuthority]];
             
-        } else { errorMsg = @"Unable to get group identity"; }
+            if (groupIdentity != nil) {
+                
+                // check if the user is currently a member of the admin group
+                isMember = [userIdentity isMemberOfGroup:groupIdentity];
+                
+            } else { errorMsg = [NSString stringWithFormat:@"Unable to get group identity for group with id %d", groupID]; }
+            
+        } else { errorMsg = [NSString stringWithFormat:@"Unable to get user identity for user %@", userName]; }
         
-    } else { errorMsg = @"Unable to get user identity"; }
+    } else { errorMsg = @"Group membership cannot be determined because no username was provided"; }
     
     if (errorMsg != nil && error != nil) {
         NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:errorMsg, NSLocalizedDescriptionKey, nil];

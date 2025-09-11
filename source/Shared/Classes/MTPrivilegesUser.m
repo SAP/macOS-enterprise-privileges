@@ -40,17 +40,26 @@
         // someone runs PrivilegesCLI with sudo, for example). So we use
         // SCDynamicStoreCopyConsoleUser instead of NSUserName().
         CFStringRef console_user = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
-        
         _userName = CFBridgingRelease(console_user);
-        _agentConnection = [[MTAgentConnection alloc] init];
         
-        if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kMTAppBundleIdentifier]) {
-            _userDefaults = [NSUserDefaults standardUserDefaults];
+        if (_userName) {
+            
+            _agentConnection = [[MTAgentConnection alloc] init];
+            
+            if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kMTAppBundleIdentifier]) {
+                _userDefaults = [NSUserDefaults standardUserDefaults];
+            } else {
+                _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
+            }
+            
+            _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
+            
         } else {
-            _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
+            
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to get current console user");
+
+            self = nil;
         }
-        
-        _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
     }
     
     return self;

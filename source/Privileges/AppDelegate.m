@@ -58,53 +58,66 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         
     } else {
         
-        _operationQueue = [[NSOperationQueue alloc] init];
-        
         _privilegesApp = [[MTPrivileges alloc] init];
-        _minReasonLength = [_privilegesApp reasonMinLength];
-        _maxReasonLength = [_privilegesApp reasonMaxLength];
         
-        _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
-                                                                                              object:nil
-                                                                                               queue:nil
-                                                                                          usingBlock:^(NSNotification *notification) {
+        if (!_privilegesApp) {
             
-            NSDictionary *userInfo = [notification userInfo];
+            _alert = [[NSAlert alloc] init];
+            [_alert setMessageText:NSLocalizedString(@"fatalErrorDialogTitle", nil)];
+            [_alert addButtonWithTitle:NSLocalizedString(@"okButton", nil)];
+            [_alert setAlertStyle:NSAlertStyleCritical];
+            [_alert runModal];
+            [NSApp terminate:self];
             
-            if (userInfo) {
+        } else {
+            
+            _operationQueue = [[NSOperationQueue alloc] init];
+            
+            _minReasonLength = [_privilegesApp reasonMinLength];
+            _maxReasonLength = [_privilegesApp reasonMaxLength];
+            
+            _configurationObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNameConfigDidChange
+                                                                                                  object:nil
+                                                                                                   queue:nil
+                                                                                              usingBlock:^(NSNotification *notification) {
                 
-                NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
-                NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
-                                          kMTDefaultsEnforcePrivilegesKey,
-                                          kMTDefaultsLimitToUserKey,
-                                          kMTDefaultsLimitToGroupKey,
-                                          nil
-                ];
+                NSDictionary *userInfo = [notification userInfo];
                 
-                if (changedKey && [keysToObserve containsObject:changedKey]) {
+                if (userInfo) {
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
+                    NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
+                                              kMTDefaultsEnforcePrivilegesKey,
+                                              kMTDefaultsLimitToUserKey,
+                                              kMTDefaultsLimitToGroupKey,
+                                              nil
+                    ];
+                    
+                    if (changedKey && [keysToObserve containsObject:changedKey]) {
                         
-                        if (![[self->_settingsWindowController window] isVisible]) {
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                             
-                            [[self->_alert window] close];
-                            [self showMainWindow];
-                        }
-                    });
+                            if (![[self->_settingsWindowController window] isVisible]) {
+                                
+                                [[self->_alert window] close];
+                                [self showMainWindow];
+                            }
+                        });
+                    }
                 }
-            }
-        }];
-        
-        _privilegesObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNamePrivilegesDidChange
-                                                                                           object:nil
-                                                                                            queue:nil
-                                                                                       usingBlock:^(NSNotification *notification) {
+            }];
             
-            if ([self->_alert window]) { [NSApp endSheet:[self->_alert window]]; }
+            _privilegesObserver = [[NSDistributedNotificationCenter defaultCenter] addObserverForName:kMTNotificationNamePrivilegesDidChange
+                                                                                               object:nil
+                                                                                                queue:nil
+                                                                                           usingBlock:^(NSNotification *notification) {
+                
+                if ([self->_alert window]) { [NSApp endSheet:[self->_alert window]]; }
+                [self showMainWindow];
+            }];
+            
             [self showMainWindow];
-        }];
-        
-        [self showMainWindow];
+        }
     }
 }
 

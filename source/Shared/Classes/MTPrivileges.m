@@ -41,6 +41,7 @@
         _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
                 
         _currentUser = [[MTPrivilegesUser alloc] init];
+        if (!_currentUser) { self = nil; }
     }
     
     return self;
@@ -281,6 +282,13 @@
     return (remove && ![[self currentUser] isExcludedFromRevokeAtLogin]);
 }
 
+- (BOOL)privilegesShouldBeRevokedAfterSystemTimeChange
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsRevokeAfterSystemTimeChangeKey] &&
+            [_userDefaults boolForKey:kMTDefaultsRevokeAfterSystemTimeChangeKey]
+            );
+}
+
 - (BOOL)allowCLIBiometricAuthentication
 {
     return ([self authenticationRequired] &&
@@ -498,6 +506,27 @@
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalFollowsAuthSettingKey] && [_userDefaults boolForKey:kMTDefaultsRenewalFollowsAuthSettingKey]);
 }
 
+- (NSUInteger)renewalNotificationInterval
+{
+    NSUInteger interval = kMTRenewalNotificationIntervalDefault;
+            
+    NSDictionary *renewalCustomAction = [self renewalCustomAction];
+    NSString *actionPath = [renewalCustomAction objectForKey:kMTDefaultsRenewalCustomActionPathKey];
+        
+    if ([actionPath length] > 0) {
+        
+        NSUInteger actionTime = [[renewalCustomAction objectForKey:kMTDefaultsRenewalCustomActionIntervalKey] integerValue];
+        if (actionTime < [self expirationInterval] && actionTime > interval) { interval = actionTime; }
+        
+    } else if ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalNotificationIntervalKey]) {
+        
+        NSUInteger tmpInterval = [_userDefaults integerForKey:kMTDefaultsRenewalNotificationIntervalKey];
+        if (tmpInterval < [self expirationInterval] && tmpInterval > interval) { interval = tmpInterval; }
+    }
+    
+    return interval;
+}
+
 - (BOOL)passReasonToExecutable
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsPassReasonToExecutableKey] && [_userDefaults boolForKey:kMTDefaultsPassReasonToExecutableKey]);
@@ -531,6 +560,37 @@
         [_appGroupDefaults setBool:YES forKey:kMTDefaultsShowInMenuBarKey];
     } else {
         [_appGroupDefaults removeObjectForKey:kMTDefaultsShowInMenuBarKey];
+    }
+}
+
+- (BOOL)showRemainingTimeInMenuBar
+{
+    BOOL show = NO;
+    
+    if ([_userDefaults objectForKey:kMTDefaultsShowRemainingTimeInMenuBarKey]) {
+        
+        show = [_userDefaults boolForKey:kMTDefaultsShowRemainingTimeInMenuBarKey];
+        
+    // if we got no value back, we try to get the value from our app group defaults
+    } else {
+        
+        show = [_appGroupDefaults boolForKey:kMTDefaultsShowRemainingTimeInMenuBarKey];
+    }
+        
+    return show;
+}
+
+- (BOOL)showRemainingTimeInMenuBarIsForced
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsShowRemainingTimeInMenuBarKey]);
+}
+
+- (void)setShowRemainingTimeInMenuBar:(BOOL)show
+{
+    if (show) {
+        [_appGroupDefaults setBool:YES forKey:kMTDefaultsShowRemainingTimeInMenuBarKey];
+    } else {
+        [_appGroupDefaults removeObjectForKey:kMTDefaultsShowRemainingTimeInMenuBarKey];
     }
 }
 
@@ -571,6 +631,21 @@
     }
     
     return [durationFormatter stringFromMeasurement:durationMeasurement];
+}
+
++ (void)openMainApplication
+{
+    NSURL *appURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:kMTAppBundleIdentifier];
+    
+    if (appURL) {
+        
+        NSWorkspaceOpenConfiguration* configuration = [[NSWorkspaceOpenConfiguration alloc] init];
+        [configuration setActivates:YES];
+        
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:appURL
+                                              configuration:configuration
+                                          completionHandler:nil];
+    }
 }
 
 @end

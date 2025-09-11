@@ -189,6 +189,13 @@
 - (void)setPrivilegesShouldBeRevokedAtLogin:(BOOL)revoke;
 
 /*!
+ @method        privilegesShouldBeRevokedAfterSystemTimeChange
+ @abstract      Get whether admin privileges should be revoked if system time did change.
+ @discussion    Returns YES if admin privileges should be revoked if the system time did change, otherwise returns NO.
+ */
+- (BOOL)privilegesShouldBeRevokedAfterSystemTimeChange;
+
+/*!
  @method        hideOtherWindows
  @abstract      Get whether all other windows than the Privileges window should be hided after launching Privileges.
  @discussion    Returns YES if Privileges should hide windows of other applications, otherwise returns NO.
@@ -326,6 +333,13 @@
 - (BOOL)renewalFollowsAuthSetting;
 
 /*!
+ @method        renewalNotificationInterval
+ @abstract      Get the number of minutes before the expiration of administrator privileges when Privileges should notify users to renew their privileges.
+ @discussion    Returns the number of minutes or the default of 1 if not otherwise configured.
+ */
+- (NSUInteger)renewalNotificationInterval;
+
+/*!
  @method        passReasonToExecutable
  @abstract      Get whether the reason that the user entered when requesting administrator privileges
                 should be passed to the executable  that should be launched after privileges changed.
@@ -355,6 +369,28 @@
 - (BOOL)showInMenuBarIsForced;
 
 /*!
+ @method        showRemainingTimeInMenuBar
+ @abstract      Get whether the remaining admin time should be displayed if Privileges is displayed in the Menu Bar.
+ @discussion    Returns YES if the remaining admin time should be displayed, otherwise returns NO.
+ */
+- (BOOL)showRemainingTimeInMenuBar;
+
+/*!
+ @method        setShowRemainingTimeInMenuBar:
+ @abstract      Set whether the remaining admin time should be displayed in the Menu Bar.
+ @param         show A boolean indicating if the remaining admin time should be displayed in the Menu Bar (YES) or not (NO).
+ @discussion    This key has no effect if showInMenuBar is false.
+ */
+- (void)setShowRemainingTimeInMenuBar:(BOOL)show;
+
+/*!
+ @method        showRemainingTimeInMenuBarIsForced
+ @abstract      Get whether setting for displaying the remaining admin time in the Menu Bar has been forced.
+ @discussion    Returns YES if the setting was forced by a configuration profile, otherwise returns NO.
+ */
+- (BOOL)showRemainingTimeInMenuBarIsForced;
+
+/*!
  @method        smartCardSupportEnabled
  @abstract      Get whether smart cards/PIV tokens should be used for authentication.
  @discussion    Returns YES if smart cards/PIV token should be used for authentication, otherwise returns NO.
@@ -380,5 +416,11 @@
                 if the base unit (minutes) should be used (NO).
  */
 + (NSString*)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale;
+
+/*!
+ @method        openMainApplication
+ @abstract      Opens the Privileges application.
+ */
++ (void)openMainApplication;
 
 @end

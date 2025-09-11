@@ -59,7 +59,7 @@
         [[self itemWithTag:1000] setTitle:NSLocalizedStringFromTable(@"requestMenuItem", @"LocalizableMenu", nil)];
     }
         
-    [[self itemWithTag:1000] setEnabled:!([[privilegesApp currentUser] useIsRestricted] || (!hasAdminPrivileges && [privilegesApp reasonRequired]))];
+    [[self itemWithTag:1000] setEnabled:![[privilegesApp currentUser] useIsRestricted]];
     [[self itemWithTag:2000] setAlternate:(hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed] && [privilegesApp expirationInterval] > 0 && ![[privilegesApp currentUser] hasUnexpectedPrivilegeState])];
     [[self itemWithTag:2000] setHidden:![[self itemWithTag:2000] isAlternate]];
 }

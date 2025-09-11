@@ -213,11 +213,11 @@
             <objects>
                 <viewController id="JAE-C2-TT3" customClass="MTSettingsGeneralController" sceneMemberID="viewController">
                     <view key="view" id="MkD-On-ki2">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="219"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="260"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
-                                <rect key="frame" x="23" y="152" width="434" height="42"/>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
+                                <rect key="frame" x="23" y="193" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="tED-Ce-nm6">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">By default, this application hides the windows of other applications to display the desktop and ensure that only the Privileges window is visible on the screen. If you don't want this behavior, please disable the option below.</string>
@@ -226,7 +226,7 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ztC-EB-u17">
-                                <rect key="frame" x="25" y="99" width="256" height="33"/>
+                                <rect key="frame" x="25" y="140" width="256" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ja-hx-8bZ">
                                         <rect key="frame" x="-2" y="16" width="239" height="18"/>
@@ -249,7 +249,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="7yK-i3-jMD"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="0Mz-4V-rLx">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -292,10 +292,10 @@
                                 </customSpacing>
                             </stackView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UVB-AP-KBd">
-                                <rect key="frame" x="25" y="76" width="430" height="5"/>
+                                <rect key="frame" x="25" y="117" width="430" height="5"/>
                             </box>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yeL-aV-V2X">
-                                <rect key="frame" x="25" y="25" width="256" height="33"/>
+                                <rect key="frame" x="25" y="66" width="256" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q0d-rh-ql0">
                                         <rect key="frame" x="-2" y="16" width="135" height="18"/>
@@ -318,13 +318,20 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="4gA-hb-vnk"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5lH-p7-50A">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
+                                                <connections>
+                                                    <binding destination="JAE-C2-TT3" name="value" keyPath="configuredByProfileLabel" id="a0Y-Q6-R4W">
+                                                        <dictionary key="options">
+                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <constraints>
@@ -353,11 +360,79 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="04B-oK-m2h">
+                                <rect key="frame" x="25" y="25" width="375" height="33"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1N3-cl-uWa">
+                                        <rect key="frame" x="-2" y="16" width="377" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Show remaining time while having administrator privileges" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2WK-su-O7w">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="setShowTimerInMenuBar:" target="JAE-C2-TT3" id="YE9-Km-UrK"/>
+                                        </connections>
+                                    </button>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="37y-1f-lF8">
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="17"/>
+                                        <subviews>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rD2-Q0-3GJ">
+                                                <rect key="frame" x="0.0" y="-4" width="15" height="23"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="15" id="DrO-os-JrA"/>
+                                                    <constraint firstAttribute="width" constant="15" id="rIx-79-yUd"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="OOF-3w-M9u"/>
+                                            </imageView>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eH2-u8-FiU">
+                                                <rect key="frame" x="16" y="1" width="242" height="14"/>
+                                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="Ftm-sX-1Uq">
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="JAE-C2-TT3" name="value" keyPath="configuredByProfileLabel" id="5AP-b7-vvl">
+                                                        <dictionary key="options">
+                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="eH2-u8-FiU" firstAttribute="leading" secondItem="rD2-Q0-3GJ" secondAttribute="trailing" constant="3" id="5Bo-HR-OmZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="eH2-u8-FiU" secondAttribute="trailing" id="F7O-Go-tBr"/>
+                                            <constraint firstItem="eH2-u8-FiU" firstAttribute="centerY" secondItem="rD2-Q0-3GJ" secondAttribute="centerY" id="aBc-Be-F7z"/>
+                                            <constraint firstItem="rD2-Q0-3GJ" firstAttribute="top" secondItem="37y-1f-lF8" secondAttribute="top" constant="2" id="gUZ-iE-MKp"/>
+                                            <constraint firstItem="rD2-Q0-3GJ" firstAttribute="leading" secondItem="37y-1f-lF8" secondAttribute="leading" id="tJA-bC-0Rj"/>
+                                            <constraint firstAttribute="bottom" secondItem="rD2-Q0-3GJ" secondAttribute="bottom" id="wdb-34-qIa"/>
+                                        </constraints>
+                                        <connections>
+                                            <binding destination="JAE-C2-TT3" name="hidden" keyPath="menuBarTimerIsForced" id="sWF-yM-89K">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </customView>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="04B-oK-m2h" secondAttribute="trailing" constant="25" id="0pN-5j-7VD"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yeL-aV-V2X" secondAttribute="trailing" constant="25" id="EQC-KY-ZBg"/>
-                            <constraint firstAttribute="bottom" secondItem="yeL-aV-V2X" secondAttribute="bottom" constant="25" id="Ibg-CD-HhD"/>
+                            <constraint firstAttribute="bottom" secondItem="04B-oK-m2h" secondAttribute="bottom" constant="25" id="KWA-fR-SnT"/>
                             <constraint firstItem="yeL-aV-V2X" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="Mx6-TX-EVq"/>
+                            <constraint firstItem="04B-oK-m2h" firstAttribute="top" secondItem="yeL-aV-V2X" secondAttribute="bottom" constant="8" id="Psj-LW-8Xu"/>
                             <constraint firstItem="UVB-AP-KBd" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="TtP-4a-Lv4"/>
                             <constraint firstItem="ztC-EB-u17" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="WkM-oA-pQl"/>
                             <constraint firstItem="yeL-aV-V2X" firstAttribute="top" secondItem="UVB-AP-KBd" secondAttribute="bottom" constant="20" id="cfN-K0-otO"/>
@@ -366,6 +441,7 @@
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ztC-EB-u17" secondAttribute="trailing" constant="25" id="o5Y-gt-fgN"/>
                             <constraint firstItem="GDf-WG-kvR" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="oTf-PO-5bj"/>
                             <constraint firstItem="ztC-EB-u17" firstAttribute="top" secondItem="GDf-WG-kvR" secondAttribute="bottom" constant="20" id="qTU-qd-7s2"/>
+                            <constraint firstItem="04B-oK-m2h" firstAttribute="leading" secondItem="MkD-On-ki2" secondAttribute="leading" constant="25" id="tSJ-YU-ZtO"/>
                             <constraint firstItem="UVB-AP-KBd" firstAttribute="top" secondItem="ztC-EB-u17" secondAttribute="bottom" constant="20" id="tlw-lu-r5a"/>
                             <constraint firstItem="GDf-WG-kvR" firstAttribute="top" secondItem="MkD-On-ki2" secondAttribute="top" constant="25" id="wgg-Pg-OSA"/>
                         </constraints>
@@ -373,12 +449,13 @@
                     <connections>
                         <outlet property="hideWindowsButton" destination="8ja-hx-8bZ" id="N0M-gJ-ijf"/>
                         <outlet property="menuBarButton" destination="q0d-rh-ql0" id="5b0-BX-ps5"/>
+                        <outlet property="menuBarTimerButton" destination="1N3-cl-uWa" id="Bkp-EV-N09"/>
                     </connections>
                 </viewController>
                 <customObject id="uav-za-lOu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Tc0-wv-1SS"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1112"/>
+            <point key="canvasLocation" x="75" y="1219.5"/>
         </scene>
         <!--Settings Privileges Controller-->
         <scene sceneID="R2L-nF-Xqj">
@@ -391,7 +468,7 @@
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MQF-rL-q3r">
                                 <rect key="frame" x="25" y="333" width="430" height="5"/>
                             </box>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
                                 <rect key="frame" x="23" y="454" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="DAL-x6-96Y">
                                     <font key="font" metaFont="smallSystem"/>
@@ -406,7 +483,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="HN1-EZ-wPg">
                                         <rect key="frame" x="0.0" y="17" width="398" height="20"/>
                                         <subviews>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
                                                 <rect key="frame" x="-2" y="3" width="192" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Administrator privileges expire:" id="RJJ-AF-o6j">
                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -449,7 +526,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="uX9-mP-hAE"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="RN8-jG-u9K">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -491,7 +568,7 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
                                 <rect key="frame" x="23" y="273" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="BxH-Vb-uHJ">
                                     <font key="font" metaFont="smallSystem"/>
@@ -524,7 +601,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="hQt-Yq-Pkc"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="hTV-jc-iCJ">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -593,7 +670,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="S8C-CZ-8NH"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="4Yg-iq-7FO">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -635,7 +712,7 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
                                 <rect key="frame" x="23" y="123" width="434" height="56"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="Hqj-Uh-Ag3">
                                     <font key="font" metaFont="smallSystem"/>
@@ -650,7 +727,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Raj-OA-kDh">
                                         <rect key="frame" x="0.0" y="17" width="373" height="20"/>
                                         <subviews>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
                                                 <rect key="frame" x="-2" y="3" width="167" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Run after privilege change:" id="L7H-FM-m4u">
                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -707,7 +784,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="g9D-Mi-mBG"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5gJ-73-6dD">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -773,7 +850,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="oPG-MY-xHd"/>
                                             </imageView>
-                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="Avb-eR-psD">
                                                     <font key="font" metaFont="smallSystem"/>
