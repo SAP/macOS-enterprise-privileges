@@ -186,6 +186,33 @@
                                 <true/>
                                 
                                 <!--
+                                    key:    BiometricsFallbackType
+                                    value:  a positive integer
+                                    
+                                    This specifies the fallback strategy when "RequireBiometricAuthentication"
+                                    is enabled. By default, users are prompted to enter their username and
+                                    password if biometric authentication is not configured or is unavailable.
+                                    However, this may not be the desired behavior in all environments. It can
+                                    be changed as follows:
+                                    
+                                    0:  If biometric authentication is unavailable or not configured, the user
+                                        will be prompted to enter their username and password. (default)
+
+                                    1:  If biometric authentication is unavailable, the user will be prompted to
+                                        enter their username and password. If biometric authentication is
+                                        available but has not been configured, authentication will fail.
+
+                                    2:  If biometric authentication is unavailable or not configured,
+                                        authentication will fail.
+                                
+                                    Please note that PrivilegesCLI does not use biometric authentication by
+                                    default. Therefore, the "BiometricsFallbackType" setting will be ignored
+                                    unless the "AllowCLIBiometricAuthentication" setting is enabled.
+                                -->
+                                <key>BiometricsFallbackType</key>
+                                <integer>0</integer>
+                                
+                                <!--
                                     key:    EnableSmartCardSupport
                                     value:  a boolean
                                     

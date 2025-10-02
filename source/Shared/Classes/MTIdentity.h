@@ -28,6 +28,19 @@
 @interface MTIdentity : NSObject
 
 /*!
+ @enum          MTBiometricsFallbackType
+ @abstract      Specifies the type of the fallback strategy in case biometric authentication is not possible.
+ @constant      MTBiometricsFallbackTypeDefault If biometric authentication is unavailable or not configured, the user will be prompted to enter their username and password.
+ @constant      MTBiometricsFallbackTypeUnavailable If biometric authentication is unavailable, the user will be prompted to enter their username and password. If biometric authentication is available but has not been configured, authentication will fail.
+ @constant      MTBiometricsFallbackTypeNone If biometric authentication is unavailable or not configured, authentication will fail.
+*/
+typedef enum {
+    MTBiometricsFallbackTypeDefault     = 0,
+    MTBiometricsFallbackTypeUnavailable = 1,
+    MTBiometricsFallbackTypeNone        = 2
+} MTBiometricsFallbackType;
+
+/*!
  @method        gidFromGroupName:
  @abstract      Get the group id from a group name.
  @param         groupName The short name of the group.
@@ -56,15 +69,19 @@
 + (BOOL)groupMembershipForUser:(NSString*)userName groupName:(NSString*)groupName error:(NSError**)error;
 
 /*!
-@method        authenticateUserWithReason:requireBiometrics:completionHandler:
+@method        authenticateUserWithReason:requireBiometrics:biometricsFallbackType:completionHandler:
 @abstract      Authenticate the user either by using Touch ID (if available) or password.
 @param         authReason The reason for requesting authentication, which displays in the authentication dialog presented to the user.
 @param         biometrics A boolean which forces biometric authentication (if available).
+@param         fallbackType The MTBiometricsFallbackType that specifies the fallback strategy in case biometric authentication is not possible.
 @param         completionHandler The handler to call when the request is complete.
 @discussion    Returns YES if authentication succeeded, otherwise returns NO. If an error occurred, the completion handler's NSError object
                contains error details.
 */
-+ (void)authenticateUserWithReason:(NSString*)authReason requireBiometrics:(BOOL)biometrics completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
++ (void)authenticateUserWithReason:(NSString*)authReason
+                 requireBiometrics:(BOOL)biometrics
+            biometricsFallbackType:(MTBiometricsFallbackType)fallbackType
+                 completionHandler:(void (^) (BOOL success, NSError *error))completionHandler;
 
 /*!
 @method        authenticatePIVUserWithReason:completionHandler:

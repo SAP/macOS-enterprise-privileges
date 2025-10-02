@@ -306,6 +306,23 @@
             );
 }
 
+- (MTBiometricsFallbackType)biometricsFallbackType
+{
+    MTBiometricsFallbackType type = MTBiometricsFallbackTypeDefault;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsAuthBiometricsFallbackTypeKey]) {
+        
+        NSUInteger value = [_userDefaults integerForKey:kMTDefaultsAuthBiometricsFallbackTypeKey];
+        
+        if (value == MTBiometricsFallbackTypeUnavailable || value == MTBiometricsFallbackTypeNone) {
+            
+            type = (MTBiometricsFallbackType)value;
+        }
+    }
+    
+    return type;
+}
+
 - (void)setPrivilegesShouldBeRevokedAtLogin:(BOOL)revoke
 {
     [_appGroupDefaults setBool:revoke forKey:kMTDefaultsRevokeAtLoginKey];

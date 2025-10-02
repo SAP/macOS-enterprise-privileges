@@ -29,7 +29,6 @@
 		AD2D4BC92C1328C300CB8F5A /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
 		AD2D4BCA2C1328C900CB8F5A /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
 		AD2D4BD22C13347500CB8F5A /* PrivilegesTile.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2D4BD02C13347500CB8F5A /* PrivilegesTile.m */; };
-		AD2D4BD62C1335C100CB8F5A /* AppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD2D4BD52C1335C100CB8F5A /* AppIcons.xcassets */; };
 		AD2D4BD92C13443400CB8F5A /* MTPrivileges.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC5EF472BFDE6D8004D69B7 /* MTPrivileges.m */; };
 		AD2D4BDA2C13443900CB8F5A /* MTPrivilegesUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC5EF4A2BFDE6D8004D69B7 /* MTPrivilegesUser.m */; };
 		AD2D4BDC2C13445000CB8F5A /* MTCodeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = AD10E0792C08A03A00D0B03D /* MTCodeSigning.m */; };
@@ -42,13 +41,20 @@
 		AD43F71E2D8D3DE000FCBA8E /* PrivilegesWatcher in Embed Binaries */ = {isa = PBXBuildFile; fileRef = AD43F7112D8D390300FCBA8E /* PrivilegesWatcher */; };
 		AD4C96A92BFF7B1800382426 /* MTReasonAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4C96A82BFF7B1800382426 /* MTReasonAccessory.xib */; };
 		AD4C96AC2BFF7CB600382426 /* MTReasonAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4C96AB2BFF7CB600382426 /* MTReasonAccessoryController.m */; };
+		AD52E51D2E7C03B700023555 /* Beta-Unlocked.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD52E51C2E7C03B700023555 /* Beta-Unlocked.icon */; };
+		AD52E5212E7C041C00023555 /* Beta-Unlocked_managed.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD52E5202E7C041C00023555 /* Beta-Unlocked_managed.icon */; };
+		AD52E5232E7C043C00023555 /* Beta-Locked_managed.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD52E5222E7C043C00023555 /* Beta-Locked_managed.icon */; };
 		AD5CC6D22C25615C0074B456 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADFCC5C52B9F48B8009B808B /* Assets.xcassets */; };
 		AD67F9102CA5A53700D45955 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADADCC032C5A0F4E009D6E73 /* Main.storyboard */; };
 		AD6BDD072C1705970099E051 /* Privileges.mobileconfig in Resources */ = {isa = PBXBuildFile; fileRef = AD6BDD062C1705970099E051 /* Privileges.mobileconfig */; };
 		AD7A530A2C37E634003E2CD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADFCC5C72B9F48B8009B808B /* Main.storyboard */; };
-		AD7C439E2C25906F00EDDA48 /* AppIcons-Beta.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */; };
 		AD8276B72D116BDE00422701 /* MTSettingsPrivilegesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */; };
 		AD899F1F2D8D4381007B9E73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD899F1B2D8D4381007B9E73 /* main.m */; };
+		AD93CFE62E71DE15001427AB /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD93CFE32E71DE15001427AB /* AppIcon.icon */; };
+		AD93CFE72E71DE15001427AB /* AppIcon-Beta.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD93CFE42E71DE15001427AB /* AppIcon-Beta.icon */; };
+		AD93CFE82E71DE15001427AB /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AD93CFE32E71DE15001427AB /* AppIcon.icon */; };
+		AD93CFEA2E71E10B001427AB /* AppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD93CFE92E71E10B001427AB /* AppIcons.xcassets */; };
+		AD93CFEC2E71E194001427AB /* AppIcons-Beta.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD93CFEB2E71E194001427AB /* AppIcons-Beta.xcassets */; };
 		AD9B2EC12DACFC460016E982 /* MTSyslog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9B2EC02DACFC460016E982 /* MTSyslog.m */; };
 		AD9CCA4F2C32DA240000E0BC /* MTLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2018B82C0780E80074D275 /* MTLocalNotification.m */; };
 		AD9CCA512C32DB490000E0BC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */; };
@@ -79,6 +85,31 @@
 		ADD313662D95687E008C5E96 /* MTSyslogMessageStructuredData.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD313652D95687E008C5E96 /* MTSyslogMessageStructuredData.m */; };
 		ADD3FEE82D7F30B400895BA8 /* MTClientCertificate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD3FEE72D7F30B400895BA8 /* MTClientCertificate.m */; };
 		ADE1310B2C4034E600F1E98E /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ADE1310A2C4034E600F1E98E /* InfoPlist.xcstrings */; };
+		ADE1AA952E7BEB2F00D8101A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */; };
+		ADE1AA962E7BEB2F00D8101A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8F2E7BEB2F00D8101A /* main.m */; };
+		ADE1AA982E7BEB2F00D8101A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */; };
+		ADE1AA992E7BEB2F00D8101A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA912E7BEB2F00D8101A /* Main.storyboard */; };
+		ADE1AA9B2E7BEBB600D8101A /* Unlocked.icon in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA9A2E7BEBB600D8101A /* Unlocked.icon */; };
+		ADE1AA9F2E7BEBEC00D8101A /* unlocked.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADE1AA782E7BEB2900D8101A /* unlocked.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ADE1AAA22E7BFB7500D8101A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */; };
+		ADE1AAA32E7BFB7500D8101A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8F2E7BEB2F00D8101A /* main.m */; };
+		ADE1AAA62E7BFB7500D8101A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */; };
+		ADE1AAA82E7BFB7500D8101A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA912E7BEB2F00D8101A /* Main.storyboard */; };
+		ADE1AAB02E7BFB9900D8101A /* Unlocked_managed.icon in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AAAF2E7BFB9900D8101A /* Unlocked_managed.icon */; };
+		ADE1AAB62E7BFC1B00D8101A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */; };
+		ADE1AAB72E7BFC1B00D8101A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8F2E7BEB2F00D8101A /* main.m */; };
+		ADE1AABA2E7BFC1B00D8101A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */; };
+		ADE1AABC2E7BFC1B00D8101A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA912E7BEB2F00D8101A /* Main.storyboard */; };
+		ADE1AAC52E7BFC2200D8101A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */; };
+		ADE1AAC62E7BFC2200D8101A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1AA8F2E7BEB2F00D8101A /* main.m */; };
+		ADE1AAC92E7BFC2200D8101A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */; };
+		ADE1AACB2E7BFC2200D8101A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AA912E7BEB2F00D8101A /* Main.storyboard */; };
+		ADE1AAD72E7BFC7600D8101A /* Locked.icon in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AAD62E7BFC7600D8101A /* Locked.icon */; };
+		ADE1AADC2E7BFC8200D8101A /* Locked_managed.icon in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AADB2E7BFC8200D8101A /* Locked_managed.icon */; };
+		ADE1AADD2E7BFD1600D8101A /* unlocked_managed.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADE1AAAE2E7BFB7500D8101A /* unlocked_managed.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ADE1AADE2E7BFD1600D8101A /* locked.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADE1AAC22E7BFC1B00D8101A /* locked.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ADE1AADF2E7BFD1600D8101A /* locked_managed.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADE1AAD12E7BFC2200D8101A /* locked_managed.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ADE1AAE22E7BFDF400D8101A /* Beta-Locked.icon in Resources */ = {isa = PBXBuildFile; fileRef = ADE1AAE12E7BFDF400D8101A /* Beta-Locked.icon */; };
 		ADEFA3CA2C1CA051008CAC9E /* MTSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEFA3C92C1CA051008CAC9E /* MTSystemInfo.m */; };
 		ADF76EBD2C199AA1001D428E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF76EBC2C199AA1001D428E /* AppDelegate.m */; };
 		ADF76EC72C199AA2001D428E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF76EC62C199AA2001D428E /* main.m */; };
@@ -106,6 +137,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD43F7102D8D390300FCBA8E;
 			remoteInfo = PrivilegesWatcher;
+		};
+		ADE1AA9C2E7BEBDB00D8101A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADFCC5B42B9F48B6009B808B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADE1AA772E7BEB2900D8101A;
+			remoteInfo = Unlocked;
+		};
+		ADE1AAB22E7BFBEC00D8101A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADFCC5B42B9F48B6009B808B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADE1AAA02E7BFB7500D8101A;
+			remoteInfo = unlocked_managed;
+		};
+		ADE1AAD22E7BFC4000D8101A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADFCC5B42B9F48B6009B808B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADE1AAB42E7BFC1B00D8101A;
+			remoteInfo = locked;
+		};
+		ADE1AAD42E7BFC4400D8101A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADFCC5B42B9F48B6009B808B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADE1AAC32E7BFC2200D8101A;
+			remoteInfo = locked_managed;
 		};
 		ADF76ED02C199B1D001D428E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -165,6 +224,19 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		ADE1AA9E2E7BEBE400D8101A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				ADE1AADD2E7BFD1600D8101A /* unlocked_managed.app in CopyFiles */,
+				ADE1AADF2E7BFD1600D8101A /* locked_managed.app in CopyFiles */,
+				ADE1AA9F2E7BEBEC00D8101A /* unlocked.app in CopyFiles */,
+				ADE1AADE2E7BFD1600D8101A /* locked.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		ADF76ED72C199C74001D428E /* Embed Agent Plists */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -262,7 +334,6 @@
 		AD2C14642C37CF8300710889 /* MTTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTTabViewController.m; sourceTree = "<group>"; };
 		AD2D4BCF2C13347500CB8F5A /* PrivilegesTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivilegesTile.h; sourceTree = "<group>"; };
 		AD2D4BD02C13347500CB8F5A /* PrivilegesTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivilegesTile.m; sourceTree = "<group>"; };
-		AD2D4BD52C1335C100CB8F5A /* AppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcons.xcassets; sourceTree = "<group>"; };
 		AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LocalizableMenu.xcstrings; sourceTree = "<group>"; };
 		AD384B1F2D47CF9C00ACDCFF /* MTProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTProcessInfo.h; sourceTree = "<group>"; };
 		AD384B202D47CF9C00ACDCFF /* MTProcessInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTProcessInfo.m; sourceTree = "<group>"; };
@@ -274,10 +345,12 @@
 		AD4C96A82BFF7B1800382426 /* MTReasonAccessory.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MTReasonAccessory.xib; sourceTree = "<group>"; };
 		AD4C96AA2BFF7CB600382426 /* MTReasonAccessoryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTReasonAccessoryController.h; sourceTree = "<group>"; };
 		AD4C96AB2BFF7CB600382426 /* MTReasonAccessoryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTReasonAccessoryController.m; sourceTree = "<group>"; };
+		AD52E51C2E7C03B700023555 /* Beta-Unlocked.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "Beta-Unlocked.icon"; sourceTree = "<group>"; };
+		AD52E5202E7C041C00023555 /* Beta-Unlocked_managed.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "Beta-Unlocked_managed.icon"; sourceTree = "<group>"; };
+		AD52E5222E7C043C00023555 /* Beta-Locked_managed.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "Beta-Locked_managed.icon"; sourceTree = "<group>"; };
 		AD5FEB8C2C182F9D009BB12C /* PrivilegesCLI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrivilegesCLI.entitlements; sourceTree = "<group>"; };
 		AD6BDD062C1705970099E051 /* Privileges.mobileconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Privileges.mobileconfig; sourceTree = "<group>"; };
 		AD7767942C25A14A00BAC139 /* Beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Beta-Info.plist"; sourceTree = "<group>"; };
-		AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "AppIcons-Beta.xcassets"; sourceTree = "<group>"; };
 		AD7C43A22C25958F00EDDA48 /* Release-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Release-Info.plist"; sourceTree = "<group>"; };
 		AD8276B52D116BDE00422701 /* MTSettingsPrivilegesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSettingsPrivilegesController.h; sourceTree = "<group>"; };
 		AD8276B62D116BDE00422701 /* MTSettingsPrivilegesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSettingsPrivilegesController.m; sourceTree = "<group>"; };
@@ -285,6 +358,10 @@
 		AD899F1C2D8D4381007B9E73 /* PrivilegesWatcher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrivilegesWatcher-Info.plist"; sourceTree = "<group>"; };
 		AD899F1D2D8D4381007B9E73 /* PrivilegesWatcher-ParentConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesWatcher-ParentConstraint.coderequirement"; sourceTree = "<group>"; };
 		AD899F1E2D8D4381007B9E73 /* PrivilegesWatcher-SelfConstraint.coderequirement */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivilegesWatcher-SelfConstraint.coderequirement"; sourceTree = "<group>"; };
+		AD93CFE32E71DE15001427AB /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		AD93CFE42E71DE15001427AB /* AppIcon-Beta.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "AppIcon-Beta.icon"; sourceTree = "<group>"; };
+		AD93CFE92E71E10B001427AB /* AppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcons.xcassets; sourceTree = "<group>"; };
+		AD93CFEB2E71E194001427AB /* AppIcons-Beta.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "AppIcons-Beta.xcassets"; sourceTree = "<group>"; };
 		AD9B2EBF2DACFC460016E982 /* MTSyslog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSyslog.h; sourceTree = "<group>"; };
 		AD9B2EC02DACFC460016E982 /* MTSyslog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTSyslog.m; sourceTree = "<group>"; };
 		AD9CCA502C32DB490000E0BC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -322,6 +399,20 @@
 		ADD3FEE62D7F30B400895BA8 /* MTClientCertificate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTClientCertificate.h; sourceTree = "<group>"; };
 		ADD3FEE72D7F30B400895BA8 /* MTClientCertificate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTClientCertificate.m; sourceTree = "<group>"; };
 		ADE1310A2C4034E600F1E98E /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		ADE1AA782E7BEB2900D8101A /* unlocked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = unlocked.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE1AA8C2E7BEB2F00D8101A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ADE1AA8F2E7BEB2F00D8101A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		ADE1AA902E7BEB2F00D8101A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ADE1AA9A2E7BEBB600D8101A /* Unlocked.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Unlocked.icon; sourceTree = "<group>"; };
+		ADE1AAAE2E7BFB7500D8101A /* unlocked_managed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = unlocked_managed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE1AAAF2E7BFB9900D8101A /* Unlocked_managed.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Unlocked_managed.icon; sourceTree = "<group>"; };
+		ADE1AAC22E7BFC1B00D8101A /* locked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = locked.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE1AAD12E7BFC2200D8101A /* locked_managed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = locked_managed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE1AAD62E7BFC7600D8101A /* Locked.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Locked.icon; sourceTree = "<group>"; };
+		ADE1AADB2E7BFC8200D8101A /* Locked_managed.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Locked_managed.icon; sourceTree = "<group>"; };
+		ADE1AAE12E7BFDF400D8101A /* Beta-Locked.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "Beta-Locked.icon"; sourceTree = "<group>"; };
 		ADEFA3C52C1C9C51008CAC9E /* MTWebhook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTWebhook.h; sourceTree = "<group>"; };
 		ADEFA3C62C1C9C51008CAC9E /* MTWebhook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTWebhook.m; sourceTree = "<group>"; };
 		ADEFA3C82C1CA051008CAC9E /* MTSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTSystemInfo.h; sourceTree = "<group>"; };
@@ -356,6 +447,34 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		AD43F70E2D8D390300FCBA8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AA752E7BEB2900D8101A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAA42E7BFB7500D8101A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAB82E7BFC1B00D8101A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAC72E7BFC2200D8101A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -410,8 +529,8 @@
 		AD2D4BD12C13347500CB8F5A /* PrivilegesTile */ = {
 			isa = PBXGroup;
 			children = (
-				AD2D4BD52C1335C100CB8F5A /* AppIcons.xcassets */,
-				AD7C439D2C25906F00EDDA48 /* AppIcons-Beta.xcassets */,
+				AD93CFE92E71E10B001427AB /* AppIcons.xcassets */,
+				AD93CFEB2E71E194001427AB /* AppIcons-Beta.xcassets */,
 				AD344CFD2C1DA4F100436969 /* Classes */,
 			);
 			path = PrivilegesTile;
@@ -508,6 +627,34 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		ADE1AA942E7BEB2F00D8101A /* Icon Dummy */ = {
+			isa = PBXGroup;
+			children = (
+				ADE1AA8C2E7BEB2F00D8101A /* AppDelegate.h */,
+				ADE1AA8D2E7BEB2F00D8101A /* AppDelegate.m */,
+				ADE1AA8E2E7BEB2F00D8101A /* Assets.xcassets */,
+				ADE1AAE02E7BFDC000D8101A /* Icons */,
+				ADE1AA8F2E7BEB2F00D8101A /* main.m */,
+				ADE1AA912E7BEB2F00D8101A /* Main.storyboard */,
+			);
+			path = "Icon Dummy";
+			sourceTree = "<group>";
+		};
+		ADE1AAE02E7BFDC000D8101A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				ADE1AAE12E7BFDF400D8101A /* Beta-Locked.icon */,
+				AD52E5222E7C043C00023555 /* Beta-Locked_managed.icon */,
+				AD52E51C2E7C03B700023555 /* Beta-Unlocked.icon */,
+				AD52E5202E7C041C00023555 /* Beta-Unlocked_managed.icon */,
+				ADE1AAD62E7BFC7600D8101A /* Locked.icon */,
+				ADE1AADB2E7BFC8200D8101A /* Locked_managed.icon */,
+				ADE1AA9A2E7BEBB600D8101A /* Unlocked.icon */,
+				ADE1AAAF2E7BFB9900D8101A /* Unlocked_managed.icon */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
 		ADF76EBA2C199AA1001D428E /* PrivilegesAgent */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,6 +687,7 @@
 				ADFCC5F72B9F4925009B808B /* PrivilegesCLI */,
 				AD2D4BD12C13347500CB8F5A /* PrivilegesTile */,
 				AD899F202D8D5827007B9E73 /* PrivilegesWatcher */,
+				ADE1AA942E7BEB2F00D8101A /* Icon Dummy */,
 				ADFCC5BD2B9F48B6009B808B /* Products */,
 				ADFCC60E2B9F4A5B009B808B /* Frameworks */,
 			);
@@ -555,6 +703,10 @@
 				ADFCC6082B9F49BE009B808B /* PrivilegesTile.docktileplugin */,
 				ADF76EB92C199AA1001D428E /* PrivilegesAgent.app */,
 				AD43F7112D8D390300FCBA8E /* PrivilegesWatcher */,
+				ADE1AA782E7BEB2900D8101A /* unlocked.app */,
+				ADE1AAAE2E7BFB7500D8101A /* unlocked_managed.app */,
+				ADE1AAC22E7BFC1B00D8101A /* locked.app */,
+				ADE1AAD12E7BFC2200D8101A /* locked_managed.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -636,6 +788,8 @@
 			isa = PBXGroup;
 			children = (
 				ADFCC5C52B9F48B8009B808B /* Assets.xcassets */,
+				AD93CFE32E71DE15001427AB /* AppIcon.icon */,
+				AD93CFE42E71DE15001427AB /* AppIcon-Beta.icon */,
 				AD34F6E82C143264000EAA9D /* LocalizableMenu.xcstrings */,
 				ADC5EF3F2BFDD8FE004D69B7 /* Constants.h */,
 				ADFCC6122B9F50F9009B808B /* Classes */,
@@ -687,6 +841,82 @@
 			productName = PrivilegesWatcher;
 			productReference = AD43F7112D8D390300FCBA8E /* PrivilegesWatcher */;
 			productType = "com.apple.product-type.tool";
+		};
+		ADE1AA772E7BEB2900D8101A /* unlocked */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADE1AA872E7BEB2A00D8101A /* Build configuration list for PBXNativeTarget "unlocked" */;
+			buildPhases = (
+				ADE1AA742E7BEB2900D8101A /* Sources */,
+				ADE1AA752E7BEB2900D8101A /* Frameworks */,
+				ADE1AA762E7BEB2900D8101A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = unlocked;
+			packageProductDependencies = (
+			);
+			productName = "Icon Dummy";
+			productReference = ADE1AA782E7BEB2900D8101A /* unlocked.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ADE1AAA02E7BFB7500D8101A /* unlocked_managed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADE1AAA92E7BFB7500D8101A /* Build configuration list for PBXNativeTarget "unlocked_managed" */;
+			buildPhases = (
+				ADE1AAA12E7BFB7500D8101A /* Sources */,
+				ADE1AAA42E7BFB7500D8101A /* Frameworks */,
+				ADE1AAA52E7BFB7500D8101A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = unlocked_managed;
+			packageProductDependencies = (
+			);
+			productName = "Icon Dummy";
+			productReference = ADE1AAAE2E7BFB7500D8101A /* unlocked_managed.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ADE1AAB42E7BFC1B00D8101A /* locked */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADE1AABD2E7BFC1B00D8101A /* Build configuration list for PBXNativeTarget "locked" */;
+			buildPhases = (
+				ADE1AAB52E7BFC1B00D8101A /* Sources */,
+				ADE1AAB82E7BFC1B00D8101A /* Frameworks */,
+				ADE1AAB92E7BFC1B00D8101A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = locked;
+			packageProductDependencies = (
+			);
+			productName = "Icon Dummy";
+			productReference = ADE1AAC22E7BFC1B00D8101A /* locked.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ADE1AAC32E7BFC2200D8101A /* locked_managed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADE1AACC2E7BFC2200D8101A /* Build configuration list for PBXNativeTarget "locked_managed" */;
+			buildPhases = (
+				ADE1AAC42E7BFC2200D8101A /* Sources */,
+				ADE1AAC72E7BFC2200D8101A /* Frameworks */,
+				ADE1AAC82E7BFC2200D8101A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = locked_managed;
+			packageProductDependencies = (
+			);
+			productName = "Icon Dummy";
+			productReference = ADE1AAD12E7BFC2200D8101A /* locked_managed.app */;
+			productType = "com.apple.product-type.application";
 		};
 		ADF76EB82C199AA1001D428E /* PrivilegesAgent */ = {
 			isa = PBXNativeTarget;
@@ -791,10 +1021,15 @@
 				ADFCC6042B9F49BE009B808B /* Sources */,
 				ADFCC6052B9F49BE009B808B /* Frameworks */,
 				ADFCC6062B9F49BE009B808B /* Resources */,
+				ADE1AA9E2E7BEBE400D8101A /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				ADE1AAD52E7BFC4400D8101A /* PBXTargetDependency */,
+				ADE1AAD32E7BFC4000D8101A /* PBXTargetDependency */,
+				ADE1AAB32E7BFBEC00D8101A /* PBXTargetDependency */,
+				ADE1AA9D2E7BEBDB00D8101A /* PBXTargetDependency */,
 			);
 			name = PrivilegesTile;
 			productName = PrivilegesTile;
@@ -808,11 +1043,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = "SAP SE";
 				TargetAttributes = {
 					AD43F7102D8D390300FCBA8E = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					ADE1AA772E7BEB2900D8101A = {
+						CreatedOnToolsVersion = 26.0;
 					};
 					ADF76EB82C199AA1001D428E = {
 						CreatedOnToolsVersion = 16.0;
@@ -894,15 +1133,64 @@
 				AD43F7102D8D390300FCBA8E /* PrivilegesWatcher */,
 				ADFCC5F52B9F4925009B808B /* PrivilegesCLI */,
 				ADFCC6072B9F49BE009B808B /* PrivilegesTile */,
+				ADE1AAB42E7BFC1B00D8101A /* locked */,
+				ADE1AAC32E7BFC2200D8101A /* locked_managed */,
+				ADE1AA772E7BEB2900D8101A /* unlocked */,
+				ADE1AAA02E7BFB7500D8101A /* unlocked_managed */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		ADE1AA762E7BEB2900D8101A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AA982E7BEB2F00D8101A /* Assets.xcassets in Resources */,
+				ADE1AA9B2E7BEBB600D8101A /* Unlocked.icon in Resources */,
+				AD52E51D2E7C03B700023555 /* Beta-Unlocked.icon in Resources */,
+				ADE1AA992E7BEB2F00D8101A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAA52E7BFB7500D8101A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AAA62E7BFB7500D8101A /* Assets.xcassets in Resources */,
+				ADE1AAB02E7BFB9900D8101A /* Unlocked_managed.icon in Resources */,
+				AD52E5212E7C041C00023555 /* Beta-Unlocked_managed.icon in Resources */,
+				ADE1AAA82E7BFB7500D8101A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAB92E7BFC1B00D8101A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AABA2E7BFC1B00D8101A /* Assets.xcassets in Resources */,
+				ADE1AAD72E7BFC7600D8101A /* Locked.icon in Resources */,
+				ADE1AABC2E7BFC1B00D8101A /* Main.storyboard in Resources */,
+				ADE1AAE22E7BFDF400D8101A /* Beta-Locked.icon in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAC82E7BFC2200D8101A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AAC92E7BFC2200D8101A /* Assets.xcassets in Resources */,
+				AD52E5232E7C043C00023555 /* Beta-Locked_managed.icon in Resources */,
+				ADE1AADC2E7BFC8200D8101A /* Locked_managed.icon in Resources */,
+				ADE1AACB2E7BFC2200D8101A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADF76EB72C199AA1001D428E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD93CFE62E71DE15001427AB /* AppIcon.icon in Resources */,
 				AD67F9102CA5A53700D45955 /* Main.storyboard in Resources */,
 				AD2542982C20249600F0F363 /* PrivilegesAgent.sdef in Resources */,
 				AD20348D2D1040B80075BE52 /* StatusItem.xcassets in Resources */,
@@ -917,6 +1205,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD93CFE72E71DE15001427AB /* AppIcon-Beta.icon in Resources */,
+				AD93CFE82E71DE15001427AB /* AppIcon.icon in Resources */,
 				ADCF12D62CB582A500E53A6D /* AppleScript sample.scpt in Resources */,
 				ADFCC5C62B9F48B8009B808B /* Assets.xcassets in Resources */,
 				ADC5EF562BFDE916004D69B7 /* Credits.rtf in Resources */,
@@ -941,9 +1231,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD93CFEA2E71E10B001427AB /* AppIcons.xcassets in Resources */,
+				AD93CFEC2E71E194001427AB /* AppIcons-Beta.xcassets in Resources */,
 				AD34F6E92C143264000EAA9D /* LocalizableMenu.xcstrings in Resources */,
-				AD7C439E2C25906F00EDDA48 /* AppIcons-Beta.xcassets in Resources */,
-				AD2D4BD62C1335C100CB8F5A /* AppIcons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,6 +1245,42 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD899F1F2D8D4381007B9E73 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AA742E7BEB2900D8101A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AA952E7BEB2F00D8101A /* AppDelegate.m in Sources */,
+				ADE1AA962E7BEB2F00D8101A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAA12E7BFB7500D8101A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AAA22E7BFB7500D8101A /* AppDelegate.m in Sources */,
+				ADE1AAA32E7BFB7500D8101A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAB52E7BFC1B00D8101A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AAB62E7BFC1B00D8101A /* AppDelegate.m in Sources */,
+				ADE1AAB72E7BFC1B00D8101A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE1AAC42E7BFC2200D8101A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE1AAC52E7BFC2200D8101A /* AppDelegate.m in Sources */,
+				ADE1AAC62E7BFC2200D8101A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,6 +1394,26 @@
 			target = AD43F7102D8D390300FCBA8E /* PrivilegesWatcher */;
 			targetProxy = AD43F71A2D8D3D9A00FCBA8E /* PBXContainerItemProxy */;
 		};
+		ADE1AA9D2E7BEBDB00D8101A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADE1AA772E7BEB2900D8101A /* unlocked */;
+			targetProxy = ADE1AA9C2E7BEBDB00D8101A /* PBXContainerItemProxy */;
+		};
+		ADE1AAB32E7BFBEC00D8101A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADE1AAA02E7BFB7500D8101A /* unlocked_managed */;
+			targetProxy = ADE1AAB22E7BFBEC00D8101A /* PBXContainerItemProxy */;
+		};
+		ADE1AAD32E7BFC4000D8101A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADE1AAB42E7BFC1B00D8101A /* locked */;
+			targetProxy = ADE1AAD22E7BFC4000D8101A /* PBXContainerItemProxy */;
+		};
+		ADE1AAD52E7BFC4400D8101A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADE1AAC32E7BFC2200D8101A /* locked_managed */;
+			targetProxy = ADE1AAD42E7BFC4400D8101A /* PBXContainerItemProxy */;
+		};
 		ADF76ED12C199B1D001D428E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = ADF76EB82C199AA1001D428E /* PrivilegesAgent */;
@@ -1096,6 +1442,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		ADE1AA912E7BEB2F00D8101A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ADE1AA902E7BEB2F00D8101A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		ADFCC5C72B9F48B8009B808B /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1111,19 +1465,18 @@
 		AD43F7162D8D390300FCBA8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 23;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1134,19 +1487,18 @@
 		AD43F7172D8D390300FCBA8E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 23;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1157,19 +1509,18 @@
 		AD43F7182D8D390300FCBA8E /* Release Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 23;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1244,17 +1595,20 @@
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = default;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2081;
+				CURRENT_PROJECT_VERSION = 2105;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				EXCLUDED_SOURCE_FILE_NAMES = "Release-InfoPlist.xcstrings";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					"Release-InfoPlist.xcstrings",
+					AppIcon.icon,
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Privileges/Beta-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
@@ -1269,7 +1623,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1286,12 +1640,10 @@
 				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = PrivilegesAgent/PrivilegesAgent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 521;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 533;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1309,7 +1661,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1323,13 +1675,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 51;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
@@ -1338,7 +1689,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1350,20 +1701,19 @@
 		AD7C439A2C258AF000EDDA48 /* Release Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 59;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1377,18 +1727,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PrivilegesCLI/PrivilegesCLI.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 127;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1402,13 +1751,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = AppIcons.xcassets;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1416,7 +1764,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1497,17 +1845,20 @@
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = default;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2081;
+				CURRENT_PROJECT_VERSION = 2105;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				EXCLUDED_SOURCE_FILE_NAMES = "Beta-InfoPlist.xcstrings";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					"Beta-InfoPlist.xcstrings",
+					"AppIcon-Beta.icon",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Privileges/Release-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
@@ -1520,7 +1871,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1537,12 +1888,10 @@
 				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = PrivilegesAgent/PrivilegesAgent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 521;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 533;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1558,7 +1907,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1572,20 +1921,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 51;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PrivilegesXPC;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2016-2025 SAP SE.\nAll rights reserved.";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1597,18 +1945,17 @@
 		ADB488E52E66F32A00385016 /* Release without launch constraints */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 59;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1621,17 +1968,16 @@
 		ADB488E62E66F32A00385016 /* Release without launch constraints */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 23;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesWatcher/PrivilegesWatcher-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.watcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1643,18 +1989,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PrivilegesCLI/PrivilegesCLI.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 127;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1668,13 +2013,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "AppIcons-Beta.xcassets";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1682,7 +2026,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1696,6 +2040,550 @@
 			};
 			name = "Release without launch constraints";
 		};
+		ADE1AA882E7BEB2A00D8101A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		ADE1AA892E7BEB2A00D8101A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		ADE1AA8A2E7BEB2A00D8101A /* Release without launch constraints */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release without launch constraints";
+		};
+		ADE1AA8B2E7BEB2A00D8101A /* Release Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Beta-Unlocked";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = Unlocked.icon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release Beta";
+		};
+		ADE1AAAA2E7BFB7500D8101A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		ADE1AAAB2E7BFB7500D8101A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		ADE1AAAC2E7BFB7500D8101A /* Release without launch constraints */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Unlocked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Unlocked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release without launch constraints";
+		};
+		ADE1AAAD2E7BFB7500D8101A /* Release Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Beta-Unlocked_managed";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = Unlocked_managed.icon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.unlocked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release Beta";
+		};
+		ADE1AABE2E7BFC1B00D8101A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		ADE1AABF2E7BFC1B00D8101A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		ADE1AAC02E7BFC1B00D8101A /* Release without launch constraints */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release without launch constraints";
+		};
+		ADE1AAC12E7BFC1B00D8101A /* Release Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Beta-Locked";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = Locked.icon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release Beta";
+		};
+		ADE1AACD2E7BFC2200D8101A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		ADE1AACE2E7BFC2200D8101A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		ADE1AACF2E7BFC2200D8101A /* Release without launch constraints */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Locked_managed;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = "Beta-Locked_managed.icon";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release without launch constraints";
+		};
+		ADE1AAD02E7BFC2200D8101A /* Release Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Beta-Locked_managed";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_SOURCE_FILE_NAMES = Locked_managed.icon;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 SAP SE. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.icon.locked.managed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = "Release Beta";
+		};
 		ADF76EC92C199AA2001D428E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1704,12 +2592,10 @@
 				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = PrivilegesAgent/PrivilegesAgent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 521;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 533;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1727,7 +2613,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1745,12 +2631,10 @@
 				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = PrivilegesAgent/PrivilegesAgent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 521;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				CURRENT_PROJECT_VERSION = 533;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1768,7 +2652,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1910,17 +2794,20 @@
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = default;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2081;
+				CURRENT_PROJECT_VERSION = 2105;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				EXCLUDED_SOURCE_FILE_NAMES = "Beta-InfoPlist.xcstrings";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					"Beta-InfoPlist.xcstrings",
+					"AppIcon-Beta.icon",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Privileges/Release-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
@@ -1935,7 +2822,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1953,17 +2840,20 @@
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = default;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = Privileges/Privileges.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2081;
+				CURRENT_PROJECT_VERSION = 2105;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				EXCLUDED_SOURCE_FILE_NAMES = "Beta-InfoPlist.xcstrings";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					"Beta-InfoPlist.xcstrings",
+					"AppIcon-Beta.icon",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Privileges/Release-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Privileges;
@@ -1978,7 +2868,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1991,13 +2881,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 51;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
@@ -2006,7 +2895,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2019,13 +2908,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 51;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PrivilegesXPC/Info.plist;
@@ -2034,7 +2922,7 @@
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_RESPONSIBLE = "$(SRCROOT)/PrivilegesXPC/PrivilegesXPC-ResponsibleConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.xpcservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2046,20 +2934,19 @@
 		ADFCC5F02B9F48FB009B808B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 59;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2072,20 +2959,19 @@
 		ADFCC5F12B9F48FB009B808B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 59;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-Info.plist";
 				LAUNCH_CONSTRAINT_PARENT = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-ParentConstraint.coderequirement";
 				LAUNCH_CONSTRAINT_SELF = "$(SRCROOT)/PrivilegesDaemon/PrivilegesDaemon-SelfConstraint.coderequirement";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.daemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2099,18 +2985,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PrivilegesCLI/PrivilegesCLI.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 127;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2124,18 +3009,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PrivilegesCLI/PrivilegesCLI.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 127;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/PrivilegesCLI/PrivilegesCLI-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.cli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2149,13 +3033,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "AppIcons-Beta.xcassets";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2163,7 +3046,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2181,13 +3064,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 7R5ZEU67FQ;
+				DEVELOPMENT_TEAM = 7R5ZEU67FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "AppIcons-Beta.xcassets";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2195,7 +3077,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = PrivilegesTile;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = corp.sap.privileges.docktileplugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2219,6 +3101,50 @@
 				AD43F7172D8D390300FCBA8E /* Release */,
 				ADB488E62E66F32A00385016 /* Release without launch constraints */,
 				AD43F7182D8D390300FCBA8E /* Release Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADE1AA872E7BEB2A00D8101A /* Build configuration list for PBXNativeTarget "unlocked" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADE1AA882E7BEB2A00D8101A /* Debug */,
+				ADE1AA892E7BEB2A00D8101A /* Release */,
+				ADE1AA8A2E7BEB2A00D8101A /* Release without launch constraints */,
+				ADE1AA8B2E7BEB2A00D8101A /* Release Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADE1AAA92E7BFB7500D8101A /* Build configuration list for PBXNativeTarget "unlocked_managed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADE1AAAA2E7BFB7500D8101A /* Debug */,
+				ADE1AAAB2E7BFB7500D8101A /* Release */,
+				ADE1AAAC2E7BFB7500D8101A /* Release without launch constraints */,
+				ADE1AAAD2E7BFB7500D8101A /* Release Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADE1AABD2E7BFC1B00D8101A /* Build configuration list for PBXNativeTarget "locked" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADE1AABE2E7BFC1B00D8101A /* Debug */,
+				ADE1AABF2E7BFC1B00D8101A /* Release */,
+				ADE1AAC02E7BFC1B00D8101A /* Release without launch constraints */,
+				ADE1AAC12E7BFC1B00D8101A /* Release Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADE1AACC2E7BFC2200D8101A /* Build configuration list for PBXNativeTarget "locked_managed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADE1AACD2E7BFC2200D8101A /* Debug */,
+				ADE1AACE2E7BFC2200D8101A /* Release */,
+				ADE1AACF2E7BFC2200D8101A /* Release without launch constraints */,
+				ADE1AAD02E7BFC2200D8101A /* Release Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

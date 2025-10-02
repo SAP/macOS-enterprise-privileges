@@ -171,6 +171,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         _appGroupToObserve = [[NSArray alloc] initWithObjects:
                                   kMTDefaultsShowInMenuBarKey,
                                   kMTDefaultsShowRemainingTimeInMenuBarKey,
+                                  kMTDefaultsIconAppearanceThemeKey,    // a hack to detect icon appearance changes in macOS 26
+                                  kMTDefaultsIconAppearanceTintColorKey,
                                   nil
         ];
         
@@ -626,7 +628,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if (object == [_privilegesApp userDefaults] && [_keysToObserve containsObject:keyPath]) {
         
@@ -660,21 +662,13 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
         [self postConfigurationChangeNotificationForKeyPath:keyPath];
         
-    } else if ((object == _appGroupDefaults && ([keyPath isEqualToString:kMTDefaultsShowInMenuBarKey] ||
-                                                [keyPath isEqualToString:kMTDefaultsShowRemainingTimeInMenuBarKey])) ||
+    } else if ((object == _appGroupDefaults && [_appGroupToObserve containsObject:keyPath]) ||
                (object == _statusItem && [keyPath isEqualToString:@"visible"])) {
         
         if (object == _statusItem) { [_appGroupDefaults setBool:NO forKey:kMTDefaultsShowInMenuBarKey]; }
         [self showStatusItem:[self->_privilegesApp showInMenuBar]];
         
-        if ([keyPath isEqualToString:kMTDefaultsShowRemainingTimeInMenuBarKey]) {
-            
-            [self postConfigurationChangeNotificationForKeyPath:kMTDefaultsShowRemainingTimeInMenuBarKey];
-            
-        } else {
-            
-            [self postConfigurationChangeNotificationForKeyPath:kMTDefaultsShowInMenuBarKey];
-        }
+        if (object == _appGroupDefaults) { [self postConfigurationChangeNotificationForKeyPath:keyPath]; }
     }
 }
 
@@ -938,7 +932,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
         } else if ([_privilegesApp authenticationRequired]) {
             
-            [self authenticateUserWithCompletionHandler:^(BOOL success) {
+            [self authenticateUserWithCompletionHandler:^(BOOL success, NSError *error) {
                 
                 if (success) {
                     
@@ -959,7 +953,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 {
     if ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting]) {
         
-        [self authenticateUserWithCompletionHandler:^(BOOL success) {
+        [self authenticateUserWithCompletionHandler:^(BOOL success, NSError *error) {
             
             if (success) {
                 
@@ -1222,10 +1216,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
 }
 
-- (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success))completionHandler
+- (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success, NSError *error))completionHandler
 {
     if (![[_privilegesApp currentUser] useIsRestricted]) {
                 
+        [NSApp activateIgnoringOtherApps:YES];
+        
         if ([_privilegesApp smartCardSupportEnabled]) {
             
             NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationTextPIV", nil), kMTAppName,
@@ -1235,7 +1231,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             [MTIdentity authenticatePIVUserWithReason:reasonString
                                     completionHandler:^(BOOL success, NSError *error) {
                 
-                if (completionHandler) { completionHandler(success); }
+                if (completionHandler) { completionHandler(success, error); }
             }];
             
         } else {
@@ -1244,15 +1240,28 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
             [MTIdentity authenticateUserWithReason:reasonString
                                  requireBiometrics:[_privilegesApp biometricAuthenticationRequired]
+                            biometricsFallbackType:[_privilegesApp biometricsFallbackType]
                                  completionHandler:^(BOOL success, NSError *error) {
                 
-                if (completionHandler) { completionHandler(success); }
+                if (error && ([error code] == 130 || [error code] == 140)) {
+                                                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                
+                        NSAlert *alert = [[NSAlert alloc] init];
+                        [alert setMessageText:NSLocalizedString(@"biometricsErrorDialogTitle", nil)];
+                        [alert setInformativeText:NSLocalizedString(@"biometricsErrorDialogMessage", nil)];
+                        [alert setAlertStyle:NSAlertStyleCritical];
+                        [alert runModal];
+                    });
+                }
+                
+                if (completionHandler) { completionHandler(success, error); }
             }];
         }
         
     } else {
         
-        if (completionHandler) { completionHandler(NO); }
+        if (completionHandler) { completionHandler(NO, nil); }
     }
 }
 
@@ -1285,7 +1294,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
         if ([_privilegesApp authenticationRequired] && [_privilegesApp renewalFollowsAuthSetting]) {
             
-            [self authenticateUserWithCompletionHandler:^(BOOL success) {
+            [self authenticateUserWithCompletionHandler:^(BOOL success, NSError *error) {
                 
                 if (success) {
                     

@@ -112,37 +112,71 @@
 
 + (void)authenticateUserWithReason:(NSString*)authReason
                  requireBiometrics:(BOOL)biometrics
+            biometricsFallbackType:(MTBiometricsFallbackType)fallbackType
                  completionHandler:(void (^) (BOOL success, NSError *error))completionHandler
 {
+    NSError *error = nil;
+    
     if (authReason) {
         
-        NSError *error = nil;
         LAContext *myContext = [[LAContext alloc] init];
         LAPolicy policy = kLAPolicyDeviceOwnerAuthentication;
         
-        if (biometrics && [myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+        if (biometrics) {
             
-            policy = kLAPolicyDeviceOwnerAuthenticationWithBiometrics;
-            [myContext setLocalizedFallbackTitle:@""];
+            BOOL biometricsSupported = ([myContext canEvaluatePolicy:policy error:nil] && [myContext biometryType] != LABiometryTypeNone);
+            
+            if (biometricsSupported) {
+                
+                if ([myContext canEvaluatePolicy:kLAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+                    
+                    policy = kLAPolicyDeviceOwnerAuthenticationWithBiometrics;
+                    [myContext setLocalizedFallbackTitle:@""];
+                    
+                // if biometric authentication is not configured and the fallback type
+                // is not set to "default", we just return an error.
+                } else if (completionHandler && fallbackType != MTBiometricsFallbackTypeDefault) {
+                    
+                    NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"Biometric authentication not configured", NSLocalizedDescriptionKey, nil];
+                    error = [NSError errorWithDomain:[[NSBundle mainBundle] bundleIdentifier] code:130 userInfo:errorDetail];
+                }
+                
+            // if biometric authentication is not supported and the fallback type is
+            // set to "none", we just return with an error.
+            } else if (completionHandler && fallbackType == MTBiometricsFallbackTypeNone) {
+                
+                NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"Biometric authentication unavailable", NSLocalizedDescriptionKey, nil];
+                error = [NSError errorWithDomain:[[NSBundle mainBundle] bundleIdentifier] code:140 userInfo:errorDetail];
+            }
         }
         
-        if ([myContext canEvaluatePolicy:policy error:&error]) {
+        if (error) {
             
-            [myContext evaluatePolicy:policy
-                      localizedReason:authReason
-                                reply:^(BOOL success, NSError *error) {
-                
-                if (completionHandler) { completionHandler(success, error); }
-            }];
+            if (completionHandler) { completionHandler(NO, error); }
             
         } else {
             
-            if (completionHandler) { completionHandler(NO, error); }
+            if ([myContext canEvaluatePolicy:policy error:&error]) {
+                
+                [myContext evaluatePolicy:policy
+                          localizedReason:authReason
+                                    reply:^(BOOL success, NSError *error) {
+                    
+                    if (completionHandler) { completionHandler(success, error); }
+                }];
+                
+            } else {
+                
+                if (completionHandler) { completionHandler(NO, error); }
+            }
         }
     
     } else {
         
-        if (completionHandler) { completionHandler(NO, nil); }
+        NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:@"No authentication reason provided", NSLocalizedDescriptionKey, nil];
+        error = [NSError errorWithDomain:[[NSBundle mainBundle] bundleIdentifier] code:150 userInfo:errorDetail];
+        
+        if (completionHandler) { completionHandler(NO, error); }
     }
 }
 

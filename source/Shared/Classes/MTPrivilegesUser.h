@@ -85,7 +85,7 @@
  @param         completionHandler The handler to call when the request is complete.
  @discussion    Returns YES if the operation was successful, otherwise returns NO.
 */
-- (void)authenticateWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+- (void)authenticateWithCompletionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
 
 /*!
  @method        privilegesExpirationWithReply:

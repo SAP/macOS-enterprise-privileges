@@ -39,8 +39,25 @@ typedef enum {
     MTLocalNotificationTypeRenewSuccess     = 5,
 } MTLocalNotificationType;
 
+/*!
+ @property      actions
+ @abstract      The actions to display when the system delivers notifications of this type. An empty array can be specified for this parameter if no actions should be displayed.
+ @discussion    The value of this property is NSArray.
+*/
 @property (nonatomic, strong, readwrite) NSArray<UNNotificationAction*> *actions;
+
+/*!
+ @property      categoryIdentifier
+ @abstract      The identifier that will be used to determine the appropriate actions to display for the notification.
+ @discussion    The value of this property is NSString.
+*/
 @property (nonatomic, strong, readwrite) NSString *categoryIdentifier;
+
+/*!
+ @property      delegate
+ @abstract      The receiver's notification center delegate.
+ @discussion    The value of this property is an object conforming to the UNUserNotificationCenterDelegate protocol.
+*/
 @property (weak) id <UNUserNotificationCenterDelegate> delegate;
 
 /*!

@@ -350,7 +350,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                             
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 
-                                [[self->_privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
+                                [[self->_privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success, NSError *error) {
                                     
                                     self->_authSuccess = success;
                                     dispatch_semaphore_signal(semaphore);

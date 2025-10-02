@@ -168,6 +168,14 @@
 - (BOOL)biometricAuthenticationRequired;
 
 /*!
+ @method        biometricsFallbackType
+ @abstract      Get the type of the fallback strategy in case biometric authentication is not possible.
+ @discussion    Returns the MTBiometricsFallbackType. This option is ignored if
+                @c biometricAuthenticationRequired is set to NO.
+ */
+- (MTBiometricsFallbackType)biometricsFallbackType;
+
+/*!
  @method        privilegesShouldBeRevokedAtLogin
  @abstract      Get whether admin privileges should be revoked at login.
  @discussion    Returns YES if admin privileges should be revoked at login, otherwise returns NO.

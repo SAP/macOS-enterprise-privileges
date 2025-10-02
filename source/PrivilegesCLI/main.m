@@ -179,6 +179,7 @@
                                 ([privilegesApp authenticationRequired] && renewAdminPrivileges && [privilegesApp renewalFollowsAuthSetting])) {
                                 
                                 __block BOOL authSuccess = NO;
+                                __block BOOL biometricsRequired = NO;
                                 
                                 if ([privilegesApp biometricAuthenticationRequired] && ![privilegesApp allowCLIBiometricAuthentication]) {
                                     
@@ -189,13 +190,14 @@
                                     
                                     int i = 3;
                                     
-                                    while (i > 0 && !authSuccess) {
+                                    while (i > 0 && !authSuccess && !biometricsRequired) {
                                         
                                         if ([privilegesApp allowCLIBiometricAuthentication]) {
                                             
-                                            [[privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success) {
+                                            [[privilegesApp currentUser] authenticateWithCompletionHandler:^(BOOL success, NSError *error) {
                                                 
                                                 authSuccess = success;
+                                                biometricsRequired = (error && ([error code] == 130 || [error code] == 140));
                                                 dispatch_semaphore_signal(semaphore);
                                             }];
                                             
@@ -225,7 +227,12 @@
                                     
                                     if (!authSuccess) {
                                         
-                                        [self writeConsole:@"3 incorrect password attempts"];
+                                        if (biometricsRequired) {
+                                            [self writeConsole:@"Biometric authentication required!"];
+                                        } else {
+                                            [self writeConsole:@"3 incorrect password attempts"];
+                                        }
+                                        
                                         exitCode = 1;
                                     }
                                 }

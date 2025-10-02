@@ -87,18 +87,28 @@
                     
                     NSString *changedKey = [userInfo objectForKey:kMTNotificationKeyPreferencesChanged];
                     NSArray *keysToObserve = [[NSArray alloc] initWithObjects:
-                                                  kMTDefaultsEnforcePrivilegesKey,
+                                              kMTDefaultsEnforcePrivilegesKey,
                                               kMTDefaultsLimitToUserKey,
                                               kMTDefaultsLimitToGroupKey,
+                                              kMTDefaultsIconAppearanceThemeKey,
+                                              kMTDefaultsIconAppearanceTintColorKey,
                                               nil
                     ];
                     
-                    if (changedKey && [keysToObserve containsObject:changedKey]) {
+                    if (changedKey) {
                         
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        if ([changedKey isEqualToString:kMTDefaultsIconAppearanceThemeKey] ||
+                            [changedKey isEqualToString:kMTDefaultsIconAppearanceTintColorKey]) {
                             
                             [self updateDockTileIcon:dockTile];
-                        });
+                            
+                        } else if ([keysToObserve containsObject:changedKey]) {
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                
+                                [self updateDockTileIcon:dockTile];
+                            });
+                        }
                     }
                 }
             }];
@@ -223,9 +233,6 @@
             soundPath = @"/System/Library/Frameworks/SecurityInterface.framework/Versions/A/Resources/lockClosing.aif";
         }
         
-        // make sure we use the new icons for macOS 26 and newer
-//        if (@available(macOS 26.0, *)) { iconName = [iconName stringByAppendingString:@"_new"]; }
-        
         if ([[_privilegesApp currentUser] useIsRestricted]) { iconName = [iconName stringByAppendingString:@"_managed"]; }
         
         // play a lock/unlock sound if VoiceOver is enbled
@@ -241,10 +248,30 @@
             }
         }
         
-        NSImage *dockIcon = [_pluginBundle imageForResource:iconName];
+        NSImage *dockIcon = nil;
+        
+        if (@available(macOS 26.0, *)) {
+            
+            NSString *iconPath = [_pluginBundle pathForResource:iconName ofType:@"app"];
+            
+            if (iconPath) {
+
+                NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForFile:iconPath];
+                dockIcon = [NSImage imageWithSize:NSMakeSize(1024, 1024)
+                                          flipped:NO
+                                   drawingHandler:^BOOL(NSRect dstRect) {
+                    
+                    [appIcon drawInRect:NSMakeRect(0, 0, 1024, 1024)];
+                    
+                    return YES;
+                }];
+            }
+        }
+        
+        if (!dockIcon) { dockIcon = [_pluginBundle imageForResource:iconName]; }
         
         if (dockIcon) {
-            
+
             NSImageView *imageView = [NSImageView imageViewWithImage:dockIcon];
             [dockTile setContentView:imageView];
             [dockTile display];

@@ -61,7 +61,7 @@
  @method        authenticateUserWithCompletionHandler:
  @param         completionHandler The reply block to call when the request is complete.
 */
-- (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+- (void)authenticateUserWithCompletionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
 
 /*!
  @method        expirationWithReply:

@@ -56,6 +56,7 @@
 #define kMTDefaultsAuthRequiredKey                  @"RequireAuthentication"
 #define kMTDefaultsAuthCLIBiometricsAllowedKey      @"AllowCLIBiometricAuthentication"
 #define kMTDefaultsAuthRequireBiometricsKey         @"RequireBiometricAuthentication"
+#define kMTDefaultsAuthBiometricsFallbackTypeKey    @"BiometricsFallbackType"
 #define kMTDefaultsLimitToUserKey                   @"LimitToUser"
 #define kMTDefaultsLimitToGroupKey                  @"LimitToGroup"
 #define kMTDefaultsRequireReasonKey                 @"ReasonRequired"
@@ -103,6 +104,8 @@
 #define kMTDefaultsRenewalCustomActionIntervalKey   @"ActionNotificationInterval"
 #define kMTDefaultsUnexpectedPrivilegeStateKey      @"UnexpectedPrivilegeState"
 #define kMTDefaultsForceUpdatePrebootVolumeKey      @"ForceUpdatePrebootVolume"
+#define kMTDefaultsIconAppearanceThemeKey           @"AppleIconAppearanceTheme"
+#define kMTDefaultsIconAppearanceTintColorKey       @"AppleIconAppearanceTintColor"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange      @"corp.sap.privileges.PrivilegesDidChange"

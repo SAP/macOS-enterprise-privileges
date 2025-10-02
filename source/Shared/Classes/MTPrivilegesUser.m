@@ -144,19 +144,19 @@
     }];
 }
 
-- (void)authenticateWithCompletionHandler:(void(^)(BOOL success))completionHandler
-{            
+- (void)authenticateWithCompletionHandler:(void(^)(BOOL success, NSError *error))completionHandler
+{
     [_agentConnection connectToAgentWithExportedObject:nil
                                 andExecuteCommandBlock:^{
         
         [[[self->_agentConnection connection] remoteObjectProxyWithErrorHandler:^(NSError *error) {
             
             os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to connect to agent: %{public}@", error);
-            if (completionHandler) { completionHandler(NO); }
+            if (completionHandler) { completionHandler(NO, error); }
             
-        }] authenticateUserWithCompletionHandler:^(BOOL success) {
+        }] authenticateUserWithCompletionHandler:^(BOOL success, NSError *error) {
           
-            if (completionHandler) { completionHandler(success); }
+            if (completionHandler) { completionHandler(success, error); }
         }];
     }];
 }
