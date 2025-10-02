@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.4.1.0", 
+   "__version": "2.4.2.0", 
    "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -138,6 +138,9 @@
             "RequireBiometricAuthentication": {
                "$ref": "#/definitions/RequireBiometricAuthentication"
             },
+            "BiometricsFallbackType": {
+               "$ref": "#/definitions/BiometricsFallbackType"
+            },
             "RevokePrivilegesAfterSystemTimeChange": {
                "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
             },
@@ -255,6 +258,9 @@
             }, 
             "RequireBiometricAuthentication": {
                "$ref": "#/definitions/RequireBiometricAuthentication"
+            },
+            "BiometricsFallbackType": {
+               "$ref": "#/definitions/BiometricsFallbackType"
             },
             "RevokePrivilegesAfterSystemTimeChange": {
                "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
@@ -443,6 +449,36 @@
             } 
          ] 
       }, 
+      "BiometricsFallbackType": {
+         "type": "integer",
+         "default": 0,
+         "minimum": 0,
+         "maximum": 2,
+         "title": "Biometrics Fallback Type",
+         "description": "This specifies the fallback strategy when \"RequireBiometricAuthentication\" is enabled. By default, users are prompted to enter their username and password if biometric authentication is not configured or unavailable. However, this may not be the desired behavior in all environments and can be changed here. Please note that PrivilegesCLI does not use biometric authentication by default. Therefore, the \"BiometricsFallbackType\" setting will be ignored unless the \"AllowCLIBiometricAuthentication\" setting is enabled.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#BiometricsFallbackType"
+            }
+         ],
+         "enum": [
+            0,
+            1,
+            2
+         ],
+         "options": {
+            "enum_titles": [
+               "Ask for credentials if biometrics are unavailable or not configured",
+               "Ask for credentials only if biometrics are unavailable",
+               "Never ask for credentials"
+            ],
+            "dependencies": {
+               "RequireAuthentication": true,
+               "RequireBiometricAuthentication": true
+            }
+         }
+      },
       "EnableSmartCardSupport": { 
          "type": "boolean", 
          "default": false, 
