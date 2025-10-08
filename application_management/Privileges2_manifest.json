@@ -1516,7 +1516,7 @@
                         "UseTLS": { 
                            "type": "boolean", 
                            "title": "Use TLS", 
-                           "default": false, 
+                           "default": true, 
                            "description": "When set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
                            "links": [
                               { 

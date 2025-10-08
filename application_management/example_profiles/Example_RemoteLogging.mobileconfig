@@ -90,7 +90,9 @@
 									<key>SyslogOptions</key>
 									<dict>
 										<key>ServerPort</key>
-										<integer>514</integer>
+										<integer>6514</integer>
+										<key>UseTLS</key>
+										<true/>
 										<key>LogFacility</key>
 										<integer>4</integer>
 										<key>LogSeverity</key>

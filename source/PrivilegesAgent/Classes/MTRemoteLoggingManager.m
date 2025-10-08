@@ -58,6 +58,14 @@
             if ([[remoteLoggingConfiguration serverType] isEqualToString:kMTRemoteLoggingServerTypeSyslog]) {
 
                 MTSyslogOptions *syslogOptions = [remoteLoggingConfiguration syslogOptions];
+                
+                if (![syslogOptions useTLS]) {
+                    
+                    NSString *serverAddress = [remoteLoggingConfiguration serverAddress];
+                    NSInteger serverPort = [syslogOptions serverPort];
+                    
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: WARNING: Remote syslog for %{public}@:%ld is configured without TLS. Events will be sent in clear text until TLS is enabled.", (serverAddress) ? serverAddress : @"<unknown>", (long)serverPort);
+                }
                 MTSyslog *syslogObject = [[MTSyslog alloc] initWithServerAddress:[remoteLoggingConfiguration serverAddress]
                                                                       serverPort:[syslogOptions serverPort]
                                                                           useTLS:[syslogOptions useTLS]

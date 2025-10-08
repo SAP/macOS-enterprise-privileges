@@ -697,10 +697,10 @@
                                     
 									<key>SyslogOptions</key>
 									<dict>
-                                        <key>ServerPort</key>
-                                        <integer>514</integer>
                                         <key>UseTLS</key>
-                                        <false/>
+                                        <true/>
+                                        <key>ServerPort</key>
+                                        <integer>6514</integer>
 										<key>LogFacility</key>
 										<integer>4</integer>
 										<key>LogSeverity</key>
