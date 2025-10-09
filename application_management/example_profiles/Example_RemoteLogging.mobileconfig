@@ -15,73 +15,73 @@
 							<key>mcx_preference_settings</key>
 							<dict>
   								<!--
-                                    					key:    RemoteLogging
-                                    					value:  a dictionary containing the server information:
-                                    
-                                    						key:    ServerType
-                                    						value:  a string specifying the type of the logging server
-                                    	
-                                        					At the moment "syslog" and "webhook" are the only supported values.
-                                    	
-                                
-                                    						key:    ServerAddress
-                                    						value:  a string containing the address of the logging server
-                                    	
-                                        					The server address can be an ip address or host name if a syslog server
-                                        					is configured. For webhooks please provide a http(s) url.
-                                
-                                
-                                    						key:    SyslogOptions
-                                    						value:  a dictionary containing syslog-specific options:
-                                
-                                            						key:    ServerPort
-                                            						value:  a integer specifying the port of the logging server.
-                                            
-                                            						If not specified, the port defaults to 514 or to 6514 if TLS is enabled.
-                                    	
-                                            
-                                            					key:    UseTLS
-                                            					value:  a boolean
-                                
-                                            					If set to true, TLS is enabled for the connection. Please make sure your
-                                            					clients have a certificate installed that matches Apple's requirements.
-                                
-                                            					Please see https://support.apple.com/en-us/103769 for further information.
-                                
-                                
-                                    						key:    LogFacility
-                                    						value:  an integer specifying the syslog facility
-                                    		
-                                            					If not specified, facility defaults to 4 (security). Please see
-                                            					https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
-                                            					information.
-                                
-                                
-                                    						key:    LogSeverity
-                                    						value:  an integer specifying the syslog severity
-                                    		
-                                            					If not specified, severity defaults to 6 (informational). Please see
-                                            					https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
-                                            					information.
-                                    		
-                                
-                                    						key:    MaximumMessageSize
-                                            					value:  an integer specifying the maximum size of the syslog message
-                                                    					(header + event message)
-                                    		
-                                            					If not specified, the value defaults to 480 which is the minimum maximum
-                                            					message size a syslog server must support. If the syslog message is
-                                            					larger than the specified maximum, the message will be truncated at the
-                                            					end.
-                                    		
-                                            					Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
-                                            					information.
-                                    	
-                                
-                                    					Please make sure your firewall rules has been modified to allow access
-                                    					to the specified protocol, address and port.
-                                				-->
-                                				<key>RemoteLogging</key>
+									key:    RemoteLogging
+									value:  a dictionary containing the server information:
+				
+										key:    ServerType
+										value:  a string specifying the type of the logging server
+					
+										At the moment "syslog" and "webhook" are the only supported values.
+					
+			
+										key:    ServerAddress
+										value:  a string containing the address of the logging server
+					
+										The server address can be an ip address or host name if a syslog server
+										is configured. For webhooks please provide a http(s) url.
+			
+			
+										key:    SyslogOptions
+										value:  a dictionary containing syslog-specific options:
+			
+												key:    ServerPort
+												value:  a integer specifying the port of the logging server.
+						
+												If not specified, the port defaults to 514 or to 6514 if TLS is enabled.
+					
+						
+												key:    UseTLS
+												value:  a boolean
+				
+												If set to true, TLS is enabled for the connection. Please make sure your
+												clients have a certificate installed that matches Apple's requirements.
+				
+												Please see https://support.apple.com/en-us/103769 for further information.
+				
+			
+												key:    LogFacility
+												value:  an integer specifying the syslog facility
+								
+													If not specified, facility defaults to 4 (security). Please see
+													https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+													information.
+					
+					
+												key:    LogSeverity
+												value:  an integer specifying the syslog severity
+								
+													If not specified, severity defaults to 6 (informational). Please see
+													https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+													information.
+								
+					
+												key:    MaximumMessageSize
+												value:  an integer specifying the maximum size of the syslog message
+														(header + event message)
+						
+											   If not specified, the value defaults to 480 which is the minimum maximum
+											   message size a syslog server must support. If the syslog message is
+											   larger than the specified maximum, the message will be truncated at the
+											   end.
+						   
+											   Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
+											   information.
+					
+			
+									Please make sure your firewall rules has been modified to allow access
+									to the specified protocol, address and port.
+								-->
+								<key>RemoteLogging</key>
 								<dict>
 									<key>ServerType</key>
 									<string>syslog</string>
@@ -90,7 +90,9 @@
 									<key>SyslogOptions</key>
 									<dict>
 										<key>ServerPort</key>
-										<integer>514</integer>
+                                        <integer>6514</integer>
+                                        <key>UseTLS</key>
+                                        <true/>
 										<key>LogFacility</key>
 										<integer>4</integer>
 										<key>LogSeverity</key>
