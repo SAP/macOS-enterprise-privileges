@@ -52,30 +52,30 @@
 												key:    LogFacility
 												value:  an integer specifying the syslog facility
 								
-													If not specified, facility defaults to 4 (security). Please see
-													https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
-													information.
+												If not specified, facility defaults to 4 (security). Please see
+												https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+												information.
 					
 					
 												key:    LogSeverity
 												value:  an integer specifying the syslog severity
 								
-													If not specified, severity defaults to 6 (informational). Please see
-													https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
-													information.
+												If not specified, severity defaults to 6 (informational). Please see
+												https://tools.ietf.org/html/rfc5424#section-6.2.1 for further
+												information.
 								
 					
 												key:    MaximumMessageSize
 												value:  an integer specifying the maximum size of the syslog message
 														(header + event message)
 						
-											   If not specified, the value defaults to 480 which is the minimum maximum
-											   message size a syslog server must support. If the syslog message is
-											   larger than the specified maximum, the message will be truncated at the
-											   end.
-						   
-											   Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
-											   information.
+												If not specified, the value defaults to 480 which is the minimum maximum
+												message size a syslog server must support. If the syslog message is
+												larger than the specified maximum, the message will be truncated at the
+												end.
+							
+												Please see https://tools.ietf.org/html/rfc5424#section-6.1 for further
+												information.
 					
 			
 									Please make sure your firewall rules has been modified to allow access
