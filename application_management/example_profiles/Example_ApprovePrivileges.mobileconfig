@@ -1,0 +1,120 @@
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>PayloadContent</key>
+   <array>
+      <dict>
+         <key>PayloadContent</key>
+         <dict>
+            <key>corp.sap.privileges</key>
+            <dict>
+               <key>Forced</key>
+               <array>
+                  <dict>
+                     <key>mcx_preference_settings</key>
+                     <dict>
+                        <key>RevokePrivilegesAtLogin</key>
+                        <true/>
+                     </dict>
+                  </dict>
+               </array>
+            </dict>
+         </dict>
+         <key>PayloadDescription</key>
+         <string></string>
+         <key>PayloadDisplayName</key>
+         <string>Privileges configuration</string>
+         <key>PayloadEnabled</key>
+         <true/>
+         <key>PayloadIdentifier</key>
+         <string>com.apple.ManagedClient.preferences.36132147-235E-4663-ADA8-2664C67C4DD2</string>
+         <key>PayloadOrganization</key>
+         <string>SAP SE</string>
+         <key>PayloadType</key>
+         <string>com.apple.ManagedClient.preferences</string>
+         <key>PayloadUUID</key>
+         <string>36132147-235E-4663-ADA8-2664C67C4DD2</string>
+         <key>PayloadVersion</key>
+         <integer>1</integer>
+      </dict>
+      <dict>
+         <key>NotificationSettings</key>
+         <array>
+            <dict>
+               <key>AlertType</key>
+               <integer>1</integer>
+               <key>BadgesEnabled</key>
+               <false/>
+               <key>BundleIdentifier</key>
+               <string>corp.sap.privileges.agent</string>
+               <key>NotificationsEnabled</key>
+               <true/>
+               <key>ShowInLockScreen</key>
+               <false/>
+               <key>ShowInNotificationCenter</key>
+               <false/>
+               <key>SoundsEnabled</key>
+               <false/>
+            </dict>
+         </array>
+         <key>PayloadDisplayName</key>
+         <string>Notifications Payload</string>
+         <key>PayloadIdentifier</key>
+         <string>com.apple.notificationsettings.82F3A882-88ED-4B92-8A03-332A9874FDD0</string>
+         <key>PayloadOrganization</key>
+         <string>SAP SE</string>
+         <key>PayloadType</key>
+         <string>com.apple.notificationsettings</string>
+         <key>PayloadUUID</key>
+         <string>82F3A882-88ED-4B92-8A03-332A9874FDD0</string>
+         <key>PayloadVersion</key>
+         <integer>1</integer>
+      </dict>
+      <dict>
+         <key>PayloadDisplayName</key>
+         <string>Service Management Payload</string>
+         <key>PayloadIdentifier</key>
+         <string>com.apple.servicemanagement.AD895F7A-40F5-454A-B70F-6AA00C3738CF</string>
+         <key>PayloadOrganization</key>
+         <string>SAP SE</string>
+         <key>PayloadType</key>
+         <string>com.apple.servicemanagement</string>
+         <key>PayloadUUID</key>
+         <string>AD895F7A-40F5-454A-B70F-6AA00C3738CF</string>
+         <key>PayloadVersion</key>
+         <integer>1</integer>
+         <key>Rules</key>
+         <array>
+            <dict>
+               <key>Comment</key>
+               <string>Approves Privileges and its components</string>
+               <key>RuleType</key>
+               <string>TeamIdentifier</string>
+               <key>RuleValue</key>
+               <string>7R5ZEU67FQ</string>
+            </dict>
+         </array>
+      </dict>
+   </array>
+   <key>PayloadDescription</key>
+   <string></string>
+   <key>PayloadDisplayName</key>
+   <string>SAP Privileges Settings</string>
+   <key>PayloadEnabled</key>
+   <true/>
+   <key>PayloadIdentifier</key>
+   <string>408756F8-4B31-4296-84BA-6B4B8A73E085</string>
+   <key>PayloadOrganization</key>
+   <string>SAP SE</string>
+   <key>PayloadRemovalDisallowed</key>
+   <true/>
+   <key>PayloadScope</key>
+   <string>System</string>
+   <key>PayloadType</key>
+   <string>Configuration</string>
+   <key>PayloadUUID</key>
+   <string>67923C22-5FCA-4F48-A63C-02A160A9F089</string>
+   <key>PayloadVersion</key>
+   <integer>1</integer>
+</dict>
+</plist>
