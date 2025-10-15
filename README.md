@@ -69,7 +69,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 ⚡️ Have a look at how quick and easy you can request admin rights
 
-![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/Privileges_demo.mp4)
+https://github.com/user-attachments/assets/6e59eaf6-dbbe-4d6a-af63-f14f569e3e59
 
 <br/>
 
