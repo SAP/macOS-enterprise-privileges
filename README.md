@@ -1,4 +1,4 @@
-![](https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/github%20banner%20new.png)
+<img src="https://github.com/SAP/macOS-enterprise-privileges/blob/main/readme_images/banner.png" width="879">
 
 <br/>
 
