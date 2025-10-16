@@ -10,7 +10,7 @@ _Privileges_ is an application for macOS which allows users to work as a standar
 
 Working as standard user instead of an administrator adds another layer of security to your Mac and is considered a security best practice. We believe all users, including all developers, can benefit from using _Privileges_.
 
-**Privileges supports the following macOS versions:**
+**_Privileges_ supports the following macOS versions:**
 
 * macOS 26.x
 * macOS 15.x
@@ -67,7 +67,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 # Demo
 
-⚡️ Have a look at how quick and easy you can request admin rights
+Have a look at how quick and easy you can request admin rights
 
 https://github.com/user-attachments/assets/6cf5df95-9dce-4c21-a150-2217044fe389
 
