@@ -35,7 +35,7 @@ Working as standard user instead of an administrator adds another layer of secur
 
 :closed_lock_with_key: Enjoy standard user security
 
-:fire: Command line use supported
+⌨️ Command line support
 
 <br/>
 
