@@ -37,6 +37,8 @@ Working as standard user instead of an administrator adds another layer of secur
 
 :closed_lock_with_key: Enjoy standard user security
 
+🧰 Extensive MDM support for broad device and policy control
+
 ⌨️ Command line support
 
 <br/>
