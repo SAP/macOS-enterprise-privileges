@@ -31,6 +31,8 @@ Working as standard user instead of an administrator adds another layer of secur
 
 :rocket: Perfect for day-to-day use
 
+🛜 Works completely offline - no internet connection required
+
 :alarm_clock: Turn on admin rights anytime
 
 :closed_lock_with_key: Enjoy standard user security
