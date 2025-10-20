@@ -6,9 +6,9 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/macOS-enterprise-privileges)](https://api.reuse.software/info/github.com/SAP/macOS-enterprise-privileges)
 
-_Privileges_ is an application for macOS which allows users to work as a standard user for day-to-day tasks, by providing a quick and easy way to request administrator rights. Users can set a timeframe in the application’s settings to perform specific tasks, such as installing or removing an application. To request admin rights, simply click on the _Privileges_ icon in your Dock. 
+_Privileges_ is a free macOS application designed for modern enterprise environments. It gives users temporary administrator privileges when needed without granting permanent admin rights. The application is built with simplicity, security, and transparency in mind. Users can set a timeframe in the application's settings to perform specific tasks, such as installing or removing an application.
 
-Working as standard user instead of an administrator adds another layer of security to your Mac and is considered a security best practice. We believe all users, including all developers, can benefit from using _Privileges_.
+Using a standard user account instead of an administrator account adds an extra layer of security to your Mac and is considered a security best practice. We believe that all users, including developers, can benefit from using _Privileges_.
 
 **_Privileges_ supports the following macOS versions:**
 
