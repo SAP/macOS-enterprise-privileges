@@ -93,6 +93,9 @@ See who's talking about _Privileges_…
 * [9To5Mac: Privileges 2.1 continues to be one of the must-have macOS apps in the enterprise](https://9to5mac.com/2025/03/15/privileges-2-1-continues-to-be-one-of-the-must-have-macos-apps-in-the-enterprise/)
 * [Caschys Blog: Privileges 2.3.0: Mehr Sicherheit und Kontrolle für Mac-Admins (German language)](https://stadt-bremerhaven.de/privileges-2-3-0-mehr-sicherheit-und-kontrolle-fuer-mac-admins/)
 
+2024
+* [Der Flounder: Privileges 2.0 available with new features](https://derflounder.wordpress.com/2024/11/20/privileges-2-0-available-with-new-features)
+  
 2022
 * [Mac & i: SAP-Werkzeug erleichtert Arbeit als Standardnutzer (German language)](https://www.heise.de/-7192631)
 * [ifun.de: Privileges.app von SAP: Nur noch auf Zuruf zum Admin (German language)](https://www.ifun.de/privileges-app-von-sap-nur-noch-auf-zuruf-zum-admin-191491/)
