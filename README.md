@@ -31,13 +31,13 @@ Using a standard user account instead of an administrator account adds an extra 
 
 🛠️ Easy install
 
-:rocket: Perfect for day-to-day use
+🚀 Perfect for day-to-day use
 
 🛜 Works completely offline - no internet connection required
 
-:alarm_clock: Turn on admin rights anytime
+⏰ Turn on admin rights anytime
 
-:closed_lock_with_key: Enjoy standard user security
+🔐 Enjoy standard user security
 
 🧰 Extensive MDM support for broad device and policy control
 
@@ -47,19 +47,17 @@ Using a standard user account instead of an administrator account adds an extra 
 
 ## New Privileges 2 features 🔥
 
-📦 Installer package
-
 ⛔️ Revoke admin rights at login
 
 ⏳ Unified expiration interval for administrator privileges
 
-🔁 Renew expiring administrator privileges
+🔁 Renew expiring administrator privileges at any time
 
-🪪 Smart card support
+🪪 Smart card and PIV token support
 
 ▶️ Run actions on privilege change
 
-🔒 Status item
+🔒 Status item for the macOS menu bar
 
 👆 Command line tool now supports Touch ID
 
@@ -68,6 +66,8 @@ Using a standard user account instead of an administrator account adds an extra 
 🪝 Webhooks
 
 🔠 Localized in 41 languages
+
+📦 Installer package
 
 <br/>
 
