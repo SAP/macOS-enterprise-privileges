@@ -80,7 +80,7 @@ https://github.com/user-attachments/assets/6cf5df95-9dce-4c21-a150-2217044fe389
 <br/>
 
 # Application Management
-As of _Privileges_ 1.0.5, it is possible to manage settings for _Privileges_ or the _PrivilegesCLI_ command line tool using a macOS configuration profile. [For details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
+As of _Privileges 1.0.5_, it is possible to manage settings for _Privileges_ or the _PrivilegesCLI_ command line tool using a macOS configuration profile. [For details, please click here](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges).
 
 <br/>
 
