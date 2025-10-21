@@ -45,7 +45,7 @@ Using a standard user account instead of an administrator account adds an extra 
 
 <br/>
 
-## New Privileges 2 features�
+## New Privileges 2 features
 
 ⛔️ Revoke admin rights at login
 
