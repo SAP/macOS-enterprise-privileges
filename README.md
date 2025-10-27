@@ -12,7 +12,7 @@ _Privileges_ is a free macOS application designed for modern enterprise environm
 
 Using a standard user account instead of an administrator account adds an extra layer of security to your Mac and is considered a security best practice. We believe that all users, including developers, can benefit from using _Privileges_.
 
-**_Privileges_ supports the following macOS versions:**
+**The current version of _Privileges_ supports the following macOS versions:**
 
 * macOS 26.x
 * macOS 15.x
