@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.4.2.0", 
+   "__version": "2.4.2.1", 
    "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
