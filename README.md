@@ -24,7 +24,7 @@ Using a standard user account instead of an administrator account adds an extra 
 <br/>
 
 >[!NOTE]
->Unfortunately, macOS 13 incorrectly reports a launch constraint violation and immediately terminates the application. Starting with version 2.2, we are therefore providing two versions of the application: one with launch constraints and one without. However, we recommend using the version with launch constraints whenever possible.
+>(*) Unfortunately, macOS 13 incorrectly reports a launch constraint violation and immediately terminates the application. Starting with version 2.2, we are therefore providing two versions of the application: one with launch constraints and one without. However, we recommend using the version with launch constraints whenever possible.
 <br/>
 
 # Features
