@@ -165,7 +165,7 @@
       </dict>
    </array>
    <key>PayloadDescription</key>
-   <string></string>
+   <string/>
    <key>PayloadDisplayName</key>
    <string>SAP Privileges Settings</string>
    <key>PayloadEnabled</key>
