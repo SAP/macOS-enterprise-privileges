@@ -15,13 +15,15 @@
                      <dict>
                         <key>RevokePrivilegesAtLogin</key>
                         <true/>
+                        <key>EnableSystemExtension</key>
+                        <true/>
                      </dict>
                   </dict>
                </array>
             </dict>
          </dict>
          <key>PayloadDescription</key>
-         <string></string>
+         <string/>
          <key>PayloadDisplayName</key>
          <string>Privileges configuration</string>
          <key>PayloadEnabled</key>
@@ -94,6 +96,72 @@
                <string>7R5ZEU67FQ</string>
             </dict>
          </array>
+      </dict>
+      <dict>
+        <key>PayloadUUID</key>
+        <string>AD4DE5E7-D7D4-45D7-8EFA-98F44CC6AD9F</string>
+        <key>PayloadType</key>
+        <string>com.apple.system-extension-policy</string>
+        <key>PayloadOrganization</key>
+        <string>SAP SE</string>
+        <key>PayloadIdentifier</key>
+        <string>AD4DE5E7-D7D4-45D7-8EFA-98F44CC6AD9F</string>
+        <key>PayloadDisplayName</key>
+        <string>System Extension Payload</string>
+        <key>PayloadDescription</key>
+        <string/>
+        <key>PayloadVersion</key>
+        <integer>1</integer>
+        <key>AllowedTeamIdentifiers</key>
+        <array>
+          <string>7R5ZEU67FQ</string>
+        </array>
+        <key>AllowedSystemExtensionTypes</key>
+        <dict>
+          <key>7R5ZEU67FQ</key>
+          <array>
+            <string>EndpointSecurityExtension</string>
+          </array>
+        </dict>
+        <key>RemovableSystemExtensions</key>
+        <dict>
+          <key>7R5ZEU67FQ</key>
+          <array>
+            <string>corp.sap.privileges.extension</string>
+          </array>
+        </dict>
+      </dict>
+      <dict>
+        <key>PayloadUUID</key>
+        <string>822EE324-C02D-4BDF-84AC-409B4A9F9741</string>
+        <key>PayloadType</key>
+        <string>com.apple.TCC.configuration-profile-policy</string>
+        <key>PayloadOrganization</key>
+        <string>SAP SE</string>
+        <key>PayloadIdentifier</key>
+        <string>84E4918E-21A6-4D5B-8C3F-D43E96409ECC</string>
+        <key>PayloadDisplayName</key>
+        <string>Full Disk Access</string>
+        <key>PayloadDescription</key>
+        <string/>
+        <key>PayloadVersion</key>
+        <integer>1</integer>
+        <key>Services</key>
+        <dict>
+          <key>SystemPolicyAllFiles</key>
+          <array>
+            <dict>
+              <key>Identifier</key>
+              <string>corp.sap.privileges.extension</string>
+              <key>CodeRequirement</key>
+              <string>anchor apple generic and identifier "corp.sap.privileges.extension" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7R5ZEU67FQ")</string>
+              <key>IdentifierType</key>
+              <string>bundleID</string>
+              <key>Allowed</key>
+              <true/>
+            </dict>
+          </array>
+        </dict>
       </dict>
    </array>
    <key>PayloadDescription</key>
