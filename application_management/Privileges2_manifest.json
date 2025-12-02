@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.4.2.1", 
+   "__version": "2.5.0.0", 
    "__copyright": "© 2016-2025 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -71,6 +71,9 @@
             }, 
             "RenewalNotificationInterval": {
                "$ref": "#/definitions/RenewalNotificationInterval"
+            },
+            "EnableSystemExtension": {
+               "$ref": "#/definitions/EnableSystemExtension"
             },
             "ForceUpdatePrebootVolume": {
                "$ref": "#/definitions/ForceUpdatePrebootVolume"
@@ -193,6 +196,9 @@
             "RenewalNotificationInterval": {
                "$ref": "#/definitions/RenewalNotificationInterval"
             },
+            "EnableSystemExtension": {
+               "$ref": "#/definitions/EnableSystemExtension"
+            },
             "ForceUpdatePrebootVolume": {
                "$ref": "#/definitions/ForceUpdatePrebootVolume"
             },
@@ -310,6 +316,9 @@
                   "hidden": true 
                } 
             }, 
+            "EnableSystemExtension": {
+               "$ref": "#/definitions/EnableSystemExtension"
+            },
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -355,6 +364,9 @@
                   "hidden": true 
                } 
             }, 
+            "EnableSystemExtension": {
+               "$ref": "#/definitions/EnableSystemExtension"
+            },
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -400,6 +412,9 @@
                   "hidden": true 
                } 
             }, 
+            "EnableSystemExtension": {
+               "$ref": "#/definitions/EnableSystemExtension"
+            },
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -496,6 +511,18 @@
             } 
          } 
       }, 
+      "EnableSystemExtension": {
+         "type": "boolean",
+         "default": false,
+         "title": "Enable System Extension",
+         "description": "When set to true, the Privileges system extension is enabled. The system extension protects the Privileges application and its components against unauthorized modifications, deactivation, or uninstallation. Once this key has been set, it is no longer possible to enable or disable the extension using PrivilegesCLI. Please make sure you grant the Privileges system extension full disk access, otherwise it will not work.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSystemExtension"
+            }
+         ]
+      },
       "ExpirationInterval": { 
          "type": "integer", 
          "default": 20, 
@@ -1465,7 +1492,7 @@
                         "ServerPort": { 
                            "type": "integer", 
                            "title": "Server Port", 
-                           "default": 514, 
+                           "default": 6514, 
                            "description": "The port of the logging server. If not specified, the port defaults to 514 or to 6514 if TLS is enabled.", 
                            "links": [
                               { 
@@ -1516,7 +1543,7 @@
                         "UseTLS": { 
                            "type": "boolean", 
                            "title": "Use TLS", 
-                           "default": false, 
+                           "default": true, 
                            "description": "When set to true, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements. Please see https://support.apple.com/en-us/103769 for further information.", 
                            "links": [
                               { 
