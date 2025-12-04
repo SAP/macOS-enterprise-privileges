@@ -55,6 +55,8 @@ Using a standard user account instead of an administrator account adds an extra 
 
 🪪 Smart card and PIV token support
 
+🛡️ Tamper protection
+
 ▶️ Run actions on privilege change
 
 🔒 Status item for the macOS menu bar
