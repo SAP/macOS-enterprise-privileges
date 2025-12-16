@@ -91,9 +91,45 @@
                                   bundleIdentifier:(NSString*)bundleIdentifier
                                      versionString:(NSString*)versionString
 {
-    NSString *reqString = [NSString stringWithFormat:@"anchor trusted and certificate leaf [subject.CN] = \"%@\" and info [CFBundleShortVersionString] >= \"%@\" and info [CFBundleIdentifier] = %@", commonName, versionString, bundleIdentifier];
+    
+    NSString *reqString = [self codeSigningRequirementsWithCommonName:commonName
+                                                    bundleIdentifiers:[NSArray arrayWithObject:bundleIdentifier]
+                                                        versionString:versionString];
     
     return reqString;
+}
+
++ (NSString*)codeSigningRequirementsWithCommonName:(NSString*)commonName
+                                 bundleIdentifiers:(NSArray*)bundleIdentifiers
+                                     versionString:(NSString*)versionString
+{
+    NSInteger identifiersCount = [bundleIdentifiers count];
+    NSMutableString *reqString = [NSMutableString stringWithFormat:
+            @"anchor trusted and certificate leaf [subject.CN] = \"%@\" and info [CFBundleShortVersionString] >= \"%@\"",
+            commonName, versionString];
+
+    if (identifiersCount > 0) {
+
+        [reqString appendString:@" and"];
+            
+        if (identifiersCount > 1) {
+            [reqString appendString:@" ("];
+        } else {
+            [reqString appendString:@" "];
+        }
+
+        for (NSUInteger i = 0; i < identifiersCount; i++) {
+
+            NSString *identifier = bundleIdentifiers[i];
+            [reqString appendFormat:@"info [CFBundleIdentifier] = %@", identifier];
+
+            if (i < identifiersCount - 1) { [reqString appendString:@" or "]; }
+        }
+
+        if (identifiersCount > 1) { [reqString appendString:@")"]; }
+    }
+    
+    return [reqString copy];
 }
 
 + (void)sandboxStatusWithCompletionHandler:(void (^)(BOOL isSandboxed, NSError *error))completionHandler

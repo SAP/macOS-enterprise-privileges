@@ -18,9 +18,11 @@
 #import <Foundation/Foundation.h>
 #import "MTPrivileges.h"
 #import "MTProcessInfo.h"
+#import "MTSystemExtension.h"
 #import "Constants.h"
 
 @interface Main : NSObject
+@property (nonatomic, strong, readwrite) MTSystemExtension *systemExtension;
 @property (atomic, assign) BOOL shouldTerminate;
 @end
 
@@ -29,27 +31,194 @@
 - (int)run
 {
     __block int exitCode = 0;
+    _shouldTerminate = YES;
+    
+    MTProcessInfo *appArguments = [[MTProcessInfo alloc] init];
+    BOOL rootAllowed = ([appArguments systemExtension] || [appArguments showVersion]);
     
     // don't run this as root
-    if (getuid() != 0) {
+    if (getuid() != 0 || rootAllowed) {
         
-        MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
-
-        if (!privilegesApp) {
-            
-            [self writeConsole:@"Failed to get current console user. Unable to continue"];
-            exitCode = 5;
-            
-            _shouldTerminate = YES;
-            
-        } else {
-            
-            MTProcessInfo *appArguments = [[MTProcessInfo alloc] init];
-            BOOL hasAdminPrivileges = [[privilegesApp currentUser] hasAdminPrivileges];
-            
-            if ([appArguments showStatus]) {
+#pragma mark - Argument "--extension"
                 
-                if (hasAdminPrivileges) {
+        if ([appArguments systemExtension]) {
+            
+            if (@available(macOS 13.0, *)) {
+                
+                NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppBundleIdentifier];
+                MTExtensionRequestType requestType = [appArguments extensionRequestType];
+                
+                if (requestType != MTExtensionRequestTypeInvalid) {
+                    
+                    BOOL skipExecution = NO;
+                    BOOL extensionIsManaged = [userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey];
+                    BOOL enableExtension = ([userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey] && [userDefaults boolForKey:kMTDefaultsEnableSystemExtensionKey]);
+                    
+                    // if we were called with the "managed" argument, we check
+                    // if the setting is managed and adjust the type accordingly
+                    if (requestType == MTExtensionRequestTypeManaged) {
+                        
+                        if (extensionIsManaged) {
+                            
+                            requestType = (enableExtension) ? MTExtensionRequestTypeEnable : MTExtensionRequestTypeDisable;
+                            
+                        } else {
+                            
+                            [self writeConsole:@"System extension is not managed"];
+                            skipExecution = YES;
+                        }
+                        
+                    } else if (extensionIsManaged) {
+                        
+                        if ((requestType == MTExtensionRequestTypeEnable && !enableExtension) ||
+                            (requestType == MTExtensionRequestTypeDisable && enableExtension)) {
+                            
+                            [self writeConsole:[NSString stringWithFormat:@"System extension is managed and cannot be %@", (requestType == MTExtensionRequestTypeEnable) ? kMTExtensionStatusEnabled : kMTExtensionStatusDisabled]];
+                            
+                            exitCode = 7;
+                            skipExecution = YES;
+                        }
+                    }
+                    
+                    if (!skipExecution) {
+                        
+                        _shouldTerminate = NO;
+                        
+                        // get the current status of the extension
+                        _systemExtension = [[MTSystemExtension alloc] init];
+                        [_systemExtension statusWithReply:^(NSString *extensionStatus) {
+                                
+                            if (requestType == MTExtensionRequestTypeStatus) {
+                                
+                                NSString *statusText = [NSString stringWithFormat:@"System extension is %@", extensionStatus];
+                                
+                                if (extensionIsManaged) {
+                                    
+                                    if ((enableExtension && [extensionStatus isEqualToString:kMTExtensionStatusEnabled]) ||
+                                        (!enableExtension && [extensionStatus isEqualToString:kMTExtensionStatusDisabled])) {
+                                        
+                                        statusText = [statusText stringByAppendingString:@" (managed)"];
+                                        
+                                    } else {
+                                        
+                                        statusText = [statusText stringByAppendingFormat:@" (managed, expected: %@)", (enableExtension) ? kMTExtensionStatusEnabled : kMTExtensionStatusDisabled];
+                                    }
+                                }
+                                
+                                [self writeConsole:statusText];
+                                dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                
+                            } else if ((requestType == MTExtensionRequestTypeEnable && [extensionStatus isEqualToString:kMTExtensionStatusEnabled]) ||
+                                       (requestType == MTExtensionRequestTypeDisable && [extensionStatus isEqualToString:kMTExtensionStatusDisabled])) {
+                                
+                                [self writeConsole:[NSString stringWithFormat:@"System extension is already %@", extensionStatus]];
+                                dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                
+                            } else {
+                                
+                                switch (requestType) {
+                                        
+                                    case MTExtensionRequestTypeEnable: {
+                                                                                
+                                        [self->_systemExtension enableWithCompletionHandler:^(BOOL success, NSError *error) {
+                                            
+                                            if (success) {
+                                                
+                                                [self writeConsole:@"System extension enabled"];
+                                                                                                        
+                                                [self->_systemExtension statusWithReply:^(NSString *status) {
+                                                    
+                                                    if ([status rangeOfString:@"waiting"].location != NSNotFound) {
+                                                        [self writeConsole:@"\nPlease grant the Privileges system extension\nfull disk access, otherwise it will not work."];
+                                                    }
+                                                    
+                                                    dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                                }];
+                                                
+                                            } else {
+                                                
+                                                [self writeConsole:[NSString stringWithFormat:@"Failed to enable system extension: %@", error]];
+                                                exitCode = 6;
+                                                
+                                                dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                            }
+                                        }];
+                                        
+                                        break;
+                                    }
+                                        
+                                    case MTExtensionRequestTypeDisable: {
+                                                                                    
+                                        [self->_systemExtension disableWithCompletionHandler:^(BOOL success, NSError *error) {
+                                            
+                                            if (success) {
+                                                
+                                                [self writeConsole:@"System extension disabled"];
+                                                
+                                            } else {
+                                                
+                                                [self writeConsole:[NSString stringWithFormat:@"Failed to disable system extension: %@", error]];
+                                                exitCode = 6;
+                                            }
+                                            
+                                            dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                        }];
+                                        
+                                        break;
+                                    }
+                                        
+                                    case MTExtensionRequestTypeSuspend: {
+                                                                                    
+                                        [self->_systemExtension suspendWithCompletionHandler:^(BOOL success, NSError *error) {
+                                            
+                                            if (!success) {
+                                                
+                                                [self writeConsole:@"Invalid argument!"];
+                                                exitCode = 5;
+                                            }
+                                            
+                                            dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                        }];
+                                        
+                                        break;
+                                    }
+                                        
+                                    default:
+                                                                                    
+                                        [self writeConsole:@"Invalid argument!"];
+                                        exitCode = 5;
+                                        
+                                        dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                                }
+                            }
+                        }];
+                    }
+                    
+                } else {
+                    
+                    [self writeConsole:@"Invalid argument!"];
+                    exitCode = 5;
+                }
+                
+            } else {
+                
+                [self printUsage];
+            }
+            
+#pragma mark - Argument "--status"
+            
+        } else if ([appArguments showStatus]) {
+            
+            MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
+
+            if (!privilegesApp) {
+                        
+                [self writeConsole:@"Failed to get current console user. Unable to continue"];
+                exitCode = 5;
+                                    
+            } else {
+                
+                if ([[privilegesApp currentUser] hasAdminPrivileges]) {
                     
                     [self writeConsole:[NSString stringWithFormat:@"User %@ has administrator privileges", [[privilegesApp currentUser] userName]]];
                     
@@ -79,28 +248,42 @@
                     
                     [self writeConsole:[NSString stringWithFormat:@"User %@ has standard user privileges", [[privilegesApp currentUser] userName]]];
                 }
+            }
+
+#pragma mark - Argument "--version"
+        
+        } else if ([appArguments showVersion]) {
+            
+            NSString *versionString = @"unknown version";
+            NSURL *launchURL = [appArguments launchURL];
+            
+            if (launchURL) {
                 
-            } else if ([appArguments showVersion]) {
+                NSDictionary *infoDict = CFBridgingRelease(CFBundleCopyInfoDictionaryForURL((CFURLRef)launchURL));
+                NSString *appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+                NSString *appBuild = [infoDict objectForKey:@"CFBundleVersion"];
                 
-                NSString *versionString = @"unknown version";
-                NSURL *launchURL = [appArguments launchURL];
-                
-                if (launchURL) {
+                if (appVersion && appBuild) {
                     
-                    NSDictionary *infoDict = CFBridgingRelease(CFBundleCopyInfoDictionaryForURL((CFURLRef)launchURL));
-                    NSString *appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
-                    NSString *appBuild = [infoDict objectForKey:@"CFBundleVersion"];
-                    
-                    if (appVersion && appBuild) {
-                        
-                        versionString = [NSString stringWithFormat:@"%@ (%@)", appVersion, appBuild];
-                    }
+                    versionString = [NSString stringWithFormat:@"%@ (%@)", appVersion, appBuild];
                 }
+            }
+            
+            [self writeConsole:[NSString stringWithFormat:@"PrivilegesCLI %@", versionString]];
+
+#pragma mark - Argument "--add" or "--remove"
+    
+        } else if ([appArguments requestPrivileges] || [appArguments revertPrivileges]) {
+            
+            MTPrivileges *privilegesApp = [[MTPrivileges alloc] init];
+
+            if (!privilegesApp) {
                 
-                [self writeConsole:[NSString stringWithFormat:@"PrivilegesCLI %@", versionString]];
-                
-            } else if ([appArguments requestPrivileges] || [appArguments revertPrivileges]) {
-                
+                [self writeConsole:@"Failed to get current console user. Unable to continue"];
+                exitCode = 5;
+                            
+            } else {
+            
                 if ([[privilegesApp currentUser] useIsRestricted]) {
                     
                     [self writeConsole:@"You cannot use this application to change your privileges because your administrator has restricted the use of this application"];
@@ -113,6 +296,7 @@
                     
                 } else {
                     
+                    BOOL hasAdminPrivileges = [[privilegesApp currentUser] hasAdminPrivileges];
                     BOOL requestAdminPrivileges = [appArguments requestPrivileges];
                     BOOL renewAdminPrivileges = (requestAdminPrivileges && hasAdminPrivileges && [privilegesApp privilegeRenewalAllowed] && [privilegesApp expirationInterval] > 0);
                     
@@ -312,24 +496,22 @@
                         }
                     }
                 }
-                
-            } else {
-                
-                // display usage info and exit
-                [self printUsage];
             }
             
-            _shouldTerminate = YES;
+#pragma mark - Other or no argument
+            
+        } else {
+            
+            // display usage info and exit
+            [self printUsage];
         }
         
     } else {
         
         [self writeConsole:@"You cannot run this application as root!"];
         exitCode = 3;
-        
-        _shouldTerminate = YES;
     }
-    
+        
     // run until _shouldTerminate is true
     while (!_shouldTerminate && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
     
@@ -341,19 +523,26 @@
     fprintf(stderr, "%s\n", [consoleMessage UTF8String]);
 }
 
-- (void) printUsage
+- (void)printUsage
 {
     fprintf(stderr, "\nUsage: PrivilegesCLI <arg>\n\n");
-    fprintf(stderr, "  -a [-n text],             Adds the current user to the admin group. A reason\n");
-    fprintf(stderr, "  --add [--reason text]     for requesting administrator privileges may also be\n");
-    fprintf(stderr, "                            specified. This is optional. If a reason is required\n");
-    fprintf(stderr, "                            but not has been specified, the tool will\n");
-    fprintf(stderr, "                            interactively prompt for a reason.\n\n");
-    fprintf(stderr, "  -r, --remove              Removes the current user from the admin group.\n\n");
-    fprintf(stderr, "  -s, --status              Displays the current user's privileges.\n\n");
-    fprintf(stderr, "  -v, --version             Displays version information.\n\n");
+    fprintf(stderr, "  -a [-n text],                Adds the current user to the admin group. A reason\n");
+    fprintf(stderr, "  --add [--reason text]        for requesting administrator privileges may also be\n");
+    fprintf(stderr, "                               specified. This is optional. If a reason is required\n");
+    fprintf(stderr, "                               but not specified, the tool will prompt for a reason.\n\n");
+    fprintf(stderr, "  -r, --remove                 Removes the current user from the admin group.\n\n");
+    fprintf(stderr, "  -s, --status                 Displays the current user's privileges.\n\n");
     
-    _shouldTerminate = YES;
+    if (@available(macOS 13.0, *)) {
+        
+        fprintf(stderr, "  -e, --extension on | off     Enables or disables the Privileges system extension.\n");
+        fprintf(stderr, "                               Once enabled, it prevents Privileges from being renamed,\n");
+        fprintf(stderr, "                               copied, or deleted. It also prevents the unloading of\n");
+        fprintf(stderr, "                               the Privileges launchd plists.\n\n");
+        fprintf(stderr, "                  status       Displays the current status of the system extension.\n\n");
+    }
+    
+    fprintf(stderr, "  -v, --version                Displays version information.\n\n");
 }
 
 @end

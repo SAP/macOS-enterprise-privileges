@@ -416,6 +416,20 @@
 - (NSDictionary*)renewalCustomAction;
 
 /*!
+ @method        enableSystemExtension
+ @abstract      Get whether the system extension should be enabled.
+ @discussion    Returns YES if the system extension should be enabled, otherwise returns NO.
+ */
+- (BOOL)enableSystemExtension;
+
+/*!
+ @method        systemExtensionIsForced
+ @abstract      Get whether setting for enabling the system extension has been forced.
+ @discussion    Returns YES if the setting was forced by a configuration profile, otherwise returns NO.
+ */
+- (BOOL)systemExtensionIsForced;
+
+/*!
  @method        stringForDuration:localized:naturalScale:
  @abstract      Return the duration string for the given duration.
  @param         duration The duration.

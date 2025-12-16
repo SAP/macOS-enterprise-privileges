@@ -19,6 +19,7 @@
 #import "MTPrivileges.h"
 #import "MTCodeSigning.h"
 #import "MTDaemonConnection.h"
+#import "MTSystemExtension.h"
 #import "MTSystemInfo.h"
 #import "Constants.h"
 #import "MTIdentity.h"
@@ -36,11 +37,13 @@
 @property (nonatomic, strong, readwrite) NSTimer *expirationTimer;
 @property (nonatomic, strong, readwrite) NSTimer *statusItemTimer;
 @property (nonatomic, strong, readwrite) NSTimer *animationTimer;
+@property (nonatomic, strong, readwrite) NSTimer *fixTimeoutObserverTimer;
 @property (nonatomic, strong, readwrite) NSDate *timerExpirationDate;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @property (nonatomic, strong, readwrite) NSUserDefaults *appGroupDefaults;
 @property (nonatomic, strong, readwrite) MTLocalNotification *userNotification;
 @property (nonatomic, strong, readwrite) MTDaemonConnection *daemonConnection;
+@property (nonatomic, strong, readwrite) MTSystemExtension *systemExtension;
 @property (nonatomic, strong, readwrite) NSStatusItem *statusItem;
 @property (nonatomic, strong, readwrite) MTStatusItemMenu *statusMenu;
 @property (nonatomic, strong, readwrite) MTRemoteLoggingManager *logManager;
@@ -76,6 +79,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         [_listener resume];
         
         _daemonConnection = [[MTDaemonConnection alloc] init];
+        _systemExtension = [[MTSystemExtension alloc] init];
         _userDefaults = [NSUserDefaults standardUserDefaults];
         _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
         
@@ -153,6 +157,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                               kMTDefaultsShowInMenuBarKey,
                               kMTDefaultsShowRemainingTimeInMenuBarKey,
                               kMTDefaultsRemoteLoggingKey,
+                              kMTDefaultsEnableSystemExtensionKey,
                               nil
         ];
         
@@ -236,6 +241,9 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
         // initialize the logging manager
         [self initializeLogManager];
+        
+        // force system extension state if configured
+        [self handleSystemExtensionConfigChange];
     }
 }
 
@@ -260,12 +268,14 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
        
         if (taskRef) {
             
-            if (SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString)) == errSecSuccess) {
+            OSStatus result = SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString));
+            
+            if (result == errSecSuccess) {
 
                 acceptConnection = YES;
                    
-                newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesAgentProtocol)];
-                newConnection.exportedObject = self;
+                [newConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesAgentProtocol)]];
+                [newConnection setExportedObject:self];
                 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
@@ -282,7 +292,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
             } else {
                 
-                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed (error %d)", result);
             }
                 
             CFRelease(taskRef);
@@ -612,7 +622,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             notificationMessage = NSLocalizedString(@"notificationMessage_RenewSuccess", nil);
             break;
             
-        default:
+        case MTLocalNotificationTypeNoChange:
             break;
     }
     
@@ -628,39 +638,91 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
+- (void)handleSystemExtensionConfigChange
+{
+    if (@available(macOS 13.0, *)) {
+
+        if ([_privilegesApp systemExtensionIsForced]) {
+            
+            BOOL enableExtension = [_privilegesApp enableSystemExtension];
+            [_systemExtension statusWithReply:^(NSString *status) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if ([status isEqualToString:kMTExtensionStatusEnabled] && !enableExtension) {
+                        
+                        [self->_systemExtension disableWithCompletionHandler:^(BOOL success, NSError *error) {
+                            
+                            return;
+                        }];
+                        
+                    } else if ([status isEqualToString:kMTExtensionStatusDisabled] && enableExtension) {
+                        
+                        [self->_systemExtension enableWithCompletionHandler:^(BOOL success, NSError *error) {
+                            
+                            [self->_systemExtension statusWithReply:^(NSString *status) {
+                                
+                                if ([status rangeOfString:@"waiting"].location != NSNotFound) {
+                                    
+                                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: System extension is waiting for full disk access");
+                                }
+                            }];
+                        }];
+                    }
+                });
+            }];
+        }
+    }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if (object == [_privilegesApp userDefaults] && [_keysToObserve containsObject:keyPath]) {
         
-        if ([keyPath isEqualToString:kMTDefaultsEnforcePrivilegesKey] ||
-            [keyPath isEqualToString:kMTDefaultsLimitToUserKey] ||
-            [keyPath isEqualToString:kMTDefaultsLimitToGroupKey]) {
+        if ([keyPath isEqualToString:kMTDefaultsEnableSystemExtensionKey]) {
             
-            [self enforceFixedPrivileges];
+            // workaround for bug that is causing observeValueForKeyPath to be called multiple times.
+            // so every notification resets the timer and if we got no new notifications for 5 seconds,
+            // we evaluate the changes.
+            if (_fixTimeoutObserverTimer) { [_fixTimeoutObserverTimer invalidate]; };
+            _fixTimeoutObserverTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                       repeats:NO
+                                                                         block:^(NSTimer *timer) {
+                [self handleSystemExtensionConfigChange];
+             }];
             
-        } else if ([keyPath isEqualToString:kMTDefaultsExpirationIntervalKey] ||
-                   [keyPath isEqualToString:kMTDefaultsExpirationIntervalMaxKey]) {
+        } else {
             
-            // invalidate or (re)schedule our timer if needed
-            if ([_privilegesApp expirationInterval] == 0) {
+            if ([keyPath isEqualToString:kMTDefaultsEnforcePrivilegesKey] ||
+                [keyPath isEqualToString:kMTDefaultsLimitToUserKey] ||
+                [keyPath isEqualToString:kMTDefaultsLimitToGroupKey]) {
                 
-                [self invalidateExpirationTimer];
-                                
-            } else if ([self privilegesTimeLeft] > [_privilegesApp expirationInterval] ||
-                       ([self userHasAdminPrivileges] && [self privilegesTimeLeft] == 0)) {
-             
-                [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+                [self enforceFixedPrivileges];
+                
+            } else if ([keyPath isEqualToString:kMTDefaultsExpirationIntervalKey] ||
+                       [keyPath isEqualToString:kMTDefaultsExpirationIntervalMaxKey]) {
+                
+                // invalidate or (re)schedule our timer if needed
+                if ([_privilegesApp expirationInterval] == 0) {
+                    
+                    [self invalidateExpirationTimer];
+                    
+                } else if ([self privilegesTimeLeft] > [_privilegesApp expirationInterval] ||
+                           ([self userHasAdminPrivileges] && [self privilegesTimeLeft] == 0)) {
+                    
+                    [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+                }
+                
+            } else if ([keyPath isEqualToString:kMTDefaultsRemoteLoggingKey]) {
+                
+                [self initializeLogManager];
             }
             
-        } else if ([keyPath isEqualToString:kMTDefaultsRemoteLoggingKey]) {
-
-            [self initializeLogManager];
+            // update the status item if needed
+            [self showStatusItem:[self->_privilegesApp showInMenuBar]];
+            
+            [self postConfigurationChangeNotificationForKeyPath:keyPath];
         }
-        
-        // update the status item if needed
-        [self showStatusItem:[self->_privilegesApp showInMenuBar]];
-
-        [self postConfigurationChangeNotificationForKeyPath:keyPath];
         
     } else if ((object == _appGroupDefaults && [_appGroupToObserve containsObject:keyPath]) ||
                (object == _statusItem && [keyPath isEqualToString:@"visible"])) {

@@ -268,7 +268,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         }
         
         if (![_privilegesApp hideSettingsButton]) { [_alert addButtonWithTitle:NSLocalizedString(@"settingsButton", nil)]; }
-        [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
+        NSButton *cancelButton = [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
         [_alert setAlertStyle:NSAlertStyleInformational];
         if (![[NSWorkspace sharedWorkspace] isVoiceOverEnabled] && ![_privilegesApp hideHelpButton]) { [_alert setShowsHelp:YES]; }
         [_alert setDelegate:self];
@@ -286,6 +286,9 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                             NSHeight([[_alert accessoryView] frame])
                                                             )
             ];
+            
+            // make sure the text field is selected
+            [cancelButton setRefusesFirstResponder:YES];
         }
     }
 

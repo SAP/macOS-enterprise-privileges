@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24128" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24128"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +25,7 @@
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
-                                        <menuItem title="Services" id="NMo-om-nkz">
+                                        <menuItem title="Services" secondaryImage="menuItem:NMo-om-nkz:secondaryImage" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
@@ -216,7 +216,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="260"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDf-WG-kvR">
                                 <rect key="frame" x="23" y="193" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="tED-Ce-nm6">
                                     <font key="font" metaFont="smallSystem"/>
@@ -229,7 +229,7 @@
                                 <rect key="frame" x="25" y="140" width="256" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ja-hx-8bZ">
-                                        <rect key="frame" x="-2" y="16" width="239" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="235" height="16"/>
                                         <buttonCell key="cell" type="check" title="Hide windows of other applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3dJ-LR-FRM">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -249,7 +249,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="7yK-i3-jMD"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-KW-P1S">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="0Mz-4V-rLx">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -298,7 +298,7 @@
                                 <rect key="frame" x="25" y="66" width="256" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q0d-rh-ql0">
-                                        <rect key="frame" x="-2" y="16" width="135" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="131" height="16"/>
                                         <buttonCell key="cell" type="check" title="Show in Menu Bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Xz4-3n-hrt">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -318,7 +318,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="4gA-hb-vnk"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rw8-Ao-486">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5lH-p7-50A">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -361,10 +361,10 @@
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="04B-oK-m2h">
-                                <rect key="frame" x="25" y="25" width="375" height="33"/>
+                                <rect key="frame" x="25" y="25" width="373" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1N3-cl-uWa">
-                                        <rect key="frame" x="-2" y="16" width="377" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="373" height="16"/>
                                         <buttonCell key="cell" type="check" title="Show remaining time while having administrator privileges" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2WK-su-O7w">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -384,7 +384,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="OOF-3w-M9u"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eH2-u8-FiU">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eH2-u8-FiU">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="Ftm-sX-1Uq">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -462,14 +462,14 @@
             <objects>
                 <viewController id="MRN-Az-qZC" customClass="MTSettingsPrivilegesController" sceneMemberID="viewController">
                     <view key="view" id="O7T-OX-Z1b">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="516"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="524"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MQF-rL-q3r">
-                                <rect key="frame" x="25" y="333" width="430" height="5"/>
+                                <rect key="frame" x="25" y="337" width="430" height="5"/>
                             </box>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
-                                <rect key="frame" x="23" y="454" width="434" height="42"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHu-Hk-UNY">
+                                <rect key="frame" x="23" y="462" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="DAL-x6-96Y">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">Administrator privileges granted by this application expire after a certain time. Please use the menu below to select the time after which the administrator privileges should expire.</string>
@@ -478,13 +478,13 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5j-k5-xyY">
-                                <rect key="frame" x="25" y="397" width="398" height="37"/>
+                                <rect key="frame" x="25" y="401" width="398" height="41"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="HN1-EZ-wPg">
-                                        <rect key="frame" x="0.0" y="17" width="398" height="20"/>
+                                        <rect key="frame" x="0.0" y="17" width="398" height="24"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
-                                                <rect key="frame" x="-2" y="3" width="192" height="16"/>
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-0u-B55">
+                                                <rect key="frame" x="-2" y="5" width="192" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Administrator privileges expire:" id="RJJ-AF-o6j">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -492,7 +492,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <popUpButton verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="zB9-k9-dmr">
-                                                <rect key="frame" x="195" y="-4" width="207" height="25"/>
+                                                <rect key="frame" x="198" y="0.0" width="200" height="24"/>
                                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" id="lRs-v5-jer">
                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -526,7 +526,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="uX9-mP-hAE"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-tl-Tn5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="RN8-jG-u9K">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -568,8 +568,8 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
-                                <rect key="frame" x="23" y="273" width="434" height="42"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEF-Qw-muW">
+                                <rect key="frame" x="23" y="277" width="434" height="42"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="BxH-Vb-uHJ">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">To ensure that you are always a standard user after a restart, this application revokes administrator privileges when you log in. If you don't want this, please disable the option below.</string>
@@ -578,10 +578,10 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4h-H2-k32">
-                                <rect key="frame" x="25" y="220" width="262" height="33"/>
+                                <rect key="frame" x="25" y="224" width="260" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bfO-64-gHc">
-                                        <rect key="frame" x="-2" y="16" width="264" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="260" height="16"/>
                                         <buttonCell key="cell" type="check" title="Revoke administrator privileges at login" bezelStyle="regularSquare" imagePosition="left" inset="2" id="joj-pG-xlA">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -601,7 +601,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="hQt-Yq-Pkc"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7i-YH-n51">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="hTV-jc-iCJ">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -644,13 +644,13 @@
                                 </customSpacing>
                             </stackView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ape-TO-h4r">
-                                <rect key="frame" x="25" y="197" width="430" height="5"/>
+                                <rect key="frame" x="25" y="201" width="430" height="5"/>
                             </box>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4U7-SR-KQ0">
-                                <rect key="frame" x="25" y="356" width="345" height="33"/>
+                                <rect key="frame" x="25" y="360" width="343" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="16a-2r-1HU">
-                                        <rect key="frame" x="-2" y="16" width="347" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="343" height="16"/>
                                         <buttonCell key="cell" type="check" title="Allow expiring administrator privileges to be renewed" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1Ov-sf-FS8">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -670,7 +670,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="S8C-CZ-8NH"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-WS-1Mz">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="4Yg-iq-7FO">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -712,8 +712,8 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
-                                <rect key="frame" x="23" y="123" width="434" height="56"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-Qp-cFj">
+                                <rect key="frame" x="23" y="127" width="434" height="56"/>
                                 <textFieldCell key="cell" controlSize="small" allowsUndo="NO" id="Hqj-Uh-Ag3">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">This application can run another application or script if your privileges have changed. To do so, select the appropriate application or script from the menu below. If you want this application to run only when administrator privileges are granted, but not when they are revoked, select the option below.</string>
@@ -722,13 +722,13 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mb5-uW-FvG">
-                                <rect key="frame" x="25" y="66" width="373" height="37"/>
+                                <rect key="frame" x="25" y="66" width="373" height="41"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Raj-OA-kDh">
-                                        <rect key="frame" x="0.0" y="17" width="373" height="20"/>
+                                        <rect key="frame" x="0.0" y="17" width="373" height="24"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
-                                                <rect key="frame" x="-2" y="3" width="167" height="16"/>
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZq-AO-Mif">
+                                                <rect key="frame" x="-2" y="5" width="167" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Run after privilege change:" id="L7H-FM-m4u">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -736,7 +736,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Znj-za-4ix">
-                                                <rect key="frame" x="170" y="-4" width="207" height="25"/>
+                                                <rect key="frame" x="173" y="0.0" width="200" height="24"/>
                                                 <popUpButtonCell key="cell" type="push" title="Nothing Selected" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="S8w-JO-Ent" id="dEr-ZI-Bdd" userLabel="Nothing Selected">
                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="message"/>
@@ -784,7 +784,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="g9D-Mi-mBG"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0i-Ir-aes">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="5gJ-73-6dD">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -827,10 +827,10 @@
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mti-Wd-9Cx">
-                                <rect key="frame" x="25" y="25" width="351" height="33"/>
+                                <rect key="frame" x="25" y="25" width="349" height="33"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cdS-S3-T0Z">
-                                        <rect key="frame" x="-2" y="16" width="353" height="18"/>
+                                        <rect key="frame" x="0.0" y="17" width="349" height="16"/>
                                         <buttonCell key="cell" type="check" title="Run only if administrator privileges have been granted" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jPB-3r-Eyi">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -850,7 +850,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="checkmark.seal.fill" catalog="system" id="oPG-MY-xHd"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hms-FN-RJ5">
                                                 <rect key="frame" x="16" y="1" width="242" height="14"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" enabled="NO" title="This setting has been configured by a profile." usesSingleLineMode="YES" id="Avb-eR-psD">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -944,5 +944,99 @@
         <image name="checkmark.seal.fill" catalog="system" width="17" height="17"/>
         <image name="gearshape" catalog="system" width="16" height="16"/>
         <image name="lock" catalog="system" width="13" height="15"/>
+        <image name="menuItem:NMo-om-nkz:secondaryImage" width="20" height="16">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
+S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBALDB8gJSssLS40QEhJTVBRVSRudWxs2Q0ODxAREhMUFRYX
+GBkaGxwdHlZOU1NpemVcTlNJbWFnZUZsYWdzVk5TUmVwc1tOU1RpbnRDb2xvclYkY2xhc3NXTlNDb2xv
+cl5OU1Jlc2l6aW5nTW9kZVxOU0lzVGVtcGxhdGVfECZOU0FsaWdubWVudFJlY3RJbk5vcm1hbGl6ZWRD
+b29yZGluYXRlc4ACEiDAAACAA4AAgA+ACRAACYAOWHsyMCwgMTZ90iERIiRaTlMub2JqZWN0c6EjgASA
+CNIhESYkoycoKYAFgAaAB4AIEAZbZ2VhcnNoYXBlLjII0i8wMTJaJGNsYXNzbmFtZVgkY2xhc3Nlc1dO
+U0FycmF5ojEzWE5TT2JqZWN01jURNjc4OTo7PD0+P1dOU1doaXRlXE5TQ29tcG9uZW50c1xOU0NvbG9y
+U3BhY2VfEBJOU0N1c3RvbUNvbG9yU3BhY2VfEBBOU0xpbmVhckV4cG9zdXJlRDAgMACADUMwIDAQA4AK
+QTHUQUJDEURFRkdUTlNJRFVOU0lDQ1dOU01vZGVsEAmACxAAgAxPERGcAAARnGFwcGwCAAAAbW50ckdS
+QVlYWVogB9wACAAXAA8ALgAPYWNzcEFQUEwAAAAAbm9uZQAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA
+0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFZGVzYwAA
+AMAAAAB5ZHNjbQAAATwAAAgaY3BydAAACVgAAAAjd3RwdAAACXwAAAAUa1RSQwAACZAAAAgMZGVzYwAA
+AAAAAAAfR2VuZXJpYyBHcmF5IEdhbW1hIDIuMiBQcm9maWxlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG1s
+dWMAAAAAAAAAHwAAAAxza1NLAAAALgAAAYRkYURLAAAAOgAAAbJjYUVTAAAAOAAAAex2aVZOAAAAQAAA
+AiRwdEJSAAAASgAAAmR1a1VBAAAALAAAAq5mckZVAAAAPgAAAtpodUhVAAAANAAAAxh6aFRXAAAAGgAA
+A0xrb0tSAAAAIgAAA2ZuYk5PAAAAOgAAA4hjc0NaAAAAKAAAA8JoZUlMAAAAJAAAA+pyb1JPAAAAKgAA
+BA5kZURFAAAATgAABDhpdElUAAAATgAABIZzdlNFAAAAOAAABNR6aENOAAAAGgAABQxqYUpQAAAAJgAA
+BSZlbEdSAAAAKgAABUxwdFBPAAAAUgAABXZubE5MAAAAQAAABchlc0VTAAAATAAABgh0aFRIAAAAMgAA
+BlR0clRSAAAAJAAABoZmaUZJAAAARgAABqpockhSAAAAPgAABvBwbFBMAAAASgAABy5hckVHAAAALAAA
+B3hydVJVAAAAOgAAB6RlblVTAAAAPAAAB94AVgFhAGUAbwBiAGUAYwBuAOEAIABzAGkAdgDhACAAZwBh
+AG0AYQAgADIALAAyAEcAZQBuAGUAcgBpAHMAawAgAGcAcgDlACAAMgAsADIAIABnAGEAbQBtAGEALQBw
+AHIAbwBmAGkAbABHAGEAbQBtAGEAIABkAGUAIABnAHIAaQBzAG8AcwAgAGcAZQBuAOgAcgBpAGMAYQAg
+ADIALgAyAEMepQB1ACAAaADsAG4AaAAgAE0A4AB1ACAAeADhAG0AIABDAGgAdQBuAGcAIABHAGEAbQBt
+AGEAIAAyAC4AMgBQAGUAcgBmAGkAbAAgAEcAZQBuAOkAcgBpAGMAbwAgAGQAYQAgAEcAYQBtAGEAIABk
+AGUAIABDAGkAbgB6AGEAcwAgADIALAAyBBcEMAQzBDAEOwRMBD0EMAAgAEcAcgBhAHkALQQzBDAEPAQw
+ACAAMgAuADIAUAByAG8AZgBpAGwAIABnAOkAbgDpAHIAaQBxAHUAZQAgAGcAcgBpAHMAIABnAGEAbQBt
+AGEAIAAyACwAMgDBAGwAdABhAGwA4QBuAG8AcwAgAHMAegD8AHIAawBlACAAZwBhAG0AbQBhACAAMgAu
+ADKQGnUocHCWjlFJXqYAMgAuADKCcl9pY8+P8Md8vBgAINaMwMkAIKwQucgAIAAyAC4AMgAg1QS4XNMM
+x3wARwBlAG4AZQByAGkAcwBrACAAZwByAOUAIABnAGEAbQBtAGEAIAAyACwAMgAtAHAAcgBvAGYAaQBs
+AE8AYgBlAGMAbgDhACABYQBlAGQA4QAgAGcAYQBtAGEAIAAyAC4AMgXSBdAF3gXUACAF0AXkBdUF6AAg
+BdsF3AXcBdkAIAAyAC4AMgBHAGEAbQBhACAAZwByAGkAIABnAGUAbgBlAHIAaQBjAQMAIAAyACwAMgBB
+AGwAbABnAGUAbQBlAGkAbgBlAHMAIABHAHIAYQB1AHMAdAB1AGYAZQBuAC0AUAByAG8AZgBpAGwAIABH
+AGEAbQBtAGEAIAAyACwAMgBQAHIAbwBmAGkAbABvACAAZwByAGkAZwBpAG8AIABnAGUAbgBlAHIAaQBj
+AG8AIABkAGUAbABsAGEAIABnAGEAbQBtAGEAIAAyACwAMgBHAGUAbgBlAHIAaQBzAGsAIABnAHIA5QAg
+ADIALAAyACAAZwBhAG0AbQBhAHAAcgBvAGYAaQBsZm6QGnBwXqZ8+2VwADIALgAyY8+P8GWHTvZOAIIs
+MLAw7DCkMKww8zDeACAAMgAuADIAIDDXMO0w1TChMKQw6wOTA7UDvQO5A7oDzAAgA5MDugPBA7kAIAOT
+A6wDvAO8A7EAIAAyAC4AMgBQAGUAcgBmAGkAbAAgAGcAZQBuAOkAcgBpAGMAbwAgAGQAZQAgAGMAaQBu
+AHoAZQBuAHQAbwBzACAAZABhACAARwBhAG0AbQBhACAAMgAsADIAQQBsAGcAZQBtAGUAZQBuACAAZwBy
+AGkAagBzACAAZwBhAG0AbQBhACAAMgAsADIALQBwAHIAbwBmAGkAZQBsAFAAZQByAGYAaQBsACAAZwBl
+AG4A6QByAGkAYwBvACAAZABlACAAZwBhAG0AbQBhACAAZABlACAAZwByAGkAcwBlAHMAIAAyACwAMg4j
+DjEOBw4qDjUOQQ4BDiEOIQ4yDkAOAQ4jDiIOTA4XDjEOSA4nDkQOGwAgADIALgAyAEcAZQBuAGUAbAAg
+AEcAcgBpACAARwBhAG0AYQAgADIALAAyAFkAbABlAGkAbgBlAG4AIABoAGEAcgBtAGEAYQBuACAAZwBh
+AG0AbQBhACAAMgAsADIAIAAtAHAAcgBvAGYAaQBpAGwAaQBHAGUAbgBlAHIAaQENAGsAaQAgAEcAcgBh
+AHkAIABHAGEAbQBtAGEAIAAyAC4AMgAgAHAAcgBvAGYAaQBsAFUAbgBpAHcAZQByAHMAYQBsAG4AeQAg
+AHAAcgBvAGYAaQBsACAAcwB6AGEAcgBvAVsAYwBpACAAZwBhAG0AbQBhACAAMgAsADIGOgYnBkUGJwAg
+ADIALgAyACAGRAZIBkYAIAYxBkUGJwYvBkoAIAY5BicGRQQeBDEESQQwBE8AIARBBDUEQAQwBE8AIAQz
+BDAEPAQ8BDAAIAAyACwAMgAtBD8EQAQ+BEQEOAQ7BEwARwBlAG4AZQByAGkAYwAgAEcAcgBhAHkAIABH
+AGEAbQBtAGEAIAAyAC4AMgAgAFAAcgBvAGYAaQBsAGUAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIElu
+Yy4sIDIwMTIAAFhZWiAAAAAAAADzUQABAAAAARbMY3VydgAAAAAAAAQAAAAABQAKAA8AFAAZAB4AIwAo
+AC0AMgA3ADsAQABFAEoATwBUAFkAXgBjAGgAbQByAHcAfACBAIYAiwCQAJUAmgCfAKQAqQCuALIAtwC8
+AMEAxgDLANAA1QDbAOAA5QDrAPAA9gD7AQEBBwENARMBGQEfASUBKwEyATgBPgFFAUwBUgFZAWABZwFu
+AXUBfAGDAYsBkgGaAaEBqQGxAbkBwQHJAdEB2QHhAekB8gH6AgMCDAIUAh0CJgIvAjgCQQJLAlQCXQJn
+AnECegKEAo4CmAKiAqwCtgLBAssC1QLgAusC9QMAAwsDFgMhAy0DOANDA08DWgNmA3IDfgOKA5YDogOu
+A7oDxwPTA+AD7AP5BAYEEwQgBC0EOwRIBFUEYwRxBH4EjASaBKgEtgTEBNME4QTwBP4FDQUcBSsFOgVJ
+BVgFZwV3BYYFlgWmBbUFxQXVBeUF9gYGBhYGJwY3BkgGWQZqBnsGjAadBq8GwAbRBuMG9QcHBxkHKwc9
+B08HYQd0B4YHmQesB78H0gflB/gICwgfCDIIRghaCG4IggiWCKoIvgjSCOcI+wkQCSUJOglPCWQJeQmP
+CaQJugnPCeUJ+woRCicKPQpUCmoKgQqYCq4KxQrcCvMLCwsiCzkLUQtpC4ALmAuwC8gL4Qv5DBIMKgxD
+DFwMdQyODKcMwAzZDPMNDQ0mDUANWg10DY4NqQ3DDd4N+A4TDi4OSQ5kDn8Omw62DtIO7g8JDyUPQQ9e
+D3oPlg+zD88P7BAJECYQQxBhEH4QmxC5ENcQ9RETETERTxFtEYwRqhHJEegSBxImEkUSZBKEEqMSwxLj
+EwMTIxNDE2MTgxOkE8UT5RQGFCcUSRRqFIsUrRTOFPAVEhU0FVYVeBWbFb0V4BYDFiYWSRZsFo8WshbW
+FvoXHRdBF2UXiReuF9IX9xgbGEAYZRiKGK8Y1Rj6GSAZRRlrGZEZtxndGgQaKhpRGncanhrFGuwbFBs7
+G2MbihuyG9ocAhwqHFIcexyjHMwc9R0eHUcdcB2ZHcMd7B4WHkAeah6UHr4e6R8THz4faR+UH78f6iAV
+IEEgbCCYIMQg8CEcIUghdSGhIc4h+yInIlUigiKvIt0jCiM4I2YjlCPCI/AkHyRNJHwkqyTaJQklOCVo
+JZclxyX3JicmVyaHJrcm6CcYJ0kneierJ9woDSg/KHEooijUKQYpOClrKZ0p0CoCKjUqaCqbKs8rAis2
+K2krnSvRLAUsOSxuLKIs1y0MLUEtdi2rLeEuFi5MLoIuty7uLyQvWi+RL8cv/jA1MGwwpDDbMRIxSjGC
+Mbox8jIqMmMymzLUMw0zRjN/M7gz8TQrNGU0njTYNRM1TTWHNcI1/TY3NnI2rjbpNyQ3YDecN9c4FDhQ
+OIw4yDkFOUI5fzm8Ofk6Njp0OrI67zstO2s7qjvoPCc8ZTykPOM9Ij1hPaE94D4gPmA+oD7gPyE/YT+i
+P+JAI0BkQKZA50EpQWpBrEHuQjBCckK1QvdDOkN9Q8BEA0RHRIpEzkUSRVVFmkXeRiJGZ0arRvBHNUd7
+R8BIBUhLSJFI10kdSWNJqUnwSjdKfUrESwxLU0uaS+JMKkxyTLpNAk1KTZNN3E4lTm5Ot08AT0lPk0/d
+UCdQcVC7UQZRUFGbUeZSMVJ8UsdTE1NfU6pT9lRCVI9U21UoVXVVwlYPVlxWqVb3V0RXklfgWC9YfVjL
+WRpZaVm4WgdaVlqmWvVbRVuVW+VcNVyGXNZdJ114XcleGl5sXr1fD19hX7NgBWBXYKpg/GFPYaJh9WJJ
+Ypxi8GNDY5dj62RAZJRk6WU9ZZJl52Y9ZpJm6Gc9Z5Nn6Wg/aJZo7GlDaZpp8WpIap9q92tPa6dr/2xX
+bK9tCG1gbbluEm5rbsRvHm94b9FwK3CGcOBxOnGVcfByS3KmcwFzXXO4dBR0cHTMdSh1hXXhdj52m3b4
+d1Z3s3gReG54zHkqeYl553pGeqV7BHtje8J8IXyBfOF9QX2hfgF+Yn7CfyN/hH/lgEeAqIEKgWuBzYIw
+gpKC9INXg7qEHYSAhOOFR4Wrhg6GcobXhzuHn4gEiGmIzokziZmJ/opkisqLMIuWi/yMY4zKjTGNmI3/
+jmaOzo82j56QBpBukNaRP5GokhGSepLjk02TtpQglIqU9JVflcmWNJaflwqXdZfgmEyYuJkkmZCZ/Jpo
+mtWbQpuvnByciZz3nWSd0p5Anq6fHZ+Ln/qgaaDYoUehtqImopajBqN2o+akVqTHpTilqaYapoum/adu
+p+CoUqjEqTepqaocqo+rAqt1q+msXKzQrUStuK4trqGvFq+LsACwdbDqsWCx1rJLssKzOLOutCW0nLUT
+tYq2AbZ5tvC3aLfguFm40blKucK6O7q1uy67p7whvJu9Fb2Pvgq+hL7/v3q/9cBwwOzBZ8Hjwl/C28NY
+w9TEUcTOxUvFyMZGxsPHQce/yD3IvMk6ybnKOMq3yzbLtsw1zLXNNc21zjbOts83z7jQOdC60TzRvtI/
+0sHTRNPG1EnUy9VO1dHWVdbY11zX4Nhk2OjZbNnx2nba+9uA3AXcit0Q3ZbeHN6i3ynfr+A24L3hROHM
+4lPi2+Nj4+vkc+T85YTmDeaW5x/nqegy6LzpRunQ6lvq5etw6/vshu0R7ZzuKO6070DvzPBY8OXxcvH/
+8ozzGfOn9DT0wvVQ9d72bfb794r4Gfio+Tj5x/pX+uf7d/wH/Jj9Kf26/kv+3P9t///SLzBKS1xOU0Nv
+bG9yU3BhY2WiTDNcTlNDb2xvclNwYWNl0i8wTk9XTlNDb2xvcqJOM18QLXt7MCwgMC4yMTg3NX0sIHsw
+Ljk3NDk5OTk5OTk5OTk5OTk4LCAwLjU2MjV9fdIvMFJTV05TSW1hZ2WiUjMACAARABoAJAApADIANwBJ
+AEwAUQBTAGYAbAB/AIYAkwCaAKYArQC1AMQA0QD6APwBAQEDAQUBBwEJAQsBDAEOARcBHAEnASkBKwEt
+ATIBNgE4AToBPAE+AUABTAFNAVIBXQFmAW4BcQF6AYcBjwGcAakBvgHRAdYB2AHcAd4B4AHiAesB8AH2
+Af4CAAICAgQCBhOmE6sTuBO7E8gTzRPVE9gUCBQNFBUAAAAAAAACAQAAAAAAAABUAAAAAAAAAAAAAAAA
+AAAUGA
+</mutableData>
+        </image>
     </resources>
 </document>

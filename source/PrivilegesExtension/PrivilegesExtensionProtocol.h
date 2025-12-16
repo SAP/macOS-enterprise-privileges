@@ -1,5 +1,5 @@
 /*
-    AppDelegate.h
+    PrivilegesExtensionProtocol.h
     Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,17 @@
     limitations under the License.
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+/*!
+ @protocol      PrivilegesExtensionProtocol
+ @abstract      Defines the protocol implemented by the system extension and called by PrivilegesCLI.
+*/
+
+@protocol PrivilegesExtensionProtocol
+
+- (void)suspendExtensionUsingAuthorizedPID:(pid_t)pid completionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
+- (void)resumeExtensionWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+- (void)statusWithReply:(void(^)(NSString *status))reply;
 
 @end
-

@@ -1,5 +1,5 @@
 /*
-    AppDelegate.h
+    MTProcessValidation.h
     Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,13 @@
     limitations under the License.
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import "MTParentProcess.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface MTProcessValidation : NSObject
+
+- (instancetype)initWithPID:(pid_t)pid;
+- (BOOL)isValid;
 
 @end
 

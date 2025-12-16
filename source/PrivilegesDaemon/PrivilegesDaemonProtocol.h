@@ -16,7 +16,7 @@
 */
 
 #import <Foundation/Foundation.h>
-#import <OSLog/OSLog.h>
+#import <os/log.h>
 
 /*!
  @protocol      PrivilegesDaemonProtocol
@@ -49,8 +49,23 @@
                            reason:(NSString*)reason
                 completionHandler:(void(^)(BOOL success))completionHandler;
 
-- (void)queuedEventsWithReply:(void(^)(NSArray *queuedEvents, NSError *error))completionHandler;
+/*!
+ @method        queuedEventsWithReply:
+ @abstract      Get queued remote logging events.
+ @param         reply The handler to call when the request is complete.
+ @discussion    Returns an array or nil if an error occurred. In case of an error the error object might contain
+                information about the error that caused the operation to fail.
+*/
+- (void)queuedEventsWithReply:(void(^)(NSArray *queuedEvents, NSError *error))reply;
 
+/*!
+ @method        queueEventsInArray:completionHandler:
+ @abstract      Queue the given remote logging events.
+ @param         events An array containing remote logging events.
+ @param         completionHandler The handler to call when the request is complete.
+ @discussion    Returns YES if the events were successfully queued, otherwise returns NO. In case of an error
+                the error object might contain information about the error that caused the operation to fail.
+*/
 - (void)queueEventsInArray:(NSArray*)events completionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
 
 @end

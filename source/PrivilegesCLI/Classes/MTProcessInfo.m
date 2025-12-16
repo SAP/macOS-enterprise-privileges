@@ -68,4 +68,37 @@
     return reason;
 }
 
+- (BOOL)systemExtension
+{
+    BOOL request = [[self arguments] containsObject:@"-e"] || [[self arguments] containsObject:@"--extension"];
+    return request;
+}
+
+- (MTExtensionRequestType)extensionRequestType
+{
+    int type = MTExtensionRequestTypeInvalid;
+    
+    NSInteger index = [[self arguments] indexOfObject:@"-e"];
+    if (index == NSNotFound) { index = [[self arguments] indexOfObject:@"--extension"]; }
+    
+    if (index != NSNotFound && index + 1 < [[self arguments] count]) {
+        
+        NSString *argument = [[self arguments] objectAtIndex:index + 1];
+
+        NSDictionary *requestTypes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithInt:MTExtensionRequestTypeEnable],    @"on",
+                                      [NSNumber numberWithInt:MTExtensionRequestTypeDisable],   @"off",
+                                      [NSNumber numberWithInt:MTExtensionRequestTypeManaged],   @"managed",
+                                      [NSNumber numberWithInt:MTExtensionRequestTypeSuspend],   @"suspend",
+                                      [NSNumber numberWithInt:MTExtensionRequestTypeStatus],    @"status",
+                                      nil
+        ];
+
+        id dictValue = [requestTypes objectForKey:argument];
+        if (dictValue) { type = [dictValue intValue]; }
+    }
+    
+    return type;
+}
+
 @end

@@ -18,7 +18,7 @@
 #import <Foundation/Foundation.h>
 #import "PrivilegesXPCProtocol.h"
 #import "PrivilegesAgentProtocol.h"
-#import <OSLog/OSLog.h>
+#import "MTExtensionRequestType.h"
 #import <os/log.h>
 
 /*!

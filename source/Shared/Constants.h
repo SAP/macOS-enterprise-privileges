@@ -18,9 +18,15 @@
 #define kMTAppName                                  @"Privileges"
 #define kMTDaemonMachServiceName                    @"corp.sap.privileges.daemon.xpc"
 #define kMTAgentMachServiceName                     @"corp.sap.privileges.agent.xpc"
+#define kMTHelperMachServiceName                    @"corp.sap.privileges.helper.xpc"
+#define kMTExtensionMachServiceName                 @"corp.sap.privileges.extension.xpc"
 #define kMTXPCServiceName                           @"corp.sap.privileges.xpcservice"
 #define kMTQueuedEventsPlistName                    @"QueuedEvents.plist"
 #define kMTAppBundleIdentifier                      @"corp.sap.privileges"
+#define kMTAgentBundleIdentifier                    @"corp.sap.privileges.agent"
+#define kMTCLIBundleIdentifier                      @"corp.sap.privileges.cli"
+#define kMTExtensionBundleIdentifier                @"corp.sap.privileges.extension"
+#define kMTHelperBundleIdentifier                   @"corp.sap.privileges.helper"
 #define kMTAuthRightName                            "corp.sap.privileges.auth"
 #define kMTAppGroupIdentifier                       @"7R5ZEU67FQ.corp.sap.privileges"
 #define kMTDockTilePluginBundleIdentifier           @"corp.sap.privileges.docktileplugin"
@@ -29,6 +35,7 @@
 #define kMTWebhookEventTypeRevoked                  @"corp.sap.privileges.revoked"
 #define kMTGitHubURL                                @"https://github.com/SAP/macOS-enterprise-privileges"
 #define kMTDiskutilPath                             @"/usr/sbin/diskutil"
+#define kMTspctlPath                                @"/usr/sbin/spctl"
 
 #define kMTAdminGroupID                             80
 #define kMTExpirationDefault                        20
@@ -106,6 +113,7 @@
 #define kMTDefaultsForceUpdatePrebootVolumeKey      @"ForceUpdatePrebootVolume"
 #define kMTDefaultsIconAppearanceThemeKey           @"AppleIconAppearanceTheme"
 #define kMTDefaultsIconAppearanceTintColorKey       @"AppleIconAppearanceTintColor"
+#define kMTDefaultsEnableSystemExtensionKey         @"EnableSystemExtension"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange      @"corp.sap.privileges.PrivilegesDidChange"
@@ -118,3 +126,9 @@
 // NSNotification user info keys
 #define kMTNotificationKeyTimeLeft                  @"TimeLeft"
 #define kMTNotificationKeyPreferencesChanged        @"PreferenceKey"
+
+// System extension status
+#define kMTExtensionStatusEnabled       @"enabled"
+#define kMTExtensionStatusDisabled      @"disabled"
+#define kMTExtensionStatusSuspended     @"suspended"
+#define kMTExtensionStatusWaiting       @"waiting for full disk access"

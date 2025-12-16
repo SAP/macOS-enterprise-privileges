@@ -65,6 +65,11 @@
                 
                 _loggingObject = syslogObject;
                 _serverType = kMTRemoteLoggingServerTypeSyslog;
+                
+                if (![syslogOptions useTLS]) {
+
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Remote syslog is configured without TLS. Events will be sent as clear text until TLS is enabled.");
+                }
             
             } else if ([[remoteLoggingConfiguration serverType] isEqualToString:kMTRemoteLoggingServerTypeWebhook]) {
                 

@@ -631,6 +631,16 @@
     return customAction;
 }
 
+- (BOOL)enableSystemExtension
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey] && [_userDefaults boolForKey:kMTDefaultsEnableSystemExtensionKey]);
+}
+
+- (BOOL)systemExtensionIsForced
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey]);
+}
+
 + (NSString *)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale
 {
     NSMeasurement *durationMeasurement = [[NSMeasurement alloc] initWithDoubleValue:duration

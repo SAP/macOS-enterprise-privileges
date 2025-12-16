@@ -1,5 +1,5 @@
 /*
-    AppDelegate.h
+    MTParentProcess.h
     Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,16 @@
     limitations under the License.
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface MTParentProcess : NSObject
+
+- (instancetype)initWithChildPID:(pid_t)pid;
+
+- (pid_t)pid;
+- (NSString*)name;
+- (BOOL)isPlatformBinary;
+- (NSArray*)openFiles;
 
 @end
 

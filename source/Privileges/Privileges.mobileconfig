@@ -537,6 +537,22 @@
                                 -->
                                 <key>ForceUpdatePrebootVolume</key>
                                 <true/>
+                                
+                                <!--
+                                    key:    EnableSystemExtension
+                                    value:  a boolean
+                                  
+                                    When set to true, the Privileges system extension is enabled. The system
+									extension protects the Privileges application and its components against
+									unauthorized modifications, deactivation, or uninstallation. Once this
+									key has been set, it is no longer possible to enable or disable the
+									extension using PrivilegesCLI.
+                                
+                                    Please make sure you grant the Privileges system extension full disk
+                                    access, otherwise it will not work.
+                                -->
+                                <key>EnableSystemExtension</key>
+                                <true/>
                                                                 								
 								<!--
                                     key:    RemoteLogging
@@ -698,9 +714,9 @@
 									<key>SyslogOptions</key>
 									<dict>
                                         <key>ServerPort</key>
-                                        <integer>514</integer>
+                                        <integer>6514</integer>
                                         <key>UseTLS</key>
-                                        <false/>
+                                        <true/>
 										<key>LogFacility</key>
 										<integer>4</integer>
 										<key>LogSeverity</key>

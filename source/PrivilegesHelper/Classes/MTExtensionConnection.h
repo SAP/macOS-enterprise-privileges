@@ -1,5 +1,5 @@
 /*
-    MTDaemonConnection.h
+    MTExtensionConnection.h
     Copyright 2016-2025 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,15 @@
 */
 
 #import <Foundation/Foundation.h>
-#import "PrivilegesDaemonProtocol.h"
+#import "PrivilegesExtensionProtocol.h"
 #import <os/log.h>
 
 /*!
- @class         MTDaemonConnection
- @abstract      A class that provides an easy way to connect to the Privileges daemon.
+ @class         MTExtensionConnection
+ @abstract      A class that provides an easy way to connect to the Privileges system extension.
 */
 
-@interface MTDaemonConnection : NSObject
+@interface MTExtensionConnection : NSObject
 
 /*!
  @property      connection
@@ -34,15 +34,15 @@
 @property (atomic, strong, readonly) NSXPCConnection *connection;
 
 /*!
- @method        connectToDaemonAndExecuteCommandBlock:
- @abstract      Connects to the daemon and executes the given command block.
+ @method        connectToExtensionAndExecuteCommandBlock:
+ @abstract      Connects to the extension and executes the given command block.
  @param         commandBlock The command block that should be executed after the connection has been established.
 */
-- (void)connectToDaemonAndExecuteCommandBlock:(void(^)(void))commandBlock;
+- (void)connectToExtensionAndExecuteCommandBlock:(void(^)(void))commandBlock;
 
 /*!
  @method        invalidate
- @abstract      Invalidates the connection to the daemon (and xpc service).
+ @abstract      Invalidates the connection to the system extension.
 */
 - (void)invalidate;
 

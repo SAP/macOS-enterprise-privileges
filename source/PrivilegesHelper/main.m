@@ -15,13 +15,13 @@
     limitations under the License.
 */
 
-#import <Foundation/Foundation.h>
-#import "MTPrivilegesDaemon.h"
-#import "Constants.h"
+#import <Cocoa/Cocoa.h>
+#import "MTPrivilegesHelper.h"
+#import <os/log.h>
 
 @interface Main : NSObject
-@property (nonatomic, strong, readwrite) MTPrivilegesDaemon *privilegesDaemon;
-@property (assign) BOOL shouldTerminate;
+@property (nonatomic, strong, readwrite) MTPrivilegesHelper *privilegesHelper;
+@property (atomic, assign) BOOL shouldTerminate;
 @end
 
 @implementation Main
@@ -35,28 +35,25 @@
         self->_shouldTerminate = YES;
     });
     
-    while (!_shouldTerminate || [_privilegesDaemon numberOfActiveXPCConnections] > 0) {
+    while (!_shouldTerminate || [_privilegesHelper numberOfActiveXPCConnections] > 0) {
         
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:60]];
     }
     
-    [_privilegesDaemon invalidateXPC];
+    [_privilegesHelper invalidateXPC];
     os_log(OS_LOG_DEFAULT, "SAPCorp: Exiting");
-
 }
 
 @end
 
-
-int main(int argc, const char * argv[])
-{
+int main(int argc, const char * argv[]) {
 #pragma unused(argc)
 #pragma unused(argv)
-            
+        
     @autoreleasepool {
-            
+        
         Main *m = [[Main alloc] init];
-        m.privilegesDaemon = [[MTPrivilegesDaemon alloc] init];
+        m.privilegesHelper = [[MTPrivilegesHelper alloc] init];
         [m run];
     }
     

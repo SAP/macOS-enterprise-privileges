@@ -16,6 +16,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "MTExtensionRequestType.h"
 
 /*!
  @class         MTProcessInfo
@@ -65,5 +66,9 @@
  @discussion    Returns a NSString object containing the provided reason. Returns nil if no reason has been provided.
  */
 - (NSString*)requestReason;
+
+
+- (BOOL)systemExtension;
+- (MTExtensionRequestType)extensionRequestType;
 
 @end

@@ -1,0 +1,535 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Privileges System Extension"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "corp.sap.privileges.extension"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016–2025 SAP SE.\nجميع الحقوق محفوظة."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nВсички права запазени."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTots els drets reservats."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nVšechna práva vyhrazena."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAlle rettigheder forbeholdes."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAlle Rechte vorbehalten."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nΜε επιφύλαξη κάθε δικαιώματος."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "© 2016-2025 SAP SE.\nAll rights reserved."
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAll rights reserved."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAll rights reserved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTodos los derechos reservados."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTodos los derechos reservados."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nKaikki oikeudet pidätetään."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTous droits réservés."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTous droits réservés."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nכל הזכויות שמורות."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nसर्वाधिकार सुरक्षित।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nSva prava pridržana."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nMinden jog fenntartva."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nSemua hak cipta dilindungi undang-undang."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTutti i diritti riservati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\n無断転載を禁ずる。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\n모든 권리 보유."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nHak cipta terpelihara."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAlle rettigheter forbeholdes."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAlle rechten voorbehouden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nWszystkie prawa zastrzeżone."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTodos os direitos reservados."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTodos os direitos reservados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nToate drepturile rezervate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nВсе права защищены."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nVšetky práva vyhradené."
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nVse pravice pridržane."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nAlla rättigheter förbehålls."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nสงวนสิทธิ์ทุกประการ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nTüm hakları saklıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nУсі права захищено."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\nMọi quyền được bảo lưu."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\n保留一切权利。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\n保留一切權利。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2016-2025 SAP SE.\n保留一切權利。"
+          }
+        }
+      }
+    },
+    "NSSystemExtensionUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحمي امتداد النظام هذا تطبيق Privileges ومكوناته من التعديلات غير المصرح بها أو التعطيل أو إلغاء التثبيت."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Това системно разширение защитава приложението Privileges и неговите компоненти срещу неоторизирани промени, деактивиране или деинсталиране."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquesta extensió del sistema protegeix l'aplicació Privileges i els seus components contra modificacions no autoritzades, desactivació o desinstal·lació."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto rozšíření systému chrání aplikaci Privileges a její součásti před neoprávněnými úpravami, deaktivací nebo odinstalací."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denne systemudvidelse beskytter Privileges-applikationen og dens komponenter mod uautoriserede ændringer, deaktivering eller afinstallation."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Systemerweiterung schützt das Programm Privileges und seine Komponenten vor unbefugten Änderungen, Deaktivierung oder Deinstallation."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αυτή η επέκταση συστήματος προστατεύει την εφαρμογή Privileges και τα συστατικά της από μη εξουσιοδοτημένες τροποποιήσεις, απενεργοποίηση ή απεγκατάσταση."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This system extension protects the Privileges application and its components against unauthorized modifications, deactivation, or uninstallation."
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This system extension protects the Privileges application and its components against unauthorised modifications, deactivation, or uninstallation."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This system extension protects the Privileges application and its components against unauthorised modifications, deactivation, or uninstallation."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta extensión del sistema protege la aplicación Privileges y sus componentes contra modificaciones no autorizadas, desactivación o desinstalación."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta extensión del sistema protege la aplicación Privileges y sus componentes contra modificaciones no autorizadas, desactivación o desinstalación."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tämä järjestelmälaajennus suojaa Privileges-sovellusta ja sen osia luvattomilta muokkauksilta, käytöstä poistamiselta tai asennuksen poistamiselta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette extension du système protège l'application Privileges et ses composants contre les modifications non autorisées, la désactivation ou la désinstallation."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette extension du système protège l’application Privileges et ses composants contre les modifications non autorisées, la désactivation ou la désinstallation."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הרחבת מערכת זו מגנה על יישום Privileges ועל הרכיבים שלו מפני שינויים לא מורשים, השבתה או הסרה."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यह सिस्टम एक्सटेंशन Privileges एप्लिकेशन और इसके घटकों को अनधिकृत संशोधन, निष्क्रियता या अनइंस्टॉलेशन के विरुद्ध सुरक्षा प्रदान करता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovo proširenje sustava štiti aplikaciju Privileges i njezine komponente od neovlaštenih izmjena, deaktivacije ili deinstalacije."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ez a rendszerbővítmény megvédi a Privileges alkalmazást és annak összetevőit az illetéktelen módosításoktól, letiltástól vagy eltávolítástól."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekstensi sistem ini melindungi aplikasi Privileges dan komponennya dari modifikasi, penonaktifan, atau penghapusan yang tidak sah."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa estensione di sistema protegge l'applicazione Privileges e i suoi componenti da modifiche non autorizzate, disattivazione o disinstallazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このシステム拡張機能は、Privilegesアプリケーションおよびそのコンポーネントを、不正な変更、無効化、またはアンインストールから保護します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 시스템 확장 프로그램은 Privileges 애플리케이션과 그 구성 요소를 무단 수정, 비활성화 또는 제거로부터 보호합니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sambungan sistem ini melindungi aplikasi Privileges dan komponennya daripada pengubahsuaian, penyahaktifan, atau penyahpasangan tanpa kebenaran."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denne systemutvidelsen beskytter Privileges-applikasjonen og dens komponenter mot uautoriserte endringer, deaktivering eller avinstallasjon."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze systeemextensie beschermt de Privileges-applicatie en de bijbehorende componenten tegen ongeautoriseerde wijzigingen, deactivering of deïnstallatie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To rozszerzenie systemowe chroni aplikację Privileges oraz jej komponenty przed nieautoryzowanymi modyfikacjami, dezaktywacją lub odinstalowaniem."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta extensão do sistema protege o aplicativo Privileges e seus componentes contra modificações não autorizadas, desativação ou desinstalação."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta extensão do sistema protege a aplicação Privileges e os seus componentes contra modificações não autorizadas, desativação ou desinstalação."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această extensie de sistem protejează aplicația Privileges și componentele sale împotriva modificărilor neautorizate, dezactivării sau dezinstalării."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это системное расширение защищает приложение Privileges и его компоненты от несанкционированных изменений, деактивации или удаления."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto rozšírenie systému chráni aplikáciu Privileges a jej komponenty pred neoprávnenými úpravami, deaktiváciou alebo odinštalovaním."
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta sistemska razširitev ščiti aplikacijo Privileges in njene komponente pred nepooblaščenimi spremembami, deaktivacijo ali odstranitvijo."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denna systemtillägg skyddar Privileges-applikationen och dess komponenter mot obehöriga ändringar, avaktivering eller avinstallation."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ส่วนขยายระบบนี้ช่วยปกป้องแอปพลิเคชัน Privileges และส่วนประกอบต่าง ๆ ของแอปพลิเคชันจากการแก้ไขที่ไม่ได้รับอนุญาต การปิดใช้งาน หรือการถอนการติดตั้ง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu sistem uzantısı, Privileges uygulamasını ve bileşenlerini yetkisiz değişikliklere, devre dışı bırakmaya veya kaldırmaya karşı korur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це розширення системи захищає додаток Privileges та його компоненти від несанкціонованих змін, деактивації або видалення."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phần mở rộng hệ thống này bảo vệ ứng dụng Privileges và các thành phần của nó khỏi bị sửa đổi, vô hiệu hóa hoặc gỡ cài đặt trái phép."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此系统扩展可保护Privileges应用程序及其组件，防止未经授权的修改、停用或卸载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此系統擴充功能可保護 Privileges 應用程式及其元件，防止未經授權的修改、停用或解除安裝。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此系統擴充功能可保護 Privileges 應用程式及其元件，防止未經授權的修改、停用或解除安裝。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

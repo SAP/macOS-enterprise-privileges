@@ -19,7 +19,7 @@
 
 /*!
  @protocol      PrivilegesAgentProtocol
- @abstract      Defines the protocol implemented by the agent..
+ @abstract      Defines the protocol implemented by the agent.
 */
 
 @protocol PrivilegesAgentProtocol

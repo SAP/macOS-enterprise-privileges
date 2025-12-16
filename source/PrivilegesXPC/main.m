@@ -52,13 +52,16 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
        
         if (taskRef) {            
             
-            if (SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString)) == errSecSuccess) {
+            OSStatus result = SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString));
+            
+            if (result == errSecSuccess) {
 
                 acceptConnection = YES;
                    
-                newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesXPCProtocol)];
+                [newConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesXPCProtocol)]];
                 PrivilegesXPC *exportedObject = [PrivilegesXPC new];
-                newConnection.exportedObject = exportedObject;
+                [newConnection setExportedObject:exportedObject];
+                
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
                 [newConnection setInvalidationHandler:^{
@@ -77,7 +80,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 });
     
             } else {
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
+                
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed (error %d)", result);
             }
                 
             CFRelease(taskRef);

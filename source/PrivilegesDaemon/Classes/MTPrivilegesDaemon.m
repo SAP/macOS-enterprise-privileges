@@ -63,8 +63,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     if (listener == _listener && newConnection != nil) {
         
         // see how we have been signed and make sure only processes with the same signing authority can connect.
-        // additionally the calling application must have the same version number as this xpc service and must be
-        // one of the components using a bundle identifier starting with "corp.sap.privileges"
+        // additionally the calling application must have the same version number as this xpc service and must
+        // use the bundle identifier "corp.sap.privileges.agent"
         NSError *error = nil;
         NSString *signingAuth = [MTCodeSigning getSigningAuthorityWithError:&error];
         NSString *requiredVersion = [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -73,19 +73,20 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
             // we only allow the Privileges agent to connect
             NSString *reqString = [MTCodeSigning codeSigningRequirementsWithCommonName:signingAuth
-                                                                      bundleIdentifier:@"corp.sap.privileges.agent" 
+                                                                      bundleIdentifier:kMTAgentBundleIdentifier
                                                                          versionString:requiredVersion
             ];
             SecTaskRef taskRef = SecTaskCreateWithAuditToken(NULL, ((ExtendedNSXPCConnection*)newConnection).auditToken);
                        
             if (taskRef) {
 
-                if (SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString)) == errSecSuccess) {
+                OSStatus result = SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(reqString));
+                
+                if (result == errSecSuccess) {
 
                     acceptConnection = YES;
                        
-                    NSXPCInterface *exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesDaemonProtocol)];
-                    [newConnection setExportedInterface:exportedInterface];
+                    [newConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesDaemonProtocol)]];
                     [newConnection setExportedObject:self];
                     
 #pragma clang diagnostic push
@@ -109,7 +110,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
                 } else {
                     
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed");
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Code signature verification failed (error %d)", result);
                 }
                     
                 CFRelease(taskRef);
@@ -254,7 +255,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     if (completionHandler) { completionHandler(success); }
 }
 
-- (void)queuedEventsWithReply:(void (^)(NSArray *queuedEvents, NSError *error))completionHandler
+- (void)queuedEventsWithReply:(void (^)(NSArray *queuedEvents, NSError *error))reply
 {
     NSError *error = nil;
     NSArray *queuedEvents = nil;
@@ -272,7 +273,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         if (plistURL) { queuedEvents = [[NSArray alloc] initWithContentsOfURL:plistURL]; }
     }
     
-    if (completionHandler) { completionHandler(queuedEvents, error); }
+    if (reply) { reply(queuedEvents, error); }
 }
 
 
@@ -314,8 +315,5 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     
     if (completionHandler) { completionHandler(success, error); }
 }
-
-
-
 
 @end

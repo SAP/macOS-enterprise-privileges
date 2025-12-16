@@ -47,6 +47,18 @@
                                      versionString:(NSString*)versionString;
 
 /*!
+ @method        codeSigningRequirementsWithCommonName:bundleIdentifiers:versionString:
+ @abstract      Returns the code signing requirements constructed from the given parameters.
+ @param         commonName The common name (signing authority) that should be used for the code signing requirements.
+ @param         bundleIdentifiers An array of bundle identifier that should be used for the code signing requirements.
+ @param         versionString The app's version string (e.g. 2.0.0) that should be used for the code signing requirements.
+ @discussion    Returns a string containing the code signing requirements or nil if an error occurred.
+*/
++ (NSString*)codeSigningRequirementsWithCommonName:(NSString*)commonName
+                                 bundleIdentifiers:(NSArray*)bundleIdentifiers
+                                     versionString:(NSString*)versionString;
+
+/*!
  @method        sandboxStatusWithCompletionHandler:
  @abstract      Returns whether the current application is sandboxed or not.
  @param         completionHandler The completion handler to call when the request is complete.
