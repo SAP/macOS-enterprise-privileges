@@ -20,6 +20,16 @@
 #import "MTReasonAccessoryController.h"
 #import "MTLocalNotification.h"
 #import "Constants.h"
+#import <objc/runtime.h>
+
+// Subclass that allows Tab focus even when the button is disabled, so keyboard
+// users can reach the button and see its state before the reason field is filled.
+@interface MTTabAccessibleButton : NSButton
+@end
+@implementation MTTabAccessibleButton
+- (BOOL)canBecomeKeyView { return YES; }
+- (BOOL)acceptsFirstResponder { return YES; }
+@end
 
 @interface AppDelegate ()
 @property (nonatomic, strong, readwrite) NSWindowController *settingsWindowController;
@@ -224,6 +234,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             NSButton *requestButton = [_alert addButtonWithTitle:NSLocalizedString(@"requestButton", nil)];
             [requestButton bind:NSEnabledBinding toObject:self withKeyPath:@"self.enableRequestButton" options:nil];
             [requestButton setHasDestructiveAction:YES];
+            // Allow Tab to land on this button even while it is disabled (e.g. before
+            // the reason field meets the minimum length). The button still won't fire
+            // its action while disabled — this only affects keyboard focus traversal.
+            object_setClass(requestButton, [MTTabAccessibleButton class]);
             
             if ([_privilegesApp reasonRequired]) {
 
@@ -268,7 +282,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         }
         
         if (![_privilegesApp hideSettingsButton]) { [_alert addButtonWithTitle:NSLocalizedString(@"settingsButton", nil)]; }
-        NSButton *cancelButton = [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
+        [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
         [_alert setAlertStyle:NSAlertStyleInformational];
         if (![[NSWorkspace sharedWorkspace] isVoiceOverEnabled] && ![_privilegesApp hideHelpButton]) { [_alert setShowsHelp:YES]; }
         [_alert setDelegate:self];
@@ -287,8 +301,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                             )
             ];
             
-            // make sure the text field is selected
-            [cancelButton setRefusesFirstResponder:YES];
+            // make sure the text field is selected (tab navigation to buttons is still allowed)
         }
     }
 
@@ -303,6 +316,10 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     [transparentDummyWindow setAlphaValue:0];
     [transparentDummyWindow setReleasedWhenClosed:NO];
     [transparentDummyWindow center];
+    // Ensure the alert's own sheet window recalculates its tab (key view) loop so
+    // all controls — including the reason text field and alert buttons — are reachable
+    // via Tab. This must target [_alert window], not the transparent parent window.
+    [[_alert window] setAutorecalculatesKeyViewLoop:YES];
 
     [_alert beginSheetModalForWindow:transparentDummyWindow
                    completionHandler:^(NSModalResponse returnCode) {
