@@ -91,7 +91,7 @@ As of _Privileges 1.0.5_, it is possible to manage settings for _Privileges_ or 
 See who's talking about _Privileges_…
 
 2026
-* [Yandex Corporate Blog: Анатомия SAP Privileges: как устроено управление правами в macOS (Russian language)(https://habr.com/ru/companies/yandex/articles/1023708/)
+* [Yandex Corporate Blog: Анатомия SAP Privileges: как устроено управление правами в macOS (Russian language)](https://habr.com/ru/companies/yandex/articles/1023708/)
 * [Yandex Corporate Blog: Anatomy of SAP Privileges: How Administrator Rights Work in macOS (English translation of the above blog post)](https://medium.com/@ap274776/anatomy-of-sap-privileges-how-administrator-rights-work-in-macos-fa0d15fb1af1)
 
 2025
