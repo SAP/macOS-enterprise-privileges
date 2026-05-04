@@ -115,6 +115,7 @@ See who's talking about _Privileges_…
 
 2019
 * [9To5Mac: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
+* [Travelling Tech Guy: Manage macOS admin privileges with the SAP – Privileges app](https://travellingtechguy.blog/sap-privileges-app/)
 * [Der Flounder: Building an installer package for Privileges.app](https://derflounder.wordpress.com/2019/03/20/building-an-installer-package-for-privileges-app/)
 
 <br/>
