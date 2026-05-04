@@ -100,16 +100,22 @@ See who's talking about _Privileges_…
 * [Caschys Blog: Privileges 2.3.0: Mehr Sicherheit und Kontrolle für Mac-Admins (German language)](https://stadt-bremerhaven.de/privileges-2-3-0-mehr-sicherheit-und-kontrolle-fuer-mac-admins/)
 
 2024
+
+* [Der Flounder: Using Privileges post-actions](https://derflounder.wordpress.com/2024/12/01/using-privileges-post-actions/)
+* [Der Flounder: Managing time limited admin rights with Privileges 2.x](https://derflounder.wordpress.com/2024/11/21/managing-time-limited-admin-rights-with-privileges-2-x/)
 * [Der Flounder: Privileges 2.0 available with new features](https://derflounder.wordpress.com/2024/11/20/privileges-2-0-available-with-new-features)
   
 2022
 * [Mac & i: SAP-Werkzeug erleichtert Arbeit als Standardnutzer (German language)](https://www.heise.de/-7192631)
 * [ifun.de: Privileges.app von SAP: Nur noch auf Zuruf zum Admin (German language)](https://www.ifun.de/privileges-app-von-sap-nur-noch-auf-zuruf-zum-admin-191491/)
+* [Der Flounder: Privileges.app and time-limited admin](https://derflounder.wordpress.com/2022/07/22/privileges-app-and-time-limited-admin/)
+* [Der Flounder: Building a Privileges installer package using AutoPkg](https://derflounder.wordpress.com/2022/04/20/building-a-privileges-installer-package-using-autopkg/)
 * [Leveling Up - Rich Trouton's session at MacSysAdmin 2022](https://docs.macsysadmin.se/2022/video/day1session2.mp4)
 * [The Great Debate: Admin or Standard Users? - A talk hosted by Kandji](https://youtu.be/LCj59EIKFDg)
 
 2019
 * [9To5Mac: Privileges for macOS is the open source tool that all Apple IT departments need](https://9to5mac.com/2019/11/16/privileges-app-for-macos/)
+* [Der Flounder: Building an installer package for Privileges.app](https://derflounder.wordpress.com/2019/03/20/building-an-installer-package-for-privileges-app/)
 
 <br/>
 
