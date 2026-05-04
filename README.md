@@ -95,7 +95,7 @@ See who's talking about _Privileges_…
 * [Yandex Corporate Blog: Anatomy of SAP Privileges: How Administrator Rights Work in macOS (English translation of the above blog post)](https://medium.com/@ap274776/anatomy-of-sap-privileges-how-administrator-rights-work-in-macos-fa0d15fb1af1)
 
 2025
-* [Leveling Up - Managing admin rights in the enterprise - Rich Trouton's session at MacAD.UK 2025](https://youtu.be/JSnCdmV_N5U)
+* [Leveling Up - Managing admin rights in the enterprise: Rich Trouton's session at MacAD.UK 2025](https://youtu.be/JSnCdmV_N5U)
 * [9To5Mac: Privileges 2.1 continues to be one of the must-have macOS apps in the enterprise](https://9to5mac.com/2025/03/15/privileges-2-1-continues-to-be-one-of-the-must-have-macos-apps-in-the-enterprise/)
 * [Caschys Blog: Privileges 2.3.0: Mehr Sicherheit und Kontrolle für Mac-Admins (German language)](https://stadt-bremerhaven.de/privileges-2-3-0-mehr-sicherheit-und-kontrolle-fuer-mac-admins/)
 
