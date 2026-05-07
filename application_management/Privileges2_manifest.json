@@ -809,7 +809,7 @@
       "PostChangeExecutableChecksum": {
          "type": "string",
          "title": "Post Change Executable Checksum",
-         "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the PostChangeExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.",
+         "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the PostChangeExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch. Please note that the checksum of a script or binary can be calculated using the sha256sum command in Terminal.",
          "links": [
             {
                "rel": "Official documentation",
