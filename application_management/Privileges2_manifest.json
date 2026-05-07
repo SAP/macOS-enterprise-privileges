@@ -105,6 +105,9 @@
             "PostChangeExecutablePath": { 
                "$ref": "#/definitions/PostChangeExecutablePath" 
             }, 
+            "PostChangeExecutableChecksum": {
+               "$ref": "#/definitions/PostChangeExecutableChecksum"
+            },
             "PostChangeActionOnGrantOnly": { 
                "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
             }, 
@@ -244,6 +247,9 @@
             "PostChangeExecutablePath": { 
                "$ref": "#/definitions/PostChangeExecutablePath" 
             }, 
+            "PostChangeExecutableChecksum": {
+               "$ref": "#/definitions/PostChangeExecutableChecksum"
+            },
             "PostChangeActionOnGrantOnly": { 
                "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
             }, 
@@ -798,15 +804,24 @@
                "rel": "Official documentation", 
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeActionOnGrantOnly" 
             } 
-         ], 
-         "options": { 
-            "dependencies": { 
-               "PostChangeExecutablePath": { 
-                  "minLength": 1 
-               } 
-            } 
-         } 
+         ] 
       }, 
+      "PostChangeExecutableChecksum": {
+         "type": "string",
+         "title": "Post Change Executable Checksum",
+         "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the PostChangeExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutableChecksum"
+            }
+         ],
+         "options": {
+            "inputAttributes": {
+            },
+            "infoText": "Please enter the SHA-256 checksum of the script or binary."
+         }
+      },
       "PostChangeExecutablePath": { 
          "type": "string", 
          "title": "Post Change Executable Path", 
