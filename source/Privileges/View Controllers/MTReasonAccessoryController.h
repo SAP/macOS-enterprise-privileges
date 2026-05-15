@@ -20,4 +20,5 @@
 @interface MTReasonAccessoryController : NSViewController
 @property (weak) IBOutlet NSPopUpButton *predefinedReasonsButton;
 @property (weak) IBOutlet NSTextField *reasonTextField;
+@property (weak) IBOutlet NSStackView *stackView;
 @end

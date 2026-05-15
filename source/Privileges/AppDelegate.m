@@ -20,6 +20,15 @@
 #import "MTReasonAccessoryController.h"
 #import "MTLocalNotification.h"
 #import "Constants.h"
+#import <objc/runtime.h>
+
+BOOL mt_canBecomeKeyView(id self, SEL _cmd) {
+    return YES;
+}
+
+BOOL mt_acceptsFirstResponder(id self, SEL _cmd) {
+    return YES;
+}
 
 @interface AppDelegate ()
 @property (nonatomic, strong, readwrite) NSWindowController *settingsWindowController;
@@ -225,6 +234,41 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             [requestButton bind:NSEnabledBinding toObject:self withKeyPath:@"self.enableRequestButton" options:nil];
             [requestButton setHasDestructiveAction:YES];
             
+            // allow Tab to land on this button even while it is disabled
+            Class originalClass = object_getClass(requestButton);
+            NSString *subclassName = [NSString stringWithFormat:@"%@_MT_%p", NSStringFromClass(originalClass), requestButton];
+            Class subclass = NSClassFromString(subclassName);
+
+            if (!subclass) {
+
+                subclass = objc_allocateClassPair(
+                                                  originalClass,
+                                                  [subclassName UTF8String],
+                                                  0
+                                                  );
+
+                if (subclass) {
+                    
+                    class_addMethod(
+                                    subclass,
+                                    @selector(canBecomeKeyView),
+                                    (IMP)mt_canBecomeKeyView,
+                                    "c@:"
+                                    );
+
+                    class_addMethod(
+                                    subclass,
+                                    @selector(acceptsFirstResponder),
+                                    (IMP)mt_acceptsFirstResponder,
+                                    "c@:"
+                                    );
+
+                    objc_registerClassPair(subclass);
+                }
+            }
+
+            if (subclass) { object_setClass(requestButton, subclass); }
+            
             if ([_privilegesApp reasonRequired]) {
 
                 // load the nib file
@@ -250,7 +294,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                     
                     [_alert setInformativeText:[NSLocalizedString(@"privilegesDialogRequestMessageReasonPre", nil) stringByAppendingString:autoRemoveText]];
                     
-                    if ([[_accessoryController predefinedReasonsButton] indexOfSelectedItem] == 0) {
+                    if ([[_accessoryController predefinedReasonsButton] selectedTag] == 1000) {
                         
                         self.enableRequestButton = ([[[_accessoryController reasonTextField] stringValue] length] >= _minReasonLength);
                         
@@ -268,7 +312,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         }
         
         if (![_privilegesApp hideSettingsButton]) { [_alert addButtonWithTitle:NSLocalizedString(@"settingsButton", nil)]; }
-        NSButton *cancelButton = [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
+        [_alert addButtonWithTitle:NSLocalizedString(@"cancelButton", nil)];
         [_alert setAlertStyle:NSAlertStyleInformational];
         if (![[NSWorkspace sharedWorkspace] isVoiceOverEnabled] && ![_privilegesApp hideHelpButton]) { [_alert setShowsHelp:YES]; }
         [_alert setDelegate:self];
@@ -286,9 +330,6 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                             NSHeight([[_alert accessoryView] frame])
                                                             )
             ];
-            
-            // make sure the text field is selected
-            [cancelButton setRefusesFirstResponder:YES];
         }
     }
 
@@ -299,11 +340,22 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                                      backing:NSBackingStoreBuffered
                                                                        defer:NO
     ];
-    [transparentDummyWindow setAccessibilityElement:NO];
+    
+    // for debug builds we make sure the alpha value of the transparent
+    // window is not set to zero. this allows taking screenshots.
+#ifdef DEBUG
+    [transparentDummyWindow setAlphaValue:.01];
+#else
     [transparentDummyWindow setAlphaValue:0];
+#endif
+    [transparentDummyWindow setAccessibilityElement:NO];
     [transparentDummyWindow setReleasedWhenClosed:NO];
     [transparentDummyWindow center];
-
+    
+    // needed for macOS 26. Otherwise AppKit doesn't show the icon. this is becaus because our workaround
+    // creates a transparent parent window and displays our alert as a sheet.
+    [_alert setIcon:[NSApp applicationIconImage]];
+    
     [_alert beginSheetModalForWindow:transparentDummyWindow
                    completionHandler:^(NSModalResponse returnCode) {
 
@@ -437,6 +489,30 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         
         [transparentDummyWindow close];
     }];
+    
+    // make sure the text field or popup button is selected for environments
+    // where a reason is required. Otherwise make sure nothing is selected.
+    if ([_alert accessoryView]) {
+        
+        if (![[self->_accessoryController reasonTextField] isHidden]) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self->_alert window] makeFirstResponder:[self->_accessoryController reasonTextField]];
+            });
+            
+        } else if (![[self->_accessoryController predefinedReasonsButton] isHidden]) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self->_alert window] makeFirstResponder:[self->_accessoryController predefinedReasonsButton]];
+            });
+        }
+        
+    } else {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self->_alert window] makeFirstResponder:nil];
+        });
+    }
 }
 
 - (BOOL)alertShowHelp:(NSAlert *)alert
@@ -527,7 +603,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
 
 - (void)menuDidClose:(NSMenu *)menu
 {
-    if ([[_accessoryController predefinedReasonsButton] indexOfSelectedItem] == 0) {
+    if ([[_accessoryController predefinedReasonsButton] selectedTag] == 1000) {
         
         self.enableRequestButton = ([[[_accessoryController reasonTextField] stringValue] length] >= _minReasonLength);
         

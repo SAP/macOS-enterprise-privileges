@@ -239,6 +239,22 @@
                                 <string>/Library/Application Support/Privileges/privileges_changed.sh</string>
                                 
                                 <!--
+                                    key:    PostChangeExecutableChecksum
+                                    value:  a string containing a SHA-256 checksum
+                                    
+                                    If set, the PrivilegesAgent calculates the SHA-256 checksum of the
+                                    binary specified using the PostChangeExecutablePath option. If the
+                                    calculated checksum matches the specified one, the binary is executed.
+                                    Otherwise, the launch operation fails silently, logging only the
+                                    checksum mismatch.
+                                
+                                    The checksum of a script or binary can be calculated using the sha256sum
+                                    command in Terminal.
+                                -->
+                                <key>PostChangeExecutableChecksum</key>
+                                <string>5e98de87514f1d32d59a9999b4a01777261c4353651e137588f4e532d645127a</string>
+                                
+                                <!--
                                     key:    PassReasonToExecutable
                                     value:  a boolean
                                     
@@ -501,6 +517,17 @@
 									</dict>
 
 								</array>
+                                
+                                <!--
+                                    key:    ReasonStrictPresetList
+                                    value:  a boolean
+                                  
+                                    When set to true, the ReasonPresetList is used as defined, otherwise an
+                                    additional entry "Other…" is added to the list of presets allowing the
+                                    users to enter a custom reason for requesting admin rights.
+                                -->
+                                <key>ReasonStrictPresetList</key>
+                                <true/>
                                 
                                 <!--
                                     key:    ReasonCheckingEnabled

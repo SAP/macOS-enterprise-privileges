@@ -16,6 +16,7 @@
 */
 
 #import "MTCodeSigning.h"
+#import "Constants.h"
 
 @implementation MTCodeSigning
 
@@ -81,7 +82,7 @@
     if (errorMsg && error) {
         
         NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:errorMsg, NSLocalizedDescriptionKey, nil];
-        *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:100 userInfo:errorDetail];
+        *error = [NSError errorWithDomain:kMTErrorDomain code:100 userInfo:errorDetail];
     }
     
     return returnValue;
@@ -167,7 +168,7 @@
                 }
             }
             
-            if (err != errSecSuccess) { error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil]; }
+            if (err != errSecSuccess) { error = [NSError errorWithDomain:kMTErrorDomain code:err userInfo:nil]; }
             
             completionHandler(isSandboxed, error);
         });

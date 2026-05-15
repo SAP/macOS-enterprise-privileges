@@ -152,7 +152,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     if (errorMsg) {
         
         NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:errorMsg, NSLocalizedDescriptionKey, nil];
-        error = [NSError errorWithDomain:NSOSStatusErrorDomain code:100 userInfo:errorDetail];
+        error = [NSError errorWithDomain:kMTErrorDomain code:100 userInfo:errorDetail];
     }
     
     if (completionHandler) { completionHandler(_isPaused, error); }

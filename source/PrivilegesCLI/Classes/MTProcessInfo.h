@@ -67,8 +67,18 @@
  */
 - (NSString*)requestReason;
 
-
+/*!
+ @method        systemExtension
+ @abstract      Get whether a system extension request should be sent.
+ @discussion    Returns YES if a system extension request should be sent, otherwise returns NO.
+ */
 - (BOOL)systemExtension;
+
+/*!
+ @method        extensionRequestType
+ @abstract      Get the type of the system extension request that should be sent.
+ @discussion    Returns the MTExtensionRequestType that should be sent to the system extension.
+ */
 - (MTExtensionRequestType)extensionRequestType;
 
 @end

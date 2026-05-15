@@ -20,7 +20,25 @@
 
 @interface MTProcessValidation : NSObject
 
-- (instancetype)initWithPID:(pid_t)pid;
+/*!
+ @method        init
+ @discussion    The init method is not available. Please use initWithPID: instead.
+ */
+- (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ @method        initWithPID:
+ @abstract      Initialize a MTProcessValidation object with the given process id.
+ @param         pid The id of the process that should be validated.
+ @discussion    Returns an initialized MTProcessValidation object.
+*/
+- (instancetype)initWithPID:(pid_t)pid NS_DESIGNATED_INITIALIZER;
+
+/*!
+ @method        isValid
+ @abstract      Get whether the process is authorized to disable the system extension.
+ @discussion    Returns YES if the process is authorized to disable the system extension, otherwise returns NO.
+*/
 - (BOOL)isValid;
 
 @end

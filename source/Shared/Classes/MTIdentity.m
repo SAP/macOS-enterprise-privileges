@@ -238,14 +238,14 @@
                     
                     if (completionHandler) {
                         
-                        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+                        NSError *error = [NSError errorWithDomain:kMTErrorDomain code:status userInfo:nil];
                         completionHandler(NO, error);
                     }
                 }
                 
             } else {
                 
-                NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+                NSError *error = [NSError errorWithDomain:kMTErrorDomain code:status userInfo:nil];
                 if (completionHandler) { completionHandler(NO, error); }
             }
         }

@@ -361,7 +361,7 @@
     
     if (description) {
         NSDictionary *errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:description, NSLocalizedDescriptionKey, nil];
-        error = [NSError errorWithDomain:NSOSStatusErrorDomain code:100 userInfo:errorDetail];
+        error = [NSError errorWithDomain:kMTErrorDomain code:100 userInfo:errorDetail];
     }
     
     return error;

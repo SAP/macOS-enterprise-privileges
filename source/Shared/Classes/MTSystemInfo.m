@@ -26,11 +26,19 @@
     NSString *returnValue = @"";
     
     // get the Platform Expert object
-    io_service_t platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
+    io_service_t platformExpert = IOServiceGetMatchingService(
+                                                              kIOMasterPortDefault,
+                                                              IOServiceMatching("IOPlatformExpertDevice")
+                                                              );
     
     if (platformExpert) {
         
-        CFStringRef uuid = IORegistryEntryCreateCFProperty(platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, kNilOptions);
+        CFStringRef uuid = IORegistryEntryCreateCFProperty(
+                                                           platformExpert,
+                                                           CFSTR(kIOPlatformUUIDKey),
+                                                           kCFAllocatorDefault,
+                                                           kNilOptions
+                                                           );
         
         if (uuid) {
             

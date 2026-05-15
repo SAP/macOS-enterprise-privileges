@@ -469,41 +469,48 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 {
     if (executablePath) {
         
-        NSURL *executableURL = [NSURL fileURLWithPath:executablePath];
-        
-        if (executableURL) {
+        if ([_privilegesApp postChangeExecutableChecksumIsValid]) {
             
-            // get the executable for a selected bundle…
-            NSNumber *isBundle = nil;
+            NSURL *executableURL = [NSURL fileURLWithPath:executablePath];
             
-            if ([executableURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+            if (executableURL) {
                 
-                NSWorkspaceOpenConfiguration *openConfiguration = [NSWorkspaceOpenConfiguration configuration];
-                [openConfiguration setArguments:launchArguments];
+                // get the executable for a selected bundle…
+                NSNumber *isBundle = nil;
                 
-                [[NSWorkspace sharedWorkspace] openApplicationAtURL:executableURL
-                                                      configuration:openConfiguration
-                                                  completionHandler:nil
-                ];
+                if ([executableURL getResourceValue:&isBundle forKey:NSURLIsPackageKey error:nil] && [isBundle boolValue]) {
+                    
+                    NSWorkspaceOpenConfiguration *openConfiguration = [NSWorkspaceOpenConfiguration configuration];
+                    [openConfiguration setArguments:launchArguments];
+                    
+                    [[NSWorkspace sharedWorkspace] openApplicationAtURL:executableURL
+                                                          configuration:openConfiguration
+                                                      completionHandler:nil
+                    ];
+                    
+                } else {
+                    
+                    NSError *error = nil;
+                    
+                    [NSTask launchedTaskWithExecutableURL:executableURL
+                                                arguments:launchArguments
+                                                    error:&error
+                                       terminationHandler:nil
+                    ];
+                    
+                    if (error) {
+                        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch %{public}@: %{public}@", [executableURL path], error);
+                    }
+                }
                 
             } else {
                 
-                NSError *error = nil;
-                
-                [NSTask launchedTaskWithExecutableURL:executableURL
-                                            arguments:launchArguments
-                                                error:&error
-                                   terminationHandler:nil
-                ];
-                
-                if (error) {
-                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch %{public}@: %{public}@", [executableURL path], error);
-                }
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch executable: Invalid file url");
             }
             
         } else {
             
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch executable: Invalid file url");
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to launch executable: Checksum verification failed");
         }
     }
 }

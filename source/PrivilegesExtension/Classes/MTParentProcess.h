@@ -16,15 +16,37 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "MTProcess.h"
 
 @interface MTParentProcess : NSObject
 
-- (instancetype)initWithChildPID:(pid_t)pid;
+/*!
+ @method        init
+ @discussion    The init method is not available. Please use initWithChildPID: instead.
+*/
+- (instancetype)init NS_UNAVAILABLE;
 
-- (pid_t)pid;
-- (NSString*)name;
-- (BOOL)isPlatformBinary;
-- (NSArray*)openFiles;
+/*!
+ @method        initWithChildPID:
+ @abstract      Initialize a MTParentProcess object with the given process id.
+ @param         pid The id of the child process whose parent processes should be examined.
+ @discussion    Returns an initialized MTParentProcess object.
+*/
+- (instancetype)initWithChildPID:(pid_t)pid NS_DESIGNATED_INITIALIZER;
+
+/*!
+ @method        parent
+ @abstract      Get the child's parent process.
+ @discussion    Returns an initialized MTProcess object, or nil if an error occurred.
+*/
+- (MTProcess*)parent;
+
+/*!
+ @method        root
+ @abstract      Get the child's root process.
+ @discussion    Returns an initialized MTProcess object, or nil if an error occurred.
+*/
+- (MTProcess*)root;
 
 @end
 

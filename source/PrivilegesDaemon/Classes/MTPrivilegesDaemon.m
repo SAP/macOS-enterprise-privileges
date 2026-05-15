@@ -157,7 +157,8 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             }
             
             // commit changes to the identity store to update the group
-            success = CSIdentityCommit(csGroupIdentity, NULL, NULL);
+            CFErrorRef commitError = NULL;
+            success = CSIdentityCommit(csGroupIdentity, NULL, &commitError);
             
             // because of some issues that have been reported by users,
             // we check if the group membership is correct
@@ -200,7 +201,15 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 
             } else {
                 
-                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to change group membership");
+                if (commitError) {
+                    
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to change group membership: %{public}@", (__bridge NSError*)commitError);
+                    CFRelease(commitError);
+                    
+                } else {
+                    
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to change group membership");
+                }
             }
         }
     }

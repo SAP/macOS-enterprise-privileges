@@ -17,31 +17,13 @@
 
 #import "MTProcessValidation.h"
 #import "Constants.h"
-#import <sys/proc_info.h>
-#import <sys/sysctl.h>
-#import <libproc.h>
 #import <os/log.h>
 
 @interface MTProcessValidation ()
-
-@property (nonatomic, strong, readwrite) MTParentProcess *parentProcess;
-@property pid_t pid;
-
+@property (assign) pid_t pid;
 @end
 
 @implementation MTProcessValidation
-
-- (instancetype)init
-{
-    self = [super init];
-    
-    if (self) {
-        
-        _pid = getpid();
-    }
-    
-    return self;
-}
 
 - (instancetype)initWithPID:(pid_t)pid
 {
@@ -56,30 +38,27 @@
     return self;
 }
 
-- (MTParentProcess*)parent
-{
-    if (!_parentProcess) { _parentProcess = [[MTParentProcess alloc] initWithChildPID:_pid]; }
-    return _parentProcess;
-}
-
 - (BOOL)isValid
 {
     BOOL isValid = NO;
-    NSArray *validProcesses = [NSArray arrayWithObjects:@"package_script_service", nil];
-    NSString *parentProcessName = [[self parent] name];
+    
+    MTParentProcess *parentProcess = [[MTParentProcess alloc] initWithChildPID:_pid];
+    MTProcess *rootProcess = [parentProcess root];
+    
+    NSString *rootProcessName = [rootProcess name];
     
     // just go ahead if the process name is valid and the process
     // is a platform binary (signed with Apple certificates)
-    if (parentProcessName && [validProcesses containsObject:parentProcessName] && [[self parent] isPlatformBinary]) {
+    if ([rootProcessName isEqualToString:@"package_script_service"] && [rootProcess isPlatformBinary]) {
 
-        // check the open files of the process
-        // and get the path to the package
-        NSArray *openFiles = [[self parent] openFiles];
+        // get the parent and its command line arguments
+        MTProcess *directParent = [parentProcess parent];
+        NSArray *arguments = [directParent arguments];
 
-        if ([openFiles count] > 0) {
+        if ([arguments count] > 0) {
 
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", @".pkg"];
-            NSArray *filteredArray = [openFiles filteredArrayUsingPredicate:predicate];
+            NSArray *filteredArray = [arguments filteredArrayUsingPredicate:predicate];
 
             if ([filteredArray count] == 1) {
 
@@ -89,9 +68,13 @@
 
                 if (!isValid) { os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to verify signature of package %{public}@", pkgPath); }
 
+            } else if ([filteredArray count] > 1) {
+                
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to get package path. Found multiple packages: %{public}@", filteredArray);
+                
             } else {
-
-                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to get package path (multiple paths found)");
+                    
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Failed to get package path. No package found");
             }
             
         } else {
@@ -101,9 +84,9 @@
         
     } else {
         
-        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: The process %{public}@ is not authorized to disable the system extension", parentProcessName);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: The process %{public}@ is not authorized to disable the system extension", rootProcessName);
     }
-    
+            
     return isValid;
 }
 

@@ -16,28 +16,14 @@
 */
 
 #import "MTParentProcess.h"
-#import <sys/proc_info.h>
 #import <sys/sysctl.h>
 #import <libproc.h>
 
 @interface MTParentProcess ()
 @property pid_t childPID;
-@property pid_t parentPID;
 @end
 
 @implementation MTParentProcess
-
-- (instancetype)init
-{
-    self = [super init];
-    
-    if (self) {
-        
-        _childPID = getpid();
-    }
-    
-    return self;
-}
 
 - (instancetype)initWithChildPID:(pid_t)pid
 {
@@ -52,34 +38,52 @@
     return self;
 }
 
-- (pid_t)pid
+- (MTProcess*)root
 {
-    if (_parentPID == 0) {
-        
-        pid_t pid = _childPID;
-        pid_t parentPID = 0;
-        
-        while (pid > 1) {
+    pid_t pid = _childPID;
+    pid_t parentPID = 0;
+    
+    while (pid > 1) {
 
-            parentPID = pid;
+        parentPID = pid;
+        MTProcess *directParent = [self directParentOfPID:pid];
+
+        if ([directParent pid] > 1) {
             
-            // get the next parent
-            struct kinfo_proc proc;
+            pid = [directParent pid];
 
-            if ([self processInfoWithPID:pid proc:&proc]) {
-                
-                pid = proc.kp_eproc.e_ppid;
-
-            } else {
-                
-                break;
-            }
+        } else {
+            
+            break;
         }
-        
-        _parentPID = parentPID;
     }
     
-    return _parentPID;
+    MTProcess *process = [[MTProcess alloc] initWithPID:parentPID];
+    
+    return process;
+}
+
+- (MTProcess*)parent
+{
+    return [self directParentOfPID:_childPID];
+}
+
+- (MTProcess*)directParentOfPID:(pid_t)pid
+{
+    struct kinfo_proc proc;
+    pid_t parent = -1;
+    
+    if (pid > 1) {
+        
+        if ([self processInfoWithPID:pid proc:&proc]) {
+            
+            parent = proc.kp_eproc.e_ppid;
+        }
+    }
+    
+    MTProcess *process = [[MTProcess alloc] initWithPID:parent];
+    
+    return process;
 }
 
 - (BOOL)processInfoWithPID:(pid_t)pid proc:(struct kinfo_proc *)proc
@@ -88,98 +92,6 @@
     size_t size = sizeof(struct kinfo_proc);
     
     return sysctl(mib, 4, proc, &size, NULL, 0) == 0;
-}
-
-- (NSString*)name
-{
-    char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-    
-    int retval = proc_pidpath(
-                              [self pid],
-                              pathBuffer,
-                              sizeof(pathBuffer)
-                              );
-     
-    if (retval <= 0) { return nil; }
-        
-    NSString *commandPath = [NSString stringWithUTF8String:pathBuffer];
-    
-    return [commandPath lastPathComponent];
-}
-
-- (BOOL)isPlatformBinary
-{
-    SecCodeRef codeRef = NULL;
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:[self pid]]
-                                                            forKey:(__bridge id)kSecGuestAttributePid];
-    
-    OSStatus status = SecCodeCopyGuestWithAttributes(NULL, (__bridge CFDictionaryRef)attributes, kSecCSDefaultFlags, &codeRef);
-    if (status != errSecSuccess) { return NO; }
-    
-    SecRequirementRef requirement = NULL;
-    status = SecRequirementCreateWithString(CFSTR("anchor apple"), kSecCSDefaultFlags, &requirement);
-
-    if (status != errSecSuccess) {
-        
-        CFRelease(codeRef);
-        return NO;
-    }
-    
-    status = SecCodeCheckValidity(codeRef, kSecCSDefaultFlags, requirement);
-    CFRelease(requirement);
-    CFRelease(codeRef);
-    
-    return (status == errSecSuccess);
-}
-
-- (NSArray*)openFiles
-{
-    NSMutableArray *openedFiles = [[NSMutableArray alloc] init];
-    
-    // get file descriptors
-    int fdBufferSize = proc_pidinfo([self pid], PROC_PIDLISTFDS, 0, NULL, 0);
-    if (fdBufferSize <= 0) { return nil; }
-
-    int numberOfFDs = fdBufferSize / sizeof(struct proc_fdinfo);
-    struct proc_fdinfo *fdInfo = malloc(fdBufferSize);
-    if (!fdInfo) { return nil; }
-
-    fdBufferSize = proc_pidinfo(
-                                [self pid],
-                                PROC_PIDLISTFDS,
-                                0,
-                                fdInfo,
-                                fdBufferSize
-                                );
-    if (fdBufferSize <= 0) {
-        free(fdInfo);
-        return nil;
-    }
-
-    for (int i = 0; i < numberOfFDs; i++) {
-
-        if (fdInfo[i].proc_fdtype == PROX_FDTYPE_VNODE) {
-            
-            struct vnode_fdinfowithpath pathInfo;
-            int pathInfoSize = proc_pidfdinfo(
-                                              [self pid],
-                                              fdInfo[i].proc_fd,
-                                              PROC_PIDFDVNODEPATHINFO,
-                                              &pathInfo,
-                                              sizeof(pathInfo)
-                                              );
-            
-            if (pathInfoSize == sizeof(pathInfo)) {
-                
-                NSString *filePath = [NSString stringWithUTF8String:pathInfo.pvip.vip_path];
-                if (filePath) { [openedFiles addObject:filePath]; }
-            }
-        }
-    }
-
-    free(fdInfo);
-    
-    return openedFiles;
 }
 
 @end

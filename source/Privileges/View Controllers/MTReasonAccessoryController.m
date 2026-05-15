@@ -46,40 +46,67 @@
     
         if (predefinedReasons && [predefinedReasons count] > 0) {
             
-            NSMutableArray *allReasons = [[NSMutableArray alloc] init];
             NSString *languageCode = [[NSLocale currentLocale] languageCode];
             
             for (NSDictionary *aReason in predefinedReasons) {
 
                 if ([aReason isKindOfClass:[NSDictionary class]]) {
+                    
                     NSString *localizedReasonString = [aReason objectForKey:languageCode];
                     if (!localizedReasonString) { localizedReasonString = [aReason objectForKey:@"default"]; }
                     if (!localizedReasonString) { localizedReasonString = [aReason objectForKey:@"en"]; }
-                    if (localizedReasonString) { [allReasons addObject:localizedReasonString]; }
+                    
+                    if (localizedReasonString) {
+                        
+                        [[_predefinedReasonsButton menu] addItemWithTitle:localizedReasonString
+                                                                   action:nil
+                                                            keyEquivalent:@""
+                        ];
+                    }
                 }
             }
             
-            if ([allReasons count] > 0) { 
+            if ([[[_predefinedReasonsButton menu] itemArray] count] > 0) {
                 
-                [allReasons insertObject:NSLocalizedString(@"otherMenuEntry", nil) atIndex:0];
-       
-                for (NSString *aReason in allReasons) {
+                if ([privilegesApp useStrictPredefinedReasons]) {
                     
-                    [[_predefinedReasonsButton menu] addItemWithTitle:aReason
-                                                               action:nil
-                                                        keyEquivalent:@""
-                    ];
+                    [_reasonTextField setHidden:YES];
+                    
+                } else {
+                    
+                    NSMenuItem *otherMenuItem = [[NSMenuItem alloc] init];
+                    [otherMenuItem setTitle:NSLocalizedString(@"otherMenuEntry", nil)];
+                    [otherMenuItem setAction:nil];
+                    [otherMenuItem setTarget:self];
+                    [otherMenuItem setKeyEquivalent:@""];
+                    [otherMenuItem setTag:1000];
+                    
+                    [[_predefinedReasonsButton menu] addItem:otherMenuItem];
+                    
+                    // select the "Other…" menu entry to make sure people cannot
+                    // just click "Request Privileges" without actually selecting
+                    // a reason for getting admin rights.
+                    [_predefinedReasonsButton selectItemWithTag:1000];
                 }
-                
+
                 [_predefinedReasonsButton setHidden:NO];
             }
         }
     }
+    
+    // make sure everything is in place, even if the text field is hidden
+    [_stackView layoutSubtreeIfNeeded];
+    
+    NSSize fittingSize = [_stackView fittingSize];
+    NSRect frame = [[self view] frame];
+    frame.size = fittingSize;
+    [[self view] setFrame:frame];
+    [[self view] layoutSubtreeIfNeeded];
 }
 
 - (IBAction)selectPredefinedReason:(id)sender
 {
-    if ([_predefinedReasonsButton indexOfSelectedItem] == 0) {
+    if ([_predefinedReasonsButton selectedTag] == 1000) {
 
         [_reasonTextField setEnabled:YES];
         [_reasonTextField setTextColor:[NSColor textColor]];

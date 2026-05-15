@@ -16,6 +16,7 @@
 */
 
 #import "MTPrivileges.h"
+#import "MTChecksum.h"
 #import "Constants.h"
 
 @interface MTPrivileges ()
@@ -90,6 +91,11 @@
 - (NSArray *)predefinedReasons
 {
     return [_userDefaults arrayForKey:kMTDefaultsReasonPresetsKey];
+}
+
+- (BOOL)useStrictPredefinedReasons
+{
+    return ([_userDefaults objectIsForcedForKey:kMTDefaultsReasonStrictPresetsKey] && [_userDefaults boolForKey:kMTDefaultsReasonStrictPresetsKey]);
 }
 
 - (BOOL)reasonCheckingEnabled
@@ -431,6 +437,24 @@
 - (void)setRunActionAfterGrantOnly:(BOOL)grantOnly
 {
     [_appGroupDefaults setBool:grantOnly forKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
+}
+
+- (BOOL)postChangeExecutableChecksumIsValid
+{
+    BOOL isValid = YES;
+    
+    if ([self postChangeExecutablePathIsForced] && [_userDefaults objectIsForcedForKey:kMTDefaultsPostChangeExecutableChecksumKey]) {
+        
+        NSString *checksumString = [_userDefaults stringForKey:kMTDefaultsPostChangeExecutableChecksumKey];
+        
+        if ([checksumString length] > 0) {
+            
+            // verify the checksum
+            isValid = ([[MTChecksum sha256ChecksumWithPath:[self postChangeExecutablePath]] caseInsensitiveCompare:checksumString] == NSOrderedSame);
+        }
+    }
+    
+    return isValid;
 }
 
 - (BOOL)hideSettingsButton

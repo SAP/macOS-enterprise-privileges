@@ -78,6 +78,14 @@
 - (NSArray*)predefinedReasons;
 
 /*!
+ @method        useStrictPredefinedReasons
+ @abstract      Get whether the list of predefined reasons is used as defined or if an "Other…" menu entry is added to
+                allow users to enter a custom reason.
+ @discussion    Returns YES if the list of predefined reasons is used as defined, otherwise returns NO.
+ */
+- (BOOL)useStrictPredefinedReasons;
+
+/*!
  @method        reasonCheckingEnabled
  @abstract      Get whether the reason the user entered should be checked for valid text.
  @discussion    Returns YES if checking is enabled, otherwise returns NO.
@@ -274,6 +282,14 @@
                 administrator privileges (YES) or if the post-change action runs whenever privileges changed (NO).
  */
 - (void)setRunActionAfterGrantOnly:(BOOL)grantOnly;
+
+/*!
+ @method        postChangeExecutableChecksumIsValid
+ @abstract      Get wheter the checksum of the executable matches the expected one.
+ @discussion    Returns YES if the checksum matches the expected one or if no checksum has been specified for
+                the executable. Otherwise returns NO.
+ */
+- (BOOL)postChangeExecutableChecksumIsValid;
 
 /*!
  @method        remoteLoggingConfiguration

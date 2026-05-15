@@ -32,7 +32,18 @@
 */
 - (NSInteger)numberOfActiveXPCConnections;
 
+/*!
+ @property      isPaused
+ @abstract      Returns wheter the system extension is paused.
+ @discussion    The value of this property is boolean.
+*/
 @property (readonly) BOOL isPaused;
+
+/*!
+ @property      isRunning
+ @abstract      Returns wheter the system extension is running.
+ @discussion    The value of this property is boolean.
+*/
 @property (assign) BOOL isRunning;
 
 @end
