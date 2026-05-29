@@ -130,6 +130,8 @@ To learn more about _Privileges_ features, make sure to take a look at our [wiki
 * [Managing _Privileges_](https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges)
 * [Frequently Asked Questions](https://github.com/SAP/macOS-enterprise-privileges/wiki/Frequently-Asked-Questions)
 
+* [Mac Admins Slack Channel](https://macadmins.slack.com/channels/privileges)
+
 <br/>
 
 # License
