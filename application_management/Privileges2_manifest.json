@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.5.3.0", 
+   "__version": "2.5.4.0", 
    "__copyright": "© 2016-2026 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -69,21 +69,21 @@
             "RenewalFollowsAuthSetting": { 
                "$ref": "#/definitions/RenewalFollowsAuthSetting" 
             }, 
-            "RenewalNotificationInterval": {
-               "$ref": "#/definitions/RenewalNotificationInterval"
-            },
-            "EnableSystemExtension": {
-               "$ref": "#/definitions/EnableSystemExtension"
-            },
-            "ForceUpdatePrebootVolume": {
-               "$ref": "#/definitions/ForceUpdatePrebootVolume"
-            },
+            "RenewalNotificationInterval": { 
+               "$ref": "#/definitions/RenewalNotificationInterval" 
+            }, 
+            "EnableSystemExtension": { 
+               "$ref": "#/definitions/EnableSystemExtension" 
+            }, 
+            "ForceUpdatePrebootVolume": { 
+               "$ref": "#/definitions/ForceUpdatePrebootVolume" 
+            }, 
             "HideHelpButton": { 
                "$ref": "#/definitions/HideHelpButton" 
             }, 
-            "HelpButtonCustomURL": { 
-               "$ref": "#/definitions/HelpButtonCustomURL" 
-            }, 
+            "HelpButtonCustomURL": {
+               "$ref": "#/definitions/HelpButtonCustomURL"
+            },
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -105,9 +105,9 @@
             "PostChangeExecutablePath": { 
                "$ref": "#/definitions/PostChangeExecutablePath" 
             }, 
-            "PostChangeExecutableChecksum": {
-               "$ref": "#/definitions/PostChangeExecutableChecksum"
-            },
+            "PostChangeExecutableChecksum": { 
+               "$ref": "#/definitions/PostChangeExecutableChecksum" 
+            }, 
             "PostChangeActionOnGrantOnly": { 
                "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
             }, 
@@ -129,9 +129,9 @@
             "ReasonPresetList": { 
                "$ref": "#/definitions/ReasonPresetList" 
             }, 
-            "ReasonStrictPresetList": {
-               "$ref": "#/definitions/ReasonStrictPresetList"
-            },
+            "ReasonStrictPresetList": { 
+               "$ref": "#/definitions/ReasonStrictPresetList" 
+            }, 
             "RemoteLogging": { 
                "$ref": "#/definitions/RemoteLogging" 
             }, 
@@ -144,39 +144,39 @@
             "EnableSmartCardSupport": { 
                "$ref": "#/definitions/EnableSmartCardSupport" 
             }, 
-            "RequireBiometricAuthentication": {
-               "$ref": "#/definitions/RequireBiometricAuthentication"
-            },
-            "BiometricsFallbackType": {
-               "$ref": "#/definitions/BiometricsFallbackType"
-            },
-            "AutomaticRevocationExcludedUsers": {
-               "$ref": "#/definitions/AutomaticRevocationExcludedUsers"
-            },
-            "RevokePrivilegesAfterSystemTimeChange": {
-               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
-            },
-            "RevokeAfterTimeChangeExcludedUsers": {
-               "$ref": "#/definitions/RevokeAfterTimeChangeExcludedUsers"
-            },
+            "RequireBiometricAuthentication": { 
+               "$ref": "#/definitions/RequireBiometricAuthentication" 
+            }, 
+            "BiometricsFallbackType": { 
+               "$ref": "#/definitions/BiometricsFallbackType" 
+            }, 
+            "AutomaticRevocationExcludedUsers": { 
+               "$ref": "#/definitions/AutomaticRevocationExcludedUsers" 
+            }, 
+            "RevokePrivilegesAfterSystemTimeChange": { 
+               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange" 
+            }, 
+            "RevokeAfterTimeChangeExcludedUsers": { 
+               "$ref": "#/definitions/RevokeAfterTimeChangeExcludedUsers" 
+            }, 
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
             "RevokeAtLoginExcludedUsers": { 
                "$ref": "#/definitions/RevokeAtLoginExcludedUsers" 
             }, 
-            "RevokePrivilegesOnScreenLock": {
-               "$ref": "#/definitions/RevokePrivilegesOnScreenLock"
-            },
-            "RevokeOnScreenLockExcludedUsers": {
-               "$ref": "#/definitions/RevokeOnScreenLockExcludedUsers"
-            },
+            "RevokePrivilegesOnScreenLock": { 
+               "$ref": "#/definitions/RevokePrivilegesOnScreenLock" 
+            }, 
+            "RevokeOnScreenLockExcludedUsers": { 
+               "$ref": "#/definitions/RevokeOnScreenLockExcludedUsers" 
+            }, 
             "ShowInMenuBar": { 
                "$ref": "#/definitions/ShowInMenuBar" 
-            } ,
-            "ShowRemainingTimeInMenuBar": {
-               "$ref": "#/definitions/ShowRemainingTimeInMenuBar"
-            }
+            }, 
+            "ShowRemainingTimeInMenuBar": { 
+               "$ref": "#/definitions/ShowRemainingTimeInMenuBar" 
+            } 
          }, 
          "options": { 
             "keep_oneof_values": false 
@@ -211,15 +211,15 @@
             "RenewalFollowsAuthSetting": { 
                "$ref": "#/definitions/RenewalFollowsAuthSetting" 
             }, 
-            "RenewalNotificationInterval": {
-               "$ref": "#/definitions/RenewalNotificationInterval"
-            },
-            "EnableSystemExtension": {
-               "$ref": "#/definitions/EnableSystemExtension"
-            },
-            "ForceUpdatePrebootVolume": {
-               "$ref": "#/definitions/ForceUpdatePrebootVolume"
-            },
+            "RenewalNotificationInterval": { 
+               "$ref": "#/definitions/RenewalNotificationInterval" 
+            }, 
+            "EnableSystemExtension": { 
+               "$ref": "#/definitions/EnableSystemExtension" 
+            }, 
+            "ForceUpdatePrebootVolume": { 
+               "$ref": "#/definitions/ForceUpdatePrebootVolume" 
+            }, 
             "HideHelpButton": { 
                "$ref": "#/definitions/HideHelpButton" 
             }, 
@@ -247,9 +247,9 @@
             "PostChangeExecutablePath": { 
                "$ref": "#/definitions/PostChangeExecutablePath" 
             }, 
-            "PostChangeExecutableChecksum": {
-               "$ref": "#/definitions/PostChangeExecutableChecksum"
-            },
+            "PostChangeExecutableChecksum": { 
+               "$ref": "#/definitions/PostChangeExecutableChecksum" 
+            }, 
             "PostChangeActionOnGrantOnly": { 
                "$ref": "#/definitions/PostChangeActionOnGrantOnly" 
             }, 
@@ -271,9 +271,9 @@
             "ReasonPresetList": { 
                "$ref": "#/definitions/ReasonPresetList" 
             }, 
-            "ReasonStrictPresetList": {
-               "$ref": "#/definitions/ReasonStrictPresetList"
-            },
+            "ReasonStrictPresetList": { 
+               "$ref": "#/definitions/ReasonStrictPresetList" 
+            }, 
             "RemoteLogging": { 
                "$ref": "#/definitions/RemoteLogging" 
             }, 
@@ -286,39 +286,39 @@
             "EnableSmartCardSupport": { 
                "$ref": "#/definitions/EnableSmartCardSupport" 
             }, 
-            "RequireBiometricAuthentication": {
-               "$ref": "#/definitions/RequireBiometricAuthentication"
-            },
-            "BiometricsFallbackType": {
-               "$ref": "#/definitions/BiometricsFallbackType"
-            },
-            "AutomaticRevocationExcludedUsers": {
-               "$ref": "#/definitions/AutomaticRevocationExcludedUsers"
-            },
-            "RevokePrivilegesAfterSystemTimeChange": {
-               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange"
-            },
-            "RevokeAfterTimeChangeExcludedUsers": {
-               "$ref": "#/definitions/RevokeAfterTimeChangeExcludedUsers"
-            },
+            "RequireBiometricAuthentication": { 
+               "$ref": "#/definitions/RequireBiometricAuthentication" 
+            }, 
+            "BiometricsFallbackType": { 
+               "$ref": "#/definitions/BiometricsFallbackType" 
+            }, 
+            "AutomaticRevocationExcludedUsers": { 
+               "$ref": "#/definitions/AutomaticRevocationExcludedUsers" 
+            }, 
+            "RevokePrivilegesAfterSystemTimeChange": { 
+               "$ref": "#/definitions/RevokePrivilegesAfterSystemTimeChange" 
+            }, 
+            "RevokeAfterTimeChangeExcludedUsers": { 
+               "$ref": "#/definitions/RevokeAfterTimeChangeExcludedUsers" 
+            }, 
             "RevokePrivilegesAtLogin": { 
                "$ref": "#/definitions/RevokePrivilegesAtLogin" 
             }, 
             "RevokeAtLoginExcludedUsers": { 
                "$ref": "#/definitions/RevokeAtLoginExcludedUsers" 
             }, 
-            "RevokePrivilegesOnScreenLock": {
-               "$ref": "#/definitions/RevokePrivilegesOnScreenLock"
-            },
-            "RevokeOnScreenLockExcludedUsers": {
-               "$ref": "#/definitions/RevokeOnScreenLockExcludedUsers"
-            },
+            "RevokePrivilegesOnScreenLock": { 
+               "$ref": "#/definitions/RevokePrivilegesOnScreenLock" 
+            }, 
+            "RevokeOnScreenLockExcludedUsers": { 
+               "$ref": "#/definitions/RevokeOnScreenLockExcludedUsers" 
+            }, 
             "ShowInMenuBar": { 
                "$ref": "#/definitions/ShowInMenuBar" 
-            } ,
-            "ShowRemainingTimeInMenuBar": {
-               "$ref": "#/definitions/ShowRemainingTimeInMenuBar"
-            }
+            }, 
+            "ShowRemainingTimeInMenuBar": { 
+               "$ref": "#/definitions/ShowRemainingTimeInMenuBar" 
+            } 
          }, 
          "options": { 
             "keep_oneof_values": false 
@@ -352,9 +352,9 @@
                   "hidden": true 
                } 
             }, 
-            "EnableSystemExtension": {
-               "$ref": "#/definitions/EnableSystemExtension"
-            },
+            "EnableSystemExtension": { 
+               "$ref": "#/definitions/EnableSystemExtension" 
+            }, 
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -400,9 +400,9 @@
                   "hidden": true 
                } 
             }, 
-            "EnableSystemExtension": {
-               "$ref": "#/definitions/EnableSystemExtension"
-            },
+            "EnableSystemExtension": { 
+               "$ref": "#/definitions/EnableSystemExtension" 
+            }, 
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -448,9 +448,9 @@
                   "hidden": true 
                } 
             }, 
-            "EnableSystemExtension": {
-               "$ref": "#/definitions/EnableSystemExtension"
-            },
+            "EnableSystemExtension": { 
+               "$ref": "#/definitions/EnableSystemExtension" 
+            }, 
             "HideOtherWindows": { 
                "$ref": "#/definitions/HideOtherWindows" 
             }, 
@@ -500,63 +500,63 @@
             } 
          ] 
       }, 
-      "AutomaticRevocationExcludedUsers": {
-         "type": "array",
-         "title": "Automatic Revocation Excluded Users",
-         "description": "The specified users are excluded from any automatic revocation. This key is evaluated before the keys RevokeAtLoginExcludedUsers, RevokeAfterTimeChangeExcludedUsers, RevokeOnScreenLockExcludedUsers, and any other automatic revocation key that may be introduced in the future. If a user is listed in the AutomaticRevocationExcludedUsers key, the other keys are not evaluated. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
+      "AutomaticRevocationExcludedUsers": { 
+         "type": "array", 
+         "title": "Automatic Revocation Excluded Users", 
+         "description": "The specified users are excluded from any automatic revocation. This key is evaluated before the keys RevokeAtLoginExcludedUsers, RevokeAfterTimeChangeExcludedUsers, RevokeOnScreenLockExcludedUsers, and any other automatic revocation key that may be introduced in the future. If a user is listed in the AutomaticRevocationExcludedUsers key, the other keys are not evaluated. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AutomaticRevocationExcludedUsers"
-            }
-         ],
-         "items": {
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9_-]{1,64}$",
-            "title": "User",
-            "options": {
-               "inputAttributes": {
-                  "placeholder": "admin"
-               },
-               "infoText": "Please enter a user's short name.",
-               "error_messages": {
-                  "en": {
-                     "error_pattern": "Please enter a valid user name"
-                  }
-               }
-            }
-         }
-      },
-      "BiometricsFallbackType": {
-         "type": "integer",
-         "default": 0,
-         "minimum": 0,
-         "maximum": 2,
-         "title": "Biometrics Fallback Type",
-         "description": "This specifies the fallback strategy when \"RequireBiometricAuthentication\" is enabled. By default, users are prompted to enter their username and password if biometric authentication is not configured or unavailable. However, this may not be the desired behavior in all environments and can be changed here. Please note that PrivilegesCLI does not use biometric authentication by default. Therefore, the \"BiometricsFallbackType\" setting will be ignored unless the \"AllowCLIBiometricAuthentication\" setting is enabled.",
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AutomaticRevocationExcludedUsers" 
+            } 
+         ], 
+         "items": { 
+            "type": "string", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "title": "User", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "admin" 
+               }, 
+               "infoText": "Please enter a user's short name.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid user name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
+      "BiometricsFallbackType": { 
+         "type": "integer", 
+         "default": 0, 
+         "minimum": 0, 
+         "maximum": 2, 
+         "title": "Biometrics Fallback Type", 
+         "description": "This specifies the fallback strategy when \"RequireBiometricAuthentication\" is enabled. By default, users are prompted to enter their username and password if biometric authentication is not configured or unavailable. However, this may not be the desired behavior in all environments and can be changed here. Please note that PrivilegesCLI does not use biometric authentication by default. Therefore, the \"BiometricsFallbackType\" setting will be ignored unless the \"AllowCLIBiometricAuthentication\" setting is enabled.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#BiometricsFallbackType"
-            }
-         ],
-         "enum": [
-            0,
-            1,
-            2
-         ],
-         "options": {
-            "enum_titles": [
-               "Ask for credentials if biometrics are unavailable or not configured",
-               "Ask for credentials only if biometrics are unavailable",
-               "Never ask for credentials"
-            ],
-            "dependencies": {
-               "RequireAuthentication": true,
-               "RequireBiometricAuthentication": true
-            }
-         }
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#BiometricsFallbackType" 
+            } 
+         ], 
+         "enum": [ 
+            0, 
+            1, 
+            2 
+         ], 
+         "options": { 
+            "enum_titles": [ 
+               "Ask for credentials if biometrics are unavailable or not configured", 
+               "Ask for credentials only if biometrics are unavailable", 
+               "Never ask for credentials" 
+            ], 
+            "dependencies": { 
+               "RequireAuthentication": true, 
+               "RequireBiometricAuthentication": true 
+            } 
+         } 
+      }, 
       "EnableSmartCardSupport": { 
          "type": "boolean", 
          "default": false, 
@@ -574,18 +574,18 @@
             } 
          } 
       }, 
-      "EnableSystemExtension": {
-         "type": "boolean",
-         "default": false,
-         "title": "Enable System Extension",
-         "description": "When set to true, the Privileges system extension is enabled. The system extension protects the Privileges application and its components against unauthorized modifications, deactivation, or uninstallation. Once this key has been set, it is no longer possible to enable or disable the extension using PrivilegesCLI. Please make sure you grant the Privileges system extension full disk access, otherwise it will not work.",
+      "EnableSystemExtension": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Enable System Extension", 
+         "description": "When set to true, the Privileges system extension is enabled. The system extension protects the Privileges application and its components against unauthorized modifications, deactivation, or uninstallation. Once this key has been set, it is no longer possible to enable or disable the extension using PrivilegesCLI. Please make sure you grant the Privileges system extension full disk access, otherwise it will not work.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSystemExtension"
-            }
-         ]
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#EnableSystemExtension" 
+            } 
+         ] 
+      }, 
       "ExpirationInterval": { 
          "type": "integer", 
          "default": 20, 
@@ -612,18 +612,18 @@
             } 
          ] 
       }, 
-      "ForceUpdatePrebootVolume": {
-         "type": "boolean",
-         "default": false,
-         "title": "Force Update Preboot Volume",
-         "description": "When set to true, the PrivilegesDaemon runs the command \"/usr/sbin/diskutil apfs updatePreboot /\" whenever a user's privileges change. You should normally never have to enable this function because the preboot volume is updated automatically after a while. However, we implemented this feature because it seems to be needed in some environments. Please only enable this function if you know precisely why you are doing so.",
+      "ForceUpdatePrebootVolume": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Force Update Preboot Volume", 
+         "description": "When set to true, the PrivilegesDaemon runs the command \"/usr/sbin/diskutil apfs updatePreboot /\" whenever a user's privileges change. You should normally never have to enable this function because the preboot volume is updated automatically after a while. However, we implemented this feature because it seems to be needed in some environments. Please only enable this function if you know precisely why you are doing so.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ForceUpdatePrebootVolume"
-            }
-         ]
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ForceUpdatePrebootVolume" 
+            } 
+         ] 
+      }, 
       "HelpButtonCustomURL": { 
          "type": "string", 
          "title": "Help Button Custom URL", 
@@ -639,9 +639,6 @@
                "placeholder": "https://server.mycompany.com/privileges.hmtl" 
             }, 
             "infoText": "Please enter a http(s) url.", 
-            "dependencies": { 
-               "HideHelpButton": false 
-            }, 
             "error_messages": { 
                "en": { 
                   "error_pattern": "Please enter a valid http(s) url" 
@@ -806,22 +803,23 @@
             } 
          ] 
       }, 
-      "PostChangeExecutableChecksum": {
-         "type": "string",
-         "title": "Post Change Executable Checksum",
-         "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the PostChangeExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch. Please note that the checksum of a script or binary can be calculated using the sha256sum command in Terminal.",
+      "PostChangeExecutableChecksum": { 
+         "type": "string", 
+         "title": "Post Change Executable Checksum", 
+         "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the PostChangeExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch. Please note that the checksum of a script or binary can be calculated using the sha256sum command in Terminal.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutableChecksum"
-            }
-         ],
-         "options": {
-            "inputAttributes": {
-            },
-            "infoText": "Please enter the SHA-256 checksum of the script or binary."
-         }
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutableChecksum" 
+            } 
+         ], 
+         "pattern": "^(?:[A-Fa-f0-9]{64})?$", 
+         "options": { 
+            "inputAttributes": { 
+            }, 
+            "infoText": "Please enter the SHA-256 checksum of the script or binary." 
+         } 
+      }, 
       "PostChangeExecutablePath": { 
          "type": "string", 
          "title": "Post Change Executable Path", 
@@ -832,11 +830,17 @@
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath" 
             } 
          ], 
+         "pattern": "^(?:(?:\\/[\\w\\- ]+)+(?:\\.[a-zA-Z]+)?)?$", 
          "options": { 
             "inputAttributes": { 
                "placeholder": "/path/to/your/script" 
             }, 
-            "infoText": "Please enter the absolute path to the script or binary." 
+            "infoText": "Please enter the absolute path to the script or binary.", 
+            "error_messages": { 
+               "en": { 
+                  "error_pattern": "Please enter an absolute file path" 
+               } 
+            } 
          } 
       }, 
       "ReasonCheckingEnabled": { 
@@ -1344,23 +1348,23 @@
             } 
          ] 
       }, 
-      "ReasonStrictPresetList": {
-         "type": "boolean",
-         "default": false,
-         "title": "Reason Strict Preset List",
-         "description": "When set to true, the ReasonPresetList is used as defined, otherwise an additional entry \"Other…\" is added to the list of presets allowing the users to enter a custom reason for requesting admin rights.",
+      "ReasonStrictPresetList": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Reason Strict Preset List", 
+         "description": "When set to true, the ReasonPresetList is used as defined, otherwise an additional entry \"Other…\" is added to the list of presets allowing the users to enter a custom reason for requesting admin rights.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonStrictPresetList"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "ReasonRequired": true
-            }
-         }
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ReasonStrictPresetList" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ReasonRequired": true 
+            } 
+         } 
+      }, 
       "RemoteLogging": { 
          "type": "object", 
          "title": "Remote Logging", 
@@ -1781,7 +1785,6 @@
          "properties": { 
             "ActionExecutablePath": { 
                "type": "string", 
-               "default": "/path/to/your/script", 
                "title": "Action Executable Path", 
                "description": "If configured, the default renewal notifications are disabled and the specified executable is launched instead.", 
                "links": [
@@ -1790,15 +1793,30 @@
                      "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutablePath" 
                   } 
                ], 
-               "pattern": "^(\\/[\\w- ]+)+(.[a-zA-Z]+?)$", 
+               "pattern": "^(?:(?:\\/[\\w\\- ]+)+(?:\\.[a-zA-Z]+)?)?$", 
                "options": { 
+                  "inputAttributes": { 
+                     "placeholder": "/path/to/your/script" 
+                  }, 
                   "infoText": "Please enter the absolute path to the script or binary.", 
                   "error_messages": { 
                      "en": { 
-                        "error_pattern": "Please enter an absulute file path" 
+                        "error_pattern": "Please enter an absolute file path" 
                      } 
                   } 
                } 
+            }, 
+            "ActionExecutableChecksum": { 
+               "type": "string", 
+               "title": "Action Executable Checksum", 
+               "description": "If set, the PrivilegesAgent calculates the SHA-256 checksum of the binary specified using the ActionExecutablePath option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch. The checksum of a script or binary can be calculated using the sha256sum command in Terminal.", 
+               "links": [
+                  { 
+                     "rel": "Official documentation", 
+                     "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutableChecksum" 
+                  } 
+               ], 
+               "pattern": "^(?:[A-Fa-f0-9]{64})?$" 
             }, 
             "ActionNotificationInterval": { 
                "type": "integer", 
@@ -1836,24 +1854,24 @@
             } 
          } 
       }, 
-      "RenewalNotificationInterval": {
-         "type": "integer",
-         "default": 1,
-         "minimum": 1,
-         "title": "Renewal Notification Interval",
-         "description": "Specifies the number of minutes before the expiration of administrator privileges when Privileges should notify users to renew their privileges. This number must be lower than the expiration interval, otherwise it defaults to 1. If a RenewalCustomAction is specified, its ActionNotificationInterval overwrites the configured RenewalNotificationInterval.",
+      "RenewalNotificationInterval": { 
+         "type": "integer", 
+         "default": 1, 
+         "minimum": 1, 
+         "title": "Renewal Notification Interval", 
+         "description": "Specifies the number of minutes before the expiration of administrator privileges when Privileges should notify users to renew their privileges. This number must be lower than the expiration interval, otherwise it defaults to 1. If a RenewalCustomAction is specified, its ActionNotificationInterval overwrites the configured RenewalNotificationInterval.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalNotificationInterval"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "AllowPrivilegeRenewal": true
-            }
-         }
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RenewalNotificationInterval" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "AllowPrivilegeRenewal": true 
+            } 
+         } 
+      }, 
       "RequireAuthentication": { 
          "type": "boolean", 
          "default": false, 
@@ -1866,56 +1884,56 @@
             } 
          ] 
       }, 
-      "RequireBiometricAuthentication": {
-         "type": "boolean",
-         "default": false,
-         "title": "Require Biometric Authentication",
-         "description": "Specifies whether biometric authentication is required to obtain administrator privileges. When set to true, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.",
+      "RequireBiometricAuthentication": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Require Biometric Authentication", 
+         "description": "Specifies whether biometric authentication is required to obtain administrator privileges. When set to true, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireBiometricAuthentication"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "RequireAuthentication": true,
-               "EnableSmartCardSupport": false
-            }
-         }
-      },
-      "RevokeAfterTimeChangeExcludedUsers": {
-         "type": "array",
-         "title": "Revoke After Time Change Excluded Users",
-         "description": "If RevokePrivilegesAfterSystemTimeChange is set to true, the specified users are excluded from privilege revocation after system time did change. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RequireBiometricAuthentication" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RequireAuthentication": true, 
+               "EnableSmartCardSupport": false 
+            } 
+         } 
+      }, 
+      "RevokeAfterTimeChangeExcludedUsers": { 
+         "type": "array", 
+         "title": "Revoke After Time Change Excluded Users", 
+         "description": "If RevokePrivilegesAfterSystemTimeChange is set to true, the specified users are excluded from privilege revocation after system time did change. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAfterTimeChangeExcludedUsers"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "RevokePrivilegesAfterSystemTimeChange": true
-            }
-         },
-         "items": {
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9_-]{1,64}$",
-            "title": "User",
-            "options": {
-               "inputAttributes": {
-                  "placeholder": "admin"
-               },
-               "infoText": "Please enter a user's short name.",
-               "error_messages": {
-                  "en": {
-                     "error_pattern": "Please enter a valid user name"
-                  }
-               }
-            }
-         }
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeAfterTimeChangeExcludedUsers" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RevokePrivilegesAfterSystemTimeChange": true 
+            } 
+         }, 
+         "items": { 
+            "type": "string", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "title": "User", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "admin" 
+               }, 
+               "infoText": "Please enter a user's short name.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid user name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
       "RevokeAtLoginExcludedUsers": { 
          "type": "array", 
          "title": "Revoke At Login Excluded Users", 
@@ -1948,50 +1966,50 @@
             } 
          } 
       }, 
-      "RevokeOnScreenLockExcludedUsers": {
-         "type": "array",
-         "title": "Revoke On Screen Lock Excluded Users",
-         "description": "If RevokePrivilegesOnScreenLock is set to true, the specified users are excluded from privilege revocation on screen lock. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.",
+      "RevokeOnScreenLockExcludedUsers": { 
+         "type": "array", 
+         "title": "Revoke On Screen Lock Excluded Users", 
+         "description": "If RevokePrivilegesOnScreenLock is set to true, the specified users are excluded from privilege revocation on screen lock. When used with a client management system that supports variables in configuration profiles, variables such as $USERNAME can be used here.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeOnScreenLockExcludedUsers"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "RevokePrivilegesOnScreenLock": true
-            }
-         },
-         "items": {
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9_-]{1,64}$",
-            "title": "User",
-            "options": {
-               "inputAttributes": {
-                  "placeholder": "admin"
-               },
-               "infoText": "Please enter a user's short name.",
-               "error_messages": {
-                  "en": {
-                     "error_pattern": "Please enter a valid user name"
-                  }
-               }
-            }
-         }
-      },
-      "RevokePrivilegesAfterSystemTimeChange": {
-         "type": "boolean",
-         "default": false,
-         "title": "Revoke Privileges After System Time Change",
-         "description": "When set to true, the user's administrator privileges are revoked if the system time did change. Enable this feature to prevent users from extending their admin time by adjusting the time on their Mac. If you enable this feature, please be aware that admin users can extend or retain their admin rights in various other ways. Therefore, this feature offers no protection against users misusing their admin rights.",
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokeOnScreenLockExcludedUsers" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "RevokePrivilegesOnScreenLock": true 
+            } 
+         }, 
+         "items": { 
+            "type": "string", 
+            "pattern": "^[a-zA-Z0-9_-]{1,64}$", 
+            "title": "User", 
+            "options": { 
+               "inputAttributes": { 
+                  "placeholder": "admin" 
+               }, 
+               "infoText": "Please enter a user's short name.", 
+               "error_messages": { 
+                  "en": { 
+                     "error_pattern": "Please enter a valid user name" 
+                  } 
+               } 
+            } 
+         } 
+      }, 
+      "RevokePrivilegesAfterSystemTimeChange": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Revoke Privileges After System Time Change", 
+         "description": "When set to true, the user's administrator privileges are revoked if the system time did change. Enable this feature to prevent users from extending their admin time by adjusting the time on their Mac. If you enable this feature, please be aware that admin users can extend or retain their admin rights in various other ways. Therefore, this feature offers no protection against users misusing their admin rights.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAfterSystemTimeChange"
-            }
-         ]
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesAfterSystemTimeChange" 
+            } 
+         ] 
+      }, 
       "RevokePrivilegesAtLogin": { 
          "type": "boolean", 
          "default": false, 
@@ -2004,18 +2022,18 @@
             } 
          ] 
       }, 
-      "RevokePrivilegesOnScreenLock": {
-         "type": "boolean",
-         "default": false,
-         "title": "Revoke Privileges On Screen Lock",
-         "description": "When set to true, the user's administrator privileges are revoked whenever the screen is locked.",
+      "RevokePrivilegesOnScreenLock": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Revoke Privileges On Screen Lock", 
+         "description": "When set to true, the user's administrator privileges are revoked whenever the screen is locked.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesOnScreenLock"
-            }
-         ]
-      },
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#RevokePrivilegesOnScreenLock" 
+            } 
+         ] 
+      }, 
       "ShowInMenuBar": { 
          "type": "boolean", 
          "default": false, 
@@ -2027,23 +2045,34 @@
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowInMenuBar" 
             } 
          ] 
-      } ,
-      "ShowRemainingTimeInMenuBar": {
-         "type": "boolean",
-         "default": false,
-         "title": "Show Remaining Time In Menu Bar",
-         "description": "When set to true, a timer displaying the remaining admin time is shown in the Privileges status item.",
+      }, 
+      "ShowRemainingTimeInMenuBar": { 
+         "type": "boolean", 
+         "default": false, 
+         "title": "Show Remaining Time In Menu Bar", 
+         "description": "When set to true, a timer displaying the remaining admin time is shown in the Privileges status item.", 
          "links": [
-            {
-               "rel": "Official documentation",
-               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowRemainingTimeInMenuBar"
-            }
-         ],
-         "options": {
-            "dependencies": {
-               "ShowInMenuBar": true
-            }
-         }
-      }
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ShowRemainingTimeInMenuBar" 
+            } 
+         ], 
+         "options": { 
+            "dependencies": { 
+               "ShowInMenuBar": true 
+            } 
+         } 
+      }, 
+      "UsagePolicy": { 
+         "type": "data", 
+         "title": "Usage Policy", 
+         "description": "If specified, a usage policy will be displayed the first time the user requests administrator privileges. The user must acknowledge it before proceeding. The PrivilegesCLI command-line tool  cannot be used to request administrator privileges until the Privileges application has been launched and the usage policy has been accepted. As an alternative to using this key, you can also place a file named Policy.txt, Policy.rtf, or Policy.rtfd in the folder /Library/Application Support/Privileges/. Make sure the file is readable by all users and does not exceed 5 MB in size. You can encode your existing txt or rtf file using the command base64 -b68 -i <path to your file> in Terminal.", 
+         "links": [
+            { 
+               "rel": "Official documentation", 
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#UsagePolicy" 
+            } 
+         ] 
+      } 
    } 
 }
