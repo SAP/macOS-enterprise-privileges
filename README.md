@@ -131,7 +131,7 @@ To learn more about _Privileges_ features, make sure to take a look at our [wiki
 * [Frequently Asked Questions](https://github.com/SAP/macOS-enterprise-privileges/wiki/Frequently-Asked-Questions)
 <br/>
 
-* [Mac Admins Slack Channel](https://macadmins.slack.com/channels/privileges)
+* [Privileges Channel @ Mac Admins Slack](https://macadmins.slack.com/channels/privileges)
 
 <br/>
 
