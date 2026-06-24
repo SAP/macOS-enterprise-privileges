@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# SAPCorp_Privileges2_Uninstall.sh, 0.2.6
-# (c) 2016-2025, SAP SE (Marc Thielemann <marc.thielemann@sap.com>)
+# SAPCorp_Privileges2_Uninstall.sh, 0.2.7
+# (c) 2016-2026, SAP SE (Marc Thielemann <marc.thielemann@sap.com>)
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 # limitations under the License.
 
 # latest change:
-# 2025/10/29
+# 2026/06/24
 
 
 exitCode=0
@@ -24,10 +24,12 @@ exitCode=0
 # this script must be run with root privileges
 if [[ "$(/usr/bin/id -u)" -eq 0 ]]; then
 	
-	# disable the system extension
-	if [[ -x /Applications/Privileges.app/Contents/MacOS/PrivilegesCLI ]]; then
+	# disable the system extension, but only if the installed Privileges version supports this
+	cliPath="/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI"
 	
-		/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI -e off >/dev/null 2>&1
+	if [[ -x "$cliPath" && -n $("$cliPath" 2>&1 >/dev/null | /usr/bin/grep -- "--extension") ]]; then
+	
+		"$cliPath" -e off >/dev/null 2>&1
 	
 		if [[ $? -ne 0 ]]; then
 	
