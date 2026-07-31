@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.5.4.0", 
+   "__version": "2.6.0.0", 
    "__copyright": "© 2016-2026 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -72,6 +72,9 @@
             "RenewalNotificationInterval": { 
                "$ref": "#/definitions/RenewalNotificationInterval" 
             }, 
+            "AutoRenewalProcessPaths": {
+               "$ref": "#/definitions/AutoRenewalProcessPaths"
+            },
             "EnableSystemExtension": { 
                "$ref": "#/definitions/EnableSystemExtension" 
             }, 
@@ -214,6 +217,9 @@
             "RenewalNotificationInterval": { 
                "$ref": "#/definitions/RenewalNotificationInterval" 
             }, 
+            "AutoRenewalProcessPaths": {
+               "$ref": "#/definitions/AutoRenewalProcessPaths"
+            },
             "EnableSystemExtension": { 
                "$ref": "#/definitions/EnableSystemExtension" 
             }, 
@@ -527,6 +533,33 @@
             } 
          } 
       }, 
+      "AutoRenewalProcessPaths": {
+         "type": "array",
+         "title": "Auto Renewal Process Paths",
+         "description": "Specifies the paths to applications/binaries that trigger an automatic renewal of a user's administrator privileges while they are running. At the specified RenewalNotificationInterval, the PrivilegesAgent checks to see if the user has one of the specified processes running. If so, the administrator privileges are renewed automatically. This feature works independently from the AllowPrivilegeRenewal setting. Therefore, even if you disable privilege renewals for your users, you can still use the automatic renewal feature.",
+         "links": [
+            {
+               "rel": "Official documentation",
+               "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#AutoRenewalProcessPaths"
+            }
+         ],
+         "items": {
+            "type": "string",
+            "title": "Path",
+            "pattern": "^\\/(?:[^\\/\\0]+\\/)*[^\\/\\0]+$",
+            "options": {
+               "inputAttributes": {
+                  "placeholder": "/path/to/your/binary"
+               },
+               "infoText": "Please enter the absolute path to the binary.",
+               "error_messages": {
+                  "en": {
+                     "error_pattern": "Please enter an absolute file path"
+                  }
+               }
+            }
+         }
+      },
       "BiometricsFallbackType": { 
          "type": "integer", 
          "default": 0, 
@@ -830,7 +863,7 @@
                "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#PostChangeExecutablePath" 
             } 
          ], 
-         "pattern": "^(?:(?:\\/[\\w\\- ]+)+(?:\\.[a-zA-Z]+)?)?$", 
+         "pattern": "^\\/(?:[^\\/\\0]+\\/)*[^\\/\\0]+$", 
          "options": { 
             "inputAttributes": { 
                "placeholder": "/path/to/your/script" 
@@ -1793,7 +1826,7 @@
                      "href": "https://github.com/SAP/macOS-enterprise-privileges/wiki/Managing-Privileges#ActionExecutablePath" 
                   } 
                ], 
-               "pattern": "^(?:(?:\\/[\\w\\- ]+)+(?:\\.[a-zA-Z]+)?)?$", 
+               "pattern": "^\\/(?:[^\\/\\0]+\\/)*[^\\/\\0]+$", 
                "options": { 
                   "inputAttributes": { 
                      "placeholder": "/path/to/your/script" 
@@ -2064,7 +2097,8 @@
          } 
       }, 
       "UsagePolicy": { 
-         "type": "data", 
+         "type": "string", 
+         "format": "base64",
          "title": "Usage Policy", 
          "description": "If specified, a usage policy will be displayed the first time the user requests administrator privileges. The user must acknowledge it before proceeding. The PrivilegesCLI command-line tool  cannot be used to request administrator privileges until the Privileges application has been launched and the usage policy has been accepted. As an alternative to using this key, you can also place a file named Policy.txt, Policy.rtf, or Policy.rtfd in the folder /Library/Application Support/Privileges/. Make sure the file is readable by all users and does not exceed 5 MB in size. You can encode your existing txt or rtf file using the command base64 -b68 -i <path to your file> in Terminal.", 
          "links": [
