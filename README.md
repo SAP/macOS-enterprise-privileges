@@ -162,3 +162,4 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/macOS-enterprise-privileges/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
 
+
