@@ -4,7 +4,7 @@
    "title": "Configure Privileges (corp.sap.privileges) with…", 
    "__preferencedomain": "corp.sap.privileges", 
    "__feedback": "https://github.com/SAP/macOS-enterprise-privileges/issues", 
-   "__version": "2.6.0.0", 
+   "__version": "2.6.0.1", 
    "__copyright": "© 2016-2026 SAP SE. All rights reserved.", 
    "type": "object", 
    "options": { 
@@ -481,7 +481,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Allow CLI Biometric Authentication", 
-         "description": "Specifies whether to allow biometric authentication in the PrivilegesCLI to obtain administrator privileges. When set to true, the Privileges agent prompts the user for the account password (or Touch ID, if available).", 
+         "description": "Specifies whether to allow biometric authentication (or smart cards) in the PrivilegesCLI to obtain administrator privileges. When set to true, the authentication process is passed to PrivilegesAgent, which then prompts the user for Touch ID or smart card. If neither of these are available, the user is prompted for the account password.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -594,7 +594,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Enable Smart Card Support", 
-         "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services.", 
+         "description": "Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services. PrivilegesCLI does not use smart card authentication by default. To enable it, please make sure the AllowCLIBiometricAuthentication setting is also enabled.", 
          "links": [
             { 
                "rel": "Official documentation", 
@@ -1909,7 +1909,7 @@
          "type": "boolean", 
          "default": false, 
          "title": "Require Authentication", 
-         "description": "Specifies whether authentication is required to obtain administrator privileges. When set to true, the user is prompted for the account password (or Touch ID, if available). Note that once this option is enabled, privileges cannot be changed directly from the Privileges Dock tile menu unless AllowCLIBiometricAuthentication is also enabled.", 
+         "description": "Specifies whether authentication is required to obtain administrator privileges. When set to true, the user is prompted for the account password (or Touch ID, if available).", 
          "links": [
             { 
                "rel": "Official documentation", 
