@@ -25,7 +25,7 @@
                                     					applications.
 								-->
 								<key>EnforcePrivileges</key>
-								<string>admin</string>
+								<string>user</string>
 							</dict>
 						</dict>
 					</array>

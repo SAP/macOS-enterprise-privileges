@@ -116,25 +116,35 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 
             // check for a running timer
             } else {
-                
+
                 NSDate *previousDate = [_userDefaults objectForKey:kMTDefaultsAgentTimerExpirationKey];
-                
+
                 if (previousDate) {
-                    
+
                     // is the timer still valid?
                     if ([[NSDate date] compare:previousDate] == NSOrderedAscending) {
-                        
+
                         removeSavedTimer = NO;
                         NSUInteger remainingTime = ceil([previousDate timeIntervalSinceNow]/60.0);
                         if (remainingTime > [_privilegesApp expirationInterval]) { remainingTime = [_privilegesApp expirationInterval]; }
                         [self scheduleExpirationTimerWithInterval:remainingTime isSavedTimer:YES];
-                        
+
                     } else {
-                        
+
                         [self revokeAdminRightsWithCompletionHandler:^(BOOL success) {
                             if (success) { self->_adminRightsExpected = NO; }
                         }];
                     }
+
+                } else if ([_privilegesApp revokePrivilegesAtLogin]) {
+
+                    // PrivilegesAgent was (re)started well after the actual login (e.g. because
+                    // an app update replaced the running agent) and there's no active renewal
+                    // timer to justify the current admin rights, so enforce policy now instead
+                    // of silently leaving them in place.
+                    [self revokeAdminRightsWithCompletionHandler:^(BOOL success) {
+                        if (success) { self->_adminRightsExpected = NO; }
+                    }];
                 }
             }
         }
