@@ -14,12 +14,12 @@ Using a standard user account instead of an administrator account adds an extra 
 
 **The current version of _Privileges_ supports the following macOS versions:**
 
+* macOS 27.x
 * macOS 26.x
 * macOS 15.x
 * macOS 14.x
 * macOS 13.x (*)
 * macOS 12.x
-* macOS 11.x
 
 <br/>
 
