@@ -205,6 +205,40 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }];
 }
 
+- (void)logEntriesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate reply:(void (^)(NSArray<OSLogEntry*> *entries))reply
+{
+    OSLogStore *logStore = [OSLogStore storeWithScope:OSLogStoreSystem error:nil];
+    
+    OSLogPosition *position = (startDate) ? [logStore positionWithDate:startDate] : nil;
+    NSPredicate *predicate = nil;
+    
+    if (endDate) {
+        
+        predicate = [NSPredicate predicateWithFormat:@"date <= %@ AND (process == %@ OR process == %@) AND subsystem == %@",
+                     endDate,
+                     @"PrivilegesDaemon",
+                     @"corp.sap.privileges.extension",
+                     @kMTLogPersistentSubsystem
+        ];
+        
+    } else {
+        
+        predicate = [NSPredicate predicateWithFormat:@"(process == %@ OR process == %@) AND subsystem == %@",
+                     @"PrivilegesDaemon",
+                     @"corp.sap.privileges.extension",
+                     @kMTLogPersistentSubsystem
+        ];
+    }
+    
+    OSLogEnumerator *logEnumerator = [logStore entriesEnumeratorWithOptions:0
+                                                                   position:position
+                                                                  predicate:predicate
+                                                                      error:nil
+    ];
+    
+    if (reply) { reply([logEnumerator allObjects]); }
+}
+
 #pragma mark - OSSystemExtensionRequestDelegate
 
 - (OSSystemExtensionReplacementAction)request:(OSSystemExtensionRequest OS_UNUSED *)request actionForReplacingExtension:(OSSystemExtensionProperties *)existing withExtension:(OSSystemExtensionProperties *)extension

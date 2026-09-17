@@ -79,7 +79,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uudistaa oikeudet"
+            "value" : "Uudista oikeudet"
           }
         },
         "fr" : {
@@ -139,7 +139,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 갱신"
+            "value" : "관리자 권한 갱신"
           }
         },
         "ms" : {
@@ -163,7 +163,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odnowienie uprawnienia"
+            "value" : "Odnów uprawnienia"
           }
         },
         "pt-BR" : {
@@ -181,7 +181,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reînnoirea privilegii"
+            "value" : "Reînnoiește privilegiile"
           }
         },
         "ru" : {
@@ -193,13 +193,13 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obnovenie oprávnenia"
+            "value" : "Obnoviť oprávnenia"
           }
         },
         "sl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obnovitev pravice"
+            "value" : "Obnovite pravice"
           }
         },
         "sv" : {
@@ -217,7 +217,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayrıcalıkları yenileyin"
+            "value" : "Ayrıcalıkları Yenile"
           }
         },
         "uk" : {
@@ -235,7 +235,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "更新特权"
+            "value" : "更新管理员权限"
           }
         },
         "zh-Hant" : {
@@ -390,7 +390,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 요청"
+            "value" : "관리자 권한 요청"
           }
         },
         "ms" : {
@@ -486,7 +486,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请求特权"
+            "value" : "请求管理员权限"
           }
         },
         "zh-Hant" : {
@@ -581,25 +581,25 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Palauta oikeudet"
+            "value" : "Luovu oikeuksista"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rétablir les autorisations"
+            "value" : "Abandonner les autorisations"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rétablir les autorisations"
+            "value" : "Abandonner les autorisations"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "חזור להרשאות משתמש סטנדרטיות"
+            "value" : "חזור להרשאות סטנדרטיות"
           }
         },
         "hi" : {
@@ -629,7 +629,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ripristina privilegi"
+            "value" : "Rinuncia ai privilegi"
           }
         },
         "ja" : {
@@ -641,7 +641,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 복귀"
+            "value" : "관리자 권한 반납"
           }
         },
         "ms" : {
@@ -659,13 +659,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bevoegdheden herstellen"
+            "value" : "Bevoegdheden opgeven"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przywróć uprawnienia"
+            "value" : "Zrezygnuj z uprawnień"
           }
         },
         "pt-BR" : {
@@ -707,7 +707,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Återställ behörighet"
+            "value" : "Avstå från behörighet"
           }
         },
         "th" : {
@@ -737,19 +737,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复特权"
+            "value" : "交还管理员权限"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回復權限"
+            "value" : "交還管理員權限"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回復權限"
+            "value" : "交還管理員權限"
           }
         }
       }
@@ -765,13 +765,13 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настройки…"
+            "value" : "Предпочитания…"
           }
         },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configuración…"
+            "value" : "Configuració…"
           }
         },
         "cs" : {

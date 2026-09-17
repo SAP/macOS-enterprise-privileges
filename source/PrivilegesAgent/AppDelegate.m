@@ -28,6 +28,8 @@
 #import "MTWebhook.h"
 #import "MTStatusItemMenu.h"
 #import "MTRemoteLoggingManager.h"
+#import "MTChecksum.h"
+#import "MTProcessDetails.h"
 #import <os/log.h>
 
 @interface AppDelegate ()
@@ -47,6 +49,7 @@
 @property (nonatomic, strong, readwrite) NSStatusItem *statusItem;
 @property (nonatomic, strong, readwrite) MTStatusItemMenu *statusMenu;
 @property (nonatomic, strong, readwrite) MTRemoteLoggingManager *logManager;
+@property (nonatomic, strong, readwrite) NSString *userName;
 @property (atomic, strong, readwrite) NSXPCListener *listener;
 @property (retain) id adminGroupObserver;
 @property (retain) id lockScreenObserver;
@@ -66,6 +69,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification 
 {
     _privilegesApp = [[MTPrivileges alloc] init];
+    _userName = [[_privilegesApp currentUser] userName];
     
     if (!_privilegesApp) {
         
@@ -73,7 +77,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
     } else {
         
-        os_log(OS_LOG_DEFAULT, "SAPCorp: Launched for user %{public}@", [[_privilegesApp currentUser] userName]);
+        os_log(OS_LOG_DEFAULT, "SAPCorp: Launched for user %{public}@", _userName);
         
         _listener = [[NSXPCListener alloc] initWithMachServiceName:kMTAgentMachServiceName];
         [_listener setDelegate:self];
@@ -127,7 +131,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         removeSavedTimer = NO;
                         NSUInteger remainingTime = ceil([previousDate timeIntervalSinceNow]/60.0);
                         if (remainingTime > [_privilegesApp expirationInterval]) { remainingTime = [_privilegesApp expirationInterval]; }
-                        [self scheduleExpirationTimerWithInterval:remainingTime isSavedTimer:YES];
+                        [self scheduleExpirationTimerWithInterval:remainingTime isSavedTimer:YES isAutoRenew:NO];
                         
                     } else {
                         
@@ -214,7 +218,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
             if ([self userHasAdminPrivileges] && [self->_privilegesApp revokePrivilegesOnScreenLock]) {
                 
-                os_log(OS_LOG_DEFAULT, "SAPCorp: Revoking administrator privileges for user %{public}@ because the screen has been locked", [[self->_privilegesApp currentUser] userName]);
+                os_log(OS_LOG_DEFAULT, "SAPCorp: Revoking administrator privileges for user %{public}@ because the screen has been locked", self->_userName);
                 
                 // remove admin rights
                 [self revokeAdminRightsWithCompletionHandler:^(BOOL success) { return; }];
@@ -230,7 +234,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
             if (!self->_ignoreAdminGroupChanges && [self userHasAdminPrivileges] != self->_adminRightsExpected) {
                 
-                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Administrator privileges for user %{public}@ have been changed by another process", [[self->_privilegesApp currentUser] userName]);
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "SAPCorp: Administrator privileges for user %{public}@ have been changed by another process", self->_userName);
                 [[self->_privilegesApp currentUser] setUnexpectedPrivilegeState:YES];
                 
                 self->_adminRightsExpected = [self userHasAdminPrivileges];
@@ -322,18 +326,16 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     return acceptConnection;
 }
 
-- (void)scheduleExpirationTimerWithInterval:(NSUInteger)interval isSavedTimer:(BOOL)savedTimer
+- (void)scheduleExpirationTimerWithInterval:(NSUInteger)interval isSavedTimer:(BOOL)savedTimer isAutoRenew:(BOOL)autoRenew
 {
     if (_expirationTimer) {
         
         if (!savedTimer) {
             
-            os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have been renewed (%{public}@)", [[self->_privilegesApp currentUser] userName], [MTPrivileges stringForDuration:[_privilegesApp expirationInterval] localized:NO naturalScale:NO]);
+            os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have been renewed (%{public}@)", self->_userName, [MTPrivileges stringForDuration:[_privilegesApp expirationInterval] localized:NO naturalScale:NO]);
             
             // remote logging
-            if ([self->_privilegesApp remoteLoggingConfiguration]) {
-                [self remoteLoggingTaskWithReason:@"renewed by user"];
-            }
+            if ([self->_privilegesApp remoteLoggingConfiguration]) { [self remoteLoggingTaskWithReason:(autoRenew) ? @"automatically renewed" : @"renewed by user"]; }
         }
         
         [self invalidateExpirationTimer];
@@ -371,26 +373,57 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     });
                 }
                 
-                // if the administrator privileges are about to expire and privilege renewal
-                // is allowed, we post a notification and ask the user to renew the privileges.
-                // if a custom renewal workflow has been configured, we run the configured
-                // executable instead of posting the user notification.
-                if (minutesLeft == renewalNotificationTime &&
-                    [self->_privilegesApp expirationInterval] > renewalNotificationTime &&
-                    [self->_privilegesApp privilegeRenewalAllowed]) {
+                // if the administrator privileges are about to expire, we check for privilege renewal
+                if (minutesLeft == renewalNotificationTime && [self->_privilegesApp expirationInterval] > renewalNotificationTime) {
                     
-                    NSDictionary *renewalCustomAction = [self->_privilegesApp renewalCustomAction];
-                    NSString *actionPath = [renewalCustomAction objectForKey:kMTDefaultsRenewalCustomActionPathKey];
+                    BOOL skipRenewal = NO;
                     
-                    if ([actionPath length] > 0) {
+                    // if auto-renewal is enabled, we check the running processes and renew
+                    // the privileges quietly if needed. If we renewed the admin privileges,
+                    // we skip the normal renewal process.
+                    NSArray *processPaths = [self->_privilegesApp autoRenewalProcessPaths];
+                    
+                    if ([processPaths count] > 0) {
                         
-                        [self launchExecutableAtPath:actionPath
-                                           arguments:[NSArray arrayWithObject:[NSString stringWithFormat:@"%ld", renewalNotificationTime]]
-                        ];
+                        NSSet *pathSet = [NSSet setWithArray:processPaths];
                         
-                    } else {
+                        // get the running processes
+                        NSArray *processList = [MTProcessDetails processListWithUserName:self->_userName];
                         
-                        [self displayNotificationOfType:MTLocalNotificationTypeRenew];
+                        for (NSDictionary *process in processList) {
+                                                            
+                            if ([pathSet containsObject:process[@"path"]]) {
+                                
+                                os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ are being automatically renewed because the following process is running: %{public}@", self->_userName, process[@"path"]);
+                                
+                                skipRenewal = YES;
+                                [self autoRenewAdminRightsWithCompletionHandler:nil];
+                                
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // if renewals are allowed and we did not renew them automatically, we post a
+                    // notification and ask the user to renew the privileges. if a custom renewal
+                    // workflow has been configured, we run the configured executable instead of
+                    // posting the user notification.
+                    if ([self->_privilegesApp privilegeRenewalAllowed] && !skipRenewal) {
+                        
+                        NSDictionary *renewalCustomAction = [self->_privilegesApp renewalCustomAction];
+                        NSString *actionPath = [renewalCustomAction objectForKey:kMTDefaultsRenewalCustomActionPathKey];
+                        
+                        if ([actionPath length] > 0) {
+                            
+                            [self launchExecutableAtPath:actionPath
+                                               arguments:[NSArray arrayWithObject:[NSString stringWithFormat:@"%ld", renewalNotificationTime]]
+                                           usingChecksum:[self->_privilegesApp renewalExecutableChecksum]
+                            ];
+                            
+                        } else {
+                            
+                            [self displayNotificationOfType:MTLocalNotificationTypeRenew];
+                        }
                     }
                 }
                 
@@ -400,7 +433,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                     
                     [self revokeAdminRightsWithCompletionHandler:^(BOOL success) {
                         
-                        os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have expired", [[self->_privilegesApp currentUser] userName]);
+                        os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges for user %{public}@ have expired", self->_userName);
                     }];
                 });
             }
@@ -460,16 +493,20 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         // expiration interval is applied after the profile is removed
         if (userHasAdminPrivileges && [_privilegesApp expirationInterval] > 0) {
         
-            [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+            [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO isAutoRenew:NO];
         }
     }
 }
 
-- (void)launchExecutableAtPath:(NSString*)executablePath arguments:(NSArray*)launchArguments
+- (void)launchExecutableAtPath:(NSString*)executablePath
+                     arguments:(NSArray*)launchArguments
+                 usingChecksum:(NSString*)checksumString
 {
     if (executablePath) {
         
-        if ([_privilegesApp postChangeExecutableChecksumIsValid]) {
+        BOOL checksumIsValid = ([checksumString length] > 0) ? ([[MTChecksum sha256ChecksumWithPath:executablePath] caseInsensitiveCompare:checksumString] == NSOrderedSame) : YES;
+        
+        if (checksumIsValid) {
             
             NSURL *executableURL = [NSURL fileURLWithPath:executablePath];
             
@@ -559,12 +596,12 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
             if ([self userHasAdminPrivileges]) {
                 
-                logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has administrator privileges", [[self->_privilegesApp currentUser] userName]];
+                logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has administrator privileges", self->_userName];
                 if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" for the following reason: \"%@\"", reason]; }
                 
             } else {
                 
-                logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has standard user privileges", [[self->_privilegesApp currentUser] userName]];
+                logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has standard user privileges", self->_userName];
                 if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" (%@)", reason]; }
             }
             
@@ -644,6 +681,10 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
         case MTLocalNotificationTypeRenewSuccess:
             notificationMessage = NSLocalizedString(@"notificationMessage_RenewSuccess", nil);
+            break;
+            
+        case MTLocalNotificationTypeAutoRenewSuccess:
+            notificationMessage = NSLocalizedString(@"notificationMessage_AutoRenewSuccess", nil);
             break;
             
         case MTLocalNotificationTypeNoChange:
@@ -734,7 +775,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 } else if ([self privilegesTimeLeft] > [_privilegesApp expirationInterval] ||
                            ([self userHasAdminPrivileges] && [self privilegesTimeLeft] == 0)) {
                     
-                    [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+                    [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO isAutoRenew:NO];
                 }
                 
             } else if ([keyPath isEqualToString:kMTDefaultsRemoteLoggingKey]) {
@@ -1017,10 +1058,10 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         
     } else {
         
-        // in some cases we cannot request admin privileges from the Dock Tile.
+        // in some cases we cannot request admin privileges from the status item.
         // in these cases we just open the Privileges app instead to allow the
         // user to request admin privileges there.
-        if ([_privilegesApp reasonRequired]) {
+        if ([_privilegesApp reasonRequired] || ![_privilegesApp policyAccepted]) {
             
             [MTPrivileges openMainApplication];
             
@@ -1115,7 +1156,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     if ([self userHasAdminPrivileges] &&
         [_privilegesApp revokePrivilegesAfterSystemTimeChange]) {
         
-        os_log(OS_LOG_DEFAULT, "SAPCorp: Revoking administrator privileges for user %{public}@ because system time changed", [[self->_privilegesApp currentUser] userName]);
+        os_log(OS_LOG_DEFAULT, "SAPCorp: Revoking administrator privileges for user %{public}@ because system time changed", self->_userName);
         
         // remove admin rights
         [self revokeAdminRightsWithCompletionHandler:^(BOOL success) { return; }];
@@ -1146,7 +1187,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 self->_ignoreAdminGroupChanges = NO;
                 if (completionHandler) { completionHandler(NO); }
                 
-            }] grantAdminRightsToUser:[[self->_privilegesApp currentUser] userName]
+            }] grantAdminRightsToUser:self->_userName
                                reason:reason
                     completionHandler:^(BOOL success) {
                                 
@@ -1174,7 +1215,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         if (removeAfterMinutes > 0) {
                             
                             os_log(OS_LOG_DEFAULT, "SAPCorp: Administrator privileges are automatically revoked in %{public}@", [MTPrivileges stringForDuration:removeAfterMinutes localized:NO naturalScale:NO]);
-                            [self scheduleExpirationTimerWithInterval:removeAfterMinutes isSavedTimer:NO];
+                            [self scheduleExpirationTimerWithInterval:removeAfterMinutes isSavedTimer:NO isAutoRenew:NO];
                         }
                         
                         // remote logging
@@ -1186,7 +1227,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                         if (completionHandler && [self->_privilegesApp postChangeExecutablePath]) {
                             
                             NSMutableArray *launchArguments = [NSMutableArray arrayWithObjects:
-                                                                   [[self->_privilegesApp currentUser] userName],
+                                                                   self->_userName,
                                                                    @"admin",
                                                                    nil
                             ];
@@ -1195,6 +1236,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                             
                             [self launchExecutableAtPath:[self->_privilegesApp postChangeExecutablePath]
                                                arguments:launchArguments
+                                           usingChecksum:[self->_privilegesApp postChangeExecutableChecksum]
                             ];
                         }
                     }
@@ -1232,7 +1274,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                 self->_ignoreAdminGroupChanges = NO;
                 if (completionHandler) { completionHandler(NO); }
                 
-            }] removeAdminRightsFromUser:[[self->_privilegesApp currentUser] userName]
+            }] removeAdminRightsFromUser:self->_userName
                                   reason:reason
                        completionHandler:^(BOOL success) {
                 
@@ -1266,7 +1308,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                             if (completionHandler && [self->_privilegesApp postChangeExecutablePath]) {
                                 
                                 NSMutableArray *launchArguments = [NSMutableArray arrayWithObjects:
-                                                                       [[self->_privilegesApp currentUser] userName],
+                                                                       self->_userName,
                                                                        @"user",
                                                                        nil
                                 ];
@@ -1275,6 +1317,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
                                 
                                 [self launchExecutableAtPath:[self->_privilegesApp postChangeExecutablePath]
                                                    arguments:launchArguments
+                                               usingChecksum:[self->_privilegesApp postChangeExecutableChecksum]
                                 ];
                             }
                         }
@@ -1294,13 +1337,28 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
     }
 }
 
+- (void)autoRenewAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler
+{
+    BOOL success = NO;
+    
+    if ([self userHasAdminPrivileges] && [_expirationTimer isValid]) {
+            
+        [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO isAutoRenew:YES];
+        success = YES;
+    }
+    
+    [self displayNotificationOfType:(success) ? MTLocalNotificationTypeAutoRenewSuccess : MTLocalNotificationTypeError];
+    
+    if (completionHandler) { completionHandler(success); }
+}
+
 - (void)renewAdminRightsWithCompletionHandler:(void(^)(BOOL success))completionHandler
 {
     BOOL success = NO;
     
     if ([self userHasAdminPrivileges] && [_expirationTimer isValid]) {
             
-        [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO];
+        [self scheduleExpirationTimerWithInterval:[_privilegesApp expirationInterval] isSavedTimer:NO isAutoRenew:NO];
         success = YES;
     }
     
@@ -1319,7 +1377,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
         if ([_privilegesApp smartCardSupportEnabled]) {
             
             NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationTextPIV", nil), kMTAppName,
-                                      [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]]
+                                      [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), _userName]
             ];
             
             [MTIdentity authenticatePIVUserWithReason:reasonString
@@ -1330,7 +1388,7 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
             
         } else {
             
-            NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), [[_privilegesApp currentUser] userName]];
+            NSString *reasonString = [NSString localizedStringWithFormat:NSLocalizedString(@"authenticationText", nil), _userName];
             
             [MTIdentity authenticateUserWithReason:reasonString
                                  requireBiometrics:[_privilegesApp biometricAuthenticationRequired]

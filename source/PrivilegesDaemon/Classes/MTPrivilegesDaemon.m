@@ -227,20 +227,21 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
     if (userName) {
         
-        os_log_t log = os_log_create("corp.sap.privileges.daemon", "privchange");
+        os_log_t log = os_log_create(kMTLogPersistentSubsystem, kMTLogPersistentCategory);
+        NSMutableString *logMessage = [NSMutableString stringWithString:@"SAPCorp: "];
                 
         success = [self changePrivilegesForUser:userName grantAdminPrivileges:YES];
                 
         if (success) {
             
             // log the privilege change
-            NSString *logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has administrator privileges", userName];
-            if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" for the following reason: \"%@\"", reason]; }
-            os_log(log, "%{public}@", logMessage);
+             [logMessage appendFormat:@"User %@ now has administrator privileges", userName];
+            if ([reason length] > 0) { [logMessage appendFormat:@" for the following reason: \"%@\"", reason]; }
+            os_log_with_type(log, OS_LOG_TYPE_DEFAULT, "%{public}@", logMessage);
             
         } else {
             
-            NSString *logMessage = [NSString stringWithFormat:@"SAPCorp: Failed to change privileges for user %@", userName];
+            [logMessage appendFormat:@"Failed to change privileges for user %@", userName];
             os_log_with_type(log, OS_LOG_TYPE_FAULT, "%{public}@", logMessage);
         }
     }
@@ -256,20 +257,21 @@ OSStatus SecTaskValidateForRequirement(SecTaskRef task, CFStringRef requirement)
 
     if (userName) {
         
-        os_log_t log = os_log_create("corp.sap.privileges.daemon", "privchange");
+        os_log_t log = os_log_create(kMTLogPersistentSubsystem, kMTLogPersistentCategory);
+        NSMutableString *logMessage = [NSMutableString stringWithString:@"SAPCorp: "];
         
         success = [self changePrivilegesForUser:userName grantAdminPrivileges:NO];
                 
         if (success) {
             
             // log the privilege change
-            NSString *logMessage = [NSString stringWithFormat:@"SAPCorp: User %@ now has standard user privileges", userName];
-            if ([reason length] > 0) { logMessage = [logMessage stringByAppendingFormat:@" (%@)", reason]; }
-            os_log(log, "%{public}@", logMessage);
+            [logMessage appendFormat:@"User %@ now has standard user privileges", userName];
+            if ([reason length] > 0) { [logMessage appendFormat:@" (%@)", reason]; }
+            os_log_with_type(log, OS_LOG_TYPE_DEFAULT, "%{public}@", logMessage);
         
         } else {
             
-            NSString *logMessage = [NSString stringWithFormat:@"SAPCorp: Failed to change privileges for user %@", userName];
+            [logMessage appendFormat:@"Failed to change privileges for user %@", userName];
             os_log_with_type(log, OS_LOG_TYPE_FAULT, "%{public}@", logMessage);
         }
     }

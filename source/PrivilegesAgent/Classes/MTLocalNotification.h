@@ -29,6 +29,7 @@
  @constant      MTLocalNotificationTypeError Specifies a notification that informs the user that privileges could not be changed due to an error.
  @constant      MTLocalNotificationTypeRenew Specifies a notification that informs the user that administrator privileges are about to expire and asks to renew privileges.
  @constant      MTLocalNotificationTypeRenewSuccess Specifies a notification that informs the user that administrator privileges have been renewed.
+ @constant      MTLocalNotificationTypeAutoRenewSuccess Specifies a notification that informs the user that administrator privileges have been automatically renewed.
 */
 typedef enum {
     MTLocalNotificationTypeNoChange         = 0,
@@ -37,6 +38,7 @@ typedef enum {
     MTLocalNotificationTypeError            = 3,
     MTLocalNotificationTypeRenew            = 4,
     MTLocalNotificationTypeRenewSuccess     = 5,
+    MTLocalNotificationTypeAutoRenewSuccess = 6,
 } MTLocalNotificationType;
 
 /*!

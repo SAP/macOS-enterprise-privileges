@@ -102,19 +102,44 @@
                                     value:  a dictionary
                                     
                                     Specifies a custom action to notify the user about expiring
-									administrator privileges. If configured, the default renewal
-									notifications are disabled and the executable specified by the
-									ExecutablePath key is launched instead. An optional ActionNotificationInterval
-									can be configured to specify how many minutes before the admin
-									privileges expire the executable should be launched. If not configured,
-									or the configured value is smaller than 1 or bigger than the expiration
-									interval - 1, it defaults to 1 minute. The notification interval is also 
-									passed to the executable as the $1 argument.
+									administrator privileges.
+                                
+                                        key:    ActionExecutablePath
+                                        value:  a string containing the absolute path to an application or script
+                                
+                                        If configured, the default renewal notifications are disabled and the
+                                        executable specified by the ActionExecutablePath key is launched
+                                        instead.
+                                
+                                
+                                        key:    ActionExecutableChecksum
+                                        value:  a string containing a SHA-256 checksum
+                                
+                                        If set, the PrivilegesAgent calculates the SHA-256 checksum of the
+                                        binary specified using the ActionExecutablePath option. If the
+                                        calculated checksum matches the specified one, the binary is executed.
+                                        Otherwise, the launch operation fails silently, logging only the
+                                        checksum mismatch.
+                        
+                                        The checksum of a script or binary can be calculated using the sha256sum
+                                        command in Terminal.
+                                
+                                
+                                        key:    ActionNotificationInterval
+                                        value:  a positive integer
+                                
+                                        This option can be used to specify how many minutes before the admin
+                                        privileges expire the executable should be launched. If not configured,
+                                        or the configured value is smaller than 1 or bigger than the expiration
+                                        interval - 1, it defaults to 1 minute. The notification interval is also
+                                        passed to the executable as the $1 argument.
                                 -->
                                 <key>RenewalCustomAction</key>
                                 <dict>
                                 	<key>ActionExecutablePath</key>
                                 	<string>/Library/Application Support/Privileges/privileges_renewal.sh</string>
+                                    <key>ActionExecutableChecksum</key>
+                                    <string>5e98de87514f1d32d59a9999b4a01777261c4353651e137588f4e532d645127a</string>
                                 	<key>ActionNotificationInterval</key>
                                 	<integer>5</integer>
                                 </dict>
@@ -132,13 +157,32 @@
                                 -->
                                 <key>RenewalNotificationInterval</key>
                                 <integer>1</integer>
+                                
+                                <!--
+                                    key:    AutoRenewalProcessPaths
+                                    value:  an array of strings, each specifying a path to a binary
+                                  
+                                    Specifies the paths to applications/binaries that trigger an automatic
+                                    renewal of a user's administrator privileges while they are running. At
+                                    the specified RenewalNotificationInterval, the PrivilegesAgent checks to
+                                    see if the user has one of the specified processes running. If so, the
+                                    administrator privileges are renewed automatically. This feature works
+                                    independently from the AllowPrivilegeRenewal setting. Therefore, even if
+                                    you disable privilege renewals for your users, you can still use the
+                                    automatic renewal feature.
+                                -->
+                                <key>AutoRenewalProcessPaths</key>
+                                <array>
+                                    <string>/System/Library/CoreServices/Installer.app/Contents/MacOS/Installer</string>
+                                    <string>/System/Applications/Utilities/Console.app/Contents/MacOS/Console</string>
+                                </array>
 								
 								<!--
 									key:    EnforcePrivileges
 									value:  a string containing the value "admin", "user" or "none"
 									
                                     Immediately enforces specific privileges. If "EnforcePrivileges" is set
-									to "none", it is no longer possible to change privileges with the
+									to "none", it is no longer possible to change privileges using the
 									Privileges application or any of its bundled applications.
 								-->
 								<key>EnforcePrivileges</key>
@@ -150,9 +194,7 @@
                                     
                                     Specifies whether authentication is required to obtain administrator
 									privileges. When set to true, the user is prompted for the account
-									password (or Touch ID, if available). Note that once this option is
-									enabled, privileges cannot be changed directly from the Privileges Dock
-									tile menu unless AllowCLIBiometricAuthentication is also enabled.
+									password (or Touch ID, if available).
                                 -->
                                 <key>RequireAuthentication</key>
                                 <true/>
@@ -161,9 +203,12 @@
                                     key:    AllowCLIBiometricAuthentication
                                     value:  a boolean
                                     
-                                    Specifies whether to allow biometric authentication in the PrivilegesCLI
-                                    to obtain administrator privileges. When set to true, the PrivilegesAgent
-                                    prompts the user for the account password (or Touch ID, if available).
+                                    Specifies whether to allow biometric authentication (or smart cards) in
+                                    the PrivilegesCLI to obtain administrator privileges. When set to true,
+                                    the authentication process is passed to PrivilegesAgent, which then
+                                    prompts the user for Touch ID or smart card. If neither of these are
+                                    available, the user is prompted for the account password.
+                                
                                     To make this option work, you must enable the "RequireAuthentication"
                                     option.
                                 -->
@@ -220,8 +265,14 @@
                                     the modern Local Authentication framework does not yet support smart
                                     cards/PIV tokens, enabling this option will cause the application to
                                     fall back to the older Authorization Services. To make this option work,
-                                    you must enable the "RequireAuthentication" option. Please note that
-                                    enabling "EnableSmartCardSupport" will disable "RequireBiometricAuthentication".
+                                    you must enable the "RequireAuthentication" option.
+
+                                    PrivilegesCLI does not use smart card authentication by default. To
+                                    enable it, please make sure the "AllowCLIBiometricAuthentication"
+                                    setting is also enabled.
+
+                                    Please note that enabling "EnableSmartCardSupport" will disable
+                                    "RequireBiometricAuthentication".
                                 -->
                                 <key>EnableSmartCardSupport</key>
                                 <true/>
@@ -643,6 +694,148 @@
                                 -->
                                 <key>EnableSystemExtension</key>
                                 <true/>
+                                
+                                <!--
+                                    key:    UsagePolicy
+                                    value:  base64 encoded plain text or rtf data
+                                  
+                                    If specified, a usage policy will be displayed the first time the user
+                                    requests administrator privileges. The user must acknowledge it before
+                                    proceeding. The PrivilegesCLI command-line tool  cannot be used to
+                                    request administrator privileges until the Privileges application has
+                                    been launched and the usage policy has been accepted.
+                                
+                                    As an alternative to using this key, you can also place a file named
+                                    Policy.txt, Policy.rtf, or Policy.rtfd in the folder
+                                    /Library/Application Support/Privileges/. Make sure the file is readable
+                                    by all users and does not exceed 5 MB in size.
+                                
+                                    You can encode your existing txt or rtf file using the command
+                                    base64 -b68 -i <path to your file> in Terminal.
+                                -->
+                                <key>UsagePolicy</key>
+                                <data>
+                                    TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBl
+                                    bGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFi
+                                    b3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1
+                                    YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBl
+                                    YSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRh
+                                    IHNhbmN0dXMgZXN0IExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1
+                                    bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQg
+                                    ZGlhbSBub251bXkgZWlybW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9s
+                                    b3JlIG1hZ25hIGFsaXF1eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJv
+                                    IGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBT
+                                    dGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBl
+                                    c3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQuIExvcmVtIGlwc3VtIGRvbG9yIHNp
+                                    dCBhbWV0LCBjb25zZXRldHVyIHNhZGlwc2NpbmcgZWxpdHIsIHNlZCBkaWFtIG5vbnVt
+                                    eSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEg
+                                    YWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFj
+                                    Y3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEg
+                                    a2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBp
+                                    cHN1bSBkb2xvciBzaXQgYW1ldC4gIAoKRHVpcyBhdXRlbSB2ZWwgZXVtIGlyaXVyZSBk
+                                    b2xvciBpbiBoZW5kcmVyaXQgaW4gdnVscHV0YXRlIHZlbGl0IGVzc2UgbW9sZXN0aWUg
+                                    Y29uc2VxdWF0LCB2ZWwgaWxsdW0gZG9sb3JlIGV1IGZldWdpYXQgbnVsbGEgZmFjaWxp
+                                    c2lzIGF0IHZlcm8gZXJvcyBldCBhY2N1bXNhbiBldCBpdXN0byBvZGlvIGRpZ25pc3Np
+                                    bSBxdWkgYmxhbmRpdCBwcmFlc2VudCBsdXB0YXR1bSB6enJpbCBkZWxlbml0IGF1Z3Vl
+                                    IGR1aXMgZG9sb3JlIHRlIGZldWdhaXQgbnVsbGEgZmFjaWxpc2kuIExvcmVtIGlwc3Vt
+                                    IGRvbG9yIHNpdCBhbWV0LCBjb25zZWN0ZXR1ZXIgYWRpcGlzY2luZyBlbGl0LCBzZWQg
+                                    ZGlhbSBub251bW15IG5pYmggZXVpc21vZCB0aW5jaWR1bnQgdXQgbGFvcmVldCBkb2xv
+                                    cmUgbWFnbmEgYWxpcXVhbSBlcmF0IHZvbHV0cGF0LiAgCgpVdCB3aXNpIGVuaW0gYWQg
+                                    bWluaW0gdmVuaWFtLCBxdWlzIG5vc3RydWQgZXhlcmNpIHRhdGlvbiB1bGxhbWNvcnBl
+                                    ciBzdXNjaXBpdCBsb2JvcnRpcyBuaXNsIHV0IGFsaXF1aXAgZXggZWEgY29tbW9kbyBj
+                                    b25zZXF1YXQuIER1aXMgYXV0ZW0gdmVsIGV1bSBpcml1cmUgZG9sb3IgaW4gaGVuZHJl
+                                    cml0IGluIHZ1bHB1dGF0ZSB2ZWxpdCBlc3NlIG1vbGVzdGllIGNvbnNlcXVhdCwgdmVs
+                                    IGlsbHVtIGRvbG9yZSBldSBmZXVnaWF0IG51bGxhIGZhY2lsaXNpcyBhdCB2ZXJvIGVy
+                                    b3MgZXQgYWNjdW1zYW4gZXQgaXVzdG8gb2RpbyBkaWduaXNzaW0gcXVpIGJsYW5kaXQg
+                                    cHJhZXNlbnQgbHVwdGF0dW0genpyaWwgZGVsZW5pdCBhdWd1ZSBkdWlzIGRvbG9yZSB0
+                                    ZSBmZXVnYWl0IG51bGxhIGZhY2lsaXNpLiAgCgpOYW0gbGliZXIgdGVtcG9yIGN1bSBz
+                                    b2x1dGEgbm9iaXMgZWxlaWZlbmQgb3B0aW9uIGNvbmd1ZSBuaWhpbCBpbXBlcmRpZXQg
+                                    ZG9taW5nIGlkIHF1b2QgbWF6aW0gcGxhY2VyYXQgZmFjZXIgcG9zc2ltIGFzc3VtLiBM
+                                    b3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2VjdGV0dWVyIGFkaXBpc2Npbmcg
+                                    ZWxpdCwgc2VkIGRpYW0gbm9udW1teSBuaWJoIGV1aXNtb2QgdGluY2lkdW50IHV0IGxh
+                                    b3JlZXQgZG9sb3JlIG1hZ25hIGFsaXF1YW0gZXJhdCB2b2x1dHBhdC4gVXQgd2lzaSBl
+                                    bmltIGFkIG1pbmltIHZlbmlhbSwgcXVpcyBub3N0cnVkIGV4ZXJjaSB0YXRpb24gdWxs
+                                    YW1jb3JwZXIgc3VzY2lwaXQgbG9ib3J0aXMgbmlzbCB1dCBhbGlxdWlwIGV4IGVhIGNv
+                                    bW1vZG8gY29uc2VxdWF0LiAgCgpEdWlzIGF1dGVtIHZlbCBldW0gaXJpdXJlIGRvbG9y
+                                    IGluIGhlbmRyZXJpdCBpbiB2dWxwdXRhdGUgdmVsaXQgZXNzZSBtb2xlc3RpZSBjb25z
+                                    ZXF1YXQsIHZlbCBpbGx1bSBkb2xvcmUgZXUgZmV1Z2lhdCBudWxsYSBmYWNpbGlzaXMu
+                                    ICAgCgpBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0
+                                    IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1h
+                                    dGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQuIExvcmVtIGlw
+                                    c3VtIGRvbG9yIHNpdCBhbWV0LCBjb25zZXRldHVyIHNhZGlwc2NpbmcgZWxpdHIsIHNl
+                                    ZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBk
+                                    b2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZl
+                                    cm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0u
+                                    IFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVz
+                                    IGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Ig
+                                    c2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgQXQgYWNjdXNhbSBh
+                                    bGlxdXlhbSBkaWFtIGRpYW0gZG9sb3JlIGRvbG9yZXMgZHVvIGVpcm1vZCBlb3MgZXJh
+                                    dCwgZXQgbm9udW15IHNlZCB0ZW1wb3IgZXQgZXQgaW52aWR1bnQganVzdG8gbGFib3Jl
+                                    IFN0ZXQgY2xpdGEgZWEgZXQgZ3ViZXJncmVuLCBrYXNkIG1hZ25hIG5vIHJlYnVtLiBz
+                                    YW5jdHVzIHNlYSBzZWQgdGFraW1hdGEgdXQgdmVybyB2b2x1cHR1YS4gZXN0IExvcmVt
+                                    IGlwc3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwg
+                                    Y29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9k
+                                    IHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFt
+                                    IGVyYXQuICAKCkNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc2VkIGRpYW0gbm9u
+                                    dW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWdu
+                                    YSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQg
+                                    YWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0
+                                    YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVt
+                                    IGlwc3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwg
+                                    Y29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9k
+                                    IHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFt
+                                    IGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0
+                                    IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3Vi
+                                    ZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9s
+                                    b3Igc2l0IGFtZXQuIExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LCBjb25zZXRldHVy
+                                    IHNhZGlwc2NpbmcgZWxpdHIsIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGlu
+                                    dmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2Vk
+                                    IGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVv
+                                    IGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5v
+                                    IHNlYSB0YWtpbWF0YSBzYW5jdHVzLiAgCgpMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1l
+                                    dCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWly
+                                    bW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1
+                                    eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2Ft
+                                    IGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2Qg
+                                    Z3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0g
+                                    ZG9sb3Igc2l0IGFtZXQuIExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LCBjb25zZXRl
+                                    dHVyIHNhZGlwc2NpbmcgZWxpdHIsIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9y
+                                    IGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwg
+                                    c2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8g
+                                    ZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4s
+                                    IG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQg
+                                    YW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBz
+                                    Y2luZyBlbGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQg
+                                    dXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2
+                                    b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3Jl
+                                    cyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRh
+                                    a2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LiAgCgpE
+                                    dWlzIGF1dGVtIHZlbCBldW0gaXJpdXJlIGRvbG9yIGluIGhlbmRyZXJpdCBpbiB2dWxw
+                                    dXRhdGUgdmVsaXQgZXNzZSBtb2xlc3RpZSBjb25zZXF1YXQsIHZlbCBpbGx1bSBkb2xv
+                                    cmUgZXUgZmV1Z2lhdCBudWxsYSBmYWNpbGlzaXMgYXQgdmVybyBlcm9zIGV0IGFjY3Vt
+                                    c2FuIGV0IGl1c3RvIG9kaW8gZGlnbmlzc2ltIHF1aSBibGFuZGl0IHByYWVzZW50IGx1
+                                    cHRhdHVtIHp6cmlsIGRlbGVuaXQgYXVndWUgZHVpcyBkb2xvcmUgdGUgZmV1Z2FpdCBu
+                                    dWxsYSBmYWNpbGlzaS4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3Rl
+                                    dHVlciBhZGlwaXNjaW5nIGVsaXQsIHNlZCBkaWFtIG5vbnVtbXkgbmliaCBldWlzbW9k
+                                    IHRpbmNpZHVudCB1dCBsYW9yZWV0IGRvbG9yZSBtYWduYSBhbGlxdWFtIGVyYXQgdm9s
+                                    dXRwYXQuICAKClV0IHdpc2kgZW5pbSBhZCBtaW5pbSB2ZW5pYW0sIHF1aXMgbm9zdHJ1
+                                    ZCBleGVyY2kgdGF0aW9uIHVsbGFtY29ycGVyIHN1c2NpcGl0IGxvYm9ydGlzIG5pc2wg
+                                    dXQgYWxpcXVpcCBleCBlYSBjb21tb2RvIGNvbnNlcXVhdC4gRHVpcyBhdXRlbSB2ZWwg
+                                    ZXVtIGlyaXVyZSBkb2xvciBpbiBoZW5kcmVyaXQgaW4gdnVscHV0YXRlIHZlbGl0IGVz
+                                    c2UgbW9sZXN0aWUgY29uc2VxdWF0LCB2ZWwgaWxsdW0gZG9sb3JlIGV1IGZldWdpYXQg
+                                    bnVsbGEgZmFjaWxpc2lzIGF0IHZlcm8gZXJvcyBldCBhY2N1bXNhbiBldCBpdXN0byBv
+                                    ZGlvIGRpZ25pc3NpbSBxdWkgYmxhbmRpdCBwcmFlc2VudCBsdXB0YXR1bSB6enJpbCBk
+                                    ZWxlbml0IGF1Z3VlIGR1aXMgZG9sb3JlIHRlIGZldWdhaXQgbnVsbGEgZmFjaWxpc2ku
+                                    ICAKCk5hbSBsaWJlciB0ZW1wb3IgY3VtIHNvbHV0YSBub2JpcyBlbGVpZmVuZCBvcHRp
+                                    b24gY29uZ3VlIG5paGlsIGltcGVyZGlldCBkb21pbmcgaWQgcXVvZCBtYXppbSBwbGFj
+                                    ZXJhdCBmYWNlciBwb3NzaW0gYXNzdW0uIExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0
+                                    LCBjb25zZWN0ZXR1ZXIgYWRpcGlzY2luZyBlbGl0LCBzZWQgZGlhbSBub251bW15IG5p
+                                    YmggZXVpc21vZCB0aW5jaWR1bnQgdXQgbGFvcmVldCBkb2xvcmUgbWFnbmEgYWxpcXVh
+                                    bSBlcmF0IHZvbHV0cGF0LiBVdCB3aXNpIGVuaW0gYWQgbWluaW0gdmVuaWFtLCBxdWlz
+                                    IG5vc3RydWQgZXhlcmNpIHRhdGlvbiB1bGxhbWNvcnBlciBzdXNjaXBpdCBsb2JvcnRp
+                                    cyBuaXNsIHV0IGFsaXF1aXAgZXggZWEgY29tbW9kbyBjb25zZXF1YXQuICAKCkR1aXMg
+                                    YXV0ZW0gdmVsIGV1bSBpcml1cmUgZG9sb3IgaW4=
+                                </data>
                                                                 								
 								<!--
                                     key:    RemoteLogging

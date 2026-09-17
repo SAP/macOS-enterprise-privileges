@@ -319,7 +319,9 @@
     // in some cases we cannot request admin privileges from the Dock Tile.
     // in these cases we just open the Privileges app instead to allow the
     // user to request admin privileges there.
-    if (([_privilegesApp authenticationRequired] && ![_privilegesApp allowCLIBiometricAuthentication]) || [_privilegesApp reasonRequired]) {
+    if (([_privilegesApp authenticationRequired] && ![_privilegesApp allowCLIBiometricAuthentication]) ||
+        [_privilegesApp reasonRequired] ||
+        ![_privilegesApp policyAccepted]) {
         
         [MTPrivileges openMainApplication];
         

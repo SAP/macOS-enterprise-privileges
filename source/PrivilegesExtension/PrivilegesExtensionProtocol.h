@@ -19,13 +19,32 @@
 
 /*!
  @protocol      PrivilegesExtensionProtocol
- @abstract      Defines the protocol implemented by the system extension and called by PrivilegesCLI.
+ @abstract      Defines the protocol implemented by the system extension and called by the PrivilegesHelper.
 */
 
 @protocol PrivilegesExtensionProtocol
 
+/*!
+ @method        suspendExtensionUsingAuthorizedPID:completionHandler:
+ @abstract      Suspend the extension by providing the pid of a process that is authorized to suspend the extension.
+ @param         pid The id of a process that is authorized to suspend the extension.
+ @discussion    Returns YES if the extension was successfully suspended, otherwise returns NO. If an error occurred, the completion
+                handler's NSError object contains error details.
+*/
 - (void)suspendExtensionUsingAuthorizedPID:(pid_t)pid completionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
+
+/*!
+ @method        resumeExtensionWithCompletionHandler:
+ @abstract      Resume a suspended extension.
+ @discussion    Returns YES if the extension was successfully resumed, otherwise returns NO.
+*/
 - (void)resumeExtensionWithCompletionHandler:(void(^)(BOOL success))completionHandler;
+
+/*!
+ @method        statusWithReply:
+ @abstract      Return the current status of the extension.
+ @discussion    Returns the current status of the extension.
+*/
 - (void)statusWithReply:(void(^)(NSString *status))reply;
 
 @end

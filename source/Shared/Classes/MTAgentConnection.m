@@ -178,9 +178,7 @@
     if (!_connection && endpoint) {
         
         _connection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
-        
-        NSXPCInterface *remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesAgentProtocol)];
-        [_connection setRemoteObjectInterface:remoteObjectInterface];
+        [_connection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesAgentProtocol)]];
         if (exportedObject) { [_connection setExportedObject:exportedObject]; }
         
 #pragma clang diagnostic push

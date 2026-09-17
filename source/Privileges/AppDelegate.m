@@ -19,6 +19,7 @@
 #import "MTPrivileges.h"
 #import "MTReasonAccessoryController.h"
 #import "MTLocalNotification.h"
+#import "MTUpdateChecker.h"
 #import "Constants.h"
 #import <objc/runtime.h>
 
@@ -187,8 +188,9 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
             if ([_privilegesApp privilegeRenewalAllowed] && [_privilegesApp expirationInterval] > 0 && ![[_privilegesApp currentUser] hasUnexpectedPrivilegeState]) {
                 
-                _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged handler:^NSEvent *(NSEvent *event) {
-
+                _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged
+                                                                      handler:^NSEvent *(NSEvent *event) {
+                    
                     if ([event modifierFlags] & NSEventModifierFlagOption) {
                         
                         [self->_alert setMessageText:NSLocalizedString(@"privilegesDialogRenewTitle", nil)];
@@ -217,6 +219,17 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             
         } else {
             
+            // check for policy
+            if (![_privilegesApp policyAccepted]) {
+                
+                NSStoryboard *storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+                NSWindowController *policyWindowController = [storyboard instantiateControllerWithIdentifier:@"corp.sap.Privileges.PolicyController"];
+                NSModalResponse response = [NSApp runModalForWindow:[policyWindowController window]];
+                [[policyWindowController window] close];
+                
+                if (response != NSModalResponseContinue) { [NSApp terminate:self]; }
+            }
+            
             NSString *autoRemoveText = @"";
             
             if ([_privilegesApp expirationInterval] > 0) {
@@ -238,15 +251,15 @@ extern void CoreDockSendNotification(CFStringRef, void*);
             Class originalClass = object_getClass(requestButton);
             NSString *subclassName = [NSString stringWithFormat:@"%@_MT_%p", NSStringFromClass(originalClass), requestButton];
             Class subclass = NSClassFromString(subclassName);
-
+            
             if (!subclass) {
-
+                
                 subclass = objc_allocateClassPair(
                                                   originalClass,
                                                   [subclassName UTF8String],
                                                   0
                                                   );
-
+                
                 if (subclass) {
                     
                     class_addMethod(
@@ -255,22 +268,22 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                     (IMP)mt_canBecomeKeyView,
                                     "c@:"
                                     );
-
+                    
                     class_addMethod(
                                     subclass,
                                     @selector(acceptsFirstResponder),
                                     (IMP)mt_acceptsFirstResponder,
                                     "c@:"
                                     );
-
+                    
                     objc_registerClassPair(subclass);
                 }
             }
-
+            
             if (subclass) { object_setClass(requestButton, subclass); }
             
             if ([_privilegesApp reasonRequired]) {
-
+                
                 // load the nib file
                 _accessoryController = [[MTReasonAccessoryController alloc] initWithNibName:@"MTReasonAccessory" bundle:nil];
                 
@@ -283,13 +296,13 @@ extern void CoreDockSendNotification(CFStringRef, void*);
                                                        )
                 ];
                 [_alert setAccessoryView:accessoryView];
-
+                
                 if ([[_accessoryController predefinedReasonsButton] isHidden]) {
                     
                     [_alert setInformativeText:[NSLocalizedString(@"privilegesDialogRequestMessageReason", nil) stringByAppendingString:autoRemoveText]];
                     
                     self.enableRequestButton = ([[[_accessoryController reasonTextField] stringValue] length] >= _minReasonLength);
-                                        
+                    
                 } else {
                     
                     [_alert setInformativeText:[NSLocalizedString(@"privilegesDialogRequestMessageReasonPre", nil) stringByAppendingString:autoRemoveText]];
@@ -334,6 +347,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     }
 
     // workaround for FB15426079 (https://github.com/SAP/macOS-enterprise-privileges/issues/128)
+    // this was fixed by Apple in macOS 27 beta.
     [_alert layout];
     NSWindow *transparentDummyWindow = [[NSWindow alloc] initWithContentRect:[[_alert window] frame]
                                                                    styleMask:NSWindowStyleMaskBorderless
@@ -352,7 +366,7 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     [transparentDummyWindow setReleasedWhenClosed:NO];
     [transparentDummyWindow center];
     
-    // needed for macOS 26. Otherwise AppKit doesn't show the icon. this is becaus because our workaround
+    // needed for macOS 26. Otherwise AppKit doesn't show the icon. this is because our workaround
     // creates a transparent parent window and displays our alert as a sheet.
     [_alert setIcon:[NSApp applicationIconImage]];
     
@@ -536,6 +550,12 @@ extern void CoreDockSendNotification(CFStringRef, void*);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:kMTGitHubURL]];
 }
 
+- (IBAction)checkForUpdates:(id)sender
+{
+    MTUpdateChecker *updateChecker = [[MTUpdateChecker alloc] initWithBundleIdentifier:kMTUpdateCheckerBundleIdentifier];
+    [updateChecker launch];
+}
+
 - (void)showSettingsWindow
 {
     if (![[[NSProcessInfo processInfo] arguments] containsObject:@"--showSettings"] &&
@@ -612,6 +632,32 @@ extern void CoreDockSendNotification(CFStringRef, void*);
         self.enableRequestButton = YES;
     }
 }
+
+#pragma mark - NSMenuItemValidation
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    BOOL enable = YES;
+    
+    if ([menuItem tag] == 1000) {
+        
+        enable = !([[NSUserDefaults standardUserDefaults] objectIsForcedForKey:kMTDefaultsUpdateCheckDisabledKey] &&
+                   [[NSUserDefaults standardUserDefaults] boolForKey:kMTDefaultsUpdateCheckDisabledKey]);
+        
+        // if update checking has not been disabled, we check if the Patcher app is installed
+        if (enable) {
+            
+            MTUpdateChecker *updateChecker = [[MTUpdateChecker alloc] initWithBundleIdentifier:kMTUpdateCheckerBundleIdentifier];
+            enable = [updateChecker isAvailable];
+        }
+        
+        [menuItem setHidden:!enable];
+    }
+    
+    return enable;
+}
+
+#pragma mark -
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {

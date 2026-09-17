@@ -101,7 +101,7 @@
 {
     NSISO8601DateFormatter *timestampFormatter = [[NSISO8601DateFormatter alloc] init];
     [timestampFormatter setFormatOptions:NSISO8601DateFormatWithFractionalSeconds | NSISO8601DateFormatWithInternetDateTime];
-    NSDate *tempTimeStamp = (_timeStamp) ? _timeStamp : [NSDate now];
+    NSDate *tempTimeStamp = (_timeStamp) ?: [NSDate now];
     
     return [timestampFormatter stringFromDate:tempTimeStamp];
 }

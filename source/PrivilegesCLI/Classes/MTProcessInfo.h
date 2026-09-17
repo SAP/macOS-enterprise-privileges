@@ -81,4 +81,39 @@
  */
 - (MTExtensionRequestType)extensionRequestType;
 
+/*!
+ @method        showHistory
+ @abstract      Get whether the usage history should be displayed.
+ @discussion    Returns YES if the history should be displayed, otherwise returns NO.
+ */
+- (BOOL)showHistory;
+
+/*!
+ @method        historyStartDate
+ @abstract      Get the start date for the usage history. If no date is specified, all available log entries are included in the usage history.
+ @discussion    Returns an NSDate object if specified, otherwise returns nil.
+ */
+- (NSDate*)historyStartDate;
+
+/*!
+ @method        historyEndDate
+ @abstract      Get the end date for the usage history. If no date is specified, the current date is used as the end date.
+ @discussion    Returns an NSDate object.
+ */
+- (NSDate*)historyEndDate;
+
+/*!
+ @method        historyFormatJSON
+ @abstract      Get whether the usage history should be displayed in JSON format.
+ @discussion    Returns YES if the history should be displayed in JSON format, otherwise returns NO.
+ */
+- (BOOL)historyFormatJSON;
+
+/*!
+ @method        historyOnlyShowsPrivilegeChanges
+ @abstract      Get whether the usage history should be limited to privilege changes.
+ @discussion    Returns YES if the history should be limited to privilege changes, otherwise returns NO.
+ */
+- (BOOL)historyOnlyShowsPrivilegeChanges;
+
 @end

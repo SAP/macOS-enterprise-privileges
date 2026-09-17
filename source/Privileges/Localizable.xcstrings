@@ -78,7 +78,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kumoa"
+            "value" : "Peruuta"
           }
         },
         "fr" : {
@@ -579,7 +579,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viive %@"
+            "value" : "%@ kuluttua"
           }
         },
         "fr" : {
@@ -889,7 +889,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 애플리케이션을 열 수 없습니다."
+            "value" : "이 앱을 열 수 없습니다."
           }
         },
         "ms" : {
@@ -961,7 +961,7 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "คุณไม่สามารถเปิดแอพพลิเคชันนี้"
+            "value" : "คุณไม่สามารถเปิดแอปพลิเคชันนี้ได้"
           }
         },
         "tr" : {
@@ -1139,7 +1139,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 응용 프로그램을 열 수 있는 권한이 없습니다."
+            "value" : "이 앱을 열 수 있는 권한이 없습니다."
           }
         },
         "ms" : {
@@ -1223,7 +1223,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У вас немає привілеїв запускати цю програму."
+            "value" : "У вас немає дозволу відкрити цю програму."
           }
         },
         "vi" : {
@@ -1686,7 +1686,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "少なくとも%ld文字は入力しなければならない。"
+                  "value" : "少なくとも%ld文字を入力する必要があります。"
                 }
               }
             }
@@ -2531,7 +2531,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "інша…"
+            "value" : "Інша…"
           }
         },
         "vi" : {
@@ -2637,19 +2637,19 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Olet tällä hetkellä ylläpitäjä. Kun palautat oikeudet, sinusta tulee tavallinen käyttäjä."
+            "value" : "Olet tällä hetkellä ylläpitäjä. Kun luovut ylläpitäjän oikeuksista, sinusta tulee tavallinen käyttäjä."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous êtes actuellement un administrateur. Lorsque vous rétablissez les autorisations, vous devenez un utilisateur standard."
+            "value" : "Vous êtes actuellement administrateur. Si vous abandonnez vos autorisations d’administrateur, vous devenez un utilisateur standard."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous êtes actuellement un administrateur. Lorsque vous rétablissez les autorisations, vous devenez un utilisateur standard."
+            "value" : "Vous êtes actuellement administrateur. Si vous abandonnez vos autorisations d’administrateur, vous devenez un utilisateur standard."
           }
         },
         "he" : {
@@ -2685,7 +2685,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Attualmente sei un amministratore. Se ripristini i privilegi, diventi un utente standard."
+            "value" : "Attualmente sei un amministratore. Se rinunci ai privilegi di amministratore, diventi un utente standard."
           }
         },
         "ja" : {
@@ -2697,7 +2697,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사용자는 현재 관리자입니다. 권한을 복귀하면 표준 사용자로 전환됩니다."
+            "value" : "사용자는 현재 관리자입니다. 관리자 권한을 반납하면 표준 사용자로 전환됩니다."
           }
         },
         "ms" : {
@@ -2715,13 +2715,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je bent momenteel een beheerder. Wanneer je de bevoegdheden herstelt, word je een standaardgebruiker."
+            "value" : "Je bent momenteel beheerder. Wanneer je de beheerdersbevoegdheden opgeeft, word je een standaardgebruiker."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jesteś obecnie administratorem. Po cofnięciu uprawnień będziesz mieć ponownie uprawnienia standardowego użytkownika."
+            "value" : "Jesteś obecnie administratorem. Po zrezygnowaniu z uprawnień administratora staniesz się użytkownikiem standardowym."
           }
         },
         "pt-BR" : {
@@ -2763,7 +2763,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du är för närvarande administratör. När du återställer behörigheten blir du standardanvändare."
+            "value" : "Du är för närvarande administratör. När du avstår från administratörsbehörighet blir du standardanvändare."
           }
         },
         "th" : {
@@ -2793,19 +2793,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您当前是管理员。当您恢复特权时，您将变为标准用户。"
+            "value" : "您当前是管理员。交还管理员权限后，您将成为标准用户。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你目前是管理員。你在回復權限時便會成為標準用戶。"
+            "value" : "你目前是管理員。交還管理員權限後，你將成為標準用戶。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你目前是管理員。你在回復權限時便會成為標準用戶。"
+            "value" : "你目前是管理員。交還管理員權限後，你將成為標準用戶。"
           }
         }
       }
@@ -2887,19 +2887,19 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Haluatko varmasti palauttaa oikeudet?"
+            "value" : "Haluatko varmasti luopua ylläpitäjän oikeuksista?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voulez-vous vraiment rétablir les autorisations ?"
+            "value" : "Voulez-vous vraiment abandonner vos autorisations d’administrateur ?"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voulez-vous vraiment rétablir les autorisations?"
+            "value" : "Voulez-vous vraiment abandonner vos autorisations d’administrateur?"
           }
         },
         "he" : {
@@ -2935,7 +2935,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desideri davvero ripristinare i privilegi?"
+            "value" : "Desideri davvero rinunciare ai privilegi di amministratore?"
           }
         },
         "ja" : {
@@ -2947,7 +2947,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한을 복귀시키겠습니까?"
+            "value" : "관리자 권한을 반납하시겠습니까?"
           }
         },
         "ms" : {
@@ -2965,13 +2965,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de bevoegdheden herstellen?"
+            "value" : "Weet je zeker dat je de beheerdersbevoegdheden wilt opgeven?"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czy na pewno chcesz przywrócić uprawnienia?"
+            "value" : "Czy na pewno chcesz zrezygnować z uprawnień administratora?"
           }
         },
         "pt-BR" : {
@@ -3013,7 +3013,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vill du återställa behörigheten?"
+            "value" : "Vill du avstå från administratörsbehörighet?"
           }
         },
         "th" : {
@@ -3043,19 +3043,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "是否确定要恢复特权？"
+            "value" : "确定要交还管理员权限吗？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你確定想要回復權限嗎？"
+            "value" : "你確定要交還管理員權限嗎？"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你確定想要回復權限嗎？"
+            "value" : "你確定要交還管理員權限嗎？"
           }
         }
       }
@@ -3125,13 +3125,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando renovar los privilegios de administrador, usted sigue siendo un administrador durante %@ adicionales."
+            "value" : "Cuando renueve los privilegios de administrador, seguirá siendo administrador durante %@ más."
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando renovar los privilegios de administrador, usted sigue siendo un administrador durante %@ adicionales."
+            "value" : "Cuando renueves los privilegios de administrador, seguirás siendo administrador durante %@ más."
           }
         },
         "fi" : {
@@ -3143,13 +3143,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque vous renouvelez votre privilèges d'administrateur, vous restez administrateur pendant %@ supplémentaires."
+            "value" : "Lorsque vous renouvelez vos autorisations d’administrateur, vous restez administrateur %@ de plus."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque vous renouvelez votre privilèges d'administrateur, vous restez administrateur pendant %@ supplémentaires."
+            "value" : "Lorsque vous renouvelez vos autorisations d’administrateur, vous restez administrateur %@ de plus."
           }
         },
         "he" : {
@@ -3191,7 +3191,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理者権限を更新すると、さらに%@、管理者のままとなる。"
+            "value" : "管理者権限を更新すると、さらに%@管理者のままになります。"
           }
         },
         "ko" : {
@@ -3239,7 +3239,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atunci când reînnoiți privilegii de administrator, rămâneți administrator pentru încă %@."
+            "value" : "Atunci când reînnoiești privilegiile de administrator, rămâi administrator pentru încă %@."
           }
         },
         "ru" : {
@@ -3275,7 +3275,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici ayrıcalıkları yenilediğinizde, %@ daha yönetici olarak kalırsınız."
+            "value" : "Yönetici ayrıcalıklarını yenilediğinizde, %@ daha yönetici olarak kalırsınız."
           }
         },
         "uk" : {
@@ -3489,7 +3489,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sigur dorești să reînnoiți privilegii de administrator?"
+            "value" : "Sigur dorești să reînnoiești privilegiile de administrator?"
           }
         },
         "ru" : {
@@ -3525,7 +3525,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici ayrıcalıkları yenilemek istediğinizden emin misiniz?"
+            "value" : "Yönetici ayrıcalıklarını yenilemek istediğinizden emin misiniz?"
           }
         },
         "uk" : {
@@ -3793,7 +3793,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您当前是标准用户。如果您请求管理员特权，您将被提升为此计算机的管理员。"
+            "value" : "您当前是标准用户。如果您请求管理员权限，您将被提升为此计算机的管理员。"
           }
         },
         "zh-Hant" : {
@@ -4043,7 +4043,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您当前是标准用户。如果您想要请求管理员特权，请在下面的文本字段中输入您需要提升为此计算机管理员的原因。"
+            "value" : "您当前是标准用户。如果您想要请求管理员权限，请在下面的文本字段中输入您需要提升为此计算机管理员的原因。"
           }
         },
         "zh-Hant" : {
@@ -4293,7 +4293,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您当前是标准用户。如果您想要请求管理员特权，请从下面的菜单中选择您需要提升为此计算机管理员的原因。"
+            "value" : "您当前是标准用户。如果您想要请求管理员权限，请从下面的菜单中选择您需要提升为此计算机管理员的原因。"
           }
         },
         "zh-Hant" : {
@@ -4352,7 +4352,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Προνόμια διαχειριστή λήγουν σε %@."
+            "value" : "Τα προνόμια διαχειριστή λήγουν σε %@."
           }
         },
         "en" : {
@@ -4532,7 +4532,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Строк дії прав адміністратора спливає за %@."
+            "value" : "Строк дії прав адміністратора спливає через %@."
           }
         },
         "vi" : {
@@ -4544,7 +4544,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理员特权将于 %@ 过期。"
+            "value" : "管理员权限将在 %@ 后过期。"
           }
         },
         "zh-Hant" : {
@@ -4698,7 +4698,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자 권한을 요청하겠습니까?"
+            "value" : "관리자 권한을 요청하시겠습니까?"
           }
         },
         "ms" : {
@@ -4794,7 +4794,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "是否确定要请求管理员特权？"
+            "value" : "是否确定要请求管理员权限？"
           }
         },
         "zh-Hant" : {
@@ -4889,19 +4889,19 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Palauta oikeudet"
+            "value" : "Luovu oikeuksista"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rétablir les autorisations"
+            "value" : "Abandonner les autorisations"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rétablir les autorisations"
+            "value" : "Abandonner les autorisations"
           }
         },
         "he" : {
@@ -4937,7 +4937,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ripristina privilegi"
+            "value" : "Rinuncia ai privilegi"
           }
         },
         "ja" : {
@@ -4949,7 +4949,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 복귀"
+            "value" : "관리자 권한 반납"
           }
         },
         "ms" : {
@@ -4967,13 +4967,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bevoegdheden herstellen"
+            "value" : "Bevoegdheden opgeven"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przywróć uprawnienia"
+            "value" : "Zrezygnuj z uprawnień"
           }
         },
         "pt-BR" : {
@@ -5015,7 +5015,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Återställ behörighet"
+            "value" : "Avstå från behörighet"
           }
         },
         "th" : {
@@ -5045,19 +5045,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复特权"
+            "value" : "交还管理员权限"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回復權限"
+            "value" : "交還管理員權限"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回復權限"
+            "value" : "交還管理員權限"
           }
         }
       }
@@ -5139,7 +5139,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uudistaa oikeuksia"
+            "value" : "Uudista oikeudet"
           }
         },
         "fr" : {
@@ -5199,7 +5199,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 갱신"
+            "value" : "관리자 권한 갱신"
           }
         },
         "ms" : {
@@ -5223,7 +5223,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odnowienie uprawnienia"
+            "value" : "Odnów uprawnienia"
           }
         },
         "pt-BR" : {
@@ -5241,19 +5241,19 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reînnoiți privilegii"
+            "value" : "Reînnoiește privilegiile"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Возобновить привилегии"
+            "value" : "Продлить привилегии"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obnovenie oprávnenia"
+            "value" : "Obnoviť oprávnenia"
           }
         },
         "sl" : {
@@ -5277,7 +5277,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayrıcalıkları yenileyin"
+            "value" : "Ayrıcalıkları Yenile"
           }
         },
         "uk" : {
@@ -5295,7 +5295,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "更新特权"
+            "value" : "更新管理员权限"
           }
         },
         "zh-Hant" : {
@@ -5450,7 +5450,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "권한 요청"
+            "value" : "관리자 권한 요청"
           }
         },
         "ms" : {
@@ -5546,7 +5546,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请求特权"
+            "value" : "请求管理员权限"
           }
         },
         "zh-Hant" : {
@@ -5598,13 +5598,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein Administrator hat Dir die Berechtigung entzogen, dieses Programm zu benutzen."
+            "value" : "Dein Administrator hat die Nutzung dieses Programms eingeschränkt."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ο διαχειριστής σας έχει περιορισμένη χρήση αυτής της εφαρμογής."
+            "value" : "Ο διαχειριστής σας έχει περιορίσει τη χρήση αυτής της εφαρμογής."
           }
         },
         "en" : {
@@ -5676,7 +5676,7 @@
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adminisztrátora korlátozta az alkalmazás használatát."
+            "value" : "A rendszergazdája korlátozta az alkalmazás használatát."
           }
         },
         "id" : {
@@ -5700,7 +5700,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자가 이 응용 프로그램의 사용을 제한했습니다."
+            "value" : "관리자가 이 앱의 사용을 제한했습니다."
           }
         },
         "ms" : {
@@ -5772,7 +5772,7 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ผู้ดูแลระบบของคุณถูกจำกัดการใช้แอปพลิเคชันนี้"
+            "value" : "ผู้ดูแลระบบของคุณได้จำกัดการใช้แอปพลิเคชันนี้"
           }
         },
         "tr" : {
@@ -5854,7 +5854,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ο διαχειριστής σας σάς έχει εκχωρήσει μόνιμα προνόμια διαχειριστής."
+            "value" : "Ο διαχειριστής σας σάς έχει εκχωρήσει μόνιμα προνόμια διαχειριστή."
           }
         },
         "en" : {
@@ -5926,7 +5926,7 @@
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adminisztrátora állandó adminisztrátori jogosultságot adott Önnek."
+            "value" : "A rendszergazdája állandó adminisztrátori jogosultságot adott Önnek."
           }
         },
         "id" : {
@@ -5992,7 +5992,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Administratorul tău ți-a acordat privilegii de administrator permanent."
+            "value" : "Administratorul tău ți-a acordat privilegii permanente de administrator."
           }
         },
         "ru" : {
@@ -6046,7 +6046,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您的管理员已为您授予永久管理员特权。"
+            "value" : "您的管理员已为您授予永久管理员权限。"
           }
         },
         "zh-Hant" : {
@@ -6176,7 +6176,7 @@
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adminisztrátora állandó standard felhasználói jogosultságot adott Önnek."
+            "value" : "A rendszergazdája állandó standard felhasználói jogosultságot adott Önnek."
           }
         },
         "id" : {
@@ -6242,7 +6242,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Administratorul tău ți-a acordat privilegii de utilizator standard permanent."
+            "value" : "Administratorul tău ți-a acordat privilegii permanente de utilizator standard."
           }
         },
         "ru" : {
@@ -6296,7 +6296,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您的管理员已为您授予永久标准用户特权。"
+            "value" : "您的管理员已为您授予永久标准用户权限。"
           }
         },
         "zh-Hant" : {
@@ -6451,7 +6451,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 응용 프로그램을 사용할 수 있는 권한이 없습니다."
+            "value" : "이 앱을 사용할 수 있는 권한이 없습니다."
           }
         },
         "ms" : {
@@ -6701,7 +6701,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 응용 프로그램을 Root 사용자로 실행할 수 없습니다!"
+            "value" : "이 앱을 root 사용자로 실행할 수 없습니다!"
           }
         },
         "ms" : {
@@ -6725,7 +6725,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie możesz uruchomić tej aplikacji jako jej główny użytkownik!"
+            "value" : "Nie możesz uruchomić tej aplikacji jako użytkownik root!"
           }
         },
         "pt-BR" : {
@@ -6755,7 +6755,7 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Túto aplikáciu nemôžete spustiť ako hlavný používateľ!"
+            "value" : "Túto aplikáciu nemôžete spustiť ako používateľ root!"
           }
         },
         "sl" : {
@@ -6773,7 +6773,7 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "คุณไม่สามารถเรียกใช้แอปพลิเคชันนี้ในฐานะผู้ใช้หลัก!"
+            "value" : "คุณไม่สามารถเรียกใช้แอปพลิเคชันนี้ในฐานะผู้ใช้ root ได้!"
           }
         },
         "tr" : {
@@ -6785,7 +6785,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ви не можете виконувати цю програму в якості користувача root!"
+            "value" : "Ви не можете виконувати цю програму як користувач root!"
           }
         },
         "vi" : {
@@ -7075,13 +7075,13 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Предпочитания..."
+            "value" : "Предпочитания…"
           }
         },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configuración…"
+            "value" : "Configuració…"
           }
         },
         "cs" : {
@@ -7099,7 +7099,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einstellungen …"
+            "value" : "Einstellungen …"
           }
         },
         "el" : {
@@ -7433,7 +7433,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jangan Pernah"
+            "value" : "Tidak pernah"
           }
         },
         "it" : {
@@ -7457,7 +7457,7 @@
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jangan"
+            "value" : "Tidak pernah"
           }
         },
         "nb" : {
@@ -7541,7 +7541,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Không"
+            "value" : "Không bao giờ"
           }
         },
         "zh-Hans" : {

@@ -8,7 +8,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يمنح امتيازات المسؤول للمستخدم %@"
+            "value" : "منح امتيازات المسؤول للمستخدم %@"
           }
         },
         "bg-BG" : {
@@ -26,7 +26,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "uděluje uživateli %@ oprávnění správce"
+            "value" : "udělit uživateli %@ oprávnění správce"
           }
         },
         "da" : {
@@ -74,7 +74,7 @@
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "concede privilegios de administrador al usuario %@"
+            "value" : "conceder privilegios de administrador al usuario %@"
           }
         },
         "fi" : {
@@ -98,7 +98,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "תן למשתמש הרשאות מנהל מערכת %@"
+            "value" : "להעניק הרשאות מנהל מערכת למשתמש %@"
           }
         },
         "hi" : {
@@ -134,13 +134,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "により、管理者権限がユーザ%@に付与されます。"
+            "value" : "ユーザ%@に管理者権限を付与する"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "에서 사용자 %@에 관리자 권한 허용"
+            "value" : "사용자 %@에게 관리자 권한 부여"
           }
         },
         "ms" : {
@@ -164,7 +164,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "nadaje uprawnienia administratora użytkownikowi %@"
+            "value" : "nadać uprawnienia administratora użytkownikowi %@"
           }
         },
         "pt-BR" : {
@@ -176,7 +176,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "concede privilégios de administrador ao utilizador %@"
+            "value" : "conceder privilégios de administrador ao utilizador %@"
           }
         },
         "ro" : {
@@ -206,7 +206,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "tilldelar administratörsbehörighet till användare %@"
+            "value" : "tilldela administratörsbehörighet till användare %@"
           }
         },
         "th" : {
@@ -218,7 +218,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ kullanıcısına yönetici ayrıcalıkları sağlamaya çalışıyor"
+            "value" : "%@ kullanıcısına yönetici ayrıcalıkları sağlamak"
           }
         },
         "uk" : {
@@ -236,7 +236,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为用户 %@ 授予管理员特权"
+            "value" : "为用户 %@ 授予管理员权限"
           }
         },
         "zh-Hant" : {
@@ -259,7 +259,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ول تطبيق %@ %@."
+            "value" : "يحاول %1$@ %2$@."
           }
         },
         "bg-BG" : {
@@ -349,7 +349,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "״%@״ מנסה %@."
+            "value" : "״%1$@״ מנסה %2$@."
           }
         },
         "hi" : {
@@ -385,7 +385,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@で次の操作を実行しようとしています: %2$@"
+            "value" : "%1$@で次の操作を実行しようとしています：%2$@"
           }
         },
         "ko" : {
@@ -463,13 +463,13 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%[tt]@กำลังพยายามที่จะ%[tt]@"
+            "value" : "%1$@ กำลังพยายาม%2$@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@, %2$@."
+            "value" : "%1$@, %2$@ istiyor."
           }
         },
         "uk" : {
@@ -487,19 +487,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%[tt]@正在尝试%@。"
+            "value" : "%1$@正在尝试%2$@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%[tt]@正在嘗試%@。"
+            "value" : "%1$@正在嘗試%2$@。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%[tt]@正在嘗試%@。"
+            "value" : "%1$@正在嘗試%2$@。"
           }
         }
       }
@@ -587,13 +587,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pour accorder des privilèges d'administrateur, votre organisation exige une authentification biométrique."
+            "value" : "Pour accorder des autorisations d’administrateur, votre organisation exige une authentification biométrique."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pour accorder des privilèges d'administrateur, votre organisation exige une authentification biométrique."
+            "value" : "Pour accorder des autorisations d’administrateur, votre organisation exige une authentification biométrique."
           }
         },
         "he" : {
@@ -849,7 +849,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "נדרשת אימות ביומטרי!"
+            "value" : "נדרש אימות ביומטרי!"
           }
         },
         "hi" : {
@@ -915,7 +915,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wymagana uwierzytelnianie biometryczne!"
+            "value" : "Wymagane uwierzytelnianie biometryczne!"
           }
         },
         "pt-BR" : {
@@ -1004,6 +1004,256 @@
         }
       }
     },
+    "notificationMessage_AutoRenewSuccess" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم تجديد امتيازات المسؤول تلقائيًا."
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Администраторските права бяха подновени автоматично."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Els privilegis d’administrador s’han renovat automàticament."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Práva správce byla automaticky obnovena."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorrettighederne blev fornyet automatisk."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorrechte wurden automatisch verlängert."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Τα προνόμια διαχειριστή ανανεώθηκαν αυτόματα."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator privileges were automatically renewed."
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator privileges were automatically renewed."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator privileges were automatically renewed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se han renovado privilegios de administrador automáticamente."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los privilegios de administrador se han renovado automáticamente."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ylläpitäjän oikeudet uusittiin automaattisesti."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les autorisations d’administrateur ont été renouvelées automatiquement."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les autorisations d’administrateur ont été renouvelées automatiquement."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הרשאות מנהל מערכת חודשו אוטומטית."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "व्यवस्थापक विशेषाधिकारों को स्वचालित रूप से नवीनीकृत किया गया।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorske ovlasti automatski su obnovljene."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Az adminisztrátori jogosultságok automatikusan megújultak."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hak istimewa administrator diperbarui secara otomatis."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I privilegi di amministratore sono stati rinnovati automaticamente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者権限が自動的に更新されました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자 권한이 자동으로 갱신되었습니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keistimewaan pentadbir diperbaharui secara automatik."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorrettighetene ble automatisk fornyet."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratorrechten zijn automatisch vernieuwd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uprawnienia administratora zostały automatycznie odnowione."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os privilégios de administrador foram renovados automaticamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os privilégios de administrador foram renovados automaticamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privilegiile de administrator au fost reînnoite automat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привилегии администратора были автоматически продлены."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprávnenia správcu boli automaticky obnovené."
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrbniške pravice so bile samodejno obnovljene."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratörsbehörigheten har förnyats automatiskt."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ต่ออายุสิทธิ์ผู้ดูแลระบบโดยอัตโนมัติแล้ว"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yönetici ayrıcalıkları otomatik olarak yenilendi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привілеї адміністратора було автоматично поновлено."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quyền của quản trị viên đã được gia hạn tự động."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理员权限已自动续期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理員權限已自動續期。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理員權限已自動續期。"
+          }
+        }
+      }
+    },
     "notificationMessage_Error" : {
       "localizations" : {
         "ar" : {
@@ -1087,13 +1337,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations n’ont pas été modifiées en raison d’une erreur."
+            "value" : "Les autorisations d’administrateur n’ont pas été modifiées en raison d’une erreur."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations n’ont pas été modifiées en raison d’une erreur."
+            "value" : "Les autorisations d’administrateur n’ont pas été modifiées en raison d’une erreur."
           }
         },
         "he" : {
@@ -1111,7 +1361,7 @@
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Povlastice nisu promijenje zbog pogreške!"
+            "value" : "Povlastice nisu promijenjene zbog pogreške!"
           }
         },
         "hu" : {
@@ -1147,7 +1397,7 @@
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privileges tidak diubah kerana ralat!"
+            "value" : "Keistimewaan tidak diubah kerana ralat!"
           }
         },
         "nb" : {
@@ -1237,7 +1487,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "因出错，特权未更改！"
+            "value" : "因出错，权限未更改！"
           }
         },
         "zh-Hant" : {
@@ -1487,7 +1737,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已成功授予管理员特权。"
+            "value" : "已成功授予管理员权限。"
           }
         },
         "zh-Hant" : {
@@ -1545,7 +1795,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τα προνόμια διαχειριστή σας πρόκειται να λήξουν. Θέλετε να τις ανανεώσετε;"
+            "value" : "Τα προνόμια διαχειριστή σας πρόκειται να λήξουν. Θέλετε να τα ανανεώσετε;"
           }
         },
         "en" : {
@@ -1587,13 +1837,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre privilèges d'administrateur est sur le point d'expirer. Voulez-vous les renouveler ?"
+            "value" : "Vos autorisations d’administrateur sont sur le point d’expirer. Voulez-vous les renouveler ?"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vos droits d'administrateur sont sur le point d'expirer. Voulez-vous les renouveler ?"
+            "value" : "Vos autorisations d’administrateur sont sur le point d’expirer. Voulez-vous les renouveler?"
           }
         },
         "he" : {
@@ -1635,7 +1885,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理者権限の有効期限が近づいています。これらを更新しますか"
+            "value" : "管理者権限の有効期限が近づいています。更新しますか？"
           }
         },
         "ko" : {
@@ -1719,7 +1969,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici ayrıcalıkları süresi dolmak üzere. Onları yenilemek istiyor musunuz?"
+            "value" : "Yönetici ayrıcalıklarınızın süresi dolmak üzere. Yenilemek istiyor musunuz?"
           }
         },
         "uk" : {
@@ -1765,7 +2015,7 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Администраторските привилегии бяха успешно подновени."
+            "value" : "Администраторските права бяха успешно подновени."
           }
         },
         "ca" : {
@@ -1831,19 +2081,19 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ylläpitäjän oikeuksia uusittiin onnistuneesti."
+            "value" : "Ylläpitäjän oikeudet uusittiin onnistuneesti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les privilèges d'administrateur ont été renouvelés avec succès."
+            "value" : "Les autorisations d’administrateur ont été renouvelées avec succès."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les privilèges d'administrateur ont été renouvelés avec succès."
+            "value" : "Les autorisations d’administrateur ont été renouvelées avec succès."
           }
         },
         "he" : {
@@ -1855,7 +2105,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "व्यवस्थापक विशेषाधिकारों को सफलतापूर्वक नवीनीकृत किया गया था."
+            "value" : "व्यवस्थापक विशेषाधिकारों को सफलतापूर्वक नवीनीकृत किया गया।"
           }
         },
         "hr" : {
@@ -1873,7 +2123,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hak istimewa administrator berhasil memperbarui."
+            "value" : "Hak istimewa administrator berhasil diperbarui."
           }
         },
         "it" : {
@@ -1939,7 +2189,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Привилегии администратора были успешно возобновлены."
+            "value" : "Привилегии администратора были успешно продлены."
           }
         },
         "sk" : {
@@ -1951,7 +2201,7 @@
         "sl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrbniške pravice so bili uspešno obnovljeni."
+            "value" : "Skrbniške pravice so bile uspešno obnovljene."
           }
         },
         "sv" : {
@@ -1963,7 +2213,7 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ต่ออายุสิทธิพิเศษของผู้ดูแลระบบได้สำเร็จ"
+            "value" : "ต่ออายุสิทธิ์ผู้ดูแลระบบสำเร็จ"
           }
         },
         "tr" : {
@@ -1981,25 +2231,25 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Đặc quyền người quản trị đã được gia hạn thành công."
+            "value" : "Quyền của quản trị viên đã được gia hạn thành công."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理员权限已成功更新。"
+            "value" : "管理员权限已成功续期。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理員權限已成功更新。"
+            "value" : "管理員權限已成功續期。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理員權限已成功更新。"
+            "value" : "管理員權限已成功續期。"
           }
         }
       }
@@ -2237,7 +2487,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已成功撤销管理员特权。"
+            "value" : "已成功撤销管理员权限。"
           }
         },
         "zh-Hant" : {
@@ -2331,7 +2581,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uudistaa"
+            "value" : "Uudista"
           }
         },
         "fr" : {
@@ -2415,7 +2665,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odnowienie"
+            "value" : "Odnów"
           }
         },
         "pt-BR" : {
@@ -2433,13 +2683,13 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reînnoiți"
+            "value" : "Reînnoiește"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Возобновить"
+            "value" : "Продлить"
           }
         },
         "sk" : {
@@ -2469,7 +2719,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yenileyin"
+            "value" : "Yenile"
           }
         },
         "uk" : {

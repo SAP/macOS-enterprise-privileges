@@ -57,7 +57,7 @@
                                     [_privilegesUser userName], kMTWebhookContentKeyUserName,
                                     [NSNumber numberWithBool:hasAdminPrivileges], kMTWebhookContentKeyAdminRights,
                                     expirationDateString, kMTWebhookContentKeyExpiration,
-                                    (_reason) ? _reason : @"", kMTWebhookContentKeyReason,
+                                    (_reason) ?: @"", kMTWebhookContentKeyReason,
                                     (hasAdminPrivileges) ? kMTWebhookEventTypeGranted : kMTWebhookEventTypeRevoked, kMTWebhookContentKeyEventType,
                                     [MTSystemInfo machineUUID], kMTWebhookContentKeyMachineIdentifier,
                                     [dateFormatter stringFromDate:_timeStamp], kMTWebhookContentKeyTimestamp,

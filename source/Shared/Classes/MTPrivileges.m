@@ -16,7 +16,7 @@
 */
 
 #import "MTPrivileges.h"
-#import "MTChecksum.h"
+#import "MTPolicyBanner.h"
 #import "Constants.h"
 
 @interface MTPrivileges ()
@@ -40,7 +40,7 @@
         }
         
         _appGroupDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTAppGroupIdentifier];
-                
+        
         _currentUser = [[MTPrivilegesUser alloc] init];
         if (!_currentUser) { self = nil; }
     }
@@ -439,22 +439,16 @@
     [_appGroupDefaults setBool:grantOnly forKey:kMTDefaultsPostChangeActionOnGrantOnlyKey];
 }
 
-- (BOOL)postChangeExecutableChecksumIsValid
+- (NSString*)postChangeExecutableChecksum
 {
-    BOOL isValid = YES;
+    NSString *checksumString = nil;
     
     if ([self postChangeExecutablePathIsForced] && [_userDefaults objectIsForcedForKey:kMTDefaultsPostChangeExecutableChecksumKey]) {
         
-        NSString *checksumString = [_userDefaults stringForKey:kMTDefaultsPostChangeExecutableChecksumKey];
-        
-        if ([checksumString length] > 0) {
-            
-            // verify the checksum
-            isValid = ([[MTChecksum sha256ChecksumWithPath:[self postChangeExecutablePath]] caseInsensitiveCompare:checksumString] == NSOrderedSame);
-        }
+        checksumString = [_userDefaults stringForKey:kMTDefaultsPostChangeExecutableChecksumKey];
     }
     
-    return isValid;
+    return checksumString;
 }
 
 - (BOOL)hideSettingsButton
@@ -523,6 +517,18 @@
     [privilegesSharedDefaults setBool:isAllowed forKey:kMTDefaultsAllowPrivilegeRenewalKey];
 }
 
+- (NSArray*)autoRenewalProcessPaths
+{
+    NSArray *paths = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsAutoRenewalProcessPathsKey]) {
+        
+        paths = [_userDefaults arrayForKey:kMTDefaultsAutoRenewalProcessPathsKey];
+    }
+    
+    return paths;
+}
+
 - (BOOL)hideHelpButton
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsHideHelpButtonKey] && [_userDefaults boolForKey:kMTDefaultsHideHelpButtonKey]);
@@ -556,6 +562,18 @@
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalFollowsAuthSettingKey] && [_userDefaults boolForKey:kMTDefaultsRenewalFollowsAuthSettingKey]);
 }
 
+- (NSDictionary*)renewalCustomAction
+{
+    NSDictionary *customAction = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalCustomActionKey]) {
+        
+        customAction = [_userDefaults dictionaryForKey:kMTDefaultsRenewalCustomActionKey];
+    }
+    
+    return customAction;
+}
+
 - (NSUInteger)renewalNotificationInterval
 {
     NSUInteger interval = kMTRenewalNotificationIntervalDefault;
@@ -575,6 +593,19 @@
     }
     
     return interval;
+}
+
+- (NSString*)renewalExecutableChecksum
+{
+    NSString *checksumString = nil;
+    
+    NSDictionary *renewalCustomAction = [self renewalCustomAction];
+    
+    if (renewalCustomAction) {
+        checksumString = [renewalCustomAction objectForKey:kMTDefaultsRenewalCustomActionChecksumKey];
+    }
+    
+    return checksumString;
 }
 
 - (BOOL)passReasonToExecutable
@@ -652,18 +683,6 @@
             );
 }
 
-- (NSDictionary*)renewalCustomAction
-{
-    NSDictionary *customAction = nil;
-    
-    if ([_userDefaults objectIsForcedForKey:kMTDefaultsRenewalCustomActionKey]) {
-        
-        customAction = [_userDefaults dictionaryForKey:kMTDefaultsRenewalCustomActionKey];
-    }
-    
-    return customAction;
-}
-
 - (BOOL)enableSystemExtension
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey] && [_userDefaults boolForKey:kMTDefaultsEnableSystemExtensionKey]);
@@ -672,6 +691,78 @@
 - (BOOL)systemExtensionIsForced
 {
     return ([_userDefaults objectIsForcedForKey:kMTDefaultsEnableSystemExtensionKey]);
+}
+
+- (NSAttributedString*)policyBanner
+{
+    MTPolicyBanner *policyBanner = nil;
+    NSAttributedString *bannerString = nil;
+    
+    if ([_userDefaults objectIsForcedForKey:kMTDefaultsUsagePolicyKey]) {
+        
+        policyBanner = [[MTPolicyBanner alloc] initWithData:[_userDefaults dataForKey:kMTDefaultsUsagePolicyKey]];
+    }
+    
+    if (!policyBanner) {
+        
+        policyBanner = [[MTPolicyBanner alloc] initWithBasePath:kMTUsagePolicyFileBasePath];
+    }
+    
+    if (policyBanner) {
+        
+        bannerString = [policyBanner attributedString];
+    }
+    
+    return bannerString;
+}
+
+- (BOOL)policyAccepted
+{
+    BOOL accepted = ([self policyBanner]) ? NO : YES;
+    
+    if (!accepted) {
+        
+        if ([_appGroupDefaults objectForKey:kMTDefaultsUsagePolicyAcceptedKey]) {
+            
+            accepted = [_appGroupDefaults boolForKey:kMTDefaultsUsagePolicyAcceptedKey];
+            
+        } else {
+            
+            // Because our Dock Tile plugin cannot access our group container we also
+            // check ~/Library/Preferences/corp.sap.privileges.docktileplugin which the
+            // Dock Tile plugin can read. This is the only app setting the Dock needs
+            // access to.
+            NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+            
+            if ([privilegesSharedDefaults objectForKey:kMTDefaultsUsagePolicyAcceptedKey]) {
+                
+                accepted = [privilegesSharedDefaults boolForKey:kMTDefaultsUsagePolicyAcceptedKey];
+            }
+        }
+    }
+    
+    return accepted;
+}
+
+- (void)setPolicyAccepted:(BOOL)accepted
+{
+    // Because our Dock Tile plugin can't access our group container, and
+    // because of a bug in macOS 15, it can't access the application's
+    // container directory either, the application needs a sandbox exception to
+    // write values to ~/Library/Preferences/corp.sap.privileges.docktileplugin,
+    // which the Dock Tile plugin can then read.
+    NSUserDefaults *privilegesSharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kMTDockTilePluginBundleIdentifier];
+    
+    if (accepted) {
+        
+        [_appGroupDefaults setBool:accepted forKey:kMTDefaultsUsagePolicyAcceptedKey];
+        [privilegesSharedDefaults setBool:accepted forKey:kMTDefaultsUsagePolicyAcceptedKey];
+        
+    } else {
+        
+        [_appGroupDefaults removeObjectForKey:kMTDefaultsUsagePolicyAcceptedKey];
+        [privilegesSharedDefaults removeObjectForKey:kMTDefaultsUsagePolicyAcceptedKey];
+    }
 }
 
 + (NSString *)stringForDuration:(double)duration localized:(BOOL)localized naturalScale:(BOOL)naturalScale

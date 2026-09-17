@@ -19,12 +19,19 @@
 #import "MTPrivileges.h"
 #import "MTProcessInfo.h"
 #import "MTSystemExtension.h"
+#import "MTHelperConnection.h"
 #import "Constants.h"
+#import <OSLog/OSLog.h>
 
 @interface Main : NSObject
 @property (nonatomic, strong, readwrite) MTSystemExtension *systemExtension;
+@property (nonatomic, strong, readwrite) MTHelperConnection *helperConnection;
 @property (atomic, assign) BOOL shouldTerminate;
 @end
+
+#define ANSI_RESET      "\033[0m"
+#define ANSI_BOLD       "\033[1m"
+#define ANSI_UNDERLINE  "\033[4m"
 
 @implementation Main
 
@@ -271,6 +278,91 @@
             
             [self writeConsole:[NSString stringWithFormat:@"PrivilegesCLI %@", versionString]];
 
+#pragma mark - Argument "--history"
+        
+        } else if ([appArguments showHistory]) {
+            
+            _helperConnection = [[MTHelperConnection alloc] init];
+            _shouldTerminate = NO;
+            
+            [_helperConnection connectToHelperAndExecuteCommandBlock:^{
+                
+                [[[self->_helperConnection connection] remoteObjectProxyWithErrorHandler:^(NSError *error) {
+                    
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_FAULT, "SAPCorp: Failed to connect to helper: %{public}@", error);
+                    [self writeConsole:[NSString stringWithFormat:@"Failed to access log entries: %@", error]];
+                    exitCode = 8;
+                    self->_shouldTerminate = YES;
+                    
+                }] logEntriesWithStartDate:[appArguments historyStartDate]
+                                   endDate:[appArguments historyEndDate]
+                                     reply:^(NSArray<OSLogEntry*> *entries) {
+                    
+                    BOOL jsonOutput = [appArguments historyFormatJSON];
+                    NSArray *relevantEntries = nil;
+                    
+                    if ([appArguments historyOnlyShowsPrivilegeChanges]) {
+                        
+                        if (jsonOutput) {
+                            
+                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"composedMessage CONTAINS %@", @"\"event_type\":\"ADMIN_"];
+                            relevantEntries = [entries filteredArrayUsingPredicate:predicate];
+                            
+                        } else {
+                            
+                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"process == %@", @"PrivilegesDaemon"];
+                            relevantEntries = [entries filteredArrayUsingPredicate:predicate];
+                        }
+                        
+                    } else {
+                        
+                        relevantEntries = [entries copy];
+                    }
+                
+                    for (OSLogEntry *entry in relevantEntries) {
+                        
+                        // make sure we ignore signpost entries
+                        if ([entry isKindOfClass:[OSLogEntryLog class]]) {
+                            
+                            OSLogEntryLog *logEntry = (OSLogEntryLog*)entry;
+                            NSString *composedMessage = [logEntry composedMessage];
+                            BOOL isTextLine = [composedMessage hasPrefix:@"SAPCorp:"];
+                            
+                            if (jsonOutput) {
+                                
+                                if (!isTextLine) {
+                                    
+                                    // check for valid json
+                                    id json = [NSJSONSerialization JSONObjectWithData:[composedMessage dataUsingEncoding:NSUTF8StringEncoding]
+                                                                              options:0
+                                                                                error:nil
+                                    ];
+                                    
+                                    if (json) { [self writeConsole:composedMessage]; }
+                                }
+                                
+                            } else if (isTextLine) {
+                                                                
+                                // timestamp
+                                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+                                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+                                [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+                                    
+                                NSString *historyString = [NSString stringWithFormat:@"%@   %@   %@",
+                                                           [dateFormatter stringFromDate:[logEntry date]],
+                                                           [logEntry process],
+                                                           composedMessage
+                                ];
+                                [self writeConsole:historyString];
+                            }
+                        }
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{ self->_shouldTerminate = YES; });
+                }];
+            }];
+                        
 #pragma mark - Argument "--add" or "--remove"
     
         } else if ([appArguments requestPrivileges] || [appArguments revertPrivileges]) {
@@ -309,6 +401,12 @@
                         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
                         
                         if (requestAdminPrivileges) {
+                            
+                            if (![privilegesApp policyAccepted]) {
+                                
+                                [self writeConsole:@"Before using this application to request administrator privileges,\nyour administrator requires you to accept the usage policy. To do so,\nplease run the Privileges application and accept the policy.\n"];
+                                return 8;
+                            }
                             
 #pragma mark - Reason
                             NSString *privilegesReason = nil;
@@ -526,23 +624,50 @@
 - (void)printUsage
 {
     fprintf(stderr, "\nUsage: PrivilegesCLI <arg>\n\n");
-    fprintf(stderr, "  -a [-n text],                Adds the current user to the admin group. A reason\n");
-    fprintf(stderr, "  --add [--reason text]        for requesting administrator privileges may also be\n");
-    fprintf(stderr, "                               specified. This is optional. If a reason is required\n");
-    fprintf(stderr, "                               but not specified, the tool will prompt for a reason.\n\n");
-    fprintf(stderr, "  -r, --remove                 Removes the current user from the admin group.\n\n");
-    fprintf(stderr, "  -s, --status                 Displays the current user's privileges.\n\n");
+    fprintf(stderr, "  " ANSI_BOLD "-a, --add" ANSI_RESET " [" ANSI_BOLD "-n, --reason" ANSI_RESET " " ANSI_UNDERLINE "text" ANSI_RESET "]\n\n");
+    fprintf(stderr, "           Adds the current user to the admin group.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-n, --reason" ANSI_RESET " " ANSI_UNDERLINE "text" ANSI_RESET "\n");
+    fprintf(stderr, "                            The reason for requesting administrator privileges. If\n");
+    fprintf(stderr, "                            a reason is required but not specified, the tool will\n");
+    fprintf(stderr, "                            prompt for a reason.\n\n");
+    fprintf(stderr, "  " ANSI_BOLD "-r" ANSI_RESET ", " ANSI_BOLD "--remove" ANSI_RESET "\n\n");
+    fprintf(stderr, "           Removes the current user from the admin group.\n\n");
+    fprintf(stderr, "  " ANSI_BOLD "-s, --status" ANSI_RESET "\n\n");
+    fprintf(stderr, "           Shows the current user's privileges.\n\n");
     
     if (@available(macOS 13.0, *)) {
         
-        fprintf(stderr, "  -e, --extension on | off     Enables or disables the Privileges system extension.\n");
-        fprintf(stderr, "                               Once enabled, it prevents Privileges from being renamed,\n");
-        fprintf(stderr, "                               copied, or deleted. It also prevents the unloading of\n");
-        fprintf(stderr, "                               the Privileges launchd plists.\n\n");
-        fprintf(stderr, "                  status       Displays the current status of the system extension.\n\n");
+        fprintf(stderr, "  " ANSI_BOLD "-e, --extension" ANSI_RESET " " ANSI_UNDERLINE "on" ANSI_RESET " | " ANSI_UNDERLINE "off" ANSI_RESET " | " ANSI_UNDERLINE "status" ANSI_RESET "\n\n");
+        fprintf(stderr, "           Manages the Privileges system extension. Once enabled,\n");
+        fprintf(stderr, "           it prevents Privileges from being renamed, copied, or\n");
+        fprintf(stderr, "           or deleted. It also prevents the unloading of the\n");
+        fprintf(stderr, "           Privileges launchd plists.\n\n");
+        fprintf(stderr, "           " ANSI_UNDERLINE "on" ANSI_RESET " | " ANSI_UNDERLINE "off" ANSI_RESET "         Enables or disables the system extension.\n\n");
+        fprintf(stderr, "           " ANSI_UNDERLINE "status" ANSI_RESET "           Shows the current status of the system extension.\n\n");
     }
     
-    fprintf(stderr, "  -v, --version                Displays version information.\n\n");
+    fprintf(stderr, "  " ANSI_BOLD "-h, --history" ANSI_RESET " [" ANSI_BOLD "-l, --last" ANSI_RESET " " ANSI_UNDERLINE "num" ANSI_RESET "[m|h|d]] [" ANSI_BOLD "-T, --today" ANSI_RESET "] [" ANSI_BOLD "-Y, --yesterday" ANSI_RESET "]\n");
+    fprintf(stderr, "                [" ANSI_BOLD "-p, --privilege-changes-only" ANSI_RESET "] [" ANSI_BOLD "-j, --json" ANSI_RESET "]\n\n");
+    fprintf(stderr, "           Displays audit-relevant events. If no time is specified, all available\n");
+    fprintf(stderr, "           log entries are displayed.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-l, --last" ANSI_RESET " " ANSI_UNDERLINE "num" ANSI_RESET "[m|h|d]\n");
+    fprintf(stderr, "                            Shows events that have occurred between the specified\n");
+    fprintf(stderr, "                            time and the present. Time may be specified in minutes,\n");
+    fprintf(stderr, "                            hours, or days. Unless specified, time is assumed to be\n");
+    fprintf(stderr, "                            in minutes. For example, '--last 15m' or '--last 3h'.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-T, --today" ANSI_RESET "      Shows events since the start of the day.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-Y, --yesterday" ANSI_RESET "  Shows events for the full day prior.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-p, --privilege-changes-only" ANSI_RESET "\n");
+    fprintf(stderr, "                            Shows only events from the Privileges daemon related to\n");
+    fprintf(stderr, "                            privilege changes. Use this option if you only want to\n");
+    fprintf(stderr, "                            see when users were granted or had their administrator\n");
+    fprintf(stderr, "                            privileges revoked.\n\n");
+    fprintf(stderr, "           " ANSI_BOLD "-j, --json" ANSI_RESET "       Sets the output format to JSON, which provides more\n");
+    fprintf(stderr, "                            detailed information. This is intended for automated\n");
+    fprintf(stderr, "                            analysis in scripts or other systems. The Privileges\n");
+    fprintf(stderr, "                            system extension needs to be enabled for this to work.\n\n");
+    fprintf(stderr, "  " ANSI_BOLD "-v, --version" ANSI_RESET "\n\n");
+    fprintf(stderr, "           Shows version information.\n\n");
 }
 
 @end

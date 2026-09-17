@@ -18,6 +18,7 @@
 #import <Foundation/Foundation.h>
 #import "MTPrivilegesUser.h"
 #import "MTPrivilegesLoggingConfiguration.h"
+#import <OSLog/OSLog.h>
 
 /*!
  @class         MTPrivileges
@@ -284,12 +285,11 @@
 - (void)setRunActionAfterGrantOnly:(BOOL)grantOnly;
 
 /*!
- @method        postChangeExecutableChecksumIsValid
- @abstract      Get wheter the checksum of the executable matches the expected one.
- @discussion    Returns YES if the checksum matches the expected one or if no checksum has been specified for
-                the executable. Otherwise returns NO.
+ @method        postChangeExecutableChecksum
+ @abstract      Get the expected checksum for the post-change executable.
+ @discussion    Returns the checksum string or nil if not configured.
  */
-- (BOOL)postChangeExecutableChecksumIsValid;
+- (NSString*)postChangeExecutableChecksum;
 
 /*!
  @method        remoteLoggingConfiguration
@@ -322,7 +322,7 @@
 /*!
  @method        privilegeRenewalAllowed
  @abstract      Get whether the renewal of expiring administrator privileges is allowed.
- @discussion    Returns YES if the expiring administrator privileges can be renewed once,
+ @discussion    Returns YES if the expiring administrator privileges can be renewed,
                 otherwise returns NO.
  */
 - (BOOL)privilegeRenewalAllowed;
@@ -338,9 +338,16 @@
  @method        setPrivilegeRenewalAllowed:
  @abstract      Set if the renewal of expiring administrator privileges is allowed.
  @param         isAllowed A boolean indicating if expiring administrator privileges can be renewed
-                once (YES) or not (NO).
+                (YES) or not (NO).
  */
 - (void)setPrivilegeRenewalAllowed:(BOOL)isAllowed;
+
+/*!
+ @method        autoRenewalProcessPaths
+ @abstract      Get the paths to the processes that can trigger automatic privilege renewals.
+ @discussion    Returns an NSArray object containing the paths. If not configured, it returns nil.
+ */
+- (NSArray*)autoRenewalProcessPaths;
 
 /*!
  @method        hideHelpButton
@@ -364,11 +371,27 @@
 - (BOOL)renewalFollowsAuthSetting;
 
 /*!
+ @method        renewalCustomAction
+ @abstract      Get the configuration for the custom renewal action.
+ @discussion    Returns a dictionary containing the rconfiguration for the custom renewal action or nil if no custom action
+                is configured. For valid configuration keys, see the Privileges.mobileconfig file located in the Resources
+                folder of the Privilege app bundle.
+ */
+- (NSDictionary*)renewalCustomAction;
+
+/*!
  @method        renewalNotificationInterval
  @abstract      Get the number of minutes before the expiration of administrator privileges when Privileges should notify users to renew their privileges.
  @discussion    Returns the number of minutes or the default of 1 if not otherwise configured.
  */
 - (NSUInteger)renewalNotificationInterval;
+
+/*!
+ @method        renewalExecutableChecksum
+ @abstract      Get the expected checksum for the executable configured in the custom renewal action.
+ @discussion    Returns the checksum string or nil if not configured.
+ */
+- (NSString*)renewalExecutableChecksum;
 
 /*!
  @method        passReasonToExecutable
@@ -430,15 +453,6 @@
 - (BOOL)smartCardSupportEnabled;
 
 /*!
- @method        renewalCustomAction
- @abstract      Get the configuration for the custom renewal action.
- @discussion    Returns a dictionary containing the rconfiguration for the custom renewal action or nil if no custom action
-                is configured. For valid configuration keys, see the Privileges.mobileconfig file located in the Resources
-                folder of the Privilege app bundle.
- */
-- (NSDictionary*)renewalCustomAction;
-
-/*!
  @method        enableSystemExtension
  @abstract      Get whether the system extension should be enabled.
  @discussion    Returns YES if the system extension should be enabled, otherwise returns NO.
@@ -451,6 +465,27 @@
  @discussion    Returns YES if the setting was forced by a configuration profile, otherwise returns NO.
  */
 - (BOOL)systemExtensionIsForced;
+
+/*!
+ @method        policyBanner
+ @abstract      Get the usage policy.
+ @discussion    Returns an NSAttributedString or nil if no policy exists or if an error occured.
+ */
+- (NSAttributedString*)policyBanner;
+
+/*!
+ @method        policyAccepted
+ @abstract      Get whether the user accepted the usage policy.
+ @discussion    Returns YES if the user has accepted the policy or if no policy exists, otherwise returns NO.
+ */
+- (BOOL)policyAccepted;
+
+/*!
+ @method        setPolicyAccepted:
+ @abstract      Set whether the user accepted the usage policy.
+ @param         accepted A boolean indicating if the user accepted the policy (YES) or not (NO).
+ */
+- (void)setPolicyAccepted:(BOOL)accepted;
 
 /*!
  @method        stringForDuration:localized:naturalScale:

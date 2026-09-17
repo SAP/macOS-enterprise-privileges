@@ -17,7 +17,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSAlertDelegate, NSTextFieldDelegate, NSMenuDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSAlertDelegate, NSTextFieldDelegate, NSMenuDelegate, NSMenuItemValidation>
 
 @end
 

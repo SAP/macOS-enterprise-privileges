@@ -16,6 +16,7 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <OSLog/OSLog.h>
 
 /*!
  @protocol      PrivilegesHelperProtocol
@@ -58,5 +59,15 @@
  @discussion    Returns the status of the extension as an NSString object.
 */
 - (void)extensionStatusWithReply:(void(^)(NSString *status))reply;
+
+/*!
+ @method        logEntriesWithStartDate:rendDate:eply:
+ @abstract      Get the relevant log entries for the given date range.
+ @param         startDate The start date for the log entries. If no date is specified, all log entries are returned.
+ @param         endDate The end date for the log entries. If no date is specified, the current date is used as the end date.
+ @param         reply The handler to call when the request is complete.
+ @discussion    Returns an array of OSLogEntry objects.
+*/
+- (void)logEntriesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate reply:(void (^)(NSArray<OSLogEntry*> *entries))reply;
 
 @end

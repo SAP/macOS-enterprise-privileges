@@ -21,7 +21,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "السماح بتجديد امتيازات المسؤول المنتهية صلاحيتها"
+            "value" : "السماح بتجديد امتيازات المسؤول التي توشك صلاحيتها على الانتهاء"
           }
         },
         "bg-BG" : {
@@ -57,7 +57,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Επιτρέψτε την ανανέωση των προνόμια διαχειριστή που λήγουν"
+            "value" : "Να επιτρέπεται η ανανέωση των προνομίων διαχειριστή που λήγουν"
           }
         },
         "en" : {
@@ -81,13 +81,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permitir la renovación de los privilegios de administrador caducados"
+            "value" : "Permitir la renovación de los privilegios de administrador que están por caducar"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permitir la renovación de los privilegios de administrador caducados"
+            "value" : "Permitir la renovación de los privilegios de administrador que están por vencer"
           }
         },
         "fi" : {
@@ -99,13 +99,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permettre le renouvellement des privilèges d'administrateur arrivant à expiration"
+            "value" : "Permettre le renouvellement des autorisations d’administrateur arrivant à expiration"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permettre le renouvellement des privilèges d'administrateur arrivant à expiration"
+            "value" : "Permettre le renouvellement des autorisations d’administrateur arrivant à expiration"
           }
         },
         "he" : {
@@ -117,7 +117,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समाप्त होने वाले व्यवस्थापक विशेषाधिकारों को नवीनीकृत करने की अनुमति दें"
+            "value" : "जल्द समाप्त होने वाले व्यवस्थापक विशेषाधिकारों को नवीनीकृत करने की अनुमति दें"
           }
         },
         "hr" : {
@@ -135,7 +135,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Izinkan hak istimewa administrator yang kedaluwarsa untuk diperbarui"
+            "value" : "Izinkan hak istimewa administrator yang akan segera kedaluwarsa untuk diperbarui"
           }
         },
         "it" : {
@@ -147,7 +147,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "期限切れの管理者権限を更新できるようにする"
+            "value" : "期限が近づいている管理者権限を更新できるようにする"
           }
         },
         "ko" : {
@@ -201,19 +201,19 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Разрешите продлить истекающие привилегии администратора"
+            "value" : "Разрешить продление истекающих привилегий администратора"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Umožniť obnovenie končiacich oprávnení správcu"
+            "value" : "Umožniť obnovenie oprávnení správcu, ktorým končí platnosť"
           }
         },
         "sl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omogočanje podaljšanja pretečenih skrbniških privilegijev"
+            "value" : "Omogoči podaljšanje skrbniških pravic, ki bodo potekle"
           }
         },
         "sv" : {
@@ -225,13 +225,13 @@
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "อนุญาตให้ผู้ดูแลที่หมดอายุได้รับการต่ออายุได้"
+            "value" : "อนุญาตให้ต่ออายุสิทธิ์ผู้ดูแลระบบที่กำลังจะหมดอายุ"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Süresi dolan yönetici ayrıcalıklarının yenilenmesine izin verin"
+            "value" : "Süresi dolmak üzere olan yönetici ayrıcalıklarının yenilenmesine izin verin"
           }
         },
         "uk" : {
@@ -262,6 +262,258 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "允許更新即將到期的管理員權限"
+          }
+        }
+      }
+    },
+    "1QP-4k-bTr.title" : {
+      "comment" : "Class = \"NSWindow\"; title = \"Agreement\"; ObjectID = \"1QP-4k-bTr\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاتفاقية"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Споразумение"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acord"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dohoda"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aftale"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vereinbarung"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Συμφωνία"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Agreement"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agreement"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agreement"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acuerdo"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acuerdo"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sopimus"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accord"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accord"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הסכם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समझौता"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suglasje"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Megállapodás"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perjanjian"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accordo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合意"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "합의"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perjanjian"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avtale"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overeenkomst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umowa"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acordo"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acordo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acord"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Соглашение"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dohoda"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sporazum"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avtal"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อตกลง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anlaşma"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Угода"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thỏa thuận"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "协议"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "協議"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "協議"
           }
         }
       }
@@ -603,19 +855,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le temps restant lorsque l'on dispose de privilèges d'administrateur"
+            "value" : "Afficher le temps restant lorsque l’on dispose d’autorisations d’administrateur"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le temps restant lorsque l'on dispose de privilèges d'administrateur"
+            "value" : "Afficher le temps restant lorsque l’on dispose d’autorisations d’administrateur"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "הצג זמן שנותר בזמן שיש לו הרשאות מנהל מערכת"
+            "value" : "הצג זמן נותר להרשאות מנהל מערכת"
           }
         },
         "hi" : {
@@ -1035,7 +1287,7 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "НамаляВане"
+            "value" : "Смаляване"
           }
         },
         "ca" : {
@@ -1274,6 +1526,258 @@
         }
       }
     },
+    "4Gr-Mi-rwH.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Check for Updates\"; ObjectID = \"4Gr-Mi-rwH\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البحث عن تحديثات"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Провери за актуализации"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca actualitzacions"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyhledat aktualizaci"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Søg efter opdateringer"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach Updates suchen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Έλεγχος για ενημερώσεις"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Check for Updates"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for Updates"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for Updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etsi päivityksiä"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher les mises à jour"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher les mises à jour"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חיפוש עדכונים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अपडेट जाँचें"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potraži ažuriranja"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frissítések keresése"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Periksa Pembaruan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica aggiornamenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semak Kemas Kini"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Søk etter oppdateringer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek naar updates"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź uaktualnienia"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar Atualizações"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procurar atualizações"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Căutați actualizări"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить наличие обновлений"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyhľadať aktualizácie"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preveri, ali so na voljo posodobitve"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leta efter uppdateringar"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ตรวจหารายการอัปเดต"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeleri Denetle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірити наявність оновлень"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểm tra Bản cập nhật"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新項目"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新項目"
+          }
+        }
+      }
+    },
     "4sb-4s-VLi.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Quit Privileges\"; ObjectID = \"4sb-4s-VLi\";",
       "extractionState" : "extracted_with_value",
@@ -1287,7 +1791,7 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изход om Privileges"
+            "value" : "Изход от Privileges"
           }
         },
         "ca" : {
@@ -1509,7 +2013,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出 Privileges 文稿"
+            "value" : "退出 Privileges"
           }
         },
         "zh-Hant" : {
@@ -1787,7 +2291,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于 Privileges 文稿"
+            "value" : "关于 Privileges"
           }
         },
         "zh-Hant" : {
@@ -2082,7 +2586,7 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ворни"
+            "value" : "Повтори"
           }
         },
         "ca" : {
@@ -2864,13 +3368,13 @@
         "bg-BG" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Предпочитания..."
+            "value" : "Предпочитания…"
           }
         },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configuración…"
+            "value" : "Configuració…"
           }
         },
         "cs" : {
@@ -3122,13 +3626,13 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Per comprovar que ets sempre un usuari estàndard després de reiniciar, aquesta app revoca els privilegis d'administrador en iniciar sessió. Si no ho vols, desactiva l'opció següent."
+            "value" : "Per assegurar que sempre siguis un usuari estàndard després de reiniciar, aquesta app revoca els privilegis d'administrador en iniciar sessió. Si no ho vols, desactiva l'opció següent."
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "jAbyste zajistili, že budete po restartu vždy standardní uživatel, tato aplikace po přihlášení zruší oprávnění správce. Pokud si to nepřejete, deaktivujte volbu níže."
+            "value" : "Abyste zajistili, že budete po restartu vždy standardní uživatel, tato aplikace po přihlášení zruší oprávnění správce. Pokud si to nepřejete, deaktivujte volbu níže."
           }
         },
         "da" : {
@@ -3200,7 +3704,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "יישום זה מבטל את הרשאות מנהל המערכת בעת ההתחברות. כדי לוודא שתמיד תהיה משתמש סטנדרטי לאחר אתחול השבת את האפשרות הזו כאן למטה."
+            "value" : "כדי לוודא שתמיד תהיה משתמש סטנדרטי לאחר הפעלה מחדש, יישום זה מבטל את הרשאות מנהל המערכת בעת ההתחברות. אם אינך מעוניין בכך, השבת את האפשרות שלמטה."
           }
         },
         "hi" : {
@@ -3338,7 +3842,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为确保在重新启动后您始终是标准用户，此应用程序在您登录时会撤销管理员特权。如果您不希望这样做，请禁用下面的选项。"
+            "value" : "为确保在重新启动后您始终是标准用户，此应用程序在您登录时会撤销管理员权限。如果您不希望这样做，请禁用下面的选项。"
           }
         },
         "zh-Hant" : {
@@ -3440,19 +3944,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations d’administrateur octroyées par cette application expirent après un certain temps. Utilisez le menu ci-dessous pour sélectionner l’heure après laquelle les autorisations d’administrateur doivent expirer."
+            "value" : "Les autorisations d’administrateur octroyées par cette application expirent après un certain temps. Utilisez le menu ci-dessous pour sélectionner le délai au bout duquel les autorisations d’administrateur doivent expirer."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations d’administrateur octroyées par cette application expirent après un certain temps. Utilisez le menu ci-dessous pour sélectionner l’heure après laquelle les autorisations d’administrateur doivent expirer."
+            "value" : "Les autorisations d’administrateur octroyées par cette application expirent après un certain temps. Utilisez le menu ci-dessous pour sélectionner le délai au bout duquel les autorisations d’administrateur doivent expirer."
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "תוקף הרשאות מנהל מערכת שניתנו על-ידי היישום יפוג לאחר זמן מה. עליך להשתמש בתפריט שלמטה כדי לבחור את הזמן שלאחריו תוקף הרשאות מנהל המערכת יפוגו"
+            "value" : "תוקף הרשאות מנהל מערכת שניתנו על-ידי היישום יפוג לאחר זמן מה. יש להשתמש בתפריט שלמטה כדי לבחור את הזמן שלאחריו יפוג תוקף הרשאות מנהל המערכת."
           }
         },
         "hi" : {
@@ -3464,7 +3968,7 @@
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Administratorske povlastice koja dodjeljuje ova aplikacija istječu nakon određenog vremena. Upotrijebite izbornik u nastavku radi odabira vremena nakon kojeg će administratorske povlastice isteći."
+            "value" : "Administratorske povlastice koje dodjeljuje ova aplikacija istječu nakon određenog vremena. Upotrijebite izbornik u nastavku radi odabira vremena nakon kojeg će administratorske povlastice isteći."
           }
         },
         "hu" : {
@@ -3590,7 +4094,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此应用程序授予的管理员特权将在一段时间后过期。请使用下面的菜单选择管理员特权过期的时间。"
+            "value" : "此应用程序授予的管理员权限将在一段时间后过期。请使用下面的菜单选择管理员权限过期的时间。"
           }
         },
         "zh-Hant" : {
@@ -4653,7 +5157,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tato aplikace může spouštět jiné aplikace nebo skripty, pokud se vaše oprávnění změnila. Chcete-li toto provést, vyberte dotyčnou aplikaci nebo skript z nabídky níže. Pokud chcete, aby tato aplikace běžela pouze, pokud jsou udělena oprávnění správce, ale zároveň nejsou tato oprávnění zrušena, vyberte volbu níže."
+            "value" : "Tato aplikace může spouštět jiné aplikace nebo skripty, pokud se vaše oprávnění změnila. Chcete-li toto provést, vyberte dotyčnou aplikaci nebo skript z nabídky níže. Pokud chcete, aby se tato aplikace spouštěla pouze při udělení oprávnění správce, ale ne při jejich zrušení, vyberte volbu níže."
           }
         },
         "da" : {
@@ -4665,7 +5169,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieses Programm kann eine andere Anwendung oder ein Skript ausführen, wenn sich Deine Berechtigungen geändert haben. Wählen dazu das entsprechende Programm oder das Skript aus dem unten stehenden Menü. Wenn Du möchtest, dass diese Anwendung nur ausgeführt wird, wenn Dir Administratorrechte zugewiesen, aber nicht, wenn sie entzogen werden, wähle bitte die unten stehende Option."
+            "value" : "Dieses Programm kann eine andere Anwendung oder ein Skript ausführen, wenn sich Deine Berechtigungen geändert haben. Wähle dazu das entsprechende Programm oder das Skript aus dem unten stehenden Menü. Wenn Du möchtest, dass diese Anwendung nur ausgeführt wird, wenn Dir Administratorrechte zugewiesen werden, aber nicht, wenn sie entzogen werden, wähle bitte die unten stehende Option."
           }
         },
         "el" : {
@@ -4827,7 +5331,7 @@
         "sl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ta aplikacija lahko zažene drugo aplikacijo ali skript, če se vaše pravice spremenijo. To omogočite tako, da izberete ustrezno aplikacijo ali skript v spodnjem meniju. Če želite, ta se ta aplikacija izvaja, le ko so skrbniške pravice podeljene, ne pa ko so preklicane, izberite spodnjo možnost."
+            "value" : "Ta aplikacija lahko zažene drugo aplikacijo ali skript, če se vaše pravice spremenijo. To omogočite tako, da izberete ustrezno aplikacijo ali skript v spodnjem meniju. Če želite, da se ta aplikacija izvaja le, ko so skrbniške pravice podeljene, ne pa ko so preklicane, izberite spodnjo možnost."
           }
         },
         "sv" : {
@@ -4863,7 +5367,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如果您的特权已更改，此应用程序可以运行其他应用程序或脚本。为此，请从下面的菜单中选择适当的应用程序或脚本。如果您希望此应用程序仅在管理员特权被授予时运行，而在被撤销时不运行，请选择下面的选项。"
+            "value" : "如果您的权限已更改，此应用程序可以运行其他应用程序或脚本。为此，请从下面的菜单中选择适当的应用程序或脚本。如果您希望此应用程序仅在授予管理员权限时运行，而在撤销管理员权限时不运行，请选择下面的选项。"
           }
         },
         "zh-Hant" : {
@@ -5145,6 +5649,258 @@
       },
       "shouldTranslate" : false
     },
+    "hvq-zc-BlX.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Agree\"; ObjectID = \"hvq-zc-BlX\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موافقة"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приемам"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepta"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Souhlasím"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enig"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akzeptieren"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αποδοχή"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Agree"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acepto"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acepto"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hyväksy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מסכים/ה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सहमत"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slažem se"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elfogadás"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setuju"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accetta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同意する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동의"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setuju"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enig"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akkoord"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akceptuję"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceitar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceitar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunt de acord"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Принять"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Súhlasím"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strinjam se"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Godkänn"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ยอมรับ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kabul Ediyorum"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Погоджуюсь"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đồng ý"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同意"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同意"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同意"
+          }
+        }
+      }
+    },
     "hz9-B4-Xy5.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Services\"; ObjectID = \"hz9-B4-Xy5\";",
       "extractionState" : "extracted_with_value",
@@ -5393,6 +6149,258 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "服務"
+          }
+        }
+      }
+    },
+    "IM2-2t-Nm8.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Disagree\"; ObjectID = \"IM2-2t-Nm8\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عدم الموافقة"
+          }
+        },
+        "bg-BG" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не приемам"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No acceptis"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesouhlasím"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uenig"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ablehnen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Απόρριψη"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disagree"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disagree"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disagree"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No acepto"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No acepto"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hylkää"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refuser"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refuser"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לא מסכים/ה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "असहमत"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne slažem se"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elutasítás"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak Setuju"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rifiuta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同意しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동의 안 함"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak Setuju"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikke enig"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet akkoord"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie akceptuję"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Aceitar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não aceitar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu sunt de acord"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не принимать"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesúhlasím"
+          }
+        },
+        "sl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne strinjam se"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avböj"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ไม่ยอมรับ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kabul Etmiyorum"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не погоджуюсь"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không đồng ý"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不同意"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不同意"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不同意"
           }
         }
       }
@@ -5884,7 +6892,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "登录时撤销管理员特权"
+            "value" : "登录时撤销管理员权限"
           }
         },
         "zh-Hant" : {
@@ -5926,7 +6934,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spustit pouze pokud byla udělana oprávnění správce"
+            "value" : "Spustit pouze, pokud byla udělena oprávnění správce"
           }
         },
         "da" : {
@@ -6136,7 +7144,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅在授予管理员特权时运行"
+            "value" : "仅在授予管理员权限时运行"
           }
         },
         "zh-Hant" : {
@@ -6640,7 +7648,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "特权更改后运行："
+            "value" : "权限更改后运行："
           }
         },
         "zh-Hant" : {
@@ -6754,7 +7762,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privileges ביישום GitHub"
+            "value" : "Privileges ב-GitHub"
           }
         },
         "hi" : {
@@ -6856,7 +7864,7 @@
         "sl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privileges Na GitHubu"
+            "value" : "Privileges na GitHubu"
           }
         },
         "sv" : {
@@ -6880,7 +7888,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privileges для GitHub"
+            "value" : "Privileges на GitHub"
           }
         },
         "vi" : {
@@ -7396,7 +8404,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏 Privileges 文稿"
+            "value" : "隐藏 Privileges"
           }
         },
         "zh-Hant" : {
@@ -8014,7 +9022,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "תוקף הרשאות מנהל מערכת יפוגו:"
+            "value" : "תפוגת הרשאות מנהל מערכת:"
           }
         },
         "hi" : {
@@ -8134,7 +9142,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici ayrıcalıkları süre sonu:"
+            "value" : "Yönetici ayrıcalıkları sona eriyor:"
           }
         },
         "uk" : {
@@ -8152,7 +9160,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理员特权过期："
+            "value" : "管理员权限到期时间："
           }
         },
         "zh-Hant" : {
@@ -9287,7 +10295,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ברירת המחדל של יישום זה תסתיר את החלונות של יישומים אחרים כדי להציג את שולחן העבודה כדי להבטיח שרק החלון גלוי במסך. אם אינך מעוניין בהתנהגות זו, השבת את האפשרות שלמטה"
+            "value" : "כברירת מחדל, יישום זה מסתיר את החלונות של יישומים אחרים כדי להציג את שולחן העבודה ולהבטיח שרק חלון Privileges גלוי על המסך. אם אינך מעוניין בהתנהגות זו, השבת את האפשרות שלמטה."
           }
         },
         "hi" : {
@@ -9353,7 +10361,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Domyślnie aplikacja ta ukrywa okna innych aplikacji, aby wyświetlić pulpit i zapewnić, że na ekranie widoczne jest tylko okno Privileges. Jeśli nie chcesz zmieniać tego działania, wyłącz poniższą opcję."
+            "value" : "Domyślnie aplikacja ta ukrywa okna innych aplikacji, aby wyświetlić pulpit i zapewnić, że na ekranie widoczne jest tylko okno Privileges. Jeśli nie chcesz tego zachowania, wyłącz poniższą opcję."
           }
         },
         "pt-BR" : {
@@ -10997,7 +12005,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Προνομίων"
+            "value" : "Προνόμια"
           }
         },
         "en" : {
@@ -11075,7 +12083,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Istimewa"
+            "value" : "Hak Istimewa"
           }
         },
         "it" : {
@@ -11189,7 +12197,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "特权"
+            "value" : "权限"
           }
         },
         "zh-Hant" : {

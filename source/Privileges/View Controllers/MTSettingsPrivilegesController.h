@@ -16,7 +16,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "MTDropPopUpButton.h"
 
-@interface MTSettingsPrivilegesController : NSViewController
+@interface MTSettingsPrivilegesController : NSViewController <MTDropPopUpButtonDelegate>
 
 @end

@@ -18,10 +18,34 @@
 #import "MTProcessDetails.h"
 #import <sys/sysctl.h>
 #import <libproc.h>
+#include <pwd.h>
 
 @implementation MTProcessDetails : NSObject
 
 + (NSArray*)processList
+{
+    return [self processListWithUserID:-1];
+}
+
++ (NSArray*)processListWithUserName:(NSString*)userName
+{
+    NSArray *processList = nil;
+    
+    if (userName) {
+        
+        struct passwd *pw = getpwnam([userName UTF8String]);
+        
+        if (pw != NULL) {
+            
+            uid_t uid = pw->pw_uid;
+            processList = [self processListWithUserID:uid];
+        }
+    }
+    
+    return processList;
+}
+
++ (NSArray*)processListWithUserID:(uid_t)uid
 {
     NSMutableArray *processList = [[NSMutableArray alloc] init];
     
@@ -32,26 +56,42 @@
     
     for (int i = 0; i < numberOfProcesses; ++i) {
         
-        if (pids[i] == 0) { continue; }
-        char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-        bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
-        proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
+        pid_t pid = pids[i];
+        if (pid == 0) { continue; }
         
-        if (strlen(pathBuffer) > 0) {
-    
-            NSString *processPath = [NSString stringWithUTF8String:pathBuffer];
-            NSString *processName = [processPath lastPathComponent];
-            NSNumber *processID = [NSNumber numberWithInt:pids[i]];
+        struct proc_bsdinfo bsdInfo;
+        if (proc_pidinfo(
+                         pid,
+                         PROC_PIDTBSDINFO,
+                         0,
+                         &bsdInfo,
+                         sizeof(bsdInfo)
+                         ) != sizeof(bsdInfo)) {
+            continue;
+        }
+
+        if (uid == -1 || bsdInfo.pbi_uid == uid) {
             
-            if (processPath && processName && processID) {
+            char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
+            bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
+            proc_pidpath(pid, pathBuffer, sizeof(pathBuffer));
+            
+            if (strlen(pathBuffer) > 0) {
                 
-                NSDictionary *processDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                             processID, @"pid",
-                                             processName, @"name",
-                                             processPath, @"path",
-                                             nil
-                ];
-                [processList addObject:processDict];
+                NSString *processPath = [NSString stringWithUTF8String:pathBuffer];
+                NSString *processName = [processPath lastPathComponent];
+                NSNumber *processID = [NSNumber numberWithInt:pid];
+                
+                if (processPath && processName && processID) {
+                    
+                    NSDictionary *processDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 processID, @"pid",
+                                                 processName, @"name",
+                                                 processPath, @"path",
+                                                 nil
+                    ];
+                    [processList addObject:processDict];
+                }
             }
         }
     }

@@ -33,6 +33,24 @@
 + (NSArray*)processList;
 
 /*!
+ @method        processListWithUserID:
+ @abstract      Returns a list of all running processes for the given uid.
+ @param         uid The user id.
+ @discussion    Returns an array containing the complete paths to all running processes
+                or nil, if an error occurred.
+*/
++ (NSArray*)processListWithUserID:(uid_t)uid;
+
+/*!
+ @method        processListWithUserName:
+ @abstract      Returns a list of all running processes for the given user.
+ @param         userName The user name.
+ @discussion    Returns an array containing the complete paths to all running processes
+                or nil, if an error occurred.
+*/
++ (NSArray*)processListWithUserName:(NSString*)userName;
+
+/*!
  @method        openFilesWithPID:
  @abstract      Returns the file paths opened by the given process.
  @discussion    Returns an NSArray containing the paths to the opened files, or nil if an error occurred.

@@ -18,7 +18,6 @@
 #import "MTSettingsPrivilegesController.h"
 #import "MTPrivileges.h"
 #import "Constants.h"
-#import "MTSystemInfo.h"
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 @interface MTSettingsPrivilegesController ()
@@ -27,7 +26,7 @@
 @property (nonatomic, strong, readwrite) NSString *configuredByProfileLabel;
 
 @property (weak) IBOutlet NSPopUpButton *autoRemoveMenu;
-@property (weak) IBOutlet NSPopUpButton *postExecutableMenu;
+@property (weak) IBOutlet MTDropPopUpButton *postExecutableMenu;
 @property (weak) IBOutlet NSButton *privilegeRenewalButton;
 @property (weak) IBOutlet NSButton *removeAtLoginButton;
 @property (weak) IBOutlet NSButton *actionAfterGrantOnlyButton;
@@ -43,6 +42,7 @@
     [[[self view] window] setAccessibilityEnabled:YES];
 
     _privilegesApp = [[MTPrivileges alloc] init];
+    [_postExecutableMenu setDelegate:self];
     
     // set the initial state of the "Revoke administrator privileges at login" checkbox
     [self setLoginItemCheckbox];
@@ -196,50 +196,10 @@
 
 - (void)createPostExecMenuWithPath:(NSString*)path
 {
-    if (path) {
-        
-        // get the title for the menu item…
-        NSString *itemTitle = [path lastPathComponent];
-        if ([[[itemTitle pathExtension] lowercaseString] isEqualToString:@"app"]) {
-            itemTitle = [itemTitle stringByDeletingPathExtension];
-        }
-        
-        // get the image for the menu item…
-        NSImage *itemImage = [[NSWorkspace sharedWorkspace] iconForFile:path];
-        
-        if ([itemImage isValid]) {
-            
-            // resize the image to 16x16 pixels
-            NSImageRep *imageRep = [itemImage bestRepresentationForRect:NSMakeRect(0, 0, 16, 16) context:nil hints:nil];
-            itemImage = [[NSImage alloc] initWithSize:[imageRep size]];
-            [itemImage addRepresentation:imageRep];
-        }
-        
-        // add the item…
-        NSMenuItem *executableItem = [[NSMenuItem alloc] initWithTitle:itemTitle
-                                                                action:nil 
-                                                         keyEquivalent:@""
-        ];
-        [executableItem setImage:itemImage];
-        [executableItem setTag:755];
-        [[_postExecutableMenu menu] insertItem:executableItem atIndex:2];
-        
-        // …and select it
-        [_postExecutableMenu selectItemAtIndex:2];
-        
-    } else {
-        
-        // remove the item
-        NSMenuItem *executableItem = [[_postExecutableMenu menu] itemWithTag:755];
-        
-        if (executableItem) {
-            [[_postExecutableMenu menu] removeItem:executableItem];
-        }
-    }
+    [_postExecutableMenu setExecutablePath:path];
     
     [self willChangeValueForKey:@"executablePathIsForced"];
     [_postExecutableMenu setEnabled:![_privilegesApp postChangeExecutablePathIsForced]];
-    [_postExecutableMenu setAccessibilityLabel:[_postExecutableMenu titleOfSelectedItem]];
     [self didChangeValueForKey:@"executablePathIsForced"];
 }
 
@@ -315,54 +275,18 @@
     [panel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSModalResponse result) {
         
         if (result == NSModalResponseOK) {
+      
+            dispatch_async(dispatch_get_main_queue(), ^{
                 
-            [[self->_privilegesApp currentUser] canExecuteFileAtURL:[panel URL]
-                                                              reply:^(BOOL canExecute) {
+                // add the selected executable to the menu
+                [self createPostExecMenuWithPath:[[panel URL] path]];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if (canExecute) {
-
-                        NSString *executablePath = [[panel URL] path];
-                        
-                        // remove an existing menu item
-                        [self createPostExecMenuWithPath:nil];
-                        
-                        // add the selected executable to the menu
-                        [self createPostExecMenuWithPath:executablePath];
-                        
-                        // update our preferences
-                        [self->_privilegesApp setPostChangeExecutablePath:executablePath];
-                    
-                    } else {
-                        
-                        if ([[self->_postExecutableMenu menu] itemWithTag:755]) {
-                            [self->_postExecutableMenu selectItemWithTag:755];
-                        } else {
-                            [self->_postExecutableMenu selectItemAtIndex:0];
-                        }
-                        
-                        [self->_postExecutableMenu setAccessibilityLabel:[self->_postExecutableMenu titleOfSelectedItem]];
-                        
-                        NSAlert *alert = [[NSAlert alloc] init];
-                        [alert setMessageText:NSLocalizedString(@"fileNotExecutableDialogTitle", nil)];
-                        [alert addButtonWithTitle:NSLocalizedString(@"okButton", nil)];
-                        [alert setAlertStyle:NSAlertStyleCritical];
-                        [alert beginSheetModalForWindow:[[self view] window] completionHandler:nil];
-                    }
-                    
-                    [self setActionAfterGrantOnlyCheckbox];
-                });
-                
-            }];
+                [self setActionAfterGrantOnlyCheckbox];
+            });
             
         } else {
             
-            if ([[self->_postExecutableMenu menu] itemWithTag:755]) {
-                [self->_postExecutableMenu selectItemWithTag:755];
-            } else {
-                [self->_postExecutableMenu selectItemAtIndex:0];
-            }
+            [self->_postExecutableMenu selectRelevantItem];
         }
     }];
 }
@@ -380,6 +304,28 @@
 - (IBAction)setActionAfterGrantOnly:(id)sender
 {
     [_privilegesApp setRunActionAfterGrantOnly:([(NSButton*)sender state] == NSControlStateValueOn)];
+}
+
+#pragma mark - MTDropPopUpButtonDelegate
+
+- (void)button:(MTDropPopUpButton *)button didFailToAddApplicationAtPath:(NSString *)path
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:NSLocalizedString(@"fileNotExecutableDialogTitle", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"okButton", nil)];
+    [alert setAlertStyle:NSAlertStyleCritical];
+    [alert beginSheetModalForWindow:[[self view] window] completionHandler:nil];
+    
+    [_postExecutableMenu selectRelevantItem];
+}
+
+- (void)button:(MTDropPopUpButton *)button didAddApplicationAtPath:(NSString *)path
+{
+    if (![_privilegesApp postChangeExecutablePathIsForced] && [path length] > 0) {
+        
+        // update our preferences
+        [_privilegesApp setPostChangeExecutablePath:path];
+    }
 }
 
 @end

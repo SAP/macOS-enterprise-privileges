@@ -34,7 +34,16 @@
         _connection = [[NSXPCConnection alloc] initWithMachServiceName:kMTHelperMachServiceName
                                                                options:NSXPCConnectionPrivileged
         ];
-        [_connection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesHelperProtocol)]];
+
+        NSXPCInterface *remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(PrivilegesHelperProtocol)];
+                
+        [remoteObjectInterface setClasses:[NSSet setWithObjects:[OSLogEntry class], [NSArray class], nil]
+                              forSelector:@selector(logEntriesWithStartDate:endDate:reply:)
+                            argumentIndex:0
+                                  ofReply:YES
+        ];
+        
+        [_connection setRemoteObjectInterface:remoteObjectInterface];
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"

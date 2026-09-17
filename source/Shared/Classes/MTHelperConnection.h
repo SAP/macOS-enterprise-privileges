@@ -17,7 +17,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PrivilegesHelperProtocol.h"
-#import <os/log.h>
+#import <OSLog/OSLog.h>
 
 /*!
  @class         MTHelperConnection

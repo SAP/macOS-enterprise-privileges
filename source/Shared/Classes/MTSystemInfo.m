@@ -27,7 +27,7 @@
     
     // get the Platform Expert object
     io_service_t platformExpert = IOServiceGetMatchingService(
-                                                              kIOMasterPortDefault,
+                                                              kIOMainPortDefault,
                                                               IOServiceMatching("IOPlatformExpertDevice")
                                                               );
     

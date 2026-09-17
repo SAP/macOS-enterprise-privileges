@@ -36,6 +36,7 @@
 #define kMTGitHubURL                                @"https://github.com/SAP/macOS-enterprise-privileges"
 #define kMTDiskutilPath                             @"/usr/sbin/diskutil"
 #define kMTspctlPath                                @"/usr/sbin/spctl"
+#define kMTUsagePolicyFileBasePath                  @"/Library/Application Support/Privileges/Policy"
 
 #define kMTAdminGroupID                             80
 #define kMTExpirationDefault                        20
@@ -47,6 +48,7 @@
 #define kMTQueuedEventsMaxDefault                   20
 #define kMTQueuedEventsTreatAsDelayedInterval       5
 #define kMTRenewalNotificationIntervalDefault       1
+#define kMTMaximumPolicySize                        5242880
 
 #define kMTEnforcedPrivilegeTypeNone                @"none"
 #define kMTEnforcedPrivilegeTypeAdmin               @"admin"
@@ -105,6 +107,7 @@
 #define kMTDefaultsAllowPrivilegeRenewalKey                 @"AllowPrivilegeRenewal"
 #define kMTDefaultsRenewalFollowsAuthSettingKey             @"RenewalFollowsAuthSetting"
 #define kMTDefaultsRenewalNotificationIntervalKey           @"RenewalNotificationInterval"
+#define kMTDefaultsAutoRenewalProcessPathsKey               @"AutoRenewalProcessPaths"
 #define kMTDefaultsHideHelpButtonKey                        @"HideHelpButton"
 #define kMTDefaultsHelpButtonCustomURLKey                   @"HelpButtonCustomURL"
 #define kMTDefaultsPassReasonToExecutableKey                @"PassReasonToExecutable"
@@ -114,12 +117,15 @@
 #define kMTDefaultsEnableSmartCardSupportKey                @"EnableSmartCardSupport"
 #define kMTDefaultsRenewalCustomActionKey                   @"RenewalCustomAction"
 #define kMTDefaultsRenewalCustomActionPathKey               @"ActionExecutablePath"
+#define kMTDefaultsRenewalCustomActionChecksumKey           @"ActionExecutableChecksum"
 #define kMTDefaultsRenewalCustomActionIntervalKey           @"ActionNotificationInterval"
 #define kMTDefaultsUnexpectedPrivilegeStateKey              @"UnexpectedPrivilegeState"
 #define kMTDefaultsForceUpdatePrebootVolumeKey              @"ForceUpdatePrebootVolume"
 #define kMTDefaultsIconAppearanceThemeKey                   @"AppleIconAppearanceTheme"
 #define kMTDefaultsIconAppearanceTintColorKey               @"AppleIconAppearanceTintColor"
 #define kMTDefaultsEnableSystemExtensionKey                 @"EnableSystemExtension"
+#define kMTDefaultsUsagePolicyKey                           @"UsagePolicy"
+#define kMTDefaultsUsagePolicyAcceptedKey                   @"UsagePolicyAccepted"
 
 // NSNotification
 #define kMTNotificationNamePrivilegesDidChange      @"corp.sap.privileges.PrivilegesDidChange"
@@ -139,3 +145,7 @@
 #define kMTExtensionStatusDisabled      @"disabled"
 #define kMTExtensionStatusSuspended     @"suspended"
 #define kMTExtensionStatusWaiting       @"waiting for full disk access"
+
+// Logging
+#define kMTLogPersistentSubsystem       "com.apple.defaults"
+#define kMTLogPersistentCategory        "audit"

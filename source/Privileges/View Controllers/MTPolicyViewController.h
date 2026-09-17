@@ -1,5 +1,5 @@
 /*
-    AppDelegate.m
+    MTPolicyViewController.h
     Copyright 2016-2026 SAP SE
      
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,24 +15,8 @@
     limitations under the License.
 */
 
-#import "AppDelegate.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation AppDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
-    [NSApp terminate:self];
-}
-
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
-}
-
-
-- (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
-    return YES;
-}
-
+@interface MTPolicyViewController : NSViewController
 
 @end
