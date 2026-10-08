@@ -381,6 +381,44 @@
   .info-hint { font-size: 12px; color: var(--force); margin-top: 8px; display: block; }
   .preview-modal-inner { background: var(--card); }
   .preview-pre { background: var(--section-bg); color: var(--text); }
+
+  /* Validator modal */
+  .validator-modal-inner { background: var(--card); border-radius: var(--radius); max-width: 760px; margin: auto; overflow: hidden; }
+  .validator-findings { padding: 0 20px 20px; max-height: 65vh; overflow-y: auto; }
+  .validator-group { margin-top: 16px; }
+  .validator-group-title {
+    font-size: 15px; font-weight: 500; color: var(--text);
+    margin-bottom: 8px; padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .validator-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .validator-item:last-child { border-bottom: none; }
+  .validator-icon {
+    flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; margin-top: 1px;
+  }
+  .validator-icon.error   { background: var(--force);   color: #fff; }
+  .validator-icon.warning { background: var(--warning); color: #fff; }
+  .validator-icon.info    { background: var(--accent);  color: #fff; }
+  .validator-item-text { font-size: 15px; line-height: 1.45; }
+  .validator-item-text strong { font-weight: 600; }
+  .validator-empty { padding: 32px 20px; text-align: center; color: var(--muted); font-size: 15px; }
+  .validator-ok-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #1e7e34; color: #fff; font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .validator-error-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--force); color: #fff; font-size: 32px;
+    margin-bottom: 12px;
+  }
   @media (max-width: 640px) {
     .row { grid-template-columns: 1fr; }
     .meta-grid { grid-template-columns: 1fr; }
@@ -431,6 +469,7 @@
     .force-banner strong { color: var(--force); }
     .mode-option.force-mode label:hover { background: #290f06; }
     .info-hint { color: var(--force); }
+    .validator-ok-icon { background: #62ba46; }
   }
 </style>
 </head>
@@ -610,7 +649,7 @@
           </div>
           <div class="nested-row">
             <label data-i18n="nested.RCA.checksum">Action Executable Checksum<span class="badge">Privileges 2.6+</span><span data-i18n="desc.RCA.checksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>ActionExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span></label>
-            <input type="text" id="RCA_checksum" placeholder="64-char hex string" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
+            <input type="text" id="RCA_checksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
           </div>
           <div class="nested-row">
             <label data-i18n="nested.RCA.interval">Action Notification Interval<span class="badge">Privileges 2.3+</span><span data-i18n="desc.RCA.interval">This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using <code>ActionExecutablePath</code> as the <code>$1</code> argument.</span></label>
@@ -1022,7 +1061,7 @@
         <div class="row-label">
           <strong data-i18n="label.PostChangeExecutableChecksum">Post-Change Executable Checksum <span class="badge">Privileges 2.5.3+</span></strong>
           <span data-i18n="desc.PostChangeExecutableChecksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>PostChangeExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span>
-          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" disabled oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
+          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" disabled oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
         </div>
         <div class="row-control">
           <div class="toggle-row">
@@ -1361,9 +1400,12 @@
 
 </main>
 
+<input type="file" id="validator-file-input" accept=".mobileconfig,.plist" style="display:none" onchange="validateMobileconfig(this)">
+
 <div class="bottom-bar">
   <div class="bottom-bar-inner">
     <button class="btn btn-secondary" onclick="previewXML()" data-i18n="btn.preview">Preview XML</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('validator-file-input').click()" data-i18n="btn.validate">Validate Existing Profile</button>
     <button class="btn btn-primary" onclick="downloadMobileconfig()" data-i18n="btn.download">Download Profile</button>
     <div class="bottom-bar-lang">
       <select id="lang-switcher" onchange="applyLang(this.value, true)" title="Language"></select>
@@ -1379,6 +1421,20 @@
       <button class="btn btn-primary" onclick="closePreview()" data-i18n="modal.close">Close</button>
     </div>
     <pre id="preview-content" class="preview-pre" style="padding:20px;overflow:auto;font-size:15px;font-family:'SF Mono',SFMono-Regular,ui-monospace,Menlo,monospace;max-height:70vh;line-height:1.6;margin:0;tab-size:3;-moz-tab-size:3"></pre>
+  </div>
+</div>
+
+<!-- Validator Modal -->
+<div id="validator-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;overflow:auto;padding:24px">
+  <div class="validator-modal-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
+      <div>
+        <span style="font-size:21px;font-weight:400" data-i18n="validator.title">Validate Profile</span>
+        <div id="validator-filename" style="font-size:13px;color:var(--muted);margin-top:2px"></div>
+      </div>
+      <button class="btn btn-primary" onclick="closeValidator()" data-i18n="modal.close">Close</button>
+    </div>
+    <div class="validator-findings" id="validator-findings"></div>
   </div>
 </div>
 
@@ -1715,7 +1771,7 @@ function addStructuredDataItem() {
   item.id = 'sd_item_' + id;
   item.innerHTML = `
     <div class="reason-preset-item-header">
-      <strong>Element #${num}</strong>
+      <strong>${t('label.element') || 'Element'} #${num}</strong>
       <button class="btn-icon danger" onclick="this.closest('.sd-item').remove();renumberSDItems()">${TRASH_ICON}</button>
     </div>
     <div class="nested-row" style="margin-bottom:0">
@@ -1743,7 +1799,7 @@ function updateListButtonMargin(listId, btnId, emptyMargin, hasItemsMargin) {
 function renumberSDItems() {
   document.querySelectorAll('#RL_StructuredData_container .sd-item').forEach((item, i) => {
     const strong = item.querySelector('.reason-preset-item-header strong');
-    if (strong) strong.textContent = `Element #${i + 1}`;
+    if (strong) strong.textContent = `${t('label.element') || 'Element'} #${i + 1}`;
   });
   updateListButtonMargin('RL_StructuredData_container', 'sd-add-btn', -4, 4);
 }
@@ -1920,7 +1976,7 @@ function addLocaleRow(containerId) {
   const next = ['__default__', ...LOCALE_CODES.map(([code]) => code)].find(v => !used.has(v)) ?? '';
   const row = document.createElement('div');
   row.className = 'locale-row';
-  row.innerHTML = `${localeSelect(next)}<input type="text" placeholder="Text…"><button class="btn-icon danger" onclick="removeLocaleRow(this)">${TRASH_ICON}</button>`;
+  row.innerHTML = `${localeSelect(next)}<input type="text" placeholder="${t('placeholder.text') || 'Text…'}"><button class="btn-icon danger" onclick="removeLocaleRow(this)">${TRASH_ICON}</button>`;
   c.appendChild(row);
   const sel = row.querySelector('select');
   const inp = row.querySelector('input[type="text"]');
@@ -1968,7 +2024,7 @@ function resetAll() {
   document.querySelectorAll('.toggle input[type="checkbox"]').forEach(cb => {
     cb.checked = cb.id === 'HideOtherWindows';
     const lbl = document.getElementById(cb.id + '_lbl');
-    if (lbl) lbl.textContent = cb.checked ? 'Enabled' : 'Disabled';
+    if (lbl) lbl.textContent = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
   });
 
   // Disable all number/text inputs except meta
@@ -1995,7 +2051,7 @@ function setToggle(id, val) {
   if (!cb) return;
   cb.checked = val;
   const lbl = document.getElementById(id + '_lbl');
-  if (lbl) lbl.textContent = val ? 'Enabled' : 'Disabled';
+  if (lbl) lbl.textContent = val ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
 }
 
 function enableField(id, val) {
@@ -2434,7 +2490,583 @@ document.getElementById('preview-modal').addEventListener('click', function(e) {
   if (e.target === this) closePreview();
 });
 
-// ─── i18n engine ──────────────────────────────────────────────────────────────
+// ─── Profile Validator ────────────────────────────────────────────────────────
+
+// Schema: key → { type, values?, min?, max?, requires?, conflictsWith? }
+// type: 'bool' | 'integer' | 'string' | 'array' | 'dict' | 'data'
+const VALIDATOR_SCHEMA = {
+  EnforcePrivileges:                    { type: 'string',  values: ['admin','user','none'] },
+  ExpirationInterval:                   { type: 'integer', min: 1 },
+  ExpirationIntervalMax:                { type: 'integer', min: 1 },
+  MaxIntervalInitial:                   { type: 'integer', min: 1 },
+  AllowPrivilegeRenewal:                { type: 'bool' },
+  RenewalFollowsAuthSetting:            { type: 'bool',    requires: ['AllowPrivilegeRenewal'] },
+  RenewalNotificationInterval:          { type: 'integer', min: 1, requires: ['AllowPrivilegeRenewal'] },
+  RenewalCustomAction:                  { type: 'dict',    requires: ['AllowPrivilegeRenewal'] },
+  AutoRenewalProcessPaths:              { type: 'array' },
+  RequireAuthentication:                { type: 'bool' },
+  RequireBiometricAuthentication:       { type: 'bool',    requires: ['RequireAuthentication'],
+                                          conflictsWith: ['EnableSmartCardSupport'] },
+  EnableSmartCardSupport:               { type: 'bool',    requires: ['RequireAuthentication'],
+                                          conflictsWith: ['RequireBiometricAuthentication'] },
+  AllowCLIBiometricAuthentication:      { type: 'bool',    requires: ['RequireAuthentication'] },
+  BiometricsFallbackType:               { type: 'integer', min: 0, max: 2,
+                                          requires: ['RequireAuthentication','RequireBiometricAuthentication'] },
+  LimitToUser:                          { type: 'array' },
+  LimitToGroup:                         { type: 'array' },
+  RevokePrivilegesAtLogin:              { type: 'bool' },
+  RevokeAtLoginExcludedUsers:           { type: 'array',   requires: ['RevokePrivilegesAtLogin'] },
+  RevokePrivilegesAfterSystemTimeChange:{ type: 'bool' },
+  RevokeAfterTimeChangeExcludedUsers:   { type: 'array',   requires: ['RevokePrivilegesAfterSystemTimeChange'] },
+  RevokePrivilegesOnScreenLock:         { type: 'bool' },
+  RevokeOnScreenLockExcludedUsers:      { type: 'array',   requires: ['RevokePrivilegesOnScreenLock'] },
+  AutomaticRevocationExcludedUsers:     { type: 'array' },
+  ReasonRequired:                       { type: 'bool' },
+  ReasonMinLength:                      { type: 'integer', min: 1, requires: ['ReasonRequired'] },
+  ReasonMaxLength:                      { type: 'integer', min: 1, requires: ['ReasonRequired'] },
+  ReasonCheckingEnabled:                { type: 'bool',    requires: ['ReasonRequired'] },
+  PassReasonToExecutable:               { type: 'bool',    requires: ['ReasonRequired'] },
+  ReasonPresetList:                     { type: 'array',   requires: ['ReasonRequired'] },
+  ReasonStrictPresetList:               { type: 'bool',    requires: ['ReasonRequired','ReasonPresetList'] },
+  PostChangeExecutablePath:             { type: 'string' },
+  PostChangeExecutableChecksum:         { type: 'string' },
+  PostChangeActionOnGrantOnly:          { type: 'bool' },
+  UsagePolicy:                          { type: 'data' },
+  HideOtherWindows:                     { type: 'bool' },
+  HideSettingsButton:                   { type: 'bool' },
+  HideSettingsFromDockMenu:             { type: 'bool' },
+  HideSettingsFromStatusItem:           { type: 'bool' },
+  HideHelpButton:                       { type: 'bool' },
+  HelpButtonCustomURL:                  { type: 'string' },
+  ShowInMenuBar:                        { type: 'bool' },
+  ShowRemainingTimeInMenuBar:           { type: 'bool',    requires: ['ShowInMenuBar'] },
+  EnableSystemExtension:                { type: 'bool' },
+  ForceUpdatePrebootVolume:             { type: 'bool' },
+  RemoteLogging:                        { type: 'dict' },
+};
+
+// Mutual-exclusion pairs for EnforcePrivileges vs expiration keys
+const ENFORCE_CONFLICT_KEYS = [
+  'ExpirationInterval','ExpirationIntervalMax','MaxIntervalInitial',
+  'AllowPrivilegeRenewal','RenewalFollowsAuthSetting','RenewalNotificationInterval','RenewalCustomAction',
+  'AutoRenewalProcessPaths','RequireAuthentication','RequireBiometricAuthentication',
+  'EnableSmartCardSupport','AllowCLIBiometricAuthentication','BiometricsFallbackType',
+  'LimitToUser','LimitToGroup',
+  'RevokePrivilegesAtLogin','RevokeAtLoginExcludedUsers',
+  'RevokePrivilegesAfterSystemTimeChange','RevokeAfterTimeChangeExcludedUsers',
+  'RevokePrivilegesOnScreenLock','RevokeOnScreenLockExcludedUsers','AutomaticRevocationExcludedUsers',
+  'ReasonRequired','ReasonMinLength','ReasonMaxLength','ReasonCheckingEnabled',
+  'PassReasonToExecutable','ReasonPresetList','ReasonStrictPresetList',
+  'PostChangeExecutablePath','PostChangeExecutableChecksum','PostChangeActionOnGrantOnly',
+  'UsagePolicy','RemoteLogging',
+];
+
+// Returns null-safe node type string based on XML tag name
+function plistNodeType(node) {
+  const tag = node.tagName;
+  if (tag === 'true' || tag === 'false') return 'bool';
+  if (tag === 'integer') return 'integer';
+  if (tag === 'string') return 'string';
+  if (tag === 'array') return 'array';
+  if (tag === 'dict') return 'dict';
+  if (tag === 'data') return 'data';
+  if (tag === 'real') return 'real';
+  return tag;
+}
+
+function plistNodeValue(node) {
+  const tag = node.tagName;
+  if (tag === 'true') return true;
+  if (tag === 'false') return false;
+  if (tag === 'integer') return parseInt(node.textContent.trim(), 10);
+  if (tag === 'string' || tag === 'data') return node.textContent.trim();
+  if (tag === 'real') return parseFloat(node.textContent.trim());
+  return null;
+}
+
+// Parse a plist <dict> into a plain JS object (shallow: value nodes only)
+function parsePlistDict(dictNode) {
+  const result = {};
+  const children = [...dictNode.children];
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].tagName === 'key') {
+      const key = children[i].textContent.trim();
+      const valNode = children[i + 1];
+      if (valNode) {
+        result[key] = { node: valNode, type: plistNodeType(valNode), value: plistNodeValue(valNode) };
+        i++;
+      }
+    }
+  }
+  return result;
+}
+
+// Extract the corp.sap.privileges mcx_preference_settings dict from a mobileconfig XML Document
+function extractPrivsDict(xmlDoc) {
+  // Walk all dicts looking for corp.sap.privileges domain
+  const allDicts = xmlDoc.getElementsByTagName('dict');
+  for (const dict of allDicts) {
+    const parsed = parsePlistDict(dict);
+    if (parsed['corp.sap.privileges']) {
+      // Found the outer domain dict — now dig in
+      const domainNode = parsed['corp.sap.privileges'].node;
+      const domainDict = parsePlistDict(domainNode);
+      const forcedNode = domainDict['Forced']?.node;
+      if (!forcedNode) return null;
+      // Forced is an array containing a dict with mcx_preference_settings
+      const forcedChildren = [...forcedNode.children].filter(n => n.tagName === 'dict');
+      for (const fd of forcedChildren) {
+        const fdParsed = parsePlistDict(fd);
+        const mpsNode = fdParsed['mcx_preference_settings']?.node;
+        if (mpsNode) return parsePlistDict(mpsNode);
+      }
+    }
+  }
+  return null;
+}
+
+// ─── DER/CMS extractor for signed mobileconfig ───────────────────────────────
+// Walks the ASN.1 DER structure and extracts the eContent OCTET STRING from a
+// CMS SignedData envelope without verifying the signature.
+// Returns the inner XML string, or null if the structure doesn't match.
+function extractPlistFromCMS(buf) {
+  const bytes = new Uint8Array(buf);
+  let pos = 0;
+
+  function readTag() { return bytes[pos++]; }
+  function readLength() {
+    const first = bytes[pos++];
+    if (first === 0x80) return -1; // indefinite length
+    if (first < 0x80) return first;
+    const numBytes = first & 0x7f;
+    let len = 0;
+    for (let i = 0; i < numBytes; i++) len = (len << 8) | bytes[pos++];
+    return len;
+  }
+  function skipValue(len) { pos += len; }
+  function readOID(len) {
+    const end = pos + len;
+    const components = [];
+    const first = bytes[pos++];
+    components.push(Math.floor(first / 40), first % 40);
+    let val = 0;
+    while (pos < end) {
+      const b = bytes[pos++];
+      val = (val << 7) | (b & 0x7f);
+      if (!(b & 0x80)) { components.push(val); val = 0; }
+    }
+    return components.join('.');
+  }
+  // Collect content bytes from an OCTET STRING that may be:
+  //   - primitive definite (0x04, definite len)
+  //   - constructed definite (0x24, definite len) with child 0x04 chunks
+  //   - constructed indefinite (0x24, 0x80) terminated by 0x00 0x00
+  function readOctetStringContent(tag, len) {
+    if (tag === 0x04) {
+      const chunk = bytes.slice(pos, pos + len);
+      pos += len;
+      return chunk;
+    }
+    // constructed (0x24)
+    const parts = [];
+    if (len === -1) {
+      // indefinite: read until 0x00 0x00
+      while (!(bytes[pos] === 0x00 && bytes[pos + 1] === 0x00)) {
+        const ct = readTag();
+        const cl = readLength();
+        if (ct === 0x04 && cl > 0) { parts.push(bytes.slice(pos, pos + cl)); }
+        if (cl > 0) pos += cl;
+      }
+      pos += 2; // consume end-of-contents
+    } else {
+      const end = pos + len;
+      while (pos < end) {
+        const ct = readTag();
+        const cl = readLength();
+        if (ct === 0x04 && cl > 0) { parts.push(bytes.slice(pos, pos + cl)); }
+        if (cl > 0) pos += cl;
+      }
+    }
+    const total = parts.reduce((s, p) => s + p.length, 0);
+    const out = new Uint8Array(total);
+    let offset = 0;
+    for (const p of parts) { out.set(p, offset); offset += p.length; }
+    return out;
+  }
+
+  // OID for pkcs7-signedData: 1.2.840.113549.1.7.2
+  // OID for pkcs7-data (eContentType): 1.2.840.113549.1.7.1
+  const OID_SIGNED_DATA = '1.2.840.113549.1.7.2';
+  const OID_DATA        = '1.2.840.113549.1.7.1';
+
+  try {
+    // Outer SEQUENCE
+    if (readTag() !== 0x30) return null;
+    readLength();
+
+    // ContentType OID
+    if (readTag() !== 0x06) return null;
+    const oidLen = readLength();
+    const oid = readOID(oidLen);
+    if (oid !== OID_SIGNED_DATA) return null;
+
+    // [0] EXPLICIT wrapper
+    if (readTag() !== 0xa0) return null;
+    readLength();
+
+    // SignedData SEQUENCE
+    if (readTag() !== 0x30) return null;
+    readLength();
+
+    // version INTEGER
+    if (readTag() !== 0x02) return null;
+    skipValue(readLength());
+
+    // digestAlgorithms SET
+    if (readTag() !== 0x31) return null;
+    skipValue(readLength());
+
+    // encapContentInfo SEQUENCE
+    if (readTag() !== 0x30) return null;
+    readLength();
+
+    // eContentType OID
+    if (readTag() !== 0x06) return null;
+    const eOidLen = readLength();
+    const eOid = readOID(eOidLen);
+    if (eOid !== OID_DATA) return null;
+
+    // [0] EXPLICIT wrapping the eContent
+    if (readTag() !== 0xa0) return null;
+    readLength();
+
+    // eContent: primitive (0x04) or constructed (0x24), definite or indefinite
+    const octetTag = readTag();
+    if (octetTag !== 0x04 && octetTag !== 0x24) return null;
+    const octetLen = readLength();
+
+    const contentBytes = readOctetStringContent(octetTag, octetLen);
+    return new TextDecoder('utf-8').decode(contentBytes);
+  } catch {
+    return null;
+  }
+}
+
+function validateMobileconfig(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = e => {
+    const buf = e.target.result;
+    const firstByte = new Uint8Array(buf)[0];
+    const isSigned = firstByte !== 0x3c; // '<' = 0x3c means plain XML
+
+    let xmlText;
+
+    if (isSigned) {
+      xmlText = extractPlistFromCMS(buf);
+      if (!xmlText) {
+        showValidatorModal(file.name, null, (t('validator.error.notSignedOrXml') || 'This file appears to be signed or binary but the content could not be extracted. Only plain XML and CMS/PKCS#7-signed .mobileconfig files are supported.'));
+        return;
+      }
+    } else {
+      xmlText = new TextDecoder('utf-8').decode(new Uint8Array(buf));
+    }
+
+    let xmlDoc;
+    try {
+      xmlDoc = new DOMParser().parseFromString(xmlText, 'application/xml');
+      const parseErr = xmlDoc.querySelector('parsererror');
+      if (parseErr) throw new Error(parseErr.textContent);
+    } catch(err) {
+      showValidatorModal(file.name, null, (t('validator.error.parseError') || 'Could not parse XML: {msg}').replace('{msg}', err.message));
+      return;
+    }
+    const settings = extractPrivsDict(xmlDoc);
+    if (!settings) {
+      showValidatorModal(file.name, null, (t('validator.error.noPrivilegesKey') || 'Could not find a Privileges configuration in this file. Is this a Privileges profile?'));
+      return;
+    }
+    const findings = runValidation(settings);
+    showValidatorModal(file.name, findings, null);
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function runValidation(settings) {
+  const findings = { errors: [], warnings: [], info: [] };
+  const keys = Object.keys(settings);
+
+  // 1. Unknown keys
+  for (const key of keys) {
+    if (!VALIDATOR_SCHEMA[key]) {
+      findings.warnings.push({ key, msg: `Unknown key <code>${key}</code> — not part of the Privileges schema.` });
+    }
+  }
+
+  // 2. Type checks + value range
+  for (const key of keys) {
+    const schema = VALIDATOR_SCHEMA[key];
+    if (!schema) continue;
+    const entry = settings[key];
+    const actualType = entry.type;
+
+    // Bool: must be <true/> or <false/>
+    if (schema.type === 'bool' && actualType !== 'bool') {
+      findings.errors.push({ key, msg: t('validator.err.typeBool', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+    if (schema.type === 'integer' && actualType !== 'integer') {
+      findings.errors.push({ key, msg: t('validator.err.typeInteger', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+    if (schema.type === 'string' && actualType !== 'string') {
+      findings.errors.push({ key, msg: t('validator.err.typeString', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+    if (schema.type === 'array' && actualType !== 'array') {
+      findings.errors.push({ key, msg: t('validator.err.typeArray', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+    if (schema.type === 'data' && actualType !== 'data') {
+      findings.errors.push({ key, msg: t('validator.err.typeData', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+    if (schema.type === 'dict' && actualType !== 'dict') {
+      findings.errors.push({ key, msg: t('validator.err.typeDict', { key: `<code>${key}</code>`, got: `<code>&lt;${actualType}&gt;</code>` }) });
+      continue;
+    }
+
+    // Allowed string values
+    if (schema.values && actualType === 'string' && !schema.values.includes(entry.value)) {
+      findings.errors.push({ key, msg: t('validator.err.invalidValue', { key: `<code>${key}</code>`, value: `<code>"${entry.value}"</code>`, allowed: schema.values.map(v => `<code>"${v}"</code>`).join(', ') }) });
+    }
+
+    // Integer range
+    if (schema.type === 'integer' && actualType === 'integer') {
+      if (schema.min !== undefined && entry.value < schema.min)
+        findings.errors.push({ key, msg: t('validator.err.belowMin', { key: `<code>${key}</code>`, value: `<code>${entry.value}</code>`, min: `<code>${schema.min}</code>` }) });
+      if (schema.max !== undefined && entry.value > schema.max)
+        findings.errors.push({ key, msg: t('validator.err.aboveMax', { key: `<code>${key}</code>`, value: `<code>${entry.value}</code>`, max: `<code>${schema.max}</code>` }) });
+    }
+  }
+
+  // 3. Missing dependencies (key present but its required parent is absent or false)
+  for (const key of keys) {
+    const schema = VALIDATOR_SCHEMA[key];
+    if (!schema?.requires) continue;
+    for (const req of schema.requires) {
+      const reqEntry = settings[req];
+      const isMissing = !reqEntry;
+      const isFalse = reqEntry && reqEntry.type === 'bool' && reqEntry.value === false;
+      if (isMissing || isFalse) {
+        findings.errors.push({ key, msg: t('validator.err.requires', { key: `<code>${key}</code>`, req: `<code>${req}</code>`, state: isMissing ? t('validator.err.requires.absent') : `<code>false</code>` }) });
+      }
+    }
+  }
+
+  // 4. Mutual conflicts
+  for (const key of keys) {
+    const schema = VALIDATOR_SCHEMA[key];
+    if (!schema?.conflictsWith) continue;
+    for (const conflict of schema.conflictsWith) {
+      const conflictEntry = settings[conflict];
+      if (conflictEntry && conflictEntry.type === 'bool' && conflictEntry.value === true
+          && settings[key]?.type === 'bool' && settings[key].value === true) {
+        // Only report once per pair (lower alphabetical key reports it)
+        if (key < conflict) {
+          findings.errors.push({ key, msg: t('validator.err.conflict', { key: `<code>${key}</code>`, conflict: `<code>${conflict}</code>` }) });
+        }
+      }
+    }
+  }
+
+  // 5. EnforcePrivileges conflicts with non-UI keys
+  if (settings['EnforcePrivileges']) {
+    const nonUiPresent = ENFORCE_CONFLICT_KEYS.filter(k => settings[k]);
+    if (nonUiPresent.length) {
+      findings.errors.push({ key: 'EnforcePrivileges', msg: t('validator.err.enforceConflict', { keys: nonUiPresent.map(k => `<code>${k}</code>`).join(', ') }) });
+    }
+  }
+
+  // 6. ExpirationInterval + ExpirationIntervalMax mutually exclusive
+  if (settings['ExpirationInterval'] && settings['ExpirationIntervalMax']) {
+    findings.errors.push({ key: 'ExpirationInterval', msg: t('validator.err.expirationMutex') });
+  }
+
+  // 7. MaxIntervalInitial without ExpirationIntervalMax
+  if (settings['MaxIntervalInitial'] && !settings['ExpirationIntervalMax']) {
+    findings.warnings.push({ key: 'MaxIntervalInitial', msg: t('validator.warn.maxIntervalInitial') });
+  }
+
+  // 8. ReasonMinLength > ReasonMaxLength
+  const rMin = settings['ReasonMinLength'], rMax = settings['ReasonMaxLength'];
+  if (rMin && rMax && rMin.type === 'integer' && rMax.type === 'integer' && rMin.value > rMax.value) {
+    findings.errors.push({ key: 'ReasonMinLength', msg: t('validator.err.reasonMinMax', { min: `<code>${rMin.value}</code>`, max: `<code>${rMax.value}</code>` }) });
+  }
+
+  // 9. ReasonStrictPresetList without ReasonPresetList
+  if (settings['ReasonStrictPresetList']?.value === true && !settings['ReasonPresetList']) {
+    findings.errors.push({ key: 'ReasonStrictPresetList', msg: t('validator.err.strictPresetList') });
+  }
+
+  // 10. PostChangeExecutableChecksum without PostChangeExecutablePath
+  if (settings['PostChangeExecutableChecksum'] && !settings['PostChangeExecutablePath']) {
+    findings.warnings.push({ key: 'PostChangeExecutableChecksum', msg: t('validator.warn.checksumWithoutPath') });
+  }
+
+  // 11. PostChangeActionOnGrantOnly without PostChangeExecutablePath
+  if (settings['PostChangeActionOnGrantOnly']?.value === true && !settings['PostChangeExecutablePath']) {
+    findings.warnings.push({ key: 'PostChangeActionOnGrantOnly', msg: t('validator.warn.grantOnlyWithoutPath') });
+  }
+
+  // 12. RemoteLogging dict structure
+  if (settings['RemoteLogging'] && settings['RemoteLogging'].type === 'dict') {
+    const rlDict = parsePlistDict(settings['RemoteLogging'].node);
+    if (!rlDict['ServerType']) {
+      findings.errors.push({ key: 'RemoteLogging', msg: t('validator.err.rlMissingServerType') });
+    } else {
+      const serverType = rlDict['ServerType'].value;
+      if (!['syslog','webhook'].includes(serverType)) {
+        findings.errors.push({ key: 'RemoteLogging', msg: t('validator.err.rlInvalidServerType', { value: `<code>"${serverType}"</code>` }) });
+      }
+    }
+    if (!rlDict['ServerAddress']) {
+      findings.errors.push({ key: 'RemoteLogging', msg: t('validator.err.rlMissingServerAddress') });
+    }
+  }
+
+  // 13. RenewalCustomAction dict structure
+  if (settings['RenewalCustomAction'] && settings['RenewalCustomAction'].type === 'dict') {
+    const rcaDict = parsePlistDict(settings['RenewalCustomAction'].node);
+    if (!rcaDict['ActionExecutablePath']) {
+      findings.errors.push({ key: 'RenewalCustomAction', msg: t('validator.err.rcaMissingPath') });
+    } else {
+      const pathVal = rcaDict['ActionExecutablePath'].value;
+      if (!RE_PATH.test(pathVal)) {
+        findings.errors.push({ key: 'RenewalCustomAction', msg: t('validator.err.rcaInvalidPath', { value: `<code>"${pathVal}"</code>` }) });
+      }
+    }
+    if (rcaDict['ActionExecutableChecksum']) {
+      const cs = rcaDict['ActionExecutableChecksum'].value;
+      if (!RE_SHA256.test(cs)) {
+        findings.errors.push({ key: 'RenewalCustomAction', msg: t('validator.err.rcaInvalidChecksum') });
+      }
+    }
+  }
+
+  // 14. Info: what we found
+  const knownKeys = keys.filter(k => VALIDATOR_SCHEMA[k]);
+  if (knownKeys.length) {
+    // Count sub-keys inside known dict values (RemoteLogging, RenewalCustomAction)
+    const NESTED_KNOWN = {
+      RemoteLogging:       ['ServerType','ServerAddress','QueueUnsentEvents','QueuedEventsMax','SyslogOptions','WebhookCustomData'],
+      RenewalCustomAction: ['ActionExecutablePath','ActionExecutableChecksum','ActionNotificationInterval'],
+    };
+    let subKeyCount = 0;
+    for (const k of knownKeys) {
+      if (NESTED_KNOWN[k] && settings[k]?.type === 'dict') {
+        const nested = parsePlistDict(settings[k].node);
+        subKeyCount += Object.keys(nested).filter(nk => NESTED_KNOWN[k].includes(nk)).length;
+        // SyslogOptions sub-keys
+        if (k === 'RemoteLogging' && nested['SyslogOptions']?.type === 'dict') {
+          const syslog = parsePlistDict(nested['SyslogOptions'].node);
+          subKeyCount += Object.keys(syslog).length;
+        }
+        // WebhookCustomData entries
+        if (k === 'RemoteLogging' && nested['WebhookCustomData']?.type === 'dict') {
+          subKeyCount += Object.keys(parsePlistDict(nested['WebhookCustomData'].node)).length;
+        }
+      }
+    }
+    const total = knownKeys.length + subKeyCount;
+    const countKey = total === 1 ? 'validator.info.foundKey' : 'validator.info.foundKeys';
+    const tpl = t(countKey) || (total === 1 ? 'Found {n} recognized Privileges key:' : 'Found {n} recognized Privileges keys:');
+
+    // Collect all key names including sub-keys for display
+    const allDisplayKeys = [...knownKeys];
+    for (const k of knownKeys) {
+      if (NESTED_KNOWN[k] && settings[k]?.type === 'dict') {
+        const nested = parsePlistDict(settings[k].node);
+        for (const nk of Object.keys(nested).filter(nk => NESTED_KNOWN[k].includes(nk))) {
+          allDisplayKeys.push(`${k}.${nk}`);
+          if (k === 'RemoteLogging' && nk === 'SyslogOptions' && nested['SyslogOptions']?.type === 'dict') {
+            for (const sk of Object.keys(parsePlistDict(nested['SyslogOptions'].node)))
+              allDisplayKeys.push(`${k}.${nk}.${sk}`);
+          }
+          if (k === 'RemoteLogging' && nk === 'WebhookCustomData' && nested['WebhookCustomData']?.type === 'dict') {
+            for (const wk of Object.keys(parsePlistDict(nested['WebhookCustomData'].node)))
+              allDisplayKeys.push(`${k}.${nk}.${wk}`);
+          }
+        }
+      }
+    }
+    allDisplayKeys.sort((a, b) => a.localeCompare(b));
+    const keyList = allDisplayKeys.map(k => `<div style="padding:1px 0"><code>${k}</code></div>`).join('');
+    findings.info.push({ key: '', msg: `${tpl.replace('{n}', total)}<div style="margin-top:6px">${keyList}</div>` });
+  }
+
+  return findings;
+}
+
+function showValidatorModal(filename, findings, parseError) {
+  document.getElementById('validator-filename').textContent = filename;
+  const container = document.getElementById('validator-findings');
+
+  if (parseError) {
+    container.innerHTML = `<div class="validator-empty" style="color:var(--force)">${parseError}</div>`;
+    document.getElementById('validator-modal').style.display = 'block';
+    return;
+  }
+
+  const { errors, warnings, info } = findings;
+  let html = '';
+
+  function renderGroup(titleKey, items, level) {
+    if (!items.length) return '';
+    const title = t(titleKey) || titleKey;
+    let g = `<div class="validator-group"><div class="validator-group-title">${title} (${items.length})</div>`;
+    for (const item of items) {
+      g += `<div class="validator-item">
+        <div class="validator-icon ${level}">${level === 'error' ? '✕' : level === 'warning' ? '!' : 'i'}</div>
+        <div class="validator-item-text">${item.msg}</div>
+      </div>`;
+    }
+    g += '</div>';
+    return g;
+  }
+
+  if (!errors.length && !warnings.length) {
+    html += `<div class="validator-empty">
+      <div class="validator-ok-icon">✓</div>
+      <div style="font-size:21px;font-weight:400;color:var(--text)">${t('validator.ok.title') || 'No issues found'}</div>
+      <div style="margin-top:4px">${t('validator.ok.body') || 'This profile looks correct.'}</div>
+    </div>`;
+  } else {
+    html = `<div class="validator-empty" style="padding-bottom:16px">
+      <div class="validator-error-icon">✕</div>
+      <div style="font-size:21px;font-weight:400;color:var(--text)">${t('validator.issues.title') || 'Issues found'}</div>
+      <div style="margin-top:4px">${t('validator.issues.body') || 'Please review the errors and warnings below.'}</div>
+    </div>` + html;
+  }
+
+  html += renderGroup('validator.group.errors', errors, 'error');
+  html += renderGroup('validator.group.warnings', warnings, 'warning');
+  html += renderGroup('validator.group.info', info, 'info');
+
+  container.innerHTML = html;
+
+  document.getElementById('validator-modal').style.display = 'block';
+}
+
+function closeValidator() {
+  document.getElementById('validator-modal').style.display = 'none';
+}
+
+document.getElementById('validator-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeValidator();
+});
 const LANG_OPTIONS = [
   ['cs', '🇨🇿 Čeština'],
   ['da', '🇩🇰 Dansk'],
@@ -2461,8 +3093,10 @@ const LANG_OPTIONS = [
 let currentLang = 'en';
 const langCache = {};
 
-function t(key) {
-  return (langCache[currentLang]?.[key]) ?? (langCache['en']?.[key]) ?? '';
+function t(key, vars) {
+  let s = (langCache[currentLang]?.[key]) ?? (langCache['en']?.[key]) ?? '';
+  if (vars) for (const [k, v] of Object.entries(vars)) s = s.replaceAll(`{${k}}`, v);
+  return s;
 }
 
 function applyLang(lang, reload = false) {
