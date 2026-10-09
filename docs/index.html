@@ -13,17 +13,17 @@
     --accent-hover: #0077ed;
     --text: #1d1d1f;
     --muted: #6e6e73;
-    --danger: #ff3b30;
     --warning: #ff9500;
     --warning-bg: #fff8ee;
     --warning-border: #ffd470;
-    --force: #c04800;
-    --force-bg: #fff9f4;
+    --destructive: #c04800;
+    --destructive-bg: #fff9f4;
 
     --section-bg: #f9f9fb;
     --dep-indent: #e8f0fe;
     --radius: 12px;
     --radius-sm: 8px;
+    --radius-modal: 20px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -90,19 +90,19 @@
     background: currentColor;
     opacity: 0.6;
   }
-  .mode-option.force-mode label { border-color: var(--force); color: var(--force); }
-  .mode-option.force-mode label:hover { background: var(--force-bg); }
+  .mode-option.force-mode label { border-color: var(--destructive); color: var(--destructive); }
+  .mode-option.force-mode label:hover { background: var(--destructive-bg); }
   .mode-option.force-mode input:checked + label {
-    border-color: var(--force);
-    background: var(--force);
+    border-color: var(--destructive);
+    background: var(--destructive);
     color: white;
   }
 
   /* Force mode warning banner */
   .force-banner {
     display: none;
-    background: var(--force-bg);
-    border: 1px solid var(--force);
+    background: var(--destructive-bg);
+    border: 1px solid var(--destructive);
     border-radius: var(--radius);
     padding: 14px 18px;
     margin-bottom: 20px;
@@ -110,7 +110,7 @@
     font-weight: 300;
     color: var(--text);
   }
-  .force-banner strong { display: block; font-weight: 500; margin-bottom: 10px; font-size: 17px; color: var(--force); }
+  .force-banner strong { display: block; font-weight: 500; margin-bottom: 10px; font-size: 17px; color: var(--destructive); }
   .force-banner p { margin: 0; }
   .force-banner.visible { display: block; }
 
@@ -138,16 +138,21 @@
   .section-header.collapsed .chevron { transform: rotate(-90deg); }
   .section-body { padding: 4px 0; }
   .section-body.hidden { display: none; }
-  .row.row-full { grid-template-columns: 1fr; }
+  .row.row-full { grid-template-columns: 20px 1fr; }
   .row.row-full .row-control { display: none; }
   .row {
     display: grid;
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: 20px 1fr 220px;
     align-items: start;
-    gap: 16px;
+    column-gap: 8px;
+    row-gap: 16px;
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
     transition: opacity 0.2s;
+  }
+  .row:not(:has(.row-control:not(:empty))) {
+    grid-template-columns: 20px 1fr;
+    padding-right: 48px;
   }
   .row.row-has-nested {
     display: flex;
@@ -155,16 +160,18 @@
   }
   .row.row-has-nested .row-top {
     display: grid;
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: 20px 1fr;
     align-items: start;
-    gap: 16px;
+    column-gap: 8px;
+    row-gap: 16px;
     width: 100%;
   }
   .row.row-has-nested .row-label { min-width: 0; }
   .row.row-has-nested > .nested-section,
   .row.row-has-nested > [id$="_nested"] {
-    width: 100%;
+    width: calc(100% - 28px);
     margin-top: 12px;
+    margin-left: 28px;
     box-sizing: border-box;
   }
   .row.row-has-nested > [id$="_nested"]:not(.nested-section) {
@@ -182,15 +189,24 @@
     background: var(--dep-indent);
   }
   .row.hidden-by-dep { display: none; }
+  .row.master-excluded,
+  .nested-section.master-excluded,
+  [data-nested-overlay-target].master-excluded { opacity: 0.45; pointer-events: none; }
+  .row-include {
+    display: flex; align-items: flex-start;
+  }
+  .row-include input[type="checkbox"] {
+    width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); margin: 0; flex-shrink: 0;
+    margin-top: 3px;
+  }
   .row-label { display: block; min-width: 0; width: 100%; }
   .row-label > * { margin-bottom: 8px; }
   .row-label > *:last-child { margin-bottom: 0; }
   .row-label strong { display: block; font-weight: 500; font-size: 15px; color: var(--text); }
   .row-label span { font-size: 15px; font-weight: 300; color: var(--muted); margin-top: 0; display: block; }
-  .row-label span.info-hint { color: var(--force); margin-top: 0; }
+  .row-label span.info-hint { color: var(--destructive); margin-top: 0; }
   .row-label input[type="number"] { display: block; width: 100px; margin-top: 0; }
   .row-label input[type="text"] { display: block; width: 100%; margin-top: 0; }
-  .row-label input[disabled] { display: none; }
   .array-item input[type="text"] { display: revert; width: 100%; margin-top: 0; }
   .row-label .array-field { margin-top: 12px; }
   .row-label .badge {
@@ -217,6 +233,7 @@
   .row-control { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
   input[type="text"], input[type="number"], select, textarea {
     width: 100%;
+    height: 32px;
     padding: 7px 10px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -228,7 +245,7 @@
     transition: border-color 0.15s;
   }
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-  input.input-error { border-color: var(--danger); }
+  input.input-error { border-color: var(--destructive); }
   .btn:disabled, .btn-add:disabled { opacity: 0.4; cursor: not-allowed; }
   textarea { resize: vertical; min-height: 80px; font-family: "SF Mono", SFMono-Regular, ui-monospace, Menlo, monospace; font-size: 15px; }
   .toggle-row { display: flex; align-items: center; gap: 10px; }
@@ -265,7 +282,7 @@
   .array-item { display: flex; gap: 6px; align-items: center; }
   .array-item input { flex: 1; }
   .btn-icon {
-    width: 30px; height: 30px;
+    width: 32px; height: 32px;
     border: 1px solid var(--border);
     background: var(--card);
     border-radius: var(--radius-sm);
@@ -277,7 +294,8 @@
     transition: all 0.15s;
   }
   .btn-icon:hover { background: var(--bg); color: var(--text); }
-  .btn-icon.danger:hover { border-color: var(--danger); color: var(--danger); }
+  .btn-icon.danger { color: var(--destructive); border-color: var(--destructive); }
+  .btn-icon.danger:hover { border-color: var(--destructive); color: var(--destructive); }
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 0 16px;
@@ -291,15 +309,10 @@
   .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
   .btn-secondary { background: var(--card); color: var(--accent); border: 1px solid var(--accent); }
   .btn-secondary:hover { background: #e8f0fe; }
-  .preset-bar {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px; margin-bottom: 20px;
-    align-items: center;
-  }
-  .preset-bar strong { font-size: 15px; margin-right: 4px; }
+  .btn-cancel { background: var(--card); color: var(--text); border: 1px solid var(--text); }
+  .btn-cancel:hover { background: var(--section-bg); }
+  .btn-danger { background: var(--destructive); color: white; border: 1px solid var(--destructive); }
+  .btn-danger:hover { filter: brightness(1.1); }
   .nested-section {
     background: var(--section-bg);
     border: 1px solid var(--border);
@@ -308,8 +321,12 @@
   }
   .nested-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .nested-row:last-child { margin-bottom: 0; }
+  .nested-row.nested-row-optional { display: grid; grid-template-columns: 15px 1fr; column-gap: 8px; align-items: start; }
+  .nested-row.nested-row-optional > * { grid-column: 2; }
+  .nested-row.nested-row-optional > .nested-include { grid-column: 1; grid-row: 1; padding-top: 2px; }
+  .nested-include input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); margin: 0; }
   .nested-row label { font-size: 15px; font-weight: 500; color: var(--muted); }
-  .nested-row label span { display: block; font-size: 15px; font-weight: 300; color: var(--muted); opacity: 0.8; margin-top: 1px; }
+  .nested-row label span, .nested-row > span { display: block; font-size: 15px; font-weight: 300; color: var(--muted); opacity: 0.8; margin-top: 1px; }
   .nested-row .badge { display: inline; font-size: 14px; font-family: inherit; font-weight: 300; background: #e6f4ea; color: #1e7e34; border-radius: 4px; padding: 1px 5px; margin-left: 8px; }
   .nested-row select { width: fit-content; max-width: 100%; height: 33px; padding-top: 0; padding-bottom: 0; margin-top: 0; }
   .row-label select { display: block; width: fit-content; max-width: 100%; height: 33px; padding-top: 0; padding-bottom: 0; margin-top: 0; }
@@ -378,12 +395,11 @@
     cursor: pointer;
   }
   .info-text { font-size: 15px; font-weight: 300; color: var(--muted); margin-top: 4px; }
-  .info-hint { font-size: 12px; color: var(--force); margin-top: 8px; display: block; }
   .preview-modal-inner { background: var(--card); }
   .preview-pre { background: var(--section-bg); color: var(--text); }
 
   /* Validator modal */
-  .validator-modal-inner { background: var(--card); border-radius: var(--radius); max-width: 760px; margin: auto; overflow: hidden; }
+  .validator-modal-inner { background: var(--card); border-radius: var(--radius-modal); max-width: 760px; margin: auto; overflow: hidden; }
   .validator-findings { padding: 0 20px 20px; max-height: 65vh; overflow-y: auto; }
   .validator-group { margin-top: 16px; }
   .validator-group-title {
@@ -401,12 +417,24 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700; margin-top: 1px;
   }
-  .validator-icon.error   { background: var(--force);   color: #fff; }
+  .validator-icon.error   { background: var(--destructive);   color: #fff; }
   .validator-icon.warning { background: var(--warning); color: #fff; }
   .validator-icon.info    { background: var(--accent);  color: #fff; }
   .validator-item-text { font-size: 15px; line-height: 1.45; }
   .validator-item-text strong { font-weight: 600; }
   .validator-empty { padding: 32px 20px; text-align: center; color: var(--muted); font-size: 15px; }
+  /* Confirm modal */
+  .confirm-modal-inner {
+    background: var(--card);
+    border-radius: var(--radius-modal);
+    max-width: 420px;
+    margin: auto;
+    padding: 28px 28px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+  .confirm-modal-title { font-size: 17px; font-weight: 500; margin-bottom: 12px; }
+  .confirm-modal-body { font-size: 15px; font-weight: 300; color: var(--text); white-space: pre-line; line-height: 1.5; }
+  .confirm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
   .validator-ok-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 64px; height: 64px; border-radius: 50%;
@@ -416,11 +444,11 @@
   .validator-error-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 64px; height: 64px; border-radius: 50%;
-    background: var(--force); color: #fff; font-size: 32px;
+    background: var(--destructive); color: #fff; font-size: 32px;
     margin-bottom: 12px;
   }
   @media (max-width: 640px) {
-    .row { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 20px 1fr; }
     .meta-grid { grid-template-columns: 1fr; }
     main { padding: 0 12px 80px; }
   }
@@ -434,11 +462,10 @@
       --accent-hover: #409cff;
       --text: #f5f5f7;
       --muted: #98989d;
-      --danger: #ff453a;
       --warning: #ff9f0a;
       --warning-bg: #2d1f00;
       --warning-border: #7a4a00;
-      --force: #f56302;
+      --destructive: #f56302;
       --section-bg: #242426;
       --dep-indent: #1c2b4a;
     }
@@ -457,7 +484,6 @@
     .btn-secondary:hover { background: #1c2b4a; }
     .btn-icon { background: #3a3a3c; }
     .btn-icon:hover { background: #48484a; }
-    .preset-bar { background: #2c2c2e; }
     .row.is-dependent { background: #1c2535; }
     .row-label .badge { background: #1e3a18; color: #62ba46; }
     .nested-row .badge { background: #1e3a18; color: #62ba46; }
@@ -465,10 +491,9 @@
     .mode-option label { background: transparent; }
     .mode-option label:hover { background: #1c2b4a; }
     .mode-option input:checked + label { background: var(--accent); color: white; }
-    .force-banner { background: #290f06; color: #f5f5f7; border-color: var(--force); }
-    .force-banner strong { color: var(--force); }
+    .force-banner { background: #290f06; color: #f5f5f7; border-color: var(--destructive); }
+    .force-banner strong { color: var(--destructive); }
     .mode-option.force-mode label:hover { background: #290f06; }
-    .info-hint { color: var(--force); }
     .validator-ok-icon { background: #62ba46; }
   }
 </style>
@@ -481,23 +506,23 @@
     <span style="font-size:21px;font-weight:400" data-i18n="header.subtitle">Select a configuration mode to get started.</span>
     <div class="mode-options">
       <div class="mode-option">
-        <input type="radio" name="configMode" id="mode_fixed" value="fixed" onchange="applyMode(this.value)">
+        <input type="radio" name="configMode" id="mode_fixed" value="fixed" onchange="applyMode(this.value, !profileImported)">
         <label for="mode_fixed" data-i18n="mode.fixed">Fixed Interval</label>
       </div>
       <div class="mode-option">
-        <input type="radio" name="configMode" id="mode_max" value="max" checked onchange="applyMode(this.value)">
+        <input type="radio" name="configMode" id="mode_max" value="max" checked onchange="applyMode(this.value, !profileImported)">
         <label for="mode_max" data-i18n="mode.max">Maximum Interval</label>
       </div>
       <div class="mode-option force-mode">
-        <input type="radio" name="configMode" id="mode_force_admin" value="force_admin" onchange="applyMode(this.value)">
+        <input type="radio" name="configMode" id="mode_force_admin" value="force_admin" onchange="applyMode(this.value, !profileImported)">
         <label for="mode_force_admin" data-i18n="mode.force_admin">Force Admin</label>
       </div>
       <div class="mode-option force-mode">
-        <input type="radio" name="configMode" id="mode_force_user" value="force_user" onchange="applyMode(this.value)">
+        <input type="radio" name="configMode" id="mode_force_user" value="force_user" onchange="applyMode(this.value, !profileImported)">
         <label for="mode_force_user" data-i18n="mode.force_user">Force Standard User</label>
       </div>
       <div class="mode-option force-mode">
-        <input type="radio" name="configMode" id="mode_force_none" value="force_none" onchange="applyMode(this.value)">
+        <input type="radio" name="configMode" id="mode_force_none" value="force_none" onchange="applyMode(this.value, !profileImported)">
         <label for="mode_force_none" data-i18n="mode.force_none">Lock Current Privileges</label>
       </div>
     </div>
@@ -547,6 +572,7 @@
     <div class="section-body">
 
       <div class="row row-full" data-key="ExpirationInterval" id="row_ExpirationInterval">
+        <div class="row-include"><input type="checkbox" id="ExpirationInterval_include" onchange="onIncludeChange('ExpirationInterval')"></div>
         <div class="row-label">
           <strong data-i18n="label.ExpirationInterval">Expiration Interval <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.ExpirationInterval">Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.</span>
@@ -556,6 +582,7 @@
       </div>
 
       <div class="row row-full" data-key="ExpirationIntervalMax" id="row_ExpirationIntervalMax" style="display:none">
+        <div class="row-include"><input type="checkbox" id="ExpirationIntervalMax_include" onchange="onIncludeChange('ExpirationIntervalMax')"></div>
         <div class="row-label">
           <strong data-i18n="label.ExpirationIntervalMax">Maximum Expiration Interval <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.ExpirationIntervalMax">Set a maximum time interval for a user to request administrator privileges. This generally works the same way as <code>ExpirationInterval</code>, but allows the user to choose any timeout value up to the specified one. So if the admin would set <code>ExpirationIntervalMax</code> to 20 minutes, the user can choose to set it to a value up to 20 minutes instead of being forced to use the 20 minute timeout.</span>
@@ -565,16 +592,11 @@
       </div>
 
       <div class="row" data-key="MaxIntervalInitial" id="row_MaxIntervalInitial" style="display:none">
+        <div class="row-include"><input type="checkbox" id="MaxIntervalInitial_include" onchange="onIncludeChange('MaxIntervalInitial')"></div>
         <div class="row-label">
           <strong data-i18n="label.MaxIntervalInitial">Maximum Interval Initial <span class="badge">Privileges 2.4+</span></strong>
           <span data-i18n="desc.MaxIntervalInitial">Sets the initial time interval if <code>ExpirationIntervalMax</code> has been configured. If not set and the user never selected an expiration interval, the initial expiration interval is set to 20 minutes. If you want to define an expiration interval that is less than the maximum expiration interval, use this option to define it. As mentioned earlier, this option has no effect if a user has already selected an expiration interval.</span>
-          <input type="number" id="MaxIntervalInitial" min="1" value="20" disabled>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="MaxIntervalInitial_enabled" onchange="toggleField('MaxIntervalInitial')"><span class="slider"></span></label>
-            <span class="toggle-label" id="MaxIntervalInitial_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="number" id="MaxIntervalInitial" min="1" value="20">
         </div>
       </div>
 
@@ -590,6 +612,7 @@
     <div class="section-body">
 
       <div class="row" data-key="AllowPrivilegeRenewal">
+        <div class="row-include"><input type="checkbox" id="AllowPrivilegeRenewal_include" onchange="onIncludeChange('AllowPrivilegeRenewal')"></div>
         <div class="row-label">
           <strong data-i18n="label.AllowPrivilegeRenewal">Allow Privilege Renewal <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.AllowPrivilegeRenewal">Specifies whether expiring administrator privileges can be renewed. When enabled, the user will receive a notification one minute before administrator privileges expire. The notification includes a Renew button that can be used to renew administrator privileges.</span>
@@ -603,74 +626,63 @@
       </div>
 
       <div class="row is-dependent" data-key="RenewalFollowsAuthSetting">
+        <div class="row-include"><input type="checkbox" id="RenewalFollowsAuthSetting_include" onchange="onIncludeChange('RenewalFollowsAuthSetting')"></div>
         <div class="row-label">
           <strong data-i18n="label.RenewalFollowsAuthSetting">Renewal Follows Auth Setting <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.RenewalFollowsAuthSetting">When enabled, renewing privileges requires the same kind of authentication as initially requesting administrator privileges.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="RenewalFollowsAuthSetting"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="RenewalFollowsAuthSetting" onchange="onBoolChange('RenewalFollowsAuthSetting')"><span class="slider"></span></label>
             <span class="toggle-label" id="RenewalFollowsAuthSetting_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row is-dependent" data-key="RenewalNotificationInterval">
+        <div class="row-include"><input type="checkbox" id="RenewalNotificationInterval_include" onchange="onIncludeChange('RenewalNotificationInterval')"></div>
         <div class="row-label">
           <strong data-i18n="label.RenewalNotificationInterval">Renewal Notification Interval <span class="badge">Privileges 2.4.1+</span></strong>
           <span data-i18n="desc.RenewalNotificationInterval">Specifies the number of minutes before the expiration of administrator privileges when <em>Privileges</em> should notify users to renew their privileges. This number must be lower than the expiration interval, otherwise it defaults to 1. If a <code>RenewalCustomAction</code> is specified, its <code>ActionNotificationInterval</code> overwrites the configured interval.</span>
-          <input type="number" id="RenewalNotificationInterval" min="1" value="5" disabled>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="RenewalNotificationInterval_enabled" onchange="toggleField('RenewalNotificationInterval')"><span class="slider"></span></label>
-            <span class="toggle-label" id="RenewalNotificationInterval_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="number" id="RenewalNotificationInterval" min="1" value="5">
         </div>
       </div>
 
-      <div class="row row-has-nested is-dependent" data-key="RenewalCustomAction">
+      <div class="row row-has-nested is-dependent" data-key="RenewalCustomAction" data-no-nested-overlay>
         <div class="row-top">
+          <div class="row-include"><input type="checkbox" id="RenewalCustomAction_include" onchange="onIncludeChange('RenewalCustomAction')"></div>
           <div class="row-label">
             <strong data-i18n="label.RenewalCustomAction">Renewal Custom Action <span class="badge">Privileges 2.3+</span></strong>
             <span data-i18n="desc.RenewalCustomAction">Specifies a custom action to notify the user about expiring administrator privileges. So you can inform your users using a dialog or whatever you want.</span>
           </div>
-          <div class="row-control">
-            <div class="toggle-row">
-              <label class="toggle"><input type="checkbox" id="RenewalCustomAction_enabled" onchange="toggleField('RenewalCustomAction'); toggleNestedSection('RenewalCustomAction_nested')"><span class="slider"></span></label>
-              <span class="toggle-label" id="RenewalCustomAction_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-            </div>
-          </div>
         </div>
-        <div id="RenewalCustomAction_nested" class="nested-section" style="display:none">
+        <div id="RenewalCustomAction_nested" class="nested-section">
           <div class="nested-row">
-            <label data-i18n="nested.RCA.path">Action Executable Path (required)<span class="badge">Privileges 2.3+</span><span data-i18n="desc.RCA.path">If configured, the default renewal notifications are disabled and the specified executable is launched instead.</span></label>
-            <input type="text" id="RCA_path" placeholder="/usr/local/bin/myscript.sh" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value))">
+            <label data-i18n="nested.RCA.path">Action Executable Path (required)<span class="badge">Privileges 2.3+</span></label>
+            <span data-i18n="desc.RCA.path">If configured, the default renewal notifications are disabled and the specified executable is launched instead.</span>
+            <input type="text" id="RCA_path" placeholder="/usr/local/bin/myscript.sh" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
           </div>
           <div class="nested-row">
-            <label data-i18n="nested.RCA.checksum">Action Executable Checksum<span class="badge">Privileges 2.6+</span><span data-i18n="desc.RCA.checksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>ActionExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span></label>
-            <input type="text" id="RCA_checksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
+            <label data-i18n="nested.RCA.checksum">Action Executable Checksum<span class="badge">Privileges 2.6+</span></label>
+            <span data-i18n="desc.RCA.checksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>ActionExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span>
+            <input type="text" id="RCA_checksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
           </div>
           <div class="nested-row">
-            <label data-i18n="nested.RCA.interval">Action Notification Interval<span class="badge">Privileges 2.3+</span><span data-i18n="desc.RCA.interval">This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using <code>ActionExecutablePath</code> as the <code>$1</code> argument.</span></label>
-            <input type="number" id="RCA_interval" min="1" value="1">
+            <label data-i18n="nested.RCA.interval">Action Notification Interval<span class="badge">Privileges 2.3+</span></label>
+            <span data-i18n="desc.RCA.interval">This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using <code>ActionExecutablePath</code> as the <code>$1</code> argument.</span>
+            <input type="number" id="RCA_interval" min="1" value="1" oninput="if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
           </div>
         </div>
       </div>
 
       <div class="row" data-key="AutoRenewalProcessPaths">
+        <div class="row-include"><input type="checkbox" id="AutoRenewalProcessPaths_include" onchange="onIncludeChange('AutoRenewalProcessPaths')"></div>
         <div class="row-label">
           <strong data-i18n="label.AutoRenewalProcessPaths">Auto Renewal Process Paths <span class="badge">Privileges 2.6+</span></strong>
           <span data-i18n="desc.AutoRenewalProcessPaths">Specifies the paths to applications/binaries that trigger an automatic renewal of a user's administrator privileges while they are running. At the specified <code>RenewalNotificationInterval</code>, the <em>PrivilegesAgent</em> checks to see if the user has one of the specified processes running. If so, the administrator privileges are renewed automatically. This feature works independently from the <code>AllowPrivilegeRenewal</code> setting. Therefore, even if you disable privilege renewals for your users, you can still use the automatic renewal feature.</span>
 
-          <div id="AutoRenewalProcessPaths_container" class="array-field" style="display:none">
+          <div id="AutoRenewalProcessPaths_container" class="array-field" data-validate="path">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('AutoRenewalProcessPaths_container', '/absolute/path/to/your/binary')" data-i18n="btn.addPath">+ Add path</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="AutoRenewalProcessPaths_enabled" onchange="toggleField('AutoRenewalProcessPaths')"><span class="slider"></span></label>
-            <span class="toggle-label" id="AutoRenewalProcessPaths_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
@@ -687,6 +699,7 @@
     <div class="section-body">
 
       <div class="row" data-key="RequireAuthentication">
+        <div class="row-include"><input type="checkbox" id="RequireAuthentication_include" onchange="onIncludeChange('RequireAuthentication')"></div>
         <div class="row-label">
           <strong data-i18n="label.RequireAuthentication">Require Authentication <span class="badge">Privileges 1.5+</span></strong>
           <span data-i18n="desc.RequireAuthentication">Specifies whether authentication is required to obtain administrator privileges. When enabled, the user is prompted for the account password (or Touch ID, if available).</span>
@@ -699,7 +712,23 @@
         </div>
       </div>
 
+      <div class="row is-dependent" data-key="EnableSmartCardSupport">
+        <div class="row-include"><input type="checkbox" id="EnableSmartCardSupport_include" onchange="onIncludeChange('EnableSmartCardSupport')"></div>
+        <div class="row-label">
+          <strong data-i18n="label.EnableSmartCardSupport">Enable Smart Card Support <span class="badge">Privileges 2.2+</span></strong>
+          <span data-i18n="desc.EnableSmartCardSupport">Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services. Enabling this option will disable <code>RequireBiometricAuthentication</code>.</span>
+          <span class="info-hint" data-i18n="hint.EnableSmartCardSupport"><em>PrivilegesCLI</em> does not use smart card authentication by default. To enable it, please make sure the <code>AllowCLIBiometricAuthentication</code> setting is also enabled.</span>
+        </div>
+        <div class="row-control">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="EnableSmartCardSupport" onchange="onBoolChange('EnableSmartCardSupport')"><span class="slider"></span></label>
+            <span class="toggle-label" id="EnableSmartCardSupport_lbl" data-i18n="toggle.disabled">Disabled</span>
+          </div>
+        </div>
+      </div>
+
       <div class="row is-dependent" data-key="RequireBiometricAuthentication">
+        <div class="row-include"><input type="checkbox" id="RequireBiometricAuthentication_include" onchange="onIncludeChange('RequireBiometricAuthentication')"></div>
         <div class="row-label">
           <strong data-i18n="label.RequireBiometricAuthentication">Require Biometric Authentication <span class="badge">Privileges 2.4+</span></strong>
           <span data-i18n="desc.RequireBiometricAuthentication">Specifies whether biometric authentication is required to obtain administrator privileges. When enabled, the PrivilegesAgent prompts the user for Touch ID and does not offer an alternative option. If Touch ID is unavailable or has not been configured, the user is prompted for their account password instead.</span>
@@ -713,47 +742,29 @@
       </div>
 
       <div class="row is-dependent" data-key="BiometricsFallbackType">
+        <div class="row-include"><input type="checkbox" id="BiometricsFallbackType_include" onchange="onIncludeChange('BiometricsFallbackType')"></div>
         <div class="row-label">
           <strong data-i18n="label.BiometricsFallbackType">Biometrics Fallback Type <span class="badge">Privileges 2.4.2+</span></strong>
           <span data-i18n="desc.BiometricsFallbackType">This specifies the fallback strategy when <code>RequireBiometricAuthentication</code> is enabled. By default, users are prompted to enter their username and password if biometric authentication is not configured or is unavailable. However, this may not be the desired behavior in all environments.</span>
-          <select id="BiometricsFallbackType" disabled>
+          <select id="BiometricsFallbackType" onchange="setIncluded('BiometricsFallbackType', true); evaluateAllDeps();">
             <option value="0" data-i18n="opt.BiometricsFallbackType.0">Ask for credentials if biometrics are unavailable or unconfigured</option>
             <option value="1" data-i18n="opt.BiometricsFallbackType.1">Ask only if biometrics are unavailable (not if unconfigured)</option>
             <option value="2" data-i18n="opt.BiometricsFallbackType.2">Never ask for credentials</option>
           </select>
           <span class="info-hint" data-i18n="hint.BiometricsFallbackType"><em>PrivilegesCLI</em> does not use biometric authentication by default. Therefore, this setting will be ignored unless the <code>AllowCLIBiometricAuthentication</code> setting is enabled.</span>
         </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="BiometricsFallbackType_enabled" onchange="toggleField('BiometricsFallbackType')"><span class="slider"></span></label>
-            <span class="toggle-label" id="BiometricsFallbackType_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
-        </div>
       </div>
 
       <div class="row is-dependent" data-key="AllowCLIBiometricAuthentication">
+        <div class="row-include"><input type="checkbox" id="AllowCLIBiometricAuthentication_include" onchange="onIncludeChange('AllowCLIBiometricAuthentication')"></div>
         <div class="row-label">
           <strong data-i18n="label.AllowCLIBiometricAuthentication">Allow CLI Biometric Authentication <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.AllowCLIBiometricAuthentication">Specifies whether to allow biometric authentication (or smart cards) in the <em>PrivilegesCLI</em> to obtain administrator privileges. When enabled, the authentication process is passed to <em>PrivilegesAgent</em>, which then prompts the user for Touch ID or smart card. If neither of these are available, the user is prompted for the account password.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="AllowCLIBiometricAuthentication"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="AllowCLIBiometricAuthentication" onchange="onBoolChange('AllowCLIBiometricAuthentication')"><span class="slider"></span></label>
             <span class="toggle-label" id="AllowCLIBiometricAuthentication_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row is-dependent" data-key="EnableSmartCardSupport">
-        <div class="row-label">
-          <strong data-i18n="label.EnableSmartCardSupport">Enable Smart Card Support <span class="badge">Privileges 2.2+</span></strong>
-          <span data-i18n="desc.EnableSmartCardSupport">Specifies whether to enable smart card support for authentication. Since the modern Local Authentication framework does not yet support smart cards/PIV tokens, enabling this option will cause the application to fall back to the older Authorization Services. Enabling this option will disable <code>RequireBiometricAuthentication</code>.</span>
-          <span class="info-hint" data-i18n="hint.EnableSmartCardSupport"><em>PrivilegesCLI</em> does not use smart card authentication by default. To enable it, please make sure the <code>AllowCLIBiometricAuthentication</code> setting is also enabled.</span>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="EnableSmartCardSupport" onchange="onBoolChange('EnableSmartCardSupport')"><span class="slider"></span></label>
-            <span class="toggle-label" id="EnableSmartCardSupport_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
@@ -771,35 +782,25 @@
     <div class="section-body">
 
       <div class="row" data-key="LimitToUser">
+        <div class="row-include"><input type="checkbox" id="LimitToUser_include" onchange="onIncludeChange('LimitToUser')"></div>
         <div class="row-label">
           <strong data-i18n="label.LimitToUser">Limit to User <span class="badge">Privileges 1.5+</span></strong>
           <span data-i18n="desc.LimitToUser">Restricts use of the application to the specified user or list of users. When used with a client management system that supports variables in configuration profiles, variables such as <code>$USERNAME</code> can be used here.</span>
 
-          <div id="LimitToUser_container" class="array-field" data-validate="username" style="display:none">
+          <div id="LimitToUser_container" class="array-field" data-validate="username">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('LimitToUser_container', 'privileges_user')" data-i18n="btn.addUser">+ Add User</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="LimitToUser_enabled" onchange="toggleField('LimitToUser')"><span class="slider"></span></label>
-            <span class="toggle-label" id="LimitToUser_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="LimitToGroup">
+        <div class="row-include"><input type="checkbox" id="LimitToGroup_include" onchange="onIncludeChange('LimitToGroup')"></div>
         <div class="row-label">
           <strong data-i18n="label.LimitToGroup">Limit to Group <span class="badge">Privileges 1.5+</span></strong>
           <span data-i18n="desc.LimitToGroup">Restricts use of the application to the specified group or list of groups.</span>
 
-          <div id="LimitToGroup_container" class="array-field" data-validate="groupname" style="display:none">
+          <div id="LimitToGroup_container" class="array-field" data-validate="groupname">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('LimitToGroup_container', 'privileges_group')" data-i18n="btn.addGroup">+ Add Group</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="LimitToGroup_enabled" onchange="toggleField('LimitToGroup')"><span class="slider"></span></label>
-            <span class="toggle-label" id="LimitToGroup_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
@@ -816,6 +817,7 @@
     <div class="section-body">
 
       <div class="row" data-key="RevokePrivilegesAtLogin">
+        <div class="row-include"><input type="checkbox" id="RevokePrivilegesAtLogin_include" onchange="onIncludeChange('RevokePrivilegesAtLogin')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokePrivilegesAtLogin">Revoke Privileges at Login <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.RevokePrivilegesAtLogin">When enabled, the user's administrator privileges are revoked at login.</span>
@@ -830,23 +832,19 @@
       </div>
 
       <div class="row is-dependent" data-key="RevokeAtLoginExcludedUsers">
+        <div class="row-include"><input type="checkbox" id="RevokeAtLoginExcludedUsers_include" onchange="onIncludeChange('RevokeAtLoginExcludedUsers')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokeAtLoginExcludedUsers">Revoke at Login — Excluded Users <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.RevokeAtLoginExcludedUsers">If <code>RevokePrivilegesAtLogin</code> is enabled, the specified users are excluded from privilege revocation at login. When used with a client management system that supports variables in configuration profiles, variables such as <code>$USERNAME</code> can be used here.</span>
 
-          <div id="RevokeAtLoginExcludedUsers_container" class="array-field" data-validate="username" style="display:none">
+          <div id="RevokeAtLoginExcludedUsers_container" class="array-field" data-validate="username">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('RevokeAtLoginExcludedUsers_container', 'admin')" data-i18n="btn.addUser">+ Add User</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="RevokeAtLoginExcludedUsers_enabled" onchange="toggleField('RevokeAtLoginExcludedUsers')"><span class="slider"></span></label>
-            <span class="toggle-label" id="RevokeAtLoginExcludedUsers_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="RevokePrivilegesAfterSystemTimeChange">
+        <div class="row-include"><input type="checkbox" id="RevokePrivilegesAfterSystemTimeChange_include" onchange="onIncludeChange('RevokePrivilegesAfterSystemTimeChange')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokePrivilegesAfterSystemTimeChange">Revoke Privileges after System Time Change <span class="badge">Privileges 2.4.1+</span></strong>
           <span data-i18n="desc.RevokePrivilegesAfterSystemTimeChange">When enabled, the user's administrator privileges are revoked if the system time did change. Enable this feature to prevent users from extending their admin time by adjusting the time on their Mac.</span>
@@ -860,23 +858,19 @@
       </div>
 
       <div class="row is-dependent" data-key="RevokeAfterTimeChangeExcludedUsers">
+        <div class="row-include"><input type="checkbox" id="RevokeAfterTimeChangeExcludedUsers_include" onchange="onIncludeChange('RevokeAfterTimeChangeExcludedUsers')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokeAfterTimeChangeExcludedUsers">Revoke after Time Change — Excluded Users <span class="badge">Privileges 2.5.2+</span></strong>
           <span data-i18n="desc.RevokeAfterTimeChangeExcludedUsers">If <code>RevokePrivilegesAfterSystemTimeChange</code> is enabled, the specified users are excluded from privilege revocation after system time did change. When used with a client management system that supports variables in configuration profiles, variables such as <code>$USERNAME</code> can be used here.</span>
 
-          <div id="RevokeAfterTimeChangeExcludedUsers_container" class="array-field" data-validate="username" style="display:none">
+          <div id="RevokeAfterTimeChangeExcludedUsers_container" class="array-field" data-validate="username">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('RevokeAfterTimeChangeExcludedUsers_container', 'admin')" data-i18n="btn.addUser">+ Add User</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="RevokeAfterTimeChangeExcludedUsers_enabled" onchange="toggleField('RevokeAfterTimeChangeExcludedUsers')"><span class="slider"></span></label>
-            <span class="toggle-label" id="RevokeAfterTimeChangeExcludedUsers_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="RevokePrivilegesOnScreenLock">
+        <div class="row-include"><input type="checkbox" id="RevokePrivilegesOnScreenLock_include" onchange="onIncludeChange('RevokePrivilegesOnScreenLock')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokePrivilegesOnScreenLock">Revoke Privileges on Screen Lock <span class="badge">Privileges 2.5.1+</span></strong>
           <span data-i18n="desc.RevokePrivilegesOnScreenLock">When enabled, the user's administrator privileges are revoked whenever the screen is locked.</span>
@@ -890,35 +884,25 @@
       </div>
 
       <div class="row is-dependent" data-key="RevokeOnScreenLockExcludedUsers">
+        <div class="row-include"><input type="checkbox" id="RevokeOnScreenLockExcludedUsers_include" onchange="onIncludeChange('RevokeOnScreenLockExcludedUsers')"></div>
         <div class="row-label">
           <strong data-i18n="label.RevokeOnScreenLockExcludedUsers">Revoke on Screen Lock — Excluded Users <span class="badge">Privileges 2.5.2+</span></strong>
           <span data-i18n="desc.RevokeOnScreenLockExcludedUsers">If <code>RevokePrivilegesOnScreenLock</code> is enabled, the specified users are excluded from privilege revocation on screen lock. When used with a client management system that supports variables in configuration profiles, variables such as <code>$USERNAME</code> can be used here.</span>
 
-          <div id="RevokeOnScreenLockExcludedUsers_container" class="array-field" data-validate="username" style="display:none">
+          <div id="RevokeOnScreenLockExcludedUsers_container" class="array-field" data-validate="username">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('RevokeOnScreenLockExcludedUsers_container', 'admin')" data-i18n="btn.addUser">+ Add User</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="RevokeOnScreenLockExcludedUsers_enabled" onchange="toggleField('RevokeOnScreenLockExcludedUsers')"><span class="slider"></span></label>
-            <span class="toggle-label" id="RevokeOnScreenLockExcludedUsers_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="AutomaticRevocationExcludedUsers">
+        <div class="row-include"><input type="checkbox" id="AutomaticRevocationExcludedUsers_include" onchange="onIncludeChange('AutomaticRevocationExcludedUsers')"></div>
         <div class="row-label">
           <strong data-i18n="label.AutomaticRevocationExcludedUsers">Automatic Revocation — Excluded Users <span class="badge">Privileges 2.5.2+</span></strong>
           <span data-i18n="desc.AutomaticRevocationExcludedUsers">The specified users are excluded from any automatic revocation. This key is evaluated before the keys <code>RevokeAtLoginExcludedUsers</code>, <code>RevokeAfterTimeChangeExcludedUsers</code>, <code>RevokeOnScreenLockExcludedUsers</code>, and any other automatic revocation key that may be introduced in the future. If a user is listed in the <code>AutomaticRevocationExcludedUsers</code> key, the other keys are not evaluated. When used with a client management system that supports variables in configuration profiles, variables such as <code>$USERNAME</code> can be used here.</span>
 
-          <div id="AutomaticRevocationExcludedUsers_container" class="array-field" data-validate="username" style="display:none">
+          <div id="AutomaticRevocationExcludedUsers_container" class="array-field" data-validate="username">
             <button class="btn btn-secondary btn-add" onclick="addArrayItem('AutomaticRevocationExcludedUsers_container', 'admin')" data-i18n="btn.addUser">+ Add User</button>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="AutomaticRevocationExcludedUsers_enabled" onchange="toggleField('AutomaticRevocationExcludedUsers')"><span class="slider"></span></label>
-            <span class="toggle-label" id="AutomaticRevocationExcludedUsers_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
@@ -935,6 +919,7 @@
     <div class="section-body">
 
       <div class="row" data-key="ReasonRequired">
+        <div class="row-include"><input type="checkbox" id="ReasonRequired_include" onchange="onIncludeChange('ReasonRequired')"></div>
         <div class="row-label">
           <strong data-i18n="label.ReasonRequired">Reason Required <span class="badge">Privileges 1.5+</span></strong>
           <span data-i18n="desc.ReasonRequired">When enabled, the user must provide a reason for requesting administrator privileges. The reason is logged. Note that once this option is enabled, privileges cannot be changed from the <em>Privileges</em> Dock tile menu or the status item menu.</span>
@@ -948,34 +933,25 @@
       </div>
 
       <div class="row is-dependent" data-key="ReasonMinLength">
+        <div class="row-include"><input type="checkbox" id="ReasonMinLength_include" onchange="onIncludeChange('ReasonMinLength')"></div>
         <div class="row-label">
           <strong data-i18n="label.ReasonMinLength">Minimum Length <span class="badge">Privileges 1.5+</span></strong>
           <span data-i18n="desc.ReasonMinLength">If <code>ReasonRequired</code> is enabled, this key specifies the minimum number of characters the user has to enter as the reason for becoming an admin. If not set, the value defaults to 10. If a value &lt; 1 is specified or if <code>ReasonMinLength</code> is &gt; 250, the value is set to default.</span>
-          <input type="number" id="ReasonMinLength" min="1" max="250" value="10" disabled>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ReasonMinLength_enabled" onchange="toggleField('ReasonMinLength')"><span class="slider"></span></label>
-            <span class="toggle-label" id="ReasonMinLength_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="number" id="ReasonMinLength" min="1" max="250" value="10">
         </div>
       </div>
 
       <div class="row is-dependent" data-key="ReasonMaxLength">
+        <div class="row-include"><input type="checkbox" id="ReasonMaxLength_include" onchange="onIncludeChange('ReasonMaxLength')"></div>
         <div class="row-label">
           <strong data-i18n="label.ReasonMaxLength">Maximum Length <span class="badge">Privileges 1.5.3+</span></strong>
           <span data-i18n="desc.ReasonMaxLength">If <code>ReasonRequired</code> is enabled, this key specifies the maximum number of characters the user can enter as the reason for becoming an admin. If not set, the value defaults to 250. If a value &gt; 250 is specified or if <code>ReasonMaxLength</code> is &lt;= <code>ReasonMinLength</code>, the value is set to default.</span>
-          <input type="number" id="ReasonMaxLength" min="1" max="250" value="250" disabled>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ReasonMaxLength_enabled" onchange="toggleField('ReasonMaxLength')"><span class="slider"></span></label>
-            <span class="toggle-label" id="ReasonMaxLength_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="number" id="ReasonMaxLength" min="1" max="250" value="250">
         </div>
       </div>
 
       <div class="row is-dependent" data-key="ReasonCheckingEnabled">
+        <div class="row-include"><input type="checkbox" id="ReasonCheckingEnabled_include" onchange="onIncludeChange('ReasonCheckingEnabled')"></div>
         <div class="row-label">
           <strong data-i18n="label.ReasonCheckingEnabled">Reason Checking <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.ReasonCheckingEnabled">When enabled, the text the user enters for a reason is roughly parsed for valid words. If the text does not contain any valid words, the Request Privileges button remains grayed out, even if the minimum number of characters has been entered. The test passes if the text contains any valid words, even if they don't make sense.</span>
@@ -983,50 +959,47 @@
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ReasonCheckingEnabled"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="ReasonCheckingEnabled" onchange="onBoolChange('ReasonCheckingEnabled')"><span class="slider"></span></label>
             <span class="toggle-label" id="ReasonCheckingEnabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row is-dependent" data-key="PassReasonToExecutable">
+        <div class="row-include"><input type="checkbox" id="PassReasonToExecutable_include" onchange="onIncludeChange('PassReasonToExecutable')"></div>
         <div class="row-label">
           <strong data-i18n="label.PassReasonToExecutable">Pass Reason to Executable <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.PassReasonToExecutable">Specifies whether the reason that the user entered when requesting administrator privileges should be passed to the executable configured with the <code>PostChangeExecutablePath</code> key. This is disabled by default. If enabled, the reason is passed to the executable as <code>$3</code>.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="PassReasonToExecutable"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="PassReasonToExecutable" onchange="onBoolChange('PassReasonToExecutable')"><span class="slider"></span></label>
             <span class="toggle-label" id="PassReasonToExecutable_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row is-dependent" data-key="ReasonPresetList" id="ReasonPresetList_row">
+        <div class="row-include"><input type="checkbox" id="ReasonPresetList_include" onchange="onIncludeChange('ReasonPresetList')"></div>
         <div class="row-label" id="ReasonPresetList_label">
           <strong data-i18n="label.ReasonPresetList">Reason Preset List <span class="badge">Privileges 1.5.3+</span></strong>
           <span data-i18n="desc.ReasonPresetList">This key allows to pre-define a list of possible reasons (for becoming an admin) the user can choose from. When set, an additional pop-up menu will appear in the dialog box. This only works for the GUI version of <em>Privileges</em>.</span>
-          <div id="ReasonPresetList_area" style="display:none;overflow:hidden">
-            <div class="reason-preset-list" id="ReasonPresetList_items"></div>
-            <button id="reason-add-btn" class="btn btn-secondary btn-add" style="margin-top:4px;width:fit-content" onclick="addReasonPreset()" data-i18n="btn.addReason">+ Add Reason</button>
-          </div>
         </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ReasonPresetList_enabled" onchange="toggleField('ReasonPresetList'); toggleReasonPresetArea(this.checked)"><span class="slider"></span></label>
-            <span class="toggle-label" id="ReasonPresetList_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+        <div id="ReasonPresetList_nested" style="overflow:hidden;grid-column:1/-1;margin-top:-8px;padding:0 0 4px 28px">
+          <div class="reason-preset-list" id="ReasonPresetList_items"></div>
+          <button id="reason-add-btn" class="btn btn-secondary btn-add" style="margin-top:4px;width:fit-content" onclick="addReasonPreset()" data-i18n="btn.addReason">+ Add Reason</button>
         </div>
       </div>
 
       <div class="row is-dependent" data-key="ReasonStrictPresetList">
+        <div class="row-include"><input type="checkbox" id="ReasonStrictPresetList_include" onchange="onIncludeChange('ReasonStrictPresetList')"></div>
         <div class="row-label">
           <strong data-i18n="label.ReasonStrictPresetList">Use Strict Preset List <span class="badge">Privileges 2.5.3+</span></strong>
           <span data-i18n="desc.ReasonStrictPresetList">When enabled, the <code>ReasonPresetList</code> is used as defined, otherwise an additional entry Other… is added to the list of presets allowing the users to enter a custom reason for requesting admin rights.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ReasonStrictPresetList"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="ReasonStrictPresetList" onchange="onBoolChange('ReasonStrictPresetList')"><span class="slider"></span></label>
             <span class="toggle-label" id="ReasonStrictPresetList_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
@@ -1044,41 +1017,32 @@
     <div class="section-body">
 
       <div class="row" data-key="PostChangeExecutablePath">
+        <div class="row-include"><input type="checkbox" id="PostChangeExecutablePath_include" onchange="onIncludeChange('PostChangeExecutablePath')"></div>
         <div class="row-label">
           <strong data-i18n="label.PostChangeExecutablePath">Post-Change Executable Path <span class="badge">Privileges 2.0+</span></strong>
-          <span data-i18n="desc.PostChangeExecutablePath">When set, the <em>PrivilegesAgent</em> executes the given application or script and provides the current user's user name (<code>$1</code>) and its privileges (admin or user, <code>$2</code>) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently.</span>
-          <input type="text" id="PostChangeExecutablePath" placeholder="/usr/local/bin/myscript.sh" disabled oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value))">
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="PostChangeExecutablePath_enabled" onchange="toggleField('PostChangeExecutablePath')"><span class="slider"></span></label>
-            <span class="toggle-label" id="PostChangeExecutablePath_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <span data-i18n="desc.PostChangeExecutablePath">When set, the <em>PrivilegesAgent</em> executes the given application or script and provides the current user's user name (<code>$1</code>) and its privileges (admin or user, <code>$2</code>) as launch arguments. If the application or script does not exist or is not executable, the launch operation fails silently. If you leave the path empty, the pop-up button in the Privileges settings will be locked, preventing the user from configuring a post-change action.</span>
+          <input type="text" id="PostChangeExecutablePath" placeholder="/usr/local/bin/myscript.sh" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value)); if (RE_PATH.test(this.value)) { setIncluded('PostChangeExecutablePath', true); } updatePostChangeDeps(); evaluateAllDeps();">
         </div>
       </div>
 
-      <div class="row" data-key="PostChangeExecutableChecksum">
+      <div class="row is-dependent" data-key="PostChangeExecutableChecksum" data-requires-nonempty-path="true">
+        <div class="row-include"><input type="checkbox" id="PostChangeExecutableChecksum_include" onchange="onIncludeChange('PostChangeExecutableChecksum')"></div>
         <div class="row-label">
           <strong data-i18n="label.PostChangeExecutableChecksum">Post-Change Executable Checksum <span class="badge">Privileges 2.5.3+</span></strong>
           <span data-i18n="desc.PostChangeExecutableChecksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>PostChangeExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span>
-          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" disabled oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value))">
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="PostChangeExecutableChecksum_enabled" onchange="toggleField('PostChangeExecutableChecksum')"><span class="slider"></span></label>
-            <span class="toggle-label" id="PostChangeExecutableChecksum_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (RE_SHA256.test(this.value)) { setIncluded('PostChangeExecutableChecksum', true); evaluateAllDeps(); }">
         </div>
       </div>
 
-      <div class="row" data-key="PostChangeActionOnGrantOnly">
+      <div class="row is-dependent" data-key="PostChangeActionOnGrantOnly" data-requires-nonempty-path="true">
+        <div class="row-include"><input type="checkbox" id="PostChangeActionOnGrantOnly_include" onchange="onIncludeChange('PostChangeActionOnGrantOnly')"></div>
         <div class="row-label">
           <strong data-i18n="label.PostChangeActionOnGrantOnly">Post-Change Action on Grant Only <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.PostChangeActionOnGrantOnly">When enabled, the application or script, specified in <code>PostChangeExecutablePath</code>, will only be executed if administrator privileges are granted to a user, but not the privileges are revoked.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="PostChangeActionOnGrantOnly"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="PostChangeActionOnGrantOnly" onchange="onBoolChange('PostChangeActionOnGrantOnly')"><span class="slider"></span></label>
             <span class="toggle-label" id="PostChangeActionOnGrantOnly_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
@@ -1096,85 +1060,86 @@
     <div class="section-body">
 
       <div class="row" data-key="HideOtherWindows">
+        <div class="row-include"><input type="checkbox" id="HideOtherWindows_include" onchange="onIncludeChange('HideOtherWindows')"></div>
         <div class="row-label">
           <strong data-i18n="label.HideOtherWindows">Hide Other Windows <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.HideOtherWindows">By default, <em>Privileges</em> hides open windows to show the desktop and ensure that only the <em>Privileges</em> window is visible on the screen. Set <code>HideOtherWindows</code> to false to disable this function.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HideOtherWindows" checked><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="HideOtherWindows" checked onchange="onBoolChange('HideOtherWindows')"><span class="slider"></span></label>
             <span class="toggle-label" id="HideOtherWindows_lbl" data-i18n="toggle.enabled">Enabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="HideSettingsButton" data-force-hidden="true">
+        <div class="row-include"><input type="checkbox" id="HideSettingsButton_include" onchange="onIncludeChange('HideSettingsButton')"></div>
         <div class="row-label">
           <strong data-i18n="label.HideSettingsButton">Hide Settings Button <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.HideSettingsButton">When enabled, the Settings button is no longer displayed in the app.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HideSettingsButton"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="HideSettingsButton" onchange="onBoolChange('HideSettingsButton')"><span class="slider"></span></label>
             <span class="toggle-label" id="HideSettingsButton_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="HideSettingsFromDockMenu">
+        <div class="row-include"><input type="checkbox" id="HideSettingsFromDockMenu_include" onchange="onIncludeChange('HideSettingsFromDockMenu')"></div>
         <div class="row-label">
           <strong data-i18n="label.HideSettingsFromDockMenu">Hide Settings from Dock Menu <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.HideSettingsFromDockMenu">When enabled, the Settings menu item is no longer displayed in the Dock tile's menu.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HideSettingsFromDockMenu"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="HideSettingsFromDockMenu" onchange="onBoolChange('HideSettingsFromDockMenu')"><span class="slider"></span></label>
             <span class="toggle-label" id="HideSettingsFromDockMenu_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="HideSettingsFromStatusItem">
+        <div class="row-include"><input type="checkbox" id="HideSettingsFromStatusItem_include" onchange="onIncludeChange('HideSettingsFromStatusItem')"></div>
         <div class="row-label">
           <strong data-i18n="label.HideSettingsFromStatusItem">Hide Settings from Status Item <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.HideSettingsFromStatusItem">When enabled, the Settings menu item is no longer displayed in the status item's menu.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HideSettingsFromStatusItem"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="HideSettingsFromStatusItem" onchange="onBoolChange('HideSettingsFromStatusItem')"><span class="slider"></span></label>
             <span class="toggle-label" id="HideSettingsFromStatusItem_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="HideHelpButton" data-force-hidden="true">
+        <div class="row-include"><input type="checkbox" id="HideHelpButton_include" onchange="onIncludeChange('HideHelpButton')"></div>
         <div class="row-label">
           <strong data-i18n="label.HideHelpButton">Hide Help Button <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.HideHelpButton">When enabled, the Help (?) button is no longer displayed in the app.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HideHelpButton"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="HideHelpButton" onchange="onBoolChange('HideHelpButton')"><span class="slider"></span></label>
             <span class="toggle-label" id="HideHelpButton_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
-      <div class="row" data-key="HelpButtonCustomURL" data-force-hidden="true">
+      <div class="row is-dependent" data-key="HelpButtonCustomURL" data-force-hidden="true">
+        <div class="row-include"><input type="checkbox" id="HelpButtonCustomURL_include" onchange="onIncludeChange('HelpButtonCustomURL')"></div>
         <div class="row-label">
           <strong data-i18n="label.HelpButtonCustomURL">Help Button Custom URL <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.HelpButtonCustomURL">If specified, this url is called instead of the <em>Privileges</em> GitHub url if the user clicks the help button. Malformed urls and non-http(s) urls are ignored.</span>
-          <input type="text" id="HelpButtonCustomURL" placeholder="https://help.example.com/privileges" disabled oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_URL.test(this.value))">
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="HelpButtonCustomURL_enabled" onchange="toggleField('HelpButtonCustomURL')"><span class="slider"></span></label>
-            <span class="toggle-label" id="HelpButtonCustomURL_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-          </div>
+          <input type="text" id="HelpButtonCustomURL" placeholder="https://help.example.com/privileges" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_URL.test(this.value)); if (RE_URL.test(this.value)) { setIncluded('HelpButtonCustomURL', true); evaluateAllDeps(); } else { setIncluded('HelpButtonCustomURL', false, true); evaluateAllDeps(); }">
         </div>
       </div>
 
       <div class="row" data-key="ShowInMenuBar">
+        <div class="row-include"><input type="checkbox" id="ShowInMenuBar_include" onchange="onIncludeChange('ShowInMenuBar')"></div>
         <div class="row-label">
           <strong data-i18n="label.ShowInMenuBar">Show in Menu Bar <span class="badge">Privileges 2.1+</span></strong>
           <span data-i18n="desc.ShowInMenuBar">When enabled, a <em>Privileges</em> status item is displayed in the Menu Bar.</span>
@@ -1188,13 +1153,14 @@
       </div>
 
       <div class="row is-dependent" data-key="ShowRemainingTimeInMenuBar">
+        <div class="row-include"><input type="checkbox" id="ShowRemainingTimeInMenuBar_include" onchange="onIncludeChange('ShowRemainingTimeInMenuBar')"></div>
         <div class="row-label">
           <strong data-i18n="label.ShowRemainingTimeInMenuBar">Show Remaining Time in Menu Bar <span class="badge">Privileges 2.4.1+</span></strong>
           <span data-i18n="desc.ShowRemainingTimeInMenuBar">When enabled, a timer displaying the remaining admin time is shown in the <em>Privileges</em> status item.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ShowRemainingTimeInMenuBar"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="ShowRemainingTimeInMenuBar" onchange="onBoolChange('ShowRemainingTimeInMenuBar')"><span class="slider"></span></label>
             <span class="toggle-label" id="ShowRemainingTimeInMenuBar_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
@@ -1204,28 +1170,23 @@
   </div>
 
   <!-- Section: Usage Policy -->
-  <div class="section" data-section="policy" data-force-hidden="true">
+  <div class="section" data-section="policy">
     <div class="section-header" onclick="toggleSection(this)">
       <h2 data-i18n="section.policy">Usage Policy</h2>
       <span class="chevron">▼</span>
     </div>
     <div class="section-body">
       <div class="row" data-key="UsagePolicy">
+        <div class="row-include"><input type="checkbox" id="UsagePolicy_include" onchange="onIncludeChange('UsagePolicy')"></div>
         <div class="row-label">
           <strong data-i18n="label.UsagePolicy">Usage Policy <span class="badge">Privileges 2.6+</span></strong>
           <span data-i18n="desc.UsagePolicy">If specified, a usage policy will be displayed the first time the user requests administrator privileges. The user must acknowledge it before proceeding. The <em>PrivilegesCLI</em> command-line tool cannot be used to request administrator privileges until the <em>Privileges</em> application has been launched and the usage policy has been accepted.</span>
-          <div id="UsagePolicy_nested" style="display:none;margin-top:20px">
-            <input type="file" id="UsagePolicy_file" accept=".txt,.rtf,.rtfd" style="display:none" onchange="loadUsagePolicyFile(this)">
+          <div id="UsagePolicy_nested" style="margin-top:20px">
+            <input type="file" id="UsagePolicy_file" accept=".txt,.rtf" style="display:none" onchange="loadUsagePolicyFile(this)">
             <div style="display:flex;align-items:center;gap:12px">
               <button class="btn btn-secondary" onclick="document.getElementById('UsagePolicy_file').click()" data-i18n="btn.chooseFile">Choose File…</button>
               <span class="info-text" id="UsagePolicy_filename" style="margin-top:0" data-i18n="policy.noFile">No file selected. Accepts .txt or .rtf.</span>
             </div>
-          </div>
-        </div>
-        <div class="row-control">
-          <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="UsagePolicy_enabled" onchange="toggleField('UsagePolicy'); toggleNestedSection('UsagePolicy_nested')"><span class="slider"></span></label>
-            <span class="toggle-label" id="UsagePolicy_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
@@ -1241,6 +1202,7 @@
     <div class="section-body">
 
       <div class="row" data-key="ForceUpdatePrebootVolume" data-force-hidden="true">
+        <div class="row-include"><input type="checkbox" id="ForceUpdatePrebootVolume_include" onchange="onIncludeChange('ForceUpdatePrebootVolume')"></div>
         <div class="row-label">
           <strong data-i18n="label.ForceUpdatePrebootVolume">Force Update Preboot Volume <span class="badge">Privileges 2.4.1+</span></strong>
           <span data-i18n="desc.ForceUpdatePrebootVolume">When enabled, the <em>PrivilegesDaemon</em> runs the command <code>/usr/sbin/diskutil apfs updatePreboot /</code> whenever a user's privileges change. You should normally never have to enable this function because the preboot volume is updated automatically after a while. However, we implemented this feature because it seems to be needed in some environments.</span>
@@ -1248,21 +1210,22 @@
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="ForceUpdatePrebootVolume"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="ForceUpdatePrebootVolume" onchange="onBoolChange('ForceUpdatePrebootVolume')"><span class="slider"></span></label>
             <span class="toggle-label" id="ForceUpdatePrebootVolume_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
       </div>
 
       <div class="row" data-key="EnableSystemExtension">
+        <div class="row-include"><input type="checkbox" id="EnableSystemExtension_include" onchange="onIncludeChange('EnableSystemExtension')"></div>
         <div class="row-label">
           <strong data-i18n="label.EnableSystemExtension">Enable System Extension <span class="badge">Privileges 2.5+</span></strong>
-          <span data-i18n="desc.EnableSystemExtension">When enabled, the <em>Privileges</em> system extension is enabled. The system extension protects the <em>Privileges</em> application and its components against unauthorized modifications, deactivation, or uninstallation. Once this key has been set, it is no longer possible to enable or disable the extension using <em>PrivilegesCLI</em>.</span>
+          <span data-i18n="desc.EnableSystemExtension">Enables the <em>Privileges</em> system extension. The system extension protects the <em>Privileges</em> application and its components against unauthorized modifications, deactivation, or uninstallation. Once this key has been set, it is no longer possible to enable or disable the extension using <em>PrivilegesCLI</em>.</span>
           <span class="info-hint" data-i18n="hint.EnableSystemExtension">The <em>Privileges</em> system extension requires macOS 13 or newer. Please make sure you grant the extension (corp.sap.privileges.extension) full disk access, otherwise it will not work.</span>
         </div>
         <div class="row-control">
           <div class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="EnableSystemExtension"><span class="slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="EnableSystemExtension" onchange="onBoolChange('EnableSystemExtension')"><span class="slider"></span></label>
             <span class="toggle-label" id="EnableSystemExtension_lbl" data-i18n="toggle.disabled">Disabled</span>
           </div>
         </div>
@@ -1272,7 +1235,7 @@
   </div>
 
   <!-- Section: Remote Logging -->
-  <div class="section" data-section="logging" data-force-hidden="true">
+  <div class="section" data-section="logging">
     <div class="section-header" onclick="toggleSection(this)">
       <h2 data-i18n="section.logging">Remote Logging</h2>
       <span class="chevron">▼</span>
@@ -1280,52 +1243,60 @@
     <div class="section-body">
       <div class="row row-has-nested" data-key="RemoteLogging">
         <div class="row-top">
+          <div class="row-include"><input type="checkbox" id="RemoteLogging_include" onchange="onIncludeChange('RemoteLogging')"></div>
           <div class="row-label">
             <strong data-i18n="label.RemoteLogging">Remote Logging <span class="badge">Privileges 1.5+</span></strong>
             <span data-i18n="desc.RemoteLogging">Configures remote logging settings for the <em>Privileges</em> application.</span>
           </div>
-          <div class="row-control">
-            <div class="toggle-row">
-              <label class="toggle"><input type="checkbox" id="RemoteLogging_enabled" onchange="toggleField('RemoteLogging'); toggleNestedSection('RemoteLogging_nested')"><span class="slider"></span></label>
-              <span class="toggle-label" id="RemoteLogging_enabled_lbl" data-i18n="toggle.disabled">Disabled</span>
-            </div>
-          </div>
         </div>
-        <div id="RemoteLogging_nested" class="nested-section" style="display:none">
+        <div id="RemoteLogging_nested" class="nested-section">
 
             <div class="nested-row">
-              <label data-i18n="nested.RL.serverType">Server Type<span class="badge">Privileges 1.5+</span><span data-i18n="desc.RL.serverType">At the moment syslog and webhook are the only supported values.</span></label>
+              <label data-i18n="nested.RL.serverType">Server Type<span class="badge">Privileges 1.5+</span></label>
+
               <select id="RL_ServerType" onchange="updateLoggingType()">
-                <option value="syslog">syslog</option>
-                <option value="webhook">webhook</option>
+                <option value="syslog">Syslog</option>
+                <option value="webhook">Webhook</option>
               </select>
             </div>
             <div class="nested-row">
-              <label data-i18n="nested.RL.serverAddress">Server Address<span class="badge">Privileges 1.5+</span><span id="RL_ServerAddress_desc" data-i18n="desc.RL.serverAddress.syslog">Please provide an ip address or a fully-qualified domain name (FQDN).</span></label>
-              <input type="text" id="RL_ServerAddress" placeholder="IP address or host name" oninput="validateServerAddress()">
+              <label data-i18n="nested.RL.serverAddress">Server Address<span class="badge">Privileges 1.5+</span></label>
+              <span id="RL_ServerAddress_desc" data-i18n="desc.RL.serverAddress.syslog">Please provide an ip address or a fully-qualified domain name (FQDN).</span>
+              <input type="text" id="RL_ServerAddress" placeholder="syslog.example.com" oninput="validateServerAddress()">
             </div>
-            <div class="nested-row">
-              <label data-i18n="nested.RL.queueUnsentEvents">Queue Unsent Events<span class="badge">Privileges 2.4+</span><span data-i18n="desc.RL.queueUnsentEvents">When enabled, syslog and webhook events that could not be sent are queued. When a user changes privileges, <em>PrivilegesAgent</em> attempts to resend these events. The maximum number of queued events can be set using the <code>QueuedEventsMax</code> key. If not set, a maximum of 20 events will be queued.</span></label>
+            <div id="RL_addr_dependents" data-nested-overlay-target style="display:none">
+            <div class="nested-row nested-row-optional">
+              <div class="nested-include"><input type="checkbox" id="RL_QueueUnsentEvents_include" onchange="setIncluded('RL_QueueUnsentEvents', this.checked)"></div>
+              <label data-i18n="nested.RL.queueUnsentEvents">Queue Unsent Events<span class="badge">Privileges 2.4+</span></label>
+              <span data-i18n="desc.RL.queueUnsentEvents">When enabled, syslog and webhook events that could not be sent are queued. When a user changes privileges, <em>PrivilegesAgent</em> attempts to resend these events. The maximum number of queued events can be set using the <code>QueuedEventsMax</code> key. If not set, a maximum of 20 events will be queued.</span>
               <label class="toggle"><input type="checkbox" id="RL_QueueUnsentEvents" onchange="updateQueueDep()"><span class="slider"></span></label>
             </div>
-            <div class="nested-row" id="RL_QueuedEventsMax_row" style="display:none">
-              <label data-i18n="nested.RL.queuedEventsMax">Queued Events Max<span class="badge">Privileges 2.4+</span><span data-i18n="desc.RL.queuedEventsMax">Specifies the maximum number of queued events. If not set, a maximum of 20 events will be queued. When set to 0, an unlimited number of events will be queued.</span></label>
+            <div class="nested-row nested-row-optional" id="RL_QueuedEventsMax_row" style="display:none">
+              <div class="nested-include"><input type="checkbox" id="RL_QueuedEventsMax_include" onchange="setIncluded('RL_QueuedEventsMax', this.checked)"></div>
+              <label data-i18n="nested.RL.queuedEventsMax">Queued Events Max<span class="badge">Privileges 2.4+</span></label>
+              <span data-i18n="desc.RL.queuedEventsMax">Specifies the maximum number of queued events. If not set, a maximum of 20 events will be queued. When set to 0, an unlimited number of events will be queued.</span>
               <input type="number" id="RL_QueuedEventsMax" min="0" value="20">
             </div>
 
             <!-- Syslog options -->
             <div id="RL_syslog_opts">
               <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
-              <div class="nested-row">
-                <label data-i18n="nested.RL.serverPort">Server Port<span class="badge">Privileges 1.5+</span><span data-i18n="desc.RL.serverPort">If not specified, the port defaults to 514 or to 6514 if TLS is enabled.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_ServerPort_include" onchange="setIncluded('RL_ServerPort', this.checked)"></div>
+                <label data-i18n="nested.RL.serverPort">Server Port<span class="badge">Privileges 1.5+</span></label>
+                <span data-i18n="desc.RL.serverPort">If not specified, the port defaults to 514 or to 6514 if TLS is enabled.</span>
                 <input type="number" id="RL_ServerPort" value="514">
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.useTLS">Use TLS<span class="badge">Privileges 2.0+</span><span data-i18n="desc.RL.useTLS">When enabled, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_UseTLS_include" onchange="setIncluded('RL_UseTLS', this.checked)"></div>
+                <label data-i18n="nested.RL.useTLS">Use TLS<span class="badge">Privileges 2.0+</span></label>
+                <span data-i18n="desc.RL.useTLS">When enabled, TLS is enabled for the connection. Please make sure your clients have a certificate installed that matches Apple's requirements.</span>
                 <label class="toggle"><input type="checkbox" id="RL_UseTLS" onchange="document.getElementById('RL_ServerPort').value = this.checked ? 6514 : 514;"><span class="slider"></span></label>
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.logFacility">Log Facility<span class="badge">Privileges 1.5+</span><span data-i18n="desc.RL.logFacility">If not specified, facility defaults to 4 (security).</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_LogFacility_include" onchange="setIncluded('RL_LogFacility', this.checked)"></div>
+                <label data-i18n="nested.RL.logFacility">Log Facility<span class="badge">Privileges 1.5+</span></label>
+                <span data-i18n="desc.RL.logFacility">If not specified, facility defaults to 4 (security).</span>
                 <select id="RL_LogFacility">
                   <option value="0" data-i18n="opt.logFacility.0">0 – Kernel messages</option>
                   <option value="1" data-i18n="opt.logFacility.1">1 – User-level messages</option>
@@ -1353,8 +1324,10 @@
                   <option value="23" data-i18n="opt.logFacility.23">23 – Local use 7 (local7)</option>
                 </select>
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.logSeverity">Log Severity<span class="badge">Privileges 1.5+</span><span data-i18n="desc.RL.logSeverity">If not specified, severity defaults to 6 (informational).</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_LogSeverity_include" onchange="setIncluded('RL_LogSeverity', this.checked)"></div>
+                <label data-i18n="nested.RL.logSeverity">Log Severity<span class="badge">Privileges 1.5+</span></label>
+                <span data-i18n="desc.RL.logSeverity">If not specified, severity defaults to 6 (informational).</span>
                 <select id="RL_LogSeverity">
                   <option value="0" data-i18n="opt.logSeverity.0">0 – Emergency</option>
                   <option value="1" data-i18n="opt.logSeverity.1">1 – Alert</option>
@@ -1366,34 +1339,44 @@
                   <option value="7" data-i18n="opt.logSeverity.7">7 – Debug</option>
                 </select>
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.maxMessageSize">Maximum Message Size<span class="badge">Privileges 1.5+</span><span data-i18n="desc.RL.maxMessageSize">If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_MaximumMessageSize_include" onchange="setIncluded('RL_MaximumMessageSize', this.checked)"></div>
+                <label data-i18n="nested.RL.maxMessageSize">Maximum Message Size<span class="badge">Privileges 1.5+</span></label>
+                <span data-i18n="desc.RL.maxMessageSize">If not specified, the value defaults to 480 which is the minimum maximum message size a syslog server must support. If the syslog message is larger than the specified maximum, the message will be truncated at the end.</span>
                 <input type="number" id="RL_MaximumMessageSize" min="480" value="480">
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.messageFormat">Message Format<span class="badge">Privileges 2.3+</span><span data-i18n="desc.RL.messageFormat">If not specified, the value defaults to 1, which describes an RFC 5424 compliant syslog message that uses non-transparent framing. Set this value to 2 if you want to create RFC 5424 compliant syslog messages that use octet counting.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_MessageFormat_include" onchange="setIncluded('RL_MessageFormat', this.checked)"></div>
+                <label data-i18n="nested.RL.messageFormat">Message Format<span class="badge">Privileges 2.3+</span></label>
+                <span data-i18n="desc.RL.messageFormat">If not specified, the value defaults to 1, which describes an RFC 5424 compliant syslog message that uses non-transparent framing. Set this value to 2 if you want to create RFC 5424 compliant syslog messages that use octet counting.</span>
                 <select id="RL_MessageFormat">
                   <option value="1" data-i18n="opt.messageFormat.1">RFC 5424 Non-Transparent Framing</option>
                   <option value="2" data-i18n="opt.messageFormat.2">RFC 5424 Octet Counting</option>
                 </select>
               </div>
-              <div class="nested-row">
-                <label data-i18n="nested.RL.structuredData">Structured Data<span class="badge">Privileges 2.3+</span><span data-i18n="desc.RL.structuredData">Each SD element contains an SD id (which is the name of the element in the form of a string) and SD parameters. SD parameters are defined in a dictionary. The values of this dictionary must be of type string. Keys must be US-ASCII. Spaces and some special characters are not allowed.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_StructuredData_include" onchange="setIncluded('RL_StructuredData', this.checked)"></div>
+                <label data-i18n="nested.RL.structuredData">Structured Data<span class="badge">Privileges 2.3+</span></label>
+                <span data-i18n="desc.RL.structuredData">Each SD element contains an SD id (which is the name of the element in the form of a string) and SD parameters. SD parameters are defined in a dictionary. The values of this dictionary must be of type string. Keys must be US-ASCII. Spaces and some special characters are not allowed.</span>
                 <div id="RL_StructuredData_container" class="reason-preset-list"></div>
-                <button id="sd-add-btn" class="btn btn-secondary btn-add" style="margin-top:-4px;width:fit-content" onclick="addStructuredDataItem()" data-i18n="btn.addSDElement">+ Add SD Element</button>
+                <button id="RL_StructuredData_addbtn" class="btn btn-secondary btn-add" style="margin-top:-4px;width:fit-content" onclick="addStructuredDataItem()" data-i18n="btn.addSDElement">+ Add SD Element</button>
               </div>
             </div>
 
             <!-- Webhook options -->
               <div id="RL_webhook_opts" style="display:none">
               <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
-              <div class="nested-row">
-                <label data-i18n="nested.RL.webhookCustomData">Webhook Custom Data <span class="badge">Privileges 2.1+</span><span data-i18n="desc.RL.webhookCustomData">You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's JSON as custom_data.</span></label>
+              <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_WebhookCustomData_include" onchange="setIncluded('RL_WebhookCustomData', this.checked)"></div>
+                <label data-i18n="nested.RL.webhookCustomData">Webhook Custom Data <span class="badge">Privileges 2.1+</span></label>
+                <span data-i18n="desc.RL.webhookCustomData">You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's JSON as custom_data.</span>
                 <div class="array-field" id="RL_WebhookCustomData_container"></div>
-                <button class="btn btn-secondary btn-add" style="width:fit-content" onclick="addWebhookKV()" data-i18n="btn.addKeyValue">+ Add key/value</button>
+                <button id="RL_WebhookCustomData_addbtn" class="btn btn-secondary btn-add" style="width:fit-content" onclick="addWebhookKV()" data-i18n="btn.addKeyValue">+ Add key/value</button>
               </div>
 
-        </div>
+            </div> <!-- /#RL_webhook_opts -->
+
+            </div> <!-- /#RL_addr_dependents -->
       </div>
     </div>
   </div>
@@ -1408,14 +1391,14 @@
     <button class="btn btn-secondary" onclick="document.getElementById('validator-file-input').click()" data-i18n="btn.validate">Validate Existing Profile</button>
     <button class="btn btn-primary" onclick="downloadMobileconfig()" data-i18n="btn.download">Download Profile</button>
     <div class="bottom-bar-lang">
-      <select id="lang-switcher" onchange="applyLang(this.value, true)" title="Language"></select>
+      <select id="lang-switcher" onchange="loadLang(this.value)" title="Language"></select>
     </div>
   </div>
 </div>
 
 <!-- Preview Modal -->
-<div id="preview-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;overflow:auto;padding:24px">
-  <div class="preview-modal-inner" style="border-radius:var(--radius);max-width:1000px;margin:auto;overflow:hidden">
+<div id="preview-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;padding:24px;align-items:center;justify-content:center">
+  <div class="preview-modal-inner" style="border-radius:var(--radius-modal);max-width:1000px;width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
       <span style="font-size:21px;font-weight:400" data-i18n="modal.title">Profile Preview (XML)</span>
       <button class="btn btn-primary" onclick="closePreview()" data-i18n="modal.close">Close</button>
@@ -1424,9 +1407,21 @@
   </div>
 </div>
 
+<!-- Confirm Modal -->
+<div id="confirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;overflow:auto;padding:24px;align-items:center">
+  <div class="confirm-modal-inner">
+    <div class="confirm-modal-title" id="confirm-modal-title"></div>
+    <div class="confirm-modal-body" id="confirm-modal-body"></div>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-cancel" data-i18n="btn.cancel" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn btn-danger" id="confirm-modal-ok" data-i18n="btn.importProfile" onclick="confirmModalOk()">Import Profile</button>
+    </div>
+  </div>
+</div>
+
 <!-- Validator Modal -->
-<div id="validator-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;overflow:auto;padding:24px">
-  <div class="validator-modal-inner">
+<div id="validator-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;padding:24px;align-items:center;justify-content:center">
+  <div class="validator-modal-inner" style="width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
       <div>
         <span style="font-size:21px;font-weight:400" data-i18n="validator.title">Validate Profile</span>
@@ -1454,12 +1449,13 @@ const DEPS = {
   ReasonMaxLength:                        { ReasonRequired: true },
   ReasonMinLength:                        { ReasonRequired: true },
   ReasonPresetList:                       { ReasonRequired: true },
-  ReasonStrictPresetList:                 { ReasonRequired: true, ReasonPresetList_enabled: true },
+  ReasonStrictPresetList:                 { ReasonPresetList_include: true },
   PassReasonToExecutable:                 { ReasonRequired: true },
   RevokeAtLoginExcludedUsers:             { RevokePrivilegesAtLogin: true },
   RevokeAfterTimeChangeExcludedUsers:     { RevokePrivilegesAfterSystemTimeChange: true },
   RevokeOnScreenLockExcludedUsers:        { RevokePrivilegesOnScreenLock: true },
   ShowRemainingTimeInMenuBar:             { ShowInMenuBar: true },
+  HelpButtonCustomURL:                    { HideHelpButton: false },
 };
 
 // Sections hidden when in force mode (only UI section remains, and within it only certain rows)
@@ -1470,9 +1466,10 @@ const FORCE_HIDDEN_SECTIONS = ['expiration','renewal','auth','enforcement','revo
 
 // Current mode
 let currentMode = 'max';
+let profileImported = false;
 
 // ─── Mode application ──────────────────────────────────────────────────────────
-function applyMode(mode) {
+function applyMode(mode, autoInclude = true) {
   currentMode = mode;
   const isForce = mode.startsWith('force_');
   const banner = document.getElementById('force-banner');
@@ -1485,10 +1482,10 @@ function applyMode(mode) {
     const s = sec.dataset.section;
     if (isForce) {
       // In force mode, hide everything except 'ui' and 'system'
-      if (s === 'ui' || s === 'system') {
-        sec.classList.remove('hidden-by-mode');
-      } else {
+      if (FORCE_HIDDEN_SECTIONS.includes(s)) {
         sec.classList.add('hidden-by-mode');
+      } else {
+        sec.classList.remove('hidden-by-mode');
       }
     } else {
       sec.classList.remove('hidden-by-mode');
@@ -1513,24 +1510,34 @@ function applyMode(mode) {
     rowFixed.style.display = '';
     rowMax.style.display   = 'none';
     rowInit.style.display  = 'none';
-    resetRowValues(rowMax);
-    resetRowValues(rowInit);
+    if (autoInclude) {
+      setIncluded('ExpirationInterval', true);
+      setIncluded('ExpirationIntervalMax', false);
+    } else {
+      setIncluded('ExpirationIntervalMax', false);
+    }
   } else if (mode === 'max') {
     rowFixed.style.display = 'none';
     rowMax.style.display   = '';
     rowInit.style.display  = '';
-    resetRowValues(rowFixed);
-    enableField('ExpirationIntervalMax');
+    if (autoInclude) {
+      enableField('ExpirationIntervalMax');
+      setIncluded('ExpirationInterval', false);
+      setIncluded('ExpirationIntervalMax', true);
+    } else {
+      setIncluded('ExpirationInterval', false);
+    }
   } else {
     // force modes: expiration section is hidden anyway
     rowFixed.style.display = '';
     rowMax.style.display   = 'none';
     rowInit.style.display  = 'none';
+    setIncluded('ExpirationInterval', false);
+    setIncluded('ExpirationIntervalMax', false);
   }
 
   // Re-evaluate all dependencies (mode change can unlock/lock fields)
   evaluateAllDeps();
-  updateLastVisible();
 }
 
 // ─── Toggle helpers ────────────────────────────────────────────────────────────
@@ -1539,37 +1546,15 @@ function toggleSection(header) {
   header.nextElementSibling.classList.toggle('hidden');
 }
 
-function toggleField(id) {
-  const cb = document.getElementById(id + '_enabled');
-  if (!cb) return;
-  const lbl = document.getElementById(id + '_enabled_lbl');
-  if (lbl) lbl.innerHTML = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
-  const field = document.getElementById(id);
-  const container = document.getElementById(id + '_container');
 
-  if (field && field.tagName !== 'DIV') {
-    field.disabled = !cb.checked;
-    if (field.closest('.row-label')) field.style.display = cb.checked ? '' : 'none';
-  }
-  if (container) container.style.display = cb.checked ? 'flex' : 'none';
-}
-
-function toggleNestedSection(id) {
-  const nested = document.getElementById(id);
-  if (!nested) return;
-  const cbId = id.replace(/_nested$/, '_enabled').replace(/_container$/, '_enabled');
-  const cb = document.getElementById(cbId);
-  if (cb) nested.style.display = cb.checked ? 'block' : 'none';
-  evaluateAllDeps();
-  updateLastVisible();
-}
 
 // Called when a boolean toggle changes — updates label AND re-evaluates deps
 function onBoolChange(id) {
   const cb = document.getElementById(id);
   if (!cb) return;
+  setIncluded(id, true);
   const lbl = document.getElementById(id + '_lbl');
-  if (lbl) lbl.innerHTML = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
+  if (lbl) lbl.textContent = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
   evaluateAllDeps();
 }
 
@@ -1596,6 +1581,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lbl && !cb.getAttribute('onchange')) {
       cb.addEventListener('change', () => { lbl.innerHTML = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled'; });
     }
+    // Auto-activate include checkbox on any toggle change (for toggles without onBoolChange)
+    if (!cb.getAttribute('onchange')) {
+      cb.addEventListener('change', () => setIncluded(cb.id, true));
+    } else if (cb.closest('.nested-row-optional')) {
+      const includeId = cb.closest('.nested-row-optional')?.querySelector('.nested-include input[type="checkbox"]')?.id?.replace('_include', '');
+      if (includeId) cb.addEventListener('change', () => setIncluded(includeId, true));
+    }
+  });
+  // Auto-activate include checkbox when a number/text input is changed
+  document.querySelectorAll('main input[type="number"], main input[type="text"]').forEach(inp => {
+    if (inp.closest('.profile-meta')) return;
+    const nestedSection = inp.closest('.nested-section');
+    if (nestedSection) {
+      const parentRow = nestedSection.closest('.row[data-key][data-no-nested-overlay]');
+      if (!parentRow) return;
+      // Activation is handled per-field via oninput in the HTML (validation varies per field)
+      return;
+    }
+    const row = inp.closest('.row[data-key]');
+    if (row && !inp.hasAttribute('oninput')) inp.addEventListener('input', () => { setIncluded(row.dataset.key, true); evaluateAllDeps(); });
+  });
+  // Auto-activate nested-row-optional include checkbox when its input/select changes
+  document.querySelectorAll('.nested-row-optional').forEach(nestedRow => {
+    const includeId = nestedRow.querySelector('.nested-include input[type="checkbox"]')?.id?.replace('_include', '');
+    if (!includeId) return;
+    nestedRow.querySelectorAll('input[type="number"], input[type="text"]').forEach(inp => {
+      if (!inp.hasAttribute('oninput')) inp.addEventListener('input', () => setIncluded(includeId, true));
+    });
+    nestedRow.querySelectorAll('select').forEach(sel => {
+      if (!sel.hasAttribute('onchange')) sel.addEventListener('change', () => setIncluded(includeId, true));
+    });
   });
   // Initial mode + dep evaluation
   applyMode('max');
@@ -1614,8 +1630,14 @@ function depsAreSatisfied(fieldKey) {
   const conditions = DEPS[fieldKey];
   if (!conditions) return true;
   for (const [parentKey, requiredVal] of Object.entries(conditions)) {
-    const actual = getBoolValue(parentKey);
-    if (actual !== requiredVal) return false;
+    if (parentKey.endsWith('_include')) {
+      const parentId = parentKey.replace('_include', '');
+      const parentRow = document.querySelector(`.row[data-key="${parentId}"]`);
+      if (!parentRow?.dataset.everIncluded) return false;
+    } else {
+      const actual = getBoolValue(parentKey);
+      if (actual !== requiredVal) return false;
+    }
   }
   return true;
 }
@@ -1628,40 +1650,58 @@ function evaluateAllDeps() {
     const satisfied = depsAreSatisfied(fieldKey);
     if (satisfied) {
       row.classList.remove('hidden-by-dep');
+      const nested = document.getElementById(fieldKey + '_nested');
+      if (nested) nested.style.display = '';
     } else {
       row.classList.add('hidden-by-dep');
-      resetRowValues(row);
+      const nested = document.getElementById(fieldKey + '_nested');
+      if (nested) nested.style.display = 'none';
     }
+
+    // Dim if visible and any parent's include checkbox is inactive
+    const conditions = DEPS[fieldKey];
+    const masterExcluded = !row.classList.contains('hidden-by-dep') && Object.entries(conditions).some(([parentKey, requiredVal]) => {
+      if (requiredVal !== true) return false;
+      if (parentKey.endsWith('_include')) return !isIncluded(parentKey.replace('_include', ''));
+      return !isIncluded(parentKey);
+    });
+    row.classList.toggle('master-excluded', masterExcluded);
   }
+  updatePostChangeDeps();
+  updateNestedSectionOverlays();
+}
+
+function updateNestedSectionOverlays() {
+  document.querySelectorAll('.row').forEach(row => {
+    if (row.hasAttribute('data-no-nested-overlay')) return;
+    const overlayTarget = row.querySelector('[data-nested-overlay-target]') ?? row.querySelector('.nested-section');
+    if (!overlayTarget) return;
+    const cb = row.querySelector('.row-include input[type="checkbox"]');
+    if (cb) overlayTarget.classList.toggle('master-excluded', !cb.checked);
+  });
+}
+
+function updatePostChangeDeps() {
+  const pathVal = document.getElementById('PostChangeExecutablePath')?.value ?? '';
+  const pathIncluded = isIncluded('PostChangeExecutablePath');
+  const pathValid = pathVal.length > 0 && RE_PATH.test(pathVal);
+  document.querySelectorAll('[data-requires-nonempty-path="true"]').forEach(row => {
+    row.classList.toggle('hidden-by-dep', !pathValid);
+    row.classList.toggle('master-excluded', pathValid && !pathIncluded);
+  });
   updateLastVisible();
 }
 
 // Reset all interactive values within a row/section element
 function resetRowValues(el) {
   if (!el) return;
-  el.querySelectorAll('input[type="checkbox"].toggle input, input[type="checkbox"]').forEach(cb => {
-    if (cb.id && cb.id !== 'HideOtherWindows') {
+  el.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (cb.id && cb.id !== 'HideOtherWindows' && !cb.id.endsWith('_include')) {
       if (cb.checked) {
         cb.checked = false;
         const lbl = document.getElementById(cb.id + '_lbl');
         if (lbl) lbl.innerHTML = t('toggle.disabled') || 'Disabled';
-        // If this toggle controls a field or container, disable/hide them
-        if (cb.id.endsWith('_enabled')) {
-          const fieldId = cb.id.replace('_enabled', '');
-          const field = document.getElementById(fieldId);
-          const container = document.getElementById(fieldId + '_container');
-          const nested = document.getElementById(fieldId + '_nested');
-          if (field && field.tagName !== 'DIV') field.disabled = true;
-          if (container) container.style.display = 'none';
-          if (nested) nested.style.display = 'none';
-        }
       }
-    }
-  });
-  el.querySelectorAll('input[type="number"]:not(:disabled)').forEach(inp => {
-    // only reset if not a meta field
-    if (!inp.closest('.profile-meta') && !inp.closest('.nested-section')) {
-      // leave nested values alone for manual input; just disable if its toggle was reset
     }
   });
 }
@@ -1680,9 +1720,12 @@ function addArrayItem(containerId, placeholder) {
   item.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-icon danger" onclick="removeArrayItem(this)">${TRASH_ICON}</button>`;
   container.insertBefore(item, addBtn);
   const input = item.querySelector('input');
+  const key = containerId.replace('_container', '');
   input.addEventListener('input', () => {
     validateArrayInput(input, validate, container);
     updateAddBtn(container);
+    const hasValid = [...container.querySelectorAll('.array-item input')].some(i => i.value.trim() && !i.classList.contains('input-error'));
+    if (hasValid) setIncluded(key, true);
   });
   updateAddBtn(container);
   input.focus();
@@ -1695,10 +1738,10 @@ const RE_USERNAME  = /^(\$[A-Z_]+|[a-zA-Z_][a-zA-Z0-9_.\-]{0,31})$/;
 // Unix groupname: same rules
 const RE_GROUPNAME = /^[a-zA-Z_][a-zA-Z0-9_.\-]{0,31}$/;
 // Absolute Unix path
-const RE_PATH      = /^\/[^\0]*$/;
+const RE_PATH      = /^\/[^\0\/][^\0]*$/;
 // SHA-256 hex digest: exactly 64 lowercase or uppercase hex characters
 const RE_SHA256    = /^[0-9a-fA-F]{64}$/;
-const RE_URL       = /^https?:\/\/.+/;
+const RE_URL       = /^https?:\/\/\S+/;
 const RE_IPV4      = /^((25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/;
 const RE_FQDN      = /^(?!-)(?![\d.]+$)[a-zA-Z0-9-]{1,63}(?<!-)(\.[a-zA-Z0-9-]{1,63}(?<!-))+\.?$/;
 
@@ -1731,10 +1774,16 @@ function removeArrayItem(btn) {
   const container = btn.closest('.array-field');
   btn.parentElement.remove();
   if (container) {
-    // Re-validate remaining items (duplicate state may have changed)
     const validate = container.dataset.validate || 'none';
     container.querySelectorAll('.array-item input').forEach(i => validateArrayInput(i, validate, container));
     updateAddBtn(container);
+    const key = container.id.replace('_container', '');
+    const isEmpty = container.querySelectorAll('.array-item').length === 0;
+    setIncluded(key, !isEmpty);
+    if (isEmpty) {
+      evaluateAllDeps();
+      updateLastVisible();
+    }
   }
 }
 
@@ -1747,7 +1796,7 @@ function addWebhookKV() {
   }
   const item = document.createElement('div');
   item.className = 'array-item';
-  item.innerHTML = `<input type="text" placeholder="key" style="width:120px;flex-shrink:0"><input type="text" placeholder="value"><button class="btn-icon danger" onclick="removeArrayItem(this);updateWebhookAddBtn()">${TRASH_ICON}</button>`;
+  item.innerHTML = `<input type="text" placeholder="${t('placeholder.key') || 'key'}" style="width:120px;flex-shrink:0"><input type="text" placeholder="${t('placeholder.value') || 'value'}"><button class="btn-icon danger" onclick="removeArrayItem(this);updateWebhookAddBtn()">${TRASH_ICON}</button>`;
   container.appendChild(item);
   item.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updateWebhookAddBtn));
   updateWebhookAddBtn();
@@ -1762,6 +1811,13 @@ function updateWebhookAddBtn() {
   addBtn.disabled = blocked;
 }
 
+function hasValidSDItem() {
+  return [...document.querySelectorAll('#RL_StructuredData_container .sd-item')].some(item => {
+    const sdId = item.querySelector('.nested-row input[type="text"]')?.value.trim();
+    return !!sdId;
+  });
+}
+
 function addStructuredDataItem() {
   const container = document.getElementById('RL_StructuredData_container');
   const id = ++sdCounter;
@@ -1772,21 +1828,21 @@ function addStructuredDataItem() {
   item.innerHTML = `
     <div class="reason-preset-item-header">
       <strong>${t('label.element') || 'Element'} #${num}</strong>
-      <button class="btn-icon danger" onclick="this.closest('.sd-item').remove();renumberSDItems()">${TRASH_ICON}</button>
+      <button class="btn-icon danger" onclick="this.closest('.sd-item').remove();renumberSDItems();const isEmpty=!document.querySelectorAll('#RL_StructuredData_container .sd-item').length;if(isEmpty)setIncluded('RL_StructuredData',false,true);else if(hasValidSDItem())setIncluded('RL_StructuredData',true);">${TRASH_ICON}</button>
     </div>
     <div class="nested-row" style="margin-bottom:0">
-      <label>SD ID<span>A unique identifier for this structured data element (e.g. <code>exampleSDID@32473</code>).</span></label>
+      <label>${t('label.sdId') || 'SD ID'}<span>${t('desc.sdId') || 'A unique identifier for this structured data element (e.g. <code>exampleSDID@32473</code>).'}</span></label>
       <input type="text" placeholder="exampleSDID@32473" style="margin-top:0">
     </div>
     <div class="sd-params-container" style="margin-top:8px"></div>
-    <button class="btn btn-secondary btn-add" style="margin-top:8px;font-size:13px;height:28px;padding:0 10px" disabled onclick="addSDParam(this)">+ Add Parameter</button>
+    <button class="btn btn-secondary btn-add" style="margin-top:8px;font-size:13px;height:28px;padding:0 10px" disabled onclick="addSDParam(this)">${t('btn.addParameter') || '+ Add Parameter'}</button>
   `;
   container.appendChild(item);
   const sdIdInput = item.querySelector('.nested-row input[type="text"]');
-  sdIdInput.addEventListener('input', () => updateSDParamBtn(item));
+  sdIdInput.addEventListener('input', () => { updateSDParamBtn(item); setIncluded('RL_StructuredData', hasValidSDItem(), !hasValidSDItem()); });
   updateSDParamBtn(item);
   sdIdInput.focus();
-  updateListButtonMargin('RL_StructuredData_container', 'sd-add-btn', -4, 4);
+  updateListButtonMargin('RL_StructuredData_container', 'RL_StructuredData_addbtn', -4, 4);
 }
 
 function updateListButtonMargin(listId, btnId, emptyMargin, hasItemsMargin) {
@@ -1801,13 +1857,13 @@ function renumberSDItems() {
     const strong = item.querySelector('.reason-preset-item-header strong');
     if (strong) strong.textContent = `${t('label.element') || 'Element'} #${i + 1}`;
   });
-  updateListButtonMargin('RL_StructuredData_container', 'sd-add-btn', -4, 4);
+  updateListButtonMargin('RL_StructuredData_container', 'RL_StructuredData_addbtn', -4, 4);
 }
 
 function renumberReasons() {
   document.querySelectorAll('#ReasonPresetList_items .reason-preset-item').forEach((item, i) => {
     const strong = item.querySelector('.reason-preset-item-header strong');
-    if (strong) strong.textContent = `Reason #${i + 1}`;
+    if (strong) strong.textContent = `${t('label.reason') || 'Reason'} #${i + 1}`;
   });
   updateListButtonMargin('ReasonPresetList_items', 'reason-add-btn', 4, 12);
 }
@@ -1821,9 +1877,9 @@ function addSDParam(btn) {
   if (hasEmpty) return;
   const item = document.createElement('div');
   item.className = 'array-item';
-  item.innerHTML = `<input type="text" placeholder="key" style="width:120px;flex-shrink:0"><input type="text" placeholder="value"><button class="btn-icon danger" onclick="removeArrayItem(this);updateSDParamBtn(this.closest('.sd-item'))">${TRASH_ICON}</button>`;
+  item.innerHTML = `<input type="text" placeholder="${t('placeholder.key') || 'key'}" style="width:120px;flex-shrink:0"><input type="text" placeholder="${t('placeholder.value') || 'value'}"><button class="btn-icon danger" onclick="removeArrayItem(this);updateSDParamBtn(this.closest('.sd-item'));setIncluded('RL_StructuredData',hasValidSDItem(),!hasValidSDItem());">${TRASH_ICON}</button>`;
   container.appendChild(item);
-  item.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => updateSDParamBtn(sdItem)));
+  item.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => { updateSDParamBtn(sdItem); setIncluded('RL_StructuredData', hasValidSDItem(), !hasValidSDItem()); }));
   updateSDParamBtn(sdItem);
   item.querySelector('input').focus();
 }
@@ -1837,14 +1893,15 @@ function updateSDParamBtn(sdItem) {
   btn.disabled = !sdId || hasEmpty;
 }
 
-function updateLoggingType() {
+function updateLoggingType(clearAddress = true) {
   const type = document.getElementById('RL_ServerType').value;
   document.getElementById('RL_syslog_opts').style.display = type === 'syslog' ? 'block' : 'none';
   document.getElementById('RL_webhook_opts').style.display = type === 'webhook' ? 'block' : 'none';
   const addrDesc = document.getElementById('RL_ServerAddress_desc');
   const addrInput = document.getElementById('RL_ServerAddress');
+  if (clearAddress) addrInput.value = '';
   if (type === 'syslog') {
-    addrInput.placeholder = t('placeholder.RL.serverAddress.syslog') || 'IP address or host name';
+    addrInput.placeholder = t('placeholder.RL.serverAddress.syslog') || 'syslog.example.com';
     if (addrDesc) addrDesc.innerHTML = t('desc.RL.serverAddress.syslog') || addrDesc.innerHTML;
   } else {
     addrInput.placeholder = t('placeholder.RL.serverAddress.webhook') || 'https://hook.example.com/log';
@@ -1866,13 +1923,14 @@ function validateServerAddress() {
     invalid = !(RE_IPV4.test(val) || RE_FQDN.test(val));
   }
   inp.classList.toggle('input-error', invalid);
+  document.getElementById('RL_addr_dependents').style.display = invalid ? 'none' : 'block';
+  if (!invalid) { setIncluded('RemoteLogging', true); evaluateAllDeps(); }
 }
 
 function updateQueueDep() {
   const cb = document.getElementById('RL_QueueUnsentEvents');
   const row = document.getElementById('RL_QueuedEventsMax_row');
-  row.style.display = cb.checked ? 'flex' : 'none';
-  if (!cb.checked) document.getElementById('RL_QueuedEventsMax').value = 20;
+  row.style.display = cb.checked ? 'grid' : 'none';
 }
 
 // ─── Reason Preset List ────────────────────────────────────────────────────────
@@ -1915,7 +1973,7 @@ const LOCALE_CODES = [
 
 function localeSelect(selected) {
   const useDefault = !selected || selected === '__default__';
-  const opts = `<option value="__default__"${useDefault ? ' selected' : ''}>Unlocalized</option>` +
+  const opts = `<option value="__default__"${useDefault ? ' selected' : ''}>${t('label.unlocalized') || 'Unlocalized'}</option>` +
     `<option disabled>──────────────</option>` +
     LOCALE_CODES.map(([code, name]) =>
       `<option value="${code}"${!useDefault && code === selected ? ' selected' : ''}>${name}</option>`
@@ -1925,17 +1983,16 @@ function localeSelect(selected) {
 
 let presetCounter = 0;
 let sdCounter = 0;
-function toggleReasonPresetArea(enabled) {
-  document.getElementById('ReasonPresetList_area').style.display = enabled ? '' : 'none';
-  const row = document.getElementById('ReasonPresetList_row');
-  const ctrl = row.querySelector('.row-control');
-  if (enabled) {
-    row.style.display = 'block';
-    ctrl.style.display = 'none';
-  } else {
-    row.style.display = '';
-    ctrl.style.display = '';
-  }
+
+function hasValidRCA() {
+  return RE_PATH.test(document.getElementById('RCA_path')?.value || '')
+      || RE_SHA256.test(document.getElementById('RCA_checksum')?.value || '');
+}
+
+function hasValidReason() {
+  return [...document.querySelectorAll('#ReasonPresetList_items .reason-preset-item')].some(item =>
+    [...item.querySelectorAll('.locale-rows input[type="text"]')].some(i => i.value.trim().length > 0)
+  );
 }
 
 function addReasonPreset() {
@@ -1947,27 +2004,38 @@ function addReasonPreset() {
   item.id = 'preset_' + id;
   item.innerHTML = `
     <div class="reason-preset-item-header">
-      <strong>Reason #${num}</strong>
-      <button class="btn-icon danger" onclick="document.getElementById('preset_${id}').remove();renumberReasons()">${TRASH_ICON}</button>
+      <strong>${t('label.reason') || 'Reason'} #${num}</strong>
+      <button class="btn-icon danger" onclick="removeReasonPreset('preset_${id}')">${TRASH_ICON}</button>
     </div>
     <div class="locale-rows" id="preset_locales_${id}">
       <div class="locale-row">
         ${localeSelect('')}
-        <input type="text" placeholder="For installing software">
+        <input type="text" placeholder="${t('placeholder.text') || 'Text…'}">
         <button class="btn-icon danger" onclick="removeLocaleRow(this)">${TRASH_ICON}</button>
       </div>
     </div>
     <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
-      <button class="btn btn-secondary btn-add-locale" style="font-size:13px;height:28px;padding:0 10px" onclick="addLocaleRow('preset_locales_${id}')">+ Add Language</button>
+      <button class="btn btn-secondary btn-add-locale" style="font-size:13px;height:28px;padding:0 10px" onclick="addLocaleRow('preset_locales_${id}')">${t('btn.addLanguage') || '+ Add Language'}</button>
     </div>`;
   list.appendChild(item);
   const localeRows = item.querySelector('.locale-rows');
   const addLocaleBtn = item.querySelector('.btn-add-locale');
   localeRows.querySelector('select').addEventListener('change', () => updateLocaleOptions(localeRows));
-  localeRows.querySelector('input[type="text"]').addEventListener('input', () => updateAddLocaleBtn(localeRows, addLocaleBtn));
+  localeRows.querySelector('input[type="text"]').addEventListener('input', () => {
+    updateAddLocaleBtn(localeRows, addLocaleBtn);
+    if (hasValidReason()) { setIncluded('ReasonPresetList', true); evaluateAllDeps(); }
+  });
   updateAddLocaleBtn(localeRows, addLocaleBtn);
   updateLocaleOptions(localeRows);
   updateListButtonMargin('ReasonPresetList_items', 'reason-add-btn', 4, 12);
+}
+
+function removeReasonPreset(id) {
+  document.getElementById(id)?.remove();
+  renumberReasons();
+  const isEmpty = !document.querySelectorAll('#ReasonPresetList_items .reason-preset-item').length;
+  if (isEmpty) setIncluded('ReasonPresetList', false, true);
+  evaluateAllDeps();
 }
 
 function addLocaleRow(containerId) {
@@ -1982,7 +2050,10 @@ function addLocaleRow(containerId) {
   const inp = row.querySelector('input[type="text"]');
   const addBtn = c.closest('.reason-preset-item').querySelector('.btn-add-locale');
   sel.addEventListener('change', () => updateLocaleOptions(c));
-  inp.addEventListener('input', () => updateAddLocaleBtn(c, addBtn));
+  inp.addEventListener('input', () => {
+    updateAddLocaleBtn(c, addBtn);
+    if (hasValidReason()) { setIncluded('ReasonPresetList', true); evaluateAllDeps(); }
+  });
   updateLocaleOptions(c);
   updateAddLocaleBtn(c, addBtn);
 }
@@ -2016,9 +2087,9 @@ function updateLocaleOptions(container) {
 
 // ─── Preset configurations ─────────────────────────────────────────────────────
 function resetAll() {
-  // Reset mode to fixed
-  document.getElementById('mode_fixed').checked = true;
-  currentMode = 'fixed';
+  profileImported = false;
+  // Reset mode to max (initial default)
+  document.getElementById('mode_max').checked = true;
 
   // Reset all toggles
   document.querySelectorAll('.toggle input[type="checkbox"]').forEach(cb => {
@@ -2027,23 +2098,44 @@ function resetAll() {
     if (lbl) lbl.textContent = cb.checked ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
   });
 
-  // Disable all number/text inputs except meta
-  document.querySelectorAll('input[type="number"], input[type="text"]').forEach(el => {
-    if (!el.closest('.profile-meta')) el.disabled = true;
-  });
-
-  // Hide all containers/nesteds
-  document.querySelectorAll('[id$="_container"], [id$="_nested"]').forEach(el => {
-    el.style.display = 'none';
-  });
   document.getElementById('ReasonPresetList_items').innerHTML = '';
-  document.getElementById('ReasonPresetList_area').style.display = 'none';
   presetCounter = 0;
   sdCounter = 0;
   document.getElementById('RL_StructuredData_container').innerHTML = '';
-  document.getElementById('RL_QueuedEventsMax').disabled = true;
 
-  applyMode('fixed');
+  // Reset all include checkboxes
+  document.querySelectorAll('.row-include input[type="checkbox"], .nested-include input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    const row = cb.closest('.row');
+    row?.classList.remove('is-included');
+    if (row) delete row.dataset.everIncluded;
+  });
+
+  // Reset field values to their defaults
+  const FIELD_DEFAULTS = {
+    ExpirationInterval: 20, ExpirationIntervalMax: 60, MaxIntervalInitial: 20,
+    RenewalNotificationInterval: 5, ReasonMinLength: 10, ReasonMaxLength: 250,
+    RL_ServerPort: 514, RL_QueuedEventsMax: 20, RL_MaximumMessageSize: 480,
+  };
+  for (const [id, val] of Object.entries(FIELD_DEFAULTS)) {
+    const f = document.getElementById(id); if (f) f.value = val;
+  }
+  ['PostChangeExecutablePath','PostChangeExecutableChecksum','HelpButtonCustomURL',
+   'RCA_path','RCA_checksum'].forEach(id => {
+    const f = document.getElementById(id); if (f) { f.value = ''; f.classList.remove('input-error'); }
+  });
+  document.getElementById('RL_LogFacility').value = '4';
+  document.getElementById('RL_LogSeverity').value = '6';
+  document.getElementById('RL_MessageFormat').value = '1';
+  document.getElementById('RCA_interval').value = '1';
+  document.getElementById('RL_WebhookCustomData_container').innerHTML = '';
+  const rlAddr = document.getElementById('RL_ServerAddress');
+  if (rlAddr) { rlAddr.value = ''; rlAddr.classList.remove('input-error'); }
+  const rlType = document.getElementById('RL_ServerType');
+  if (rlType) rlType.value = 'syslog';
+  updateLoggingType();
+
+  applyMode('max', false);
 }
 
 function setToggle(id, val) {
@@ -2054,60 +2146,46 @@ function setToggle(id, val) {
   if (lbl) lbl.textContent = val ? t('toggle.enabled') || 'Enabled' : t('toggle.disabled') || 'Disabled';
 }
 
-function enableField(id, val) {
-  const cb = document.getElementById(id + '_enabled');
-  if (cb) { cb.checked = true; toggleField(id); }
-  const field = document.getElementById(id);
-  if (field && val !== undefined) field.value = val;
-  if (field) field.disabled = false;
+function isIncluded(id) {
+  const cb = document.getElementById(id + '_include');
+  return cb ? cb.checked : false;
 }
 
-function applyPreset(name) {
-  resetAll();
-  if (name === 'strict') {
-    document.getElementById('mode_fixed').checked = true;
-    applyMode('fixed');
-    enableField('ExpirationInterval', 20);
-    setToggle('RequireAuthentication', true);
-    setToggle('ReasonRequired', true);
-    enableField('ReasonMinLength', 15);
-    setToggle('RevokePrivilegesAtLogin', true);
-    setToggle('RevokePrivilegesOnScreenLock', true);
-    setToggle('HideSettingsButton', true);
-    setToggle('HideSettingsFromDockMenu', true);
-    setToggle('HideSettingsFromStatusItem', true);
-  } else if (name === 'balanced') {
-    document.getElementById('mode_max').checked = true;
-    applyMode('max');
-    enableField('ExpirationIntervalMax', 60);
-    enableField('MaxIntervalInitial', 20);
-    setToggle('RequireAuthentication', true);
-    setToggle('AllowPrivilegeRenewal', true);
-    setToggle('ReasonRequired', true);
-    enableField('ReasonMinLength', 10);
-    setToggle('RevokePrivilegesAtLogin', true);
-    setToggle('ShowInMenuBar', true);
-    setToggle('ShowRemainingTimeInMenuBar', true);
-  } else if (name === 'permissive') {
-    document.getElementById('mode_max').checked = true;
-    applyMode('max');
-    enableField('ExpirationIntervalMax', 480);
-    enableField('MaxIntervalInitial', 60);
-    setToggle('AllowPrivilegeRenewal', true);
-    setToggle('ShowInMenuBar', true);
-    setToggle('ShowRemainingTimeInMenuBar', true);
+function setIncluded(id, val, clearEverIncluded = false) {
+  const cb = document.getElementById(id + '_include');
+  if (!cb) return;
+  cb.checked = val;
+  const row = cb.closest('.row');
+  const isOwnRow = row?.dataset.key === id;
+  if (isOwnRow) {
+    row.classList.toggle('is-included', val);
+    if (val) row.dataset.everIncluded = 'true';
+    if (!val && clearEverIncluded) delete row.dataset.everIncluded;
+    if (!row.hasAttribute('data-no-nested-overlay')) {
+      const overlayTarget = row.querySelector('[data-nested-overlay-target]') ?? row.querySelector('.nested-section');
+      if (overlayTarget) overlayTarget.classList.toggle('master-excluded', !val);
+    }
   }
+}
+
+function onIncludeChange(id) {
+  const cb = document.getElementById(id + '_include');
+  if (!cb) return;
+  setIncluded(id, cb.checked);
   evaluateAllDeps();
+  updateLastVisible();
+}
+
+function enableField(id, val) {
+  const field = document.getElementById(id);
+  if (field && val !== undefined) field.value = val;
+  setIncluded(id, true);
 }
 
 // ─── XML / mobileconfig generation ────────────────────────────────────────────
 function getVal(id) {
   const el = document.getElementById(id);
   return el ? el.value.trim() : '';
-}
-function isEnabled(id) {
-  const cb = document.getElementById(id + '_enabled');
-  return cb ? cb.checked : true;
 }
 function getBool(id) {
   const el = document.getElementById(id);
@@ -2125,9 +2203,10 @@ function getArraySimple(containerId) {
 function xmlEscape(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function xmlKey(k, v) { return `\t\t\t\t\t\t\t\t<key>${k}</key>\n\t\t\t\t\t\t\t\t${v}\n`; }
-function xmlStr(v)    { return `<string>${xmlEscape(v)}</string>`; }
-function xmlInt(v)    { return `<integer>${v}</integer>`; }
+const he = xmlEscape;
+function xmlKey(k, v) { if (v == null) return ''; return `\t\t\t\t\t\t\t\t<key>${k}</key>\n\t\t\t\t\t\t\t\t${v}\n`; }
+function xmlStr(v)    { const e = xmlEscape(v); return e ? `<string>${e}</string>` : '<string/>'; }
+function xmlInt(v)    { const n = parseInt(v, 10); return isNaN(n) ? null : `<integer>${n}</integer>`; }
 function xmlBool(v)   { return v ? '<true/>' : '<false/>'; }
 function xmlData(b64) {
   const lines = b64.match(/.{1,68}/g) || [];
@@ -2143,11 +2222,10 @@ function generateUUID() {
     return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16).toUpperCase();
   });
 }
-function btoa_utf8(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
 
 let usagePolicyBase64 = '';
+let _lastValidatedSettings = null;
+let _lastFindings = null;
 
 function loadUsagePolicyFile(input) {
   const file = input.files[0];
@@ -2158,6 +2236,8 @@ function loadUsagePolicyFile(input) {
       new Uint8Array(e.target.result).reduce((s, b) => s + String.fromCharCode(b), '')
     );
     document.getElementById('UsagePolicy_filename').textContent = file.name;
+    setIncluded('UsagePolicy', true);
+    evaluateAllDeps();
   };
   reader.readAsArrayBuffer(file);
 }
@@ -2186,107 +2266,107 @@ function buildPayloadDict() {
 
   if (!isForce) {
     // Expiration
-    if (currentMode === 'fixed' && isEnabled('ExpirationInterval')) {
+    if (isIncluded('ExpirationInterval') && currentMode === 'fixed') {
       keys += xmlKey('ExpirationInterval', xmlInt(getVal('ExpirationInterval')));
     }
-    if (currentMode === 'max' && isEnabled('ExpirationIntervalMax')) {
+    if (isIncluded('ExpirationIntervalMax') && currentMode === 'max') {
       keys += xmlKey('ExpirationIntervalMax', xmlInt(getVal('ExpirationIntervalMax')));
-      if (isEnabled('MaxIntervalInitial')) keys += xmlKey('MaxIntervalInitial', xmlInt(getVal('MaxIntervalInitial')));
+      if (isIncluded('MaxIntervalInitial')) keys += xmlKey('MaxIntervalInitial', xmlInt(getVal('MaxIntervalInitial')));
     }
 
     // Renewal
-    if (getBool('AllowPrivilegeRenewal')) {
-      keys += xmlKey('AllowPrivilegeRenewal', xmlBool(true));
-      if (rowVisible('RenewalFollowsAuthSetting') && getBool('RenewalFollowsAuthSetting'))
-        keys += xmlKey('RenewalFollowsAuthSetting', xmlBool(true));
-      if (rowVisible('RenewalNotificationInterval') && isEnabled('RenewalNotificationInterval'))
+    if (isIncluded('AllowPrivilegeRenewal')) {
+      keys += xmlKey('AllowPrivilegeRenewal', xmlBool(getBool('AllowPrivilegeRenewal')));
+      if (isIncluded('RenewalFollowsAuthSetting') && rowVisible('RenewalFollowsAuthSetting'))
+        keys += xmlKey('RenewalFollowsAuthSetting', xmlBool(getBool('RenewalFollowsAuthSetting')));
+      if (isIncluded('RenewalNotificationInterval') && rowVisible('RenewalNotificationInterval'))
         keys += xmlKey('RenewalNotificationInterval', xmlInt(getVal('RenewalNotificationInterval')));
-      if (rowVisible('RenewalCustomAction') && getBool('RenewalCustomAction_enabled')) {
+      if (isIncluded('RenewalCustomAction') && rowVisible('RenewalCustomAction')) {
         const path = getVal('RCA_path'), cs = getVal('RCA_checksum'), iv = getVal('RCA_interval');
         if (path && RE_PATH.test(path)) {
           let dict = '<dict>\n';
           dict += `									<key>ActionExecutablePath</key>\n									<string>${xmlEscape(path)}</string>\n`;
           if (cs && RE_SHA256.test(cs)) dict += `									<key>ActionExecutableChecksum</key>\n									<string>${xmlEscape(cs)}</string>\n`;
-          if (iv) dict += `									<key>ActionNotificationInterval</key>\n									<integer>${iv}</integer>\n`;
+          if (iv && !isNaN(parseInt(iv, 10))) dict += `									<key>ActionNotificationInterval</key>\n									<integer>${parseInt(iv, 10)}</integer>\n`;
           dict += '								</dict>';
           keys += xmlKey('RenewalCustomAction', dict);
         }
       }
     }
-    if (isEnabled('AutoRenewalProcessPaths')) {
+    if (isIncluded('AutoRenewalProcessPaths')) {
       const arr = getArraySimple('AutoRenewalProcessPaths_container');
       if (arr.length) keys += xmlKey('AutoRenewalProcessPaths', xmlArray(arr));
     }
 
     // Authentication
-    if (getBool('RequireAuthentication')) {
-      keys += xmlKey('RequireAuthentication', xmlBool(true));
-      if (rowVisible('EnableSmartCardSupport') && getBool('EnableSmartCardSupport'))
-        keys += xmlKey('EnableSmartCardSupport', xmlBool(true));
-      if (rowVisible('RequireBiometricAuthentication') && getBool('RequireBiometricAuthentication')) {
-        keys += xmlKey('RequireBiometricAuthentication', xmlBool(true));
-        if (rowVisible('BiometricsFallbackType') && isEnabled('BiometricsFallbackType')) {
+    if (isIncluded('RequireAuthentication')) {
+      keys += xmlKey('RequireAuthentication', xmlBool(getBool('RequireAuthentication')));
+      if (isIncluded('EnableSmartCardSupport') && rowVisible('EnableSmartCardSupport'))
+        keys += xmlKey('EnableSmartCardSupport', xmlBool(getBool('EnableSmartCardSupport')));
+      if (isIncluded('RequireBiometricAuthentication') && rowVisible('RequireBiometricAuthentication')) {
+        keys += xmlKey('RequireBiometricAuthentication', xmlBool(getBool('RequireBiometricAuthentication')));
+        if (isIncluded('BiometricsFallbackType') && rowVisible('BiometricsFallbackType')) {
           const val = getVal('BiometricsFallbackType');
           if (val !== '') keys += xmlKey('BiometricsFallbackType', xmlInt(val));
         }
       }
-      if (rowVisible('AllowCLIBiometricAuthentication') && getBool('AllowCLIBiometricAuthentication'))
-        keys += xmlKey('AllowCLIBiometricAuthentication', xmlBool(true));
+      if (isIncluded('AllowCLIBiometricAuthentication') && rowVisible('AllowCLIBiometricAuthentication'))
+        keys += xmlKey('AllowCLIBiometricAuthentication', xmlBool(getBool('AllowCLIBiometricAuthentication')));
     }
 
     // Access restriction
     if (sectionVisible('enforcement')) {
-      if (isEnabled('LimitToUser')) {
+      if (isIncluded('LimitToUser')) {
         const arr = getArraySimple('LimitToUser_container');
         if (arr.length) keys += xmlKey('LimitToUser', xmlArray(arr));
       }
-      if (isEnabled('LimitToGroup')) {
+      if (isIncluded('LimitToGroup')) {
         const arr = getArraySimple('LimitToGroup_container');
         if (arr.length) keys += xmlKey('LimitToGroup', xmlArray(arr));
       }
     }
 
     // Revocation
-    if (getBool('RevokePrivilegesAtLogin')) {
-      keys += xmlKey('RevokePrivilegesAtLogin', xmlBool(true));
-      if (rowVisible('RevokeAtLoginExcludedUsers') && isEnabled('RevokeAtLoginExcludedUsers')) {
+    if (isIncluded('RevokePrivilegesAtLogin')) {
+      keys += xmlKey('RevokePrivilegesAtLogin', xmlBool(getBool('RevokePrivilegesAtLogin')));
+      if (isIncluded('RevokeAtLoginExcludedUsers') && rowVisible('RevokeAtLoginExcludedUsers')) {
         const arr = getArraySimple('RevokeAtLoginExcludedUsers_container');
         if (arr.length) keys += xmlKey('RevokeAtLoginExcludedUsers', xmlArray(arr));
       }
     }
-    if (getBool('RevokePrivilegesAfterSystemTimeChange')) {
-      keys += xmlKey('RevokePrivilegesAfterSystemTimeChange', xmlBool(true));
-      if (rowVisible('RevokeAfterTimeChangeExcludedUsers') && isEnabled('RevokeAfterTimeChangeExcludedUsers')) {
+    if (isIncluded('RevokePrivilegesAfterSystemTimeChange')) {
+      keys += xmlKey('RevokePrivilegesAfterSystemTimeChange', xmlBool(getBool('RevokePrivilegesAfterSystemTimeChange')));
+      if (isIncluded('RevokeAfterTimeChangeExcludedUsers') && rowVisible('RevokeAfterTimeChangeExcludedUsers')) {
         const arr = getArraySimple('RevokeAfterTimeChangeExcludedUsers_container');
         if (arr.length) keys += xmlKey('RevokeAfterTimeChangeExcludedUsers', xmlArray(arr));
       }
     }
-    if (getBool('RevokePrivilegesOnScreenLock')) {
-      keys += xmlKey('RevokePrivilegesOnScreenLock', xmlBool(true));
-      if (rowVisible('RevokeOnScreenLockExcludedUsers') && isEnabled('RevokeOnScreenLockExcludedUsers')) {
+    if (isIncluded('RevokePrivilegesOnScreenLock')) {
+      keys += xmlKey('RevokePrivilegesOnScreenLock', xmlBool(getBool('RevokePrivilegesOnScreenLock')));
+      if (isIncluded('RevokeOnScreenLockExcludedUsers') && rowVisible('RevokeOnScreenLockExcludedUsers')) {
         const arr = getArraySimple('RevokeOnScreenLockExcludedUsers_container');
         if (arr.length) keys += xmlKey('RevokeOnScreenLockExcludedUsers', xmlArray(arr));
       }
     }
-    if (isEnabled('AutomaticRevocationExcludedUsers')) {
+    if (isIncluded('AutomaticRevocationExcludedUsers')) {
       const arr = getArraySimple('AutomaticRevocationExcludedUsers_container');
       if (arr.length) keys += xmlKey('AutomaticRevocationExcludedUsers', xmlArray(arr));
     }
 
     // Reason
-    if (getBool('ReasonRequired')) {
-      keys += xmlKey('ReasonRequired', xmlBool(true));
-      if (rowVisible('ReasonMinLength') && isEnabled('ReasonMinLength'))
+    if (isIncluded('ReasonRequired')) {
+      keys += xmlKey('ReasonRequired', xmlBool(getBool('ReasonRequired')));
+      if (isIncluded('ReasonMinLength') && rowVisible('ReasonMinLength'))
         keys += xmlKey('ReasonMinLength', xmlInt(getVal('ReasonMinLength')));
-      if (rowVisible('ReasonMaxLength') && isEnabled('ReasonMaxLength'))
+      if (isIncluded('ReasonMaxLength') && rowVisible('ReasonMaxLength'))
         keys += xmlKey('ReasonMaxLength', xmlInt(getVal('ReasonMaxLength')));
-      if (rowVisible('ReasonCheckingEnabled') && getBool('ReasonCheckingEnabled'))
-        keys += xmlKey('ReasonCheckingEnabled', xmlBool(true));
-      if (rowVisible('PassReasonToExecutable') && getBool('PassReasonToExecutable'))
-        keys += xmlKey('PassReasonToExecutable', xmlBool(true));
-      if (rowVisible('ReasonStrictPresetList') && getBool('ReasonStrictPresetList'))
-        keys += xmlKey('ReasonStrictPresetList', xmlBool(true));
-      if (rowVisible('ReasonPresetList') && getBool('ReasonPresetList_enabled')) {
+      if (isIncluded('ReasonCheckingEnabled') && rowVisible('ReasonCheckingEnabled'))
+        keys += xmlKey('ReasonCheckingEnabled', xmlBool(getBool('ReasonCheckingEnabled')));
+      if (isIncluded('PassReasonToExecutable') && rowVisible('PassReasonToExecutable'))
+        keys += xmlKey('PassReasonToExecutable', xmlBool(getBool('PassReasonToExecutable')));
+      if (isIncluded('ReasonStrictPresetList') && rowVisible('ReasonStrictPresetList') && isIncluded('ReasonPresetList'))
+        keys += xmlKey('ReasonStrictPresetList', xmlBool(getBool('ReasonStrictPresetList')));
+      if (isIncluded('ReasonPresetList') && rowVisible('ReasonPresetList')) {
         const presets = document.querySelectorAll('#ReasonPresetList_items .reason-preset-item');
         if (presets.length) {
           let arrayXml = '<array>\n';
@@ -2312,17 +2392,24 @@ function buildPayloadDict() {
     }
 
     // Post-Change
-    if (isEnabled('PostChangeExecutablePath')) { const v = getVal('PostChangeExecutablePath'); if (RE_PATH.test(v)) keys += xmlKey('PostChangeExecutablePath', xmlStr(v)); }
-    if (isEnabled('PostChangeExecutableChecksum')) { const v = getVal('PostChangeExecutableChecksum'); if (RE_SHA256.test(v)) keys += xmlKey('PostChangeExecutableChecksum', xmlStr(v)); }
-    if (getBool('PostChangeActionOnGrantOnly')) keys += xmlKey('PostChangeActionOnGrantOnly', xmlBool(true));
+    if (isIncluded('PostChangeExecutablePath')) {
+      const v = getVal('PostChangeExecutablePath');
+      if (v === '' || RE_PATH.test(v)) {
+        keys += xmlKey('PostChangeExecutablePath', xmlStr(v));
+        if (v.length > 0) {
+          if (isIncluded('PostChangeExecutableChecksum')) { const cs = getVal('PostChangeExecutableChecksum'); if (RE_SHA256.test(cs)) keys += xmlKey('PostChangeExecutableChecksum', xmlStr(cs)); }
+          if (isIncluded('PostChangeActionOnGrantOnly')) keys += xmlKey('PostChangeActionOnGrantOnly', xmlBool(getBool('PostChangeActionOnGrantOnly')));
+        }
+      }
+    }
 
     // Usage Policy
-    if (getBool('UsagePolicy_enabled')) {
+    if (isIncluded('UsagePolicy')) {
       if (usagePolicyBase64) keys += xmlKey('UsagePolicy', xmlData(usagePolicyBase64));
     }
 
     // Remote Logging
-    if (getBool('RemoteLogging_enabled')) {
+    if (isIncluded('RemoteLogging')) {
       const serverType = getVal('RL_ServerType');
       const serverAddr = getVal('RL_ServerAddress');
       const addrValid = serverAddr && (
@@ -2334,47 +2421,51 @@ function buildPayloadDict() {
         let dict = '<dict>\n';
         dict += `									<key>ServerType</key>\n									<string>${xmlEscape(serverType)}</string>\n`;
         dict += `									<key>ServerAddress</key>\n									<string>${xmlEscape(serverAddr)}</string>\n`;
-        if (getBool('RL_QueueUnsentEvents')) {
-          dict += `									<key>QueueUnsentEvents</key>\n									<true/>\n`;
+        if (isIncluded('RL_QueueUnsentEvents')) {
+          dict += `									<key>QueueUnsentEvents</key>\n									${getBool('RL_QueueUnsentEvents') ? '<true/>' : '<false/>'}\n`;
           const qmax = getVal('RL_QueuedEventsMax');
-          if (qmax !== '') dict += `									<key>QueuedEventsMax</key>\n									<integer>${qmax}</integer>\n`;
+          if (isIncluded('RL_QueuedEventsMax') && qmax !== '') dict += `									<key>QueuedEventsMax</key>\n									<integer>${qmax}</integer>\n`;
         }
         if (serverType === 'syslog') {
-          dict += `									<key>SyslogOptions</key>\n									<dict>\n`;
-          dict += `										<key>ServerPort</key>\n										<integer>${getVal('RL_ServerPort')}</integer>\n`;
-          if (getBool('RL_UseTLS')) dict += `										<key>UseTLS</key>\n										<true/>\n`;
-          dict += `										<key>LogFacility</key>\n										<integer>${getVal('RL_LogFacility')}</integer>\n`;
-          dict += `										<key>LogSeverity</key>\n										<integer>${getVal('RL_LogSeverity')}</integer>\n`;
-          dict += `										<key>MaximumMessageSize</key>\n										<integer>${getVal('RL_MaximumMessageSize')}</integer>\n`;
-          dict += `										<key>MessageFormat</key>\n										<integer>${getVal('RL_MessageFormat')}</integer>\n`;
-          const sdItems = document.querySelectorAll('#RL_StructuredData_container .sd-item');
-          const sdEntries = [];
-          sdItems.forEach(item => {
-            const sdId = item.querySelector('input[type="text"]')?.value.trim();
-            if (!sdId) return;
-            const params = item.querySelectorAll('.sd-params-container .array-item');
-            let paramXml = '';
-            params.forEach(p => {
-              const inputs = p.querySelectorAll('input[type="text"]');
-              if (inputs[0]?.value.trim() && inputs[1]?.value.trim())
-                paramXml += `\t\t\t\t\t\t\t\t\t\t\t\t<key>${xmlEscape(inputs[0].value.trim())}</key>\n\t\t\t\t\t\t\t\t\t\t\t\t<string>${xmlEscape(inputs[1].value.trim())}</string>\n`;
+          let syslogInner = '';
+          if (isIncluded('RL_ServerPort')) syslogInner += `										<key>ServerPort</key>\n										<integer>${getVal('RL_ServerPort')}</integer>\n`;
+          if (isIncluded('RL_UseTLS')) syslogInner += `										<key>UseTLS</key>\n										${getBool('RL_UseTLS') ? '<true/>' : '<false/>'}\n`;
+          if (isIncluded('RL_LogFacility')) syslogInner += `										<key>LogFacility</key>\n										<integer>${getVal('RL_LogFacility')}</integer>\n`;
+          if (isIncluded('RL_LogSeverity')) syslogInner += `										<key>LogSeverity</key>\n										<integer>${getVal('RL_LogSeverity')}</integer>\n`;
+          if (isIncluded('RL_MaximumMessageSize')) syslogInner += `										<key>MaximumMessageSize</key>\n										<integer>${getVal('RL_MaximumMessageSize')}</integer>\n`;
+          if (isIncluded('RL_MessageFormat')) syslogInner += `										<key>MessageFormat</key>\n										<integer>${getVal('RL_MessageFormat')}</integer>\n`;
+          if (isIncluded('RL_StructuredData')) {
+            const sdItems = document.querySelectorAll('#RL_StructuredData_container .sd-item');
+            const sdEntries = [];
+            sdItems.forEach(item => {
+              const sdId = item.querySelector('input[type="text"]')?.value.trim();
+              if (!sdId) return;
+              const params = item.querySelectorAll('.sd-params-container .array-item');
+              let paramXml = '';
+              params.forEach(p => {
+                const inputs = p.querySelectorAll('input[type="text"]');
+                if (inputs[0]?.value.trim() && inputs[1]?.value.trim())
+                  paramXml += `\t\t\t\t\t\t\t\t\t\t\t\t<key>${xmlEscape(inputs[0].value.trim())}</key>\n\t\t\t\t\t\t\t\t\t\t\t\t<string>${xmlEscape(inputs[1].value.trim())}</string>\n`;
+              });
+              if (paramXml)
+                sdEntries.push(`\t\t\t\t\t\t\t\t\t\t\t<key>${xmlEscape(sdId)}</key>\n\t\t\t\t\t\t\t\t\t\t\t<dict>\n${paramXml}\t\t\t\t\t\t\t\t\t\t\t</dict>`);
+              else
+                sdEntries.push(`\t\t\t\t\t\t\t\t\t\t\t<key>${xmlEscape(sdId)}</key>\n\t\t\t\t\t\t\t\t\t\t\t<dict/>`);
             });
-            if (paramXml)
-              sdEntries.push(`\t\t\t\t\t\t\t\t\t\t\t<key>${xmlEscape(sdId)}</key>\n\t\t\t\t\t\t\t\t\t\t\t<dict>\n${paramXml}\t\t\t\t\t\t\t\t\t\t\t</dict>`);
-          });
-          if (sdEntries.length)
-            dict += `\t\t\t\t\t\t\t\t\t\t<key>StructuredData</key>\n\t\t\t\t\t\t\t\t\t\t<dict>\n${sdEntries.join('\n')}\n\t\t\t\t\t\t\t\t\t\t</dict>\n`;
-          dict += `									</dict>\n`;
+            if (sdEntries.length)
+              syslogInner += `\t\t\t\t\t\t\t\t\t\t<key>StructuredData</key>\n\t\t\t\t\t\t\t\t\t\t<dict>\n${sdEntries.join('\n')}\n\t\t\t\t\t\t\t\t\t\t</dict>\n`;
+          }
+          if (syslogInner) dict += `									<key>SyslogOptions</key>\n									<dict>\n${syslogInner}									</dict>\n`;
         } else {
           const kvItems = document.querySelectorAll('#RL_WebhookCustomData_container .array-item');
-          if (kvItems.length) {
-            dict += `									<key>WebhookCustomData</key>\n									<dict>\n`;
+          if (isIncluded('RL_WebhookCustomData') && kvItems.length) {
+            let webhookInner = '';
             kvItems.forEach(item => {
               const inputs = item.querySelectorAll('input[type="text"]');
               if (inputs[0]?.value && inputs[1]?.value)
-                dict += `										<key>${xmlEscape(inputs[0].value)}</key>\n										<string>${xmlEscape(inputs[1].value)}</string>\n`;
+                webhookInner += `										<key>${xmlEscape(inputs[0].value)}</key>\n										<string>${xmlEscape(inputs[1].value)}</string>\n`;
             });
-            dict += `									</dict>\n`;
+            if (webhookInner) dict += `									<key>WebhookCustomData</key>\n									<dict>\n${webhookInner}									</dict>\n`;
           }
         }
         dict += '								</dict>';
@@ -2384,32 +2475,33 @@ function buildPayloadDict() {
   } // end !isForce
 
   // UI (always available, some rows hidden in force mode)
-  if (getBool('HideOtherWindows')) keys += xmlKey('HideOtherWindows', xmlBool(true));
-  if (!isForce && getBool('HideSettingsButton')) keys += xmlKey('HideSettingsButton', xmlBool(true));
-  if (getBool('HideSettingsFromDockMenu')) keys += xmlKey('HideSettingsFromDockMenu', xmlBool(true));
-  if (getBool('HideSettingsFromStatusItem')) keys += xmlKey('HideSettingsFromStatusItem', xmlBool(true));
-  if (!isForce && getBool('HideHelpButton')) keys += xmlKey('HideHelpButton', xmlBool(true));
-  if (!isForce && isEnabled('HelpButtonCustomURL')) { const v = getVal('HelpButtonCustomURL'); if (RE_URL.test(v)) keys += xmlKey('HelpButtonCustomURL', xmlStr(v)); }
-  if (getBool('ShowInMenuBar')) {
-    keys += xmlKey('ShowInMenuBar', xmlBool(true));
-    if (rowVisible('ShowRemainingTimeInMenuBar') && getBool('ShowRemainingTimeInMenuBar'))
-      keys += xmlKey('ShowRemainingTimeInMenuBar', xmlBool(true));
+  if (isIncluded('HideOtherWindows')) keys += xmlKey('HideOtherWindows', xmlBool(getBool('HideOtherWindows')));
+  if (isIncluded('HideSettingsButton') && !isForce) keys += xmlKey('HideSettingsButton', xmlBool(getBool('HideSettingsButton')));
+  if (isIncluded('HideSettingsFromDockMenu')) keys += xmlKey('HideSettingsFromDockMenu', xmlBool(getBool('HideSettingsFromDockMenu')));
+  if (isIncluded('HideSettingsFromStatusItem')) keys += xmlKey('HideSettingsFromStatusItem', xmlBool(getBool('HideSettingsFromStatusItem')));
+  if (isIncluded('HideHelpButton') && !isForce) keys += xmlKey('HideHelpButton', xmlBool(getBool('HideHelpButton')));
+  if (isIncluded('HelpButtonCustomURL') && !isForce && rowVisible('HelpButtonCustomURL')) { const v = getVal('HelpButtonCustomURL'); if (RE_URL.test(v)) keys += xmlKey('HelpButtonCustomURL', xmlStr(v)); }
+  if (isIncluded('ShowInMenuBar')) {
+    keys += xmlKey('ShowInMenuBar', xmlBool(getBool('ShowInMenuBar')));
+    if (isIncluded('ShowRemainingTimeInMenuBar') && rowVisible('ShowRemainingTimeInMenuBar'))
+      keys += xmlKey('ShowRemainingTimeInMenuBar', xmlBool(getBool('ShowRemainingTimeInMenuBar')));
   }
 
   // System
-  if (getBool('EnableSystemExtension')) keys += xmlKey('EnableSystemExtension', xmlBool(true));
-  if (!isForce && getBool('ForceUpdatePrebootVolume')) keys += xmlKey('ForceUpdatePrebootVolume', xmlBool(true));
+  if (isIncluded('EnableSystemExtension')) keys += xmlKey('EnableSystemExtension', xmlBool(getBool('EnableSystemExtension')));
+  if (isIncluded('ForceUpdatePrebootVolume') && !isForce) keys += xmlKey('ForceUpdatePrebootVolume', xmlBool(getBool('ForceUpdatePrebootVolume')));
 
   return keys;
 }
 
 function buildMobileconfig() {
   const uuid1 = generateUUID(), uuid2 = generateUUID();
-  const name  = xmlEscape(getVal('meta_name') || 'Privileges Configuration');
-  const org   = xmlEscape(getVal('meta_org')  || 'My Organization');
+  const name  = xmlEscape(getVal('meta_name') || t('meta.name.default') || 'Privileges Configuration');
+  const org   = xmlEscape(getVal('meta_org')  || t('meta.org.default')  || 'My Organization');
   const id    = xmlEscape(getVal('meta_id')   || 'com.example.privileges.config');
   const desc  = xmlEscape(getVal('meta_desc') || '');
   const payloadKeys = buildPayloadDict();
+  const settingsDict = payloadKeys ? `<dict>\n${payloadKeys}							</dict>` : `<dict/>`;
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -2438,8 +2530,7 @@ function buildMobileconfig() {
 					<array>
 						<dict>
 							<key>mcx_preference_settings</key>
-							<dict>
-${payloadKeys}							</dict>
+							${settingsDict}
 						</dict>
 					</array>
 				</dict>
@@ -2470,10 +2561,29 @@ ${payloadKeys}							</dict>
 
 function previewXML() {
   document.getElementById('preview-content').textContent = buildMobileconfig();
-  document.getElementById('preview-modal').style.display = 'block';
+  document.getElementById('preview-modal').style.display = 'flex';
 }
 function closePreview() {
   document.getElementById('preview-modal').style.display = 'none';
+}
+
+let _confirmCallback = null;
+function showConfirmModal(title, body, okLabel, onOk) {
+  document.getElementById('confirm-modal-title').textContent = title;
+  document.getElementById('confirm-modal-body').textContent = body;
+  document.getElementById('confirm-modal-ok').textContent = okLabel;
+  _confirmCallback = onOk;
+  const modal = document.getElementById('confirm-modal');
+  modal.style.display = 'flex';
+}
+function closeConfirmModal() {
+  document.getElementById('confirm-modal').style.display = 'none';
+  _confirmCallback = null;
+}
+function confirmModalOk() {
+  const cb = _confirmCallback;
+  closeConfirmModal();
+  if (cb) cb();
 }
 function downloadMobileconfig() {
   const xml  = buildMobileconfig();
@@ -2486,17 +2596,13 @@ function downloadMobileconfig() {
   URL.revokeObjectURL(a.href);
 }
 
-document.getElementById('preview-modal').addEventListener('click', function(e) {
-  if (e.target === this) closePreview();
-});
-
 // ─── Profile Validator ────────────────────────────────────────────────────────
 
 // Schema: key → { type, values?, min?, max?, requires?, conflictsWith? }
 // type: 'bool' | 'integer' | 'string' | 'array' | 'dict' | 'data'
 const VALIDATOR_SCHEMA = {
   EnforcePrivileges:                    { type: 'string',  values: ['admin','user','none'] },
-  ExpirationInterval:                   { type: 'integer', min: 1 },
+  ExpirationInterval:                   { type: 'integer', min: 0 },
   ExpirationIntervalMax:                { type: 'integer', min: 1 },
   MaxIntervalInitial:                   { type: 'integer', min: 1 },
   AllowPrivilegeRenewal:                { type: 'bool' },
@@ -2756,6 +2862,8 @@ function validateMobileconfig(input) {
   const file = input.files[0];
   if (!file) return;
   input.value = '';
+  _lastValidatedSettings = null;
+  _lastFindings = null;
   const reader = new FileReader();
   reader.onload = e => {
     const buf = e.target.result;
@@ -2780,7 +2888,7 @@ function validateMobileconfig(input) {
       const parseErr = xmlDoc.querySelector('parsererror');
       if (parseErr) throw new Error(parseErr.textContent);
     } catch(err) {
-      showValidatorModal(file.name, null, (t('validator.error.parseError') || 'Could not parse XML: {msg}').replace('{msg}', err.message));
+      showValidatorModal(file.name, null, (t('validator.error.parseError') || 'Could not parse XML: {msg}').replace('{msg}', he(err.message)));
       return;
     }
     const settings = extractPrivsDict(xmlDoc);
@@ -2789,6 +2897,8 @@ function validateMobileconfig(input) {
       return;
     }
     const findings = runValidation(settings);
+    _lastValidatedSettings = settings;
+    _lastFindings = findings;
     showValidatorModal(file.name, findings, null);
   };
   reader.readAsArrayBuffer(file);
@@ -2801,7 +2911,7 @@ function runValidation(settings) {
   // 1. Unknown keys
   for (const key of keys) {
     if (!VALIDATOR_SCHEMA[key]) {
-      findings.warnings.push({ key, msg: `Unknown key <code>${key}</code> — not part of the Privileges schema.` });
+      findings.warnings.push({ key, msg: `Unknown key <code>${he(key)}</code> — not part of the Privileges schema.` });
     }
   }
 
@@ -2840,15 +2950,15 @@ function runValidation(settings) {
 
     // Allowed string values
     if (schema.values && actualType === 'string' && !schema.values.includes(entry.value)) {
-      findings.errors.push({ key, msg: t('validator.err.invalidValue', { key: `<code>${key}</code>`, value: `<code>"${entry.value}"</code>`, allowed: schema.values.map(v => `<code>"${v}"</code>`).join(', ') }) });
+      findings.errors.push({ key, msg: t('validator.err.invalidValue', { key: `<code>${he(key)}</code>`, value: `<code>"${he(entry.value)}"</code>`, allowed: schema.values.map(v => `<code>"${he(v)}"</code>`).join(', ') }) });
     }
 
     // Integer range
     if (schema.type === 'integer' && actualType === 'integer') {
       if (schema.min !== undefined && entry.value < schema.min)
-        findings.errors.push({ key, msg: t('validator.err.belowMin', { key: `<code>${key}</code>`, value: `<code>${entry.value}</code>`, min: `<code>${schema.min}</code>` }) });
+        findings.errors.push({ key, msg: t('validator.err.belowMin', { key: `<code>${he(key)}</code>`, value: `<code>${he(entry.value)}</code>`, min: `<code>${schema.min}</code>` }) });
       if (schema.max !== undefined && entry.value > schema.max)
-        findings.errors.push({ key, msg: t('validator.err.aboveMax', { key: `<code>${key}</code>`, value: `<code>${entry.value}</code>`, max: `<code>${schema.max}</code>` }) });
+        findings.errors.push({ key, msg: t('validator.err.aboveMax', { key: `<code>${he(key)}</code>`, value: `<code>${he(entry.value)}</code>`, max: `<code>${schema.max}</code>` }) });
     }
   }
 
@@ -2929,7 +3039,7 @@ function runValidation(settings) {
     } else {
       const serverType = rlDict['ServerType'].value;
       if (!['syslog','webhook'].includes(serverType)) {
-        findings.errors.push({ key: 'RemoteLogging', msg: t('validator.err.rlInvalidServerType', { value: `<code>"${serverType}"</code>` }) });
+        findings.errors.push({ key: 'RemoteLogging', msg: t('validator.err.rlInvalidServerType', { value: `<code>"${he(serverType)}"</code>` }) });
       }
     }
     if (!rlDict['ServerAddress']) {
@@ -2945,7 +3055,7 @@ function runValidation(settings) {
     } else {
       const pathVal = rcaDict['ActionExecutablePath'].value;
       if (!RE_PATH.test(pathVal)) {
-        findings.errors.push({ key: 'RenewalCustomAction', msg: t('validator.err.rcaInvalidPath', { value: `<code>"${pathVal}"</code>` }) });
+        findings.errors.push({ key: 'RenewalCustomAction', msg: t('validator.err.rcaInvalidPath', { value: `<code>"${he(pathVal)}"</code>` }) });
       }
     }
     if (rcaDict['ActionExecutableChecksum']) {
@@ -3004,7 +3114,8 @@ function runValidation(settings) {
     }
     allDisplayKeys.sort((a, b) => a.localeCompare(b));
     const keyList = allDisplayKeys.map(k => `<div style="padding:1px 0"><code>${k}</code></div>`).join('');
-    findings.info.push({ key: '', msg: `${tpl.replace('{n}', total)}<div style="margin-top:6px">${keyList}</div>` });
+    const displayTotal = total === 1 ? (t('validator.one') || 'one') : total;
+    findings.info.push({ key: '', msg: `${tpl.replace('{n}', displayTotal)}<div style="margin-top:6px">${keyList}</div>` });
   }
 
   return findings;
@@ -3015,8 +3126,8 @@ function showValidatorModal(filename, findings, parseError) {
   const container = document.getElementById('validator-findings');
 
   if (parseError) {
-    container.innerHTML = `<div class="validator-empty" style="color:var(--force)">${parseError}</div>`;
-    document.getElementById('validator-modal').style.display = 'block';
+    container.innerHTML = `<div class="validator-empty" style="color:var(--destructive)">${parseError}</div>`;
+    document.getElementById('validator-modal').style.display = 'flex';
     return;
   }
 
@@ -3026,7 +3137,8 @@ function showValidatorModal(filename, findings, parseError) {
   function renderGroup(titleKey, items, level) {
     if (!items.length) return '';
     const title = t(titleKey) || titleKey;
-    let g = `<div class="validator-group"><div class="validator-group-title">${title} (${items.length})</div>`;
+    const count = items.length;
+    let g = `<div class="validator-group"><div class="validator-group-title">${title} (${count})</div>`;
     for (const item of items) {
       g += `<div class="validator-item">
         <div class="validator-icon ${level}">${level === 'error' ? '✕' : level === 'warning' ? '!' : 'i'}</div>
@@ -3057,16 +3169,204 @@ function showValidatorModal(filename, findings, parseError) {
 
   container.innerHTML = html;
 
-  document.getElementById('validator-modal').style.display = 'block';
+  document.getElementById('validator-modal').style.display = 'flex';
 }
 
 function closeValidator() {
   document.getElementById('validator-modal').style.display = 'none';
+  const settings = _lastValidatedSettings;
+  const findings = _lastFindings;
+  _lastValidatedSettings = null;
+  _lastFindings = null;
+  if (!settings) return;
+  const hasErrors = findings && findings.errors && findings.errors.length > 0;
+  let msg = t('import.confirm.body') || "Importing this profile will overwrite your current configuration. You can't undo this action.";
+  if (hasErrors) msg = (t('import.confirm.errors') || 'Only valid settings will be imported, and fields with errors will be skipped.') + ' ' + msg;
+  const title = t('import.confirm.title') || 'Would you like to import this profile into the configurator?';
+  showConfirmModal(title, msg, t('btn.importProfile') || 'Import Profile', () => importSettings(settings));
 }
 
-document.getElementById('validator-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeValidator();
-});
+function importSettings(s) {
+  resetAll();
+
+  // Mode
+  try {
+    if (s['EnforcePrivileges']) {
+      const v = s['EnforcePrivileges'].value;
+      const modeId = { admin: 'mode_force_admin', user: 'mode_force_user', none: 'mode_force_none' }[v];
+      if (modeId && document.getElementById(modeId)) {
+        document.getElementById(modeId).checked = true;
+        applyMode('force_' + v, false);
+      }
+    } else if (s['ExpirationInterval']) {
+      document.getElementById('mode_fixed').checked = true;
+      applyMode('fixed', false);
+    } else {
+      document.getElementById('mode_max').checked = true;
+      applyMode('max', false);
+    }
+  } catch(e) {}
+
+  // Bool keys
+  const BOOL_KEYS = [
+    'AllowPrivilegeRenewal','RenewalFollowsAuthSetting','RequireAuthentication',
+    'RequireBiometricAuthentication','EnableSmartCardSupport','AllowCLIBiometricAuthentication',
+    'RevokePrivilegesAtLogin','RevokePrivilegesAfterSystemTimeChange','RevokePrivilegesOnScreenLock',
+    'ReasonRequired','ReasonCheckingEnabled','ReasonStrictPresetList','PassReasonToExecutable',
+    'PostChangeActionOnGrantOnly','HideOtherWindows','HideSettingsButton','HideSettingsFromDockMenu',
+    'HideSettingsFromStatusItem','HideHelpButton','ShowInMenuBar','ShowRemainingTimeInMenuBar',
+    'EnableSystemExtension','ForceUpdatePrebootVolume',
+  ];
+  BOOL_KEYS.forEach(k => {
+    try { if (s[k]) { setToggle(k, s[k].value); setIncluded(k, true); } } catch(e) {}
+  });
+
+  // Integer/string keys with _enabled toggle
+  const FIELD_KEYS = [
+    'ExpirationInterval','ExpirationIntervalMax','MaxIntervalInitial',
+    'RenewalNotificationInterval','BiometricsFallbackType',
+    'ReasonMinLength','ReasonMaxLength',
+    'PostChangeExecutablePath','PostChangeExecutableChecksum','HelpButtonCustomURL',
+  ];
+  FIELD_KEYS.forEach(k => {
+    try { if (s[k]) { enableField(k, s[k].value); setIncluded(k, true); } } catch(e) {}
+  });
+
+  // Simple string-array keys
+  const ARRAY_KEYS = [
+    'AutoRenewalProcessPaths','LimitToUser','LimitToGroup',
+    'RevokeAtLoginExcludedUsers','RevokeAfterTimeChangeExcludedUsers',
+    'RevokeOnScreenLockExcludedUsers','AutomaticRevocationExcludedUsers',
+  ];
+  ARRAY_KEYS.forEach(k => {
+    try {
+      if (!s[k]) return;
+      const container = document.getElementById(k + '_container');
+      if (!container) return;
+      [...s[k].node.children].filter(n => n.tagName === 'string').forEach(n => {
+        addArrayItem(k + '_container', '');
+        const inputs = container.querySelectorAll('input[type="text"]');
+        inputs[inputs.length - 1].value = n.textContent.trim();
+      });
+      updateAddBtn(container);
+      setIncluded(k, true);
+    } catch(e) {}
+  });
+
+  // ReasonPresetList
+  try {
+    if (s['ReasonPresetList']) {
+      const presetDicts = [...s['ReasonPresetList'].node.children].filter(n => n.tagName === 'dict');
+      presetDicts.forEach(dictNode => {
+        addReasonPreset();
+        const id = presetCounter;
+        const localeContainer = document.getElementById('preset_locales_' + id);
+        if (!localeContainer) return;
+        const parsed = parsePlistDict(dictNode);
+        const rows = localeContainer.querySelectorAll('.locale-row');
+        let rowIdx = 0;
+        Object.entries(parsed).forEach(([lang, entry]) => {
+          if (rowIdx >= rows.length) {
+            addLocaleRow('preset_locales_' + id);
+            rowIdx++;
+          }
+          const row = localeContainer.querySelectorAll('.locale-row')[rowIdx];
+          const sel = row.querySelector('select');
+          const inp = row.querySelector('input[type="text"]');
+          if (sel) sel.value = lang === 'default' ? '__default__' : lang;
+          if (inp) inp.value = entry.value || '';
+          rowIdx++;
+        });
+        updateLocaleOptions(localeContainer);
+      });
+      setIncluded('ReasonPresetList', true);
+    }
+  } catch(e) {}
+
+  // UsagePolicy
+  try {
+    if (s['UsagePolicy']) {
+      const b64 = s['UsagePolicy'].node.textContent.replace(/\s/g, '');
+      if (b64) {
+        usagePolicyBase64 = b64;
+        const fn = document.getElementById('UsagePolicy_filename');
+        if (fn) fn.textContent = t('policy.importedFromProfile') || '(imported from profile)';
+        setIncluded('UsagePolicy', true);
+      }
+    }
+  } catch(e) {}
+
+  // RenewalCustomAction
+  try {
+    if (s['RenewalCustomAction']) {
+      const sub = parsePlistDict(s['RenewalCustomAction'].node);
+      if (sub['ActionExecutablePath']) { const f = document.getElementById('RCA_path'); if (f) f.value = sub['ActionExecutablePath'].value; }
+      if (sub['ActionExecutableChecksum']) { const f = document.getElementById('RCA_checksum'); if (f) f.value = sub['ActionExecutableChecksum'].value; }
+      if (sub['ActionNotificationInterval']) { const f = document.getElementById('RCA_interval'); if (f) f.value = sub['ActionNotificationInterval'].value; }
+      setIncluded('RenewalCustomAction', true);
+    }
+  } catch(e) {}
+
+  // RemoteLogging
+  try {
+    if (s['RemoteLogging']) {
+      const sub = parsePlistDict(s['RemoteLogging'].node);
+      if (sub['ServerType']) { const f = document.getElementById('RL_ServerType'); if (f) f.value = sub['ServerType'].value; }
+      updateLoggingType();
+      if (sub['ServerAddress']) { const f = document.getElementById('RL_ServerAddress'); if (f) f.value = sub['ServerAddress'].value; validateServerAddress(); }
+      if (sub['QueueUnsentEvents']) { const f = document.getElementById('RL_QueueUnsentEvents'); if (f) { f.checked = sub['QueueUnsentEvents'].value; updateQueueDep(); } setIncluded('RL_QueueUnsentEvents', true); }
+      if (sub['QueuedEventsMax']) { const f = document.getElementById('RL_QueuedEventsMax'); if (f) { f.value = sub['QueuedEventsMax'].value; } setIncluded('RL_QueuedEventsMax', true); }
+      // Syslog options (nested under SyslogOptions dict)
+      const syslogSub = sub['SyslogOptions']?.type === 'dict' ? parsePlistDict(sub['SyslogOptions'].node) : sub;
+      if (syslogSub['ServerPort']) { const f = document.getElementById('RL_ServerPort'); if (f) f.value = syslogSub['ServerPort'].value; setIncluded('RL_ServerPort', true); }
+      if (syslogSub['UseTLS']) { const f = document.getElementById('RL_UseTLS'); if (f) f.checked = syslogSub['UseTLS'].value; setIncluded('RL_UseTLS', true); }
+      if (syslogSub['LogFacility']) { const f = document.getElementById('RL_LogFacility'); if (f) f.value = syslogSub['LogFacility'].value; setIncluded('RL_LogFacility', true); }
+      if (syslogSub['LogSeverity']) { const f = document.getElementById('RL_LogSeverity'); if (f) f.value = syslogSub['LogSeverity'].value; setIncluded('RL_LogSeverity', true); }
+      if (syslogSub['MaximumMessageSize']) { const f = document.getElementById('RL_MaximumMessageSize'); if (f) f.value = syslogSub['MaximumMessageSize'].value; setIncluded('RL_MaximumMessageSize', true); }
+      if (syslogSub['MessageFormat']) { const f = document.getElementById('RL_MessageFormat'); if (f) f.value = syslogSub['MessageFormat'].value; setIncluded('RL_MessageFormat', true); }
+      if (syslogSub['StructuredData']) {
+        const sdDict = parsePlistDict(syslogSub['StructuredData'].node);
+        Object.keys(sdDict).forEach(sdId => {
+          addStructuredDataItem();
+          const items = document.querySelectorAll('#RL_StructuredData_container .sd-item');
+          const item = items[items.length - 1];
+          const sdIdInput = item.querySelector('.nested-row input[type="text"]');
+          if (sdIdInput) { sdIdInput.value = sdId; updateSDParamBtn(item); }
+          if (sdDict[sdId].type === 'dict') {
+            const params = parsePlistDict(sdDict[sdId].node);
+            const paramsContainer = item.querySelector('.sd-params-container');
+            Object.keys(params).forEach(pk => {
+              const row = document.createElement('div');
+              row.className = 'array-item';
+              row.innerHTML = `<input type="text" placeholder="key" style="width:120px;flex-shrink:0" value="${xmlEscape(pk)}"><input type="text" placeholder="value" value="${xmlEscape(String(params[pk].value ?? ''))}"><button class="btn-icon danger" onclick="removeArrayItem(this);updateSDParamBtn(this.closest('.sd-item'))">${TRASH_ICON}</button>`;
+              paramsContainer.appendChild(row);
+              row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => updateSDParamBtn(item)));
+            });
+            updateSDParamBtn(item);
+          }
+        });
+        setIncluded('RL_StructuredData', true);
+      }
+      // Webhook custom data
+      if (sub['WebhookCustomData']) {
+        const wcd = parsePlistDict(sub['WebhookCustomData'].node);
+        Object.entries(wcd).forEach(([k, v]) => {
+          addWebhookKV();
+          const rows = document.querySelectorAll('#RL_WebhookCustomData_container .array-item');
+          const last = rows[rows.length - 1];
+          if (last) { last.querySelectorAll('input')[0].value = k; last.querySelectorAll('input')[1].value = v.value || ''; }
+        });
+        setIncluded('RL_WebhookCustomData', true);
+      }
+      setIncluded('RemoteLogging', true);
+    }
+  } catch(e) {}
+
+  evaluateAllDeps();
+  updateNestedSectionOverlays();
+  profileImported = true;
+}
+
 const LANG_OPTIONS = [
   ['cs', '🇨🇿 Čeština'],
   ['da', '🇩🇰 Dansk'],
@@ -3099,14 +3399,8 @@ function t(key, vars) {
   return s;
 }
 
-function applyLang(lang, reload = false) {
+function applyLang(lang) {
   localStorage.setItem('priv-lang', lang);
-  if (reload) {
-    const url = new URL(location.href);
-    url.searchParams.set('lang', lang);
-    location.href = url.toString();
-    return;
-  }
   currentLang = lang;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const str = t(el.dataset.i18n);
@@ -3123,7 +3417,22 @@ function applyLang(lang, reload = false) {
   const sel = document.getElementById('lang-switcher');
   if (sel) sel.value = lang;
   document.getElementById('html-root').lang = lang;
-  updateLoggingType();
+
+  // Update meta field defaults if the user hasn't changed them
+  const metaDefaults = [
+    { id: 'meta_name', key: 'meta.name.default', fallback: 'Privileges Configuration' },
+    { id: 'meta_org',  key: 'meta.org.default',  fallback: 'My Organization' },
+    { id: 'meta_desc', key: 'meta.desc.default',  fallback: 'Configures the Privileges app.' },
+  ];
+  metaDefaults.forEach(({ id, key, fallback }) => {
+    const field = document.getElementById(id);
+    if (!field) return;
+    const prevDefault = field.dataset.i18nDefault ?? fallback;
+    if (field.value === prevDefault) field.value = t(key) || fallback;
+    field.dataset.i18nDefault = t(key) || fallback;
+  });
+
+  updateLoggingType(false);
 }
 
 function detectLang() {
