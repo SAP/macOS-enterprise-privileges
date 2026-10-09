@@ -1914,17 +1914,18 @@ function validateServerAddress() {
   const type = document.getElementById('RL_ServerType').value;
   const inp = document.getElementById('RL_ServerAddress');
   const val = inp.value.trim();
-  let invalid = false;
-  if (val === '') {
-    invalid = true;
-  } else if (type === 'webhook') {
-    invalid = !/^https?:\/\/.+/.test(val);
-  } else {
-    invalid = !(RE_IPV4.test(val) || RE_FQDN.test(val));
+  let valid = false;
+  if (val !== '') {
+    if (type === 'webhook') {
+      valid = /^https?:\/\/.+/.test(val);
+    } else {
+      valid = RE_IPV4.test(val) || RE_FQDN.test(val);
+    }
   }
-  inp.classList.toggle('input-error', invalid);
-  document.getElementById('RL_addr_dependents').style.display = invalid ? 'none' : 'block';
-  if (!invalid) { setIncluded('RemoteLogging', true); evaluateAllDeps(); }
+  inp.classList.toggle('input-error', val !== '' && !valid);
+  document.getElementById('RL_addr_dependents').style.display = valid ? 'block' : 'none';
+  if (valid) { setIncluded('RemoteLogging', true); evaluateAllDeps(); }
+  else { setIncluded('RemoteLogging', false, true); evaluateAllDeps(); }
 }
 
 function updateQueueDep() {
