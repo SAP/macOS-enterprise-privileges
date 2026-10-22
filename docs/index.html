@@ -576,7 +576,7 @@
         <div class="row-label">
           <strong data-i18n="label.ExpirationInterval">Expiration Interval <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.ExpirationInterval">Set a fixed time interval after which administrator privileges expire and revert to standard user rights. A value of 0 disables the timeout and allows the user to request permanent administrator privileges.</span>
-          <input type="number" id="ExpirationInterval" min="0" value="20">
+          <input type="number" id="ExpirationInterval" min="0" value="20" oninput="updateAdminBudgetDep()">
         </div>
         <div class="row-control"></div>
       </div>
@@ -586,18 +586,28 @@
         <div class="row-label">
           <strong data-i18n="label.ExpirationIntervalMax">Maximum Expiration Interval <span class="badge">Privileges 2.0+</span></strong>
           <span data-i18n="desc.ExpirationIntervalMax">Set a maximum time interval for a user to request administrator privileges. This generally works the same way as <code>ExpirationInterval</code>, but allows the user to choose any timeout value up to the specified one. So if the admin would set <code>ExpirationIntervalMax</code> to 20 minutes, the user can choose to set it to a value up to 20 minutes instead of being forced to use the 20 minute timeout.</span>
-          <input type="number" id="ExpirationIntervalMax" min="1" value="60">
+          <input type="number" id="ExpirationIntervalMax" min="0" value="60" oninput="updateAdminBudgetDep()">
         </div>
         <div class="row-control"></div>
       </div>
 
-      <div class="row" data-key="MaxIntervalInitial" id="row_MaxIntervalInitial" style="display:none">
+      <div class="row is-dependent" data-key="MaxIntervalInitial" id="row_MaxIntervalInitial" style="display:none">
         <div class="row-include"><input type="checkbox" id="MaxIntervalInitial_include" onchange="onIncludeChange('MaxIntervalInitial')"></div>
         <div class="row-label">
           <strong data-i18n="label.MaxIntervalInitial">Maximum Interval Initial <span class="badge">Privileges 2.4+</span></strong>
           <span data-i18n="desc.MaxIntervalInitial">Sets the initial time interval if <code>ExpirationIntervalMax</code> has been configured. If not set and the user never selected an expiration interval, the initial expiration interval is set to 20 minutes. If you want to define an expiration interval that is less than the maximum expiration interval, use this option to define it. As mentioned earlier, this option has no effect if a user has already selected an expiration interval.</span>
           <input type="number" id="MaxIntervalInitial" min="1" value="20">
         </div>
+      </div>
+
+      <div class="row row-full is-dependent hidden-by-dep" data-key="AdminBudget" id="row_AdminBudget">
+        <div class="row-include"><input type="checkbox" id="AdminBudget_include" onchange="onIncludeChange('AdminBudget')"></div>
+        <div class="row-label">
+          <strong data-i18n="label.AdminBudget">Admin Budget <span class="badge">Privileges 2.7+</span></strong>
+          <span data-i18n="desc.AdminBudget">This option specifies the maximum number of minutes per day that a user may have administrator privileges. The remaining budget is calculated based on the time actually used. For instance, if a user requests administrator privileges for 20 minutes but the privileges are revoked after 15 minutes, only five minutes will be deducted from the budget. If the value is set to 0 or is not specified, the option is disabled. The maximum value is 1439 (minutes).</span>
+          <input type="number" id="AdminBudget" min="0" max="1439" value="0">
+        </div>
+        <div class="row-control"></div>
       </div>
 
     </div>
@@ -1190,6 +1200,20 @@
           </div>
         </div>
       </div>
+
+      <div class="row" data-key="UsagePolicyShowAlways">
+        <div class="row-include"><input type="checkbox" id="UsagePolicyShowAlways_include" onchange="onIncludeChange('UsagePolicyShowAlways')"></div>
+        <div class="row-label">
+          <strong data-i18n="label.UsagePolicyShowAlways">Always Show Usage Policy <span class="badge">Privileges 2.7+</span></strong>
+          <span data-i18n="desc.UsagePolicyShowAlways">When set to <code>true</code>, the usage policy will be displayed every time the user requests administrator privileges, instead of only the first time.</span>
+        </div>
+        <div class="row-control">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="UsagePolicyShowAlways" onchange="onBoolChange('UsagePolicyShowAlways')"><span class="slider"></span></label>
+            <span class="toggle-label" id="UsagePolicyShowAlways_lbl" data-i18n="toggle.disabled">Disabled</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1668,6 +1692,8 @@ function evaluateAllDeps() {
     row.classList.toggle('master-excluded', masterExcluded);
   }
   updatePostChangeDeps();
+  updateAdminBudgetDep();
+  updateMaxIntervalInitialDep();
   updateNestedSectionOverlays();
 }
 
@@ -1932,6 +1958,33 @@ function updateQueueDep() {
   const cb = document.getElementById('RL_QueueUnsentEvents');
   const row = document.getElementById('RL_QueuedEventsMax_row');
   row.style.display = cb.checked ? 'grid' : 'none';
+}
+
+function updateAdminBudgetDep() {
+  const row = document.getElementById('row_AdminBudget');
+  if (!row) return;
+  const fixedVal  = parseInt(document.getElementById('ExpirationInterval')?.value ?? '0', 10);
+  const maxVal    = parseInt(document.getElementById('ExpirationIntervalMax')?.value ?? '0', 10);
+  const fixedActive = !currentMode.startsWith('force_') && currentMode === 'fixed' && fixedVal > 0;
+  const maxActive   = !currentMode.startsWith('force_') && currentMode === 'max'   && maxVal   > 0;
+  const visible = fixedActive || maxActive;
+  const included = visible && (isIncluded('ExpirationInterval') || isIncluded('ExpirationIntervalMax'));
+
+  row.classList.toggle('hidden-by-dep', !visible);
+  row.classList.toggle('master-excluded', visible && !included);
+
+  if (!visible) {
+    setIncluded('AdminBudget', false);
+    resetRowValues(row);
+  }
+}
+
+function updateMaxIntervalInitialDep() {
+  const row = document.getElementById('row_MaxIntervalInitial');
+  if (!row) return;
+  // Mode-visibility (style.display) is handled by applyMode; here we only manage the overlay.
+  const visible = row.style.display !== 'none';
+  row.classList.toggle('master-excluded', visible && !isIncluded('ExpirationIntervalMax'));
 }
 
 // ─── Reason Preset List ────────────────────────────────────────────────────────
@@ -2274,6 +2327,9 @@ function buildPayloadDict() {
       keys += xmlKey('ExpirationIntervalMax', xmlInt(getVal('ExpirationIntervalMax')));
       if (isIncluded('MaxIntervalInitial')) keys += xmlKey('MaxIntervalInitial', xmlInt(getVal('MaxIntervalInitial')));
     }
+    if (isIncluded('AdminBudget') && rowVisible('AdminBudget') && (isIncluded('ExpirationInterval') || isIncluded('ExpirationIntervalMax'))) {
+      keys += xmlKey('AdminBudget', xmlInt(getVal('AdminBudget')));
+    }
 
     // Renewal
     if (isIncluded('AllowPrivilegeRenewal')) {
@@ -2407,6 +2463,9 @@ function buildPayloadDict() {
     // Usage Policy
     if (isIncluded('UsagePolicy')) {
       if (usagePolicyBase64) keys += xmlKey('UsagePolicy', xmlData(usagePolicyBase64));
+    }
+    if (isIncluded('UsagePolicyShowAlways')) {
+      keys += xmlKey('UsagePolicyShowAlways', xmlBool(getBool('UsagePolicyShowAlways')));
     }
 
     // Remote Logging
@@ -2604,8 +2663,9 @@ function downloadMobileconfig() {
 const VALIDATOR_SCHEMA = {
   EnforcePrivileges:                    { type: 'string',  values: ['admin','user','none'] },
   ExpirationInterval:                   { type: 'integer', min: 0 },
-  ExpirationIntervalMax:                { type: 'integer', min: 1 },
+  ExpirationIntervalMax:                { type: 'integer', min: 0 },
   MaxIntervalInitial:                   { type: 'integer', min: 1 },
+  AdminBudget:                          { type: 'integer', min: 0, max: 1439 },
   AllowPrivilegeRenewal:                { type: 'bool' },
   RenewalFollowsAuthSetting:            { type: 'bool',    requires: ['AllowPrivilegeRenewal'] },
   RenewalNotificationInterval:          { type: 'integer', min: 1, requires: ['AllowPrivilegeRenewal'] },
@@ -2639,6 +2699,7 @@ const VALIDATOR_SCHEMA = {
   PostChangeExecutableChecksum:         { type: 'string' },
   PostChangeActionOnGrantOnly:          { type: 'bool' },
   UsagePolicy:                          { type: 'data' },
+  UsagePolicyShowAlways:                { type: 'bool' },
   HideOtherWindows:                     { type: 'bool' },
   HideSettingsButton:                   { type: 'bool' },
   HideSettingsFromDockMenu:             { type: 'bool' },
@@ -2654,7 +2715,7 @@ const VALIDATOR_SCHEMA = {
 
 // Mutual-exclusion pairs for EnforcePrivileges vs expiration keys
 const ENFORCE_CONFLICT_KEYS = [
-  'ExpirationInterval','ExpirationIntervalMax','MaxIntervalInitial',
+  'ExpirationInterval','ExpirationIntervalMax','MaxIntervalInitial','AdminBudget',
   'AllowPrivilegeRenewal','RenewalFollowsAuthSetting','RenewalNotificationInterval','RenewalCustomAction',
   'AutoRenewalProcessPaths','RequireAuthentication','RequireBiometricAuthentication',
   'EnableSmartCardSupport','AllowCLIBiometricAuthentication','BiometricsFallbackType',
@@ -2665,7 +2726,7 @@ const ENFORCE_CONFLICT_KEYS = [
   'ReasonRequired','ReasonMinLength','ReasonMaxLength','ReasonCheckingEnabled',
   'PassReasonToExecutable','ReasonPresetList','ReasonStrictPresetList',
   'PostChangeExecutablePath','PostChangeExecutableChecksum','PostChangeActionOnGrantOnly',
-  'UsagePolicy','RemoteLogging',
+  'UsagePolicy','UsagePolicyShowAlways','RemoteLogging',
 ];
 
 // Returns null-safe node type string based on XML tag name
@@ -3011,7 +3072,14 @@ function runValidation(settings) {
     findings.warnings.push({ key: 'MaxIntervalInitial', msg: t('validator.warn.maxIntervalInitial') });
   }
 
-  // 8. ReasonMinLength > ReasonMaxLength
+  // 8. AdminBudget without ExpirationInterval or ExpirationIntervalMax (value 0 counts as absent)
+  const hasFixedInterval = settings['ExpirationInterval']?.value > 0;
+  const hasMaxInterval   = settings['ExpirationIntervalMax']?.value > 0;
+  if (settings['AdminBudget'] && !hasFixedInterval && !hasMaxInterval) {
+    findings.warnings.push({ key: 'AdminBudget', msg: t('validator.warn.adminBudget') });
+  }
+
+  // 9. ReasonMinLength > ReasonMaxLength
   const rMin = settings['ReasonMinLength'], rMax = settings['ReasonMaxLength'];
   if (rMin && rMax && rMin.type === 'integer' && rMax.type === 'integer' && rMin.value > rMax.value) {
     findings.errors.push({ key: 'ReasonMinLength', msg: t('validator.err.reasonMinMax', { min: `<code>${rMin.value}</code>`, max: `<code>${rMax.value}</code>` }) });
@@ -3216,7 +3284,7 @@ function importSettings(s) {
     'ReasonRequired','ReasonCheckingEnabled','ReasonStrictPresetList','PassReasonToExecutable',
     'PostChangeActionOnGrantOnly','HideOtherWindows','HideSettingsButton','HideSettingsFromDockMenu',
     'HideSettingsFromStatusItem','HideHelpButton','ShowInMenuBar','ShowRemainingTimeInMenuBar',
-    'EnableSystemExtension','ForceUpdatePrebootVolume',
+    'EnableSystemExtension','ForceUpdatePrebootVolume','UsagePolicyShowAlways',
   ];
   BOOL_KEYS.forEach(k => {
     try { if (s[k]) { setToggle(k, s[k].value); setIncluded(k, true); } } catch(e) {}
@@ -3228,6 +3296,7 @@ function importSettings(s) {
     'RenewalNotificationInterval','BiometricsFallbackType',
     'ReasonMinLength','ReasonMaxLength',
     'PostChangeExecutablePath','PostChangeExecutableChecksum','HelpButtonCustomURL',
+    'AdminBudget',
   ];
   FIELD_KEYS.forEach(k => {
     try { if (s[k]) { enableField(k, s[k].value); setIncluded(k, true); } } catch(e) {}
