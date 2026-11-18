@@ -34,6 +34,8 @@
   "meta.desc.placeholder": "İsteğe bağlı açıklama",
   "meta.desc.default": "Privileges uygulamasını yapılandırır.",
   "policy.noFile": "Dosya seçilmedi. .txt veya .rtf kabul eder.",
+  "checksum.noFile": "Dosya seçilmedi. SHA-256 sağlama toplamı otomatik olarak hesaplanacak.",
+  "checksum.noFile": "",
   "section.expiration": "Sona erme &amp; zamanlama",
   "section.renewal": "Ayrıcalık yenileme",
   "section.auth": "Kimlik doğrulama",

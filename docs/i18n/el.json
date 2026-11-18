@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Προαιρετική περιγραφή",
   "meta.desc.default": "Διαμορφώνει την εφαρμογή Privileges.",
   "policy.noFile": "Δεν έχει επιλεγεί αρχείο. Αποδέχεται .txt ή .rtf.",
+  "checksum.noFile": "Δεν έχει επιλεγεί αρχείο. Το άθροισμα ελέγχου SHA-256 θα υπολογιστεί αυτόματα.",
   "section.expiration": "Λήξη &amp; χρονισμός",
   "section.renewal": "Ανανέωση δικαιωμάτων",
   "section.auth": "Ταυτοποίηση",

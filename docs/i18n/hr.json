@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Neobavezni opis",
   "meta.desc.default": "Konfigurira aplikaciju Privileges.",
   "policy.noFile": "Nije odabrana datoteka. Prihvaća .txt ili .rtf.",
+  "checksum.noFile": "Nije odabrana datoteka. SHA-256 kontrolna suma bit će izračunata automatski.",
   "section.expiration": "Istjecanje &amp; vremensko upravljanje",
   "section.renewal": "Obnavljanje ovlasti",
   "section.auth": "Autentifikacija",

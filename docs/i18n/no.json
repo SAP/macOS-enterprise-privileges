@@ -34,6 +34,8 @@
   "meta.desc.placeholder": "Valgfri beskrivelse",
   "meta.desc.default": "Konfigurerer Privileges-appen.",
   "policy.noFile": "Ingen fil valgt. Aksepterer .txt eller .rtf.",
+  "checksum.noFile": "",
+  "checksum.noFile": "Ingen fil valgt. SHA-256-sjekksummen beregnes automatisk.",
   "section.expiration": "Utløp &amp; tidsinnstillinger",
   "section.renewal": "Fornyelse av rettigheter",
   "section.auth": "Autentisering",

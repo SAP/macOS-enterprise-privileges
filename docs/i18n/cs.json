@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Volitelný popis",
   "meta.desc.default": "Konfiguruje aplikaci Privileges.",
   "policy.noFile": "Není vybrán žádný soubor. Přijímá .txt nebo .rtf.",
+  "checksum.noFile": "Není vybrán žádný soubor. Kontrolní součet SHA-256 bude vypočítán automaticky.",
   "section.expiration": "Vypršení &amp; časování",
   "section.renewal": "Obnovení oprávnění",
   "section.auth": "Ověřování",

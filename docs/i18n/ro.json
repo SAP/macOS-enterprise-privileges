@@ -34,6 +34,8 @@
   "meta.desc.placeholder": "Descriere opțională",
   "meta.desc.default": "Configurează aplicația Privileges.",
   "policy.noFile": "Niciun fișier selectat. Acceptă .txt sau .rtf.",
+  "checksum.noFile": "Niciun fișier selectat. Suma de control SHA-256 va fi calculată automat.",
+  "checksum.noFile": "",
   "section.expiration": "Expirare &amp; Timp",
   "section.renewal": "Reînnoire Privilegii",
   "section.auth": "Autentificare",

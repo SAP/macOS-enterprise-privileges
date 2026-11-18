@@ -191,6 +191,7 @@
   .row.hidden-by-dep { display: none; }
   .row.master-excluded,
   .nested-section.master-excluded,
+  .nested-row.master-excluded,
   [data-nested-overlay-target].master-excluded { opacity: 0.45; pointer-events: none; }
   .row-include {
     display: flex; align-items: flex-start;
@@ -670,14 +671,19 @@
           <div class="nested-row">
             <label data-i18n="nested.RCA.path">Action Executable Path (required)<span class="badge">Privileges 2.3+</span></label>
             <span data-i18n="desc.RCA.path">If configured, the default renewal notifications are disabled and the specified executable is launched instead.</span>
-            <input type="text" id="RCA_path" placeholder="/usr/local/bin/myscript.sh" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
+            <input type="text" id="RCA_path" placeholder="/usr/local/bin/myscript.sh" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_PATH.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); } updateRCAPathDep();">
           </div>
-          <div class="nested-row">
+          <div class="nested-row" id="RCA_checksum_row">
             <label data-i18n="nested.RCA.checksum">Action Executable Checksum<span class="badge">Privileges 2.6+</span></label>
             <span data-i18n="desc.RCA.checksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>ActionExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span>
-            <input type="text" id="RCA_checksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
+            <input type="text" id="RCA_checksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); } if (!RE_SHA256.test(this.value)) { document.getElementById('RCA_checksum_filename').textContent = t('checksum.noFile'); }">
+            <input type="file" id="RCA_checksum_file" style="display:none" onchange="loadRCAChecksumFile(this)">
+            <div style="display:flex;align-items:center;gap:12px">
+              <button class="btn btn-secondary" onclick="document.getElementById('RCA_checksum_file').click()" data-i18n="btn.chooseFile">Choose File…</button>
+              <span class="info-text" id="RCA_checksum_filename" style="margin-top:0" data-i18n="checksum.noFile">No file selected. The SHA-256 checksum will be calculated automatically.</span>
+            </div>
           </div>
-          <div class="nested-row">
+          <div class="nested-row" id="RCA_interval_row">
             <label data-i18n="nested.RCA.interval">Action Notification Interval<span class="badge">Privileges 2.3+</span></label>
             <span data-i18n="desc.RCA.interval">This optional value can be configured to specify how many minutes before the admin privileges expire the executable should be launched. If not configured, or the configured value is smaller than 1 or bigger than the expiration interval - 1, it defaults to 1 minute. The notification interval is also passed to the executable configured using <code>ActionExecutablePath</code> as the <code>$1</code> argument.</span>
             <input type="number" id="RCA_interval" min="1" value="1" oninput="if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); } else { setIncluded('RenewalCustomAction', false, true); evaluateAllDeps(); }">
@@ -1040,7 +1046,12 @@
         <div class="row-label">
           <strong data-i18n="label.PostChangeExecutableChecksum">Post-Change Executable Checksum <span class="badge">Privileges 2.5.3+</span></strong>
           <span data-i18n="desc.PostChangeExecutableChecksum">If set, the <em>PrivilegesAgent</em> calculates the SHA-256 checksum of the binary specified using the <code>PostChangeExecutablePath</code> option. If the calculated checksum matches the specified one, the binary is executed. Otherwise, the launch operation fails silently, logging only the checksum mismatch.</span>
-          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (RE_SHA256.test(this.value)) { setIncluded('PostChangeExecutableChecksum', true); evaluateAllDeps(); }">
+          <input type="text" id="PostChangeExecutableChecksum" placeholder="64-char hex string" data-i18n-placeholder="placeholder.sha256" oninput="this.classList.toggle('input-error', this.value.length > 0 && !RE_SHA256.test(this.value)); if (RE_SHA256.test(this.value)) { setIncluded('PostChangeExecutableChecksum', true); evaluateAllDeps(); } if (!RE_SHA256.test(this.value)) { document.getElementById('PostChangeExecutableChecksum_filename').textContent = t('checksum.noFile'); }">
+          <input type="file" id="PostChangeExecutableChecksum_file" style="display:none" onchange="loadChecksumFile(this)">
+          <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+            <button class="btn btn-secondary" onclick="document.getElementById('PostChangeExecutableChecksum_file').click()" data-i18n="btn.chooseFile">Choose File…</button>
+            <span class="info-text" id="PostChangeExecutableChecksum_filename" style="margin-top:0" data-i18n="checksum.noFile">No file selected. The SHA-256 checksum will be calculated automatically.</span>
+          </div>
         </div>
       </div>
 
@@ -1692,6 +1703,7 @@ function evaluateAllDeps() {
     row.classList.toggle('master-excluded', masterExcluded);
   }
   updatePostChangeDeps();
+  updateRCAPathDep();
   updateAdminBudgetDep();
   updateMaxIntervalInitialDep();
   updateNestedSectionOverlays();
@@ -1716,6 +1728,13 @@ function updatePostChangeDeps() {
     row.classList.toggle('master-excluded', pathValid && !pathIncluded);
   });
   updateLastVisible();
+}
+
+function updateRCAPathDep() {
+  const pathValid = RE_PATH.test(document.getElementById('RCA_path')?.value || '');
+  ['RCA_checksum_row', 'RCA_interval_row'].forEach(id => {
+    document.getElementById(id)?.classList.toggle('master-excluded', !pathValid);
+  });
 }
 
 // Reset all interactive values within a row/section element
@@ -2280,6 +2299,35 @@ function generateUUID() {
 let usagePolicyBase64 = '';
 let _lastValidatedSettings = null;
 let _lastFindings = null;
+
+async function loadChecksumFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const buf = await file.arrayBuffer();
+  const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+  const hex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  const field = document.getElementById('PostChangeExecutableChecksum');
+  field.value = hex;
+  field.classList.remove('input-error');
+  document.getElementById('PostChangeExecutableChecksum_filename').textContent = file.name;
+  setIncluded('PostChangeExecutableChecksum', true);
+  evaluateAllDeps();
+  input.value = '';
+}
+
+async function loadRCAChecksumFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const buf = await file.arrayBuffer();
+  const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+  const hex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  const field = document.getElementById('RCA_checksum');
+  field.value = hex;
+  field.classList.remove('input-error');
+  document.getElementById('RCA_checksum_filename').textContent = file.name;
+  if (hasValidRCA()) { setIncluded('RenewalCustomAction', true); evaluateAllDeps(); }
+  input.value = '';
+}
 
 function loadUsagePolicyFile(input) {
   const file = input.files[0];

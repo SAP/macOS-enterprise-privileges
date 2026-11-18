@@ -34,6 +34,8 @@
   "meta.desc.placeholder": "Valfri beskrivning",
   "meta.desc.default": "Konfigurerar Privileges-appen.",
   "policy.noFile": "Ingen fil vald. Accepterar .txt eller .rtf.",
+  "checksum.noFile": "Ingen fil vald. SHA-256-kontrollsumman beräknas automatiskt.",
+  "checksum.noFile": "",
   "section.expiration": "Utgång &amp; tidsinställning",
   "section.renewal": "Förnyelse av behörigheter",
   "section.auth": "Autentisering",

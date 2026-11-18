@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Valinnainen kuvaus",
   "meta.desc.default": "Määrittää Privileges-sovelluksen.",
   "policy.noFile": "Tiedostoa ei valittu. Hyväksyy .txt tai .rtf.",
+  "checksum.noFile": "Tiedostoa ei valittu. SHA-256-tarkistussumma lasketaan automaattisesti.",
   "section.expiration": "Vanheneminen &amp; ajoitus",
   "section.renewal": "Oikeuksien uusiminen",
   "section.auth": "Todennus",

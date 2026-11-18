@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Descripción opcional",
   "meta.desc.default": "Configura la aplicación Privileges.",
   "policy.noFile": "Ningún archivo seleccionado. Se aceptan .txt o .rtf.",
+  "checksum.noFile": "Ningún archivo seleccionado. La suma de comprobación SHA-256 se calculará automáticamente.",
   "section.expiration": "Expiración &amp; Temporización",
   "section.renewal": "Renovación de Privilegios",
   "section.auth": "Autenticación",

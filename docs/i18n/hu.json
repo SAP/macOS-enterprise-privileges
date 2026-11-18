@@ -34,6 +34,7 @@
   "meta.desc.placeholder": "Opcionális leírás",
   "meta.desc.default": "Konfigurálja a Privileges alkalmazást.",
   "policy.noFile": "Nincs fájl kiválasztva. .txt vagy .rtf fájlokat fogad el.",
+  "checksum.noFile": "Nincs fájl kiválasztva. A SHA-256 ellenőrzőösszeg automatikusan kiszámításra kerül.",
   "section.expiration": "Lejárat &amp; időzítés",
   "section.renewal": "Jogosultság megújítása",
   "section.auth": "Hitelesítés",

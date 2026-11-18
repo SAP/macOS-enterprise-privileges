@@ -34,6 +34,8 @@
   "meta.desc.placeholder": "Optionele beschrijving",
   "meta.desc.default": "Configureert de Privileges-app.",
   "policy.noFile": "Geen bestand geselecteerd. Accepteert .txt of .rtf.",
+  "checksum.noFile": "",
+  "checksum.noFile": "Geen bestand geselecteerd. De SHA-256-controlegetal wordt automatisch berekend.",
   "section.expiration": "Verloopdatum &amp; timing",
   "section.renewal": "Verlenging van rechten",
   "section.auth": "Authenticatie",
