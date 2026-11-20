@@ -43,6 +43,8 @@ Using a standard user account instead of an administrator account adds an extra 
 
 ⌨️ Command line support
 
+🔄 Seamless automatic updates powered by [_Patcher_](https://github.com/SAP/macos-app-patcher)
+
 <br/>
 
 ## New Privileges 2 features
