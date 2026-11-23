@@ -605,7 +605,7 @@
         <div class="row-include"><input type="checkbox" id="AdminBudget_include" onchange="onIncludeChange('AdminBudget')"></div>
         <div class="row-label">
           <strong data-i18n="label.AdminBudget">Admin Budget <span class="badge">Privileges 2.7+</span></strong>
-          <span data-i18n="desc.AdminBudget">This option specifies the maximum number of minutes per day that a user may have administrator privileges. The remaining budget is calculated based on the time actually used. For instance, if a user requests administrator privileges for 20 minutes but the privileges are revoked after 15 minutes, only five minutes will be deducted from the budget. If the value is set to 0 or is not specified, the option is disabled. The maximum value is 1439 (minutes).</span>
+          <span data-i18n="desc.AdminBudget">This option specifies the maximum number of minutes per day that a user may have administrator privileges. The remaining budget is calculated based on the time actually used. For instance, if a user requests administrator privileges for 20 minutes but the privileges are revoked after 15 minutes, only 15 minutes will be deducted from the budget. If the value is set to 0 or is not specified, the option is disabled. The maximum value is 1439 (minutes).</span>
           <input type="number" id="AdminBudget" min="0" max="1439" value="0">
         </div>
         <div class="row-control"></div>
