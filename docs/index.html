@@ -821,6 +821,18 @@
         </div>
       </div>
 
+      <div class="row" data-key="RequiredProcessPaths">
+        <div class="row-include"><input type="checkbox" id="RequiredProcessPaths_include" onchange="onIncludeChange('RequiredProcessPaths')"></div>
+        <div class="row-label">
+          <strong data-i18n="label.RequiredProcessPaths">Required Process Paths <span class="badge">Privileges 2.7+</span></strong>
+          <span data-i18n="desc.RequiredProcessPaths">Specifies the paths to applications or binaries that are required to obtain and use administrator privileges. If at least one of the specified processes is running, the user can request administrator privileges. Privileges are granted for as long as at least one of these processes is running. Once none of the specified processes are running, administrator privileges are automatically revoked.</span>
+
+          <div id="RequiredProcessPaths_container" class="array-field" data-validate="path">
+            <button class="btn btn-secondary btn-add" onclick="addArrayItem('RequiredProcessPaths_container', '/absolute/path/to/your/binary')" data-i18n="btn.addPath">+ Add path</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1402,6 +1414,14 @@
               <div id="RL_webhook_opts" style="display:none">
               <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
               <div class="nested-row nested-row-optional">
+                <div class="nested-include"><input type="checkbox" id="RL_WebhookAdditionalHeaderFields_include" onchange="setIncluded('RL_WebhookAdditionalHeaderFields', this.checked)"></div>
+                <label data-i18n="nested.RL.webhookAdditionalHeaderFields">Webhook Additional Header Fields <span class="badge">Privileges 2.7+</span></label>
+                <span data-i18n="desc.RL.webhookAdditionalHeaderFields">You may use this dictionary to use additional http header fields for the webhook.</span>
+                <div class="array-field" id="RL_WebhookAdditionalHeaderFields_container"></div>
+                <button id="RL_WebhookAdditionalHeaderFields_addbtn" class="btn btn-secondary btn-add" style="width:fit-content" onclick="addWebhookHeaderKV()" data-i18n="btn.addKeyValue">+ Add key/value</button>
+              </div>
+
+              <div class="nested-row nested-row-optional">
                 <div class="nested-include"><input type="checkbox" id="RL_WebhookCustomData_include" onchange="setIncluded('RL_WebhookCustomData', this.checked)"></div>
                 <label data-i18n="nested.RL.webhookCustomData">Webhook Custom Data <span class="badge">Privileges 2.1+</span></label>
                 <span data-i18n="desc.RL.webhookCustomData">You may use this dictionary to pass custom data (like the machine name, serial number, Jamf Pro ID, etc.) to the webhook. This data is added to the webhook's JSON as custom_data.</span>
@@ -1834,7 +1854,7 @@ function removeArrayItem(btn) {
 
 function addWebhookKV() {
   const container = document.getElementById('RL_WebhookCustomData_container');
-  const addBtn = document.querySelector('#RL_webhook_opts .btn-add');
+  const addBtn = document.getElementById('RL_WebhookCustomData_addbtn');
   // Block if any existing item has an empty input
   for (const inp of container.querySelectorAll('input[type="text"]')) {
     if (!inp.value.trim()) return;
@@ -1850,7 +1870,30 @@ function addWebhookKV() {
 
 function updateWebhookAddBtn() {
   const container = document.getElementById('RL_WebhookCustomData_container');
-  const addBtn = document.querySelector('#RL_webhook_opts .btn-add');
+  const addBtn = document.getElementById('RL_WebhookCustomData_addbtn');
+  if (!addBtn) return;
+  const blocked = [...container.querySelectorAll('input[type="text"]')].some(i => !i.value.trim());
+  addBtn.disabled = blocked;
+}
+
+function addWebhookHeaderKV() {
+  const container = document.getElementById('RL_WebhookAdditionalHeaderFields_container');
+  const addBtn = document.getElementById('RL_WebhookAdditionalHeaderFields_addbtn');
+  for (const inp of container.querySelectorAll('input[type="text"]')) {
+    if (!inp.value.trim()) return;
+  }
+  const item = document.createElement('div');
+  item.className = 'array-item';
+  item.innerHTML = `<input type="text" placeholder="${t('placeholder.key') || 'key'}" style="width:120px;flex-shrink:0"><input type="text" placeholder="${t('placeholder.value') || 'value'}"><button class="btn-icon danger" onclick="removeArrayItem(this);updateWebhookHeaderAddBtn()">${TRASH_ICON}</button>`;
+  container.appendChild(item);
+  item.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updateWebhookHeaderAddBtn));
+  updateWebhookHeaderAddBtn();
+  item.querySelector('input').focus();
+}
+
+function updateWebhookHeaderAddBtn() {
+  const container = document.getElementById('RL_WebhookAdditionalHeaderFields_container');
+  const addBtn = document.getElementById('RL_WebhookAdditionalHeaderFields_addbtn');
   if (!addBtn) return;
   const blocked = [...container.querySelectorAll('input[type="text"]')].some(i => !i.value.trim());
   addBtn.disabled = blocked;
@@ -2201,6 +2244,7 @@ function resetAll() {
   document.getElementById('RL_LogSeverity').value = '6';
   document.getElementById('RL_MessageFormat').value = '1';
   document.getElementById('RCA_interval').value = '1';
+  document.getElementById('RL_WebhookAdditionalHeaderFields_container').innerHTML = '';
   document.getElementById('RL_WebhookCustomData_container').innerHTML = '';
   const rlAddr = document.getElementById('RL_ServerAddress');
   if (rlAddr) { rlAddr.value = ''; rlAddr.classList.remove('input-error'); }
@@ -2429,6 +2473,10 @@ function buildPayloadDict() {
         const arr = getArraySimple('LimitToGroup_container');
         if (arr.length) keys += xmlKey('LimitToGroup', xmlArray(arr));
       }
+      if (isIncluded('RequiredProcessPaths')) {
+        const arr = getArraySimple('RequiredProcessPaths_container');
+        if (arr.length) keys += xmlKey('RequiredProcessPaths', xmlArray(arr));
+      }
     }
 
     // Revocation
@@ -2565,6 +2613,16 @@ function buildPayloadDict() {
           }
           if (syslogInner) dict += `									<key>SyslogOptions</key>\n									<dict>\n${syslogInner}									</dict>\n`;
         } else {
+          const headerItems = document.querySelectorAll('#RL_WebhookAdditionalHeaderFields_container .array-item');
+          if (isIncluded('RL_WebhookAdditionalHeaderFields') && headerItems.length) {
+            let headerInner = '';
+            headerItems.forEach(item => {
+              const inputs = item.querySelectorAll('input[type="text"]');
+              if (inputs[0]?.value && inputs[1]?.value)
+                headerInner += `										<key>${xmlEscape(inputs[0].value)}</key>\n										<string>${xmlEscape(inputs[1].value)}</string>\n`;
+            });
+            if (headerInner) dict += `									<key>WebhookAdditionalHeaderFields</key>\n									<dict>\n${headerInner}									</dict>\n`;
+          }
           const kvItems = document.querySelectorAll('#RL_WebhookCustomData_container .array-item');
           if (isIncluded('RL_WebhookCustomData') && kvItems.length) {
             let webhookInner = '';
@@ -2729,6 +2787,7 @@ const VALIDATOR_SCHEMA = {
                                           requires: ['RequireAuthentication','RequireBiometricAuthentication'] },
   LimitToUser:                          { type: 'array' },
   LimitToGroup:                         { type: 'array' },
+  RequiredProcessPaths:                 { type: 'array' },
   RevokePrivilegesAtLogin:              { type: 'bool' },
   RevokeAtLoginExcludedUsers:           { type: 'array',   requires: ['RevokePrivilegesAtLogin'] },
   RevokePrivilegesAfterSystemTimeChange:{ type: 'bool' },
@@ -2767,7 +2826,7 @@ const ENFORCE_CONFLICT_KEYS = [
   'AllowPrivilegeRenewal','RenewalFollowsAuthSetting','RenewalNotificationInterval','RenewalCustomAction',
   'AutoRenewalProcessPaths','RequireAuthentication','RequireBiometricAuthentication',
   'EnableSmartCardSupport','AllowCLIBiometricAuthentication','BiometricsFallbackType',
-  'LimitToUser','LimitToGroup',
+  'LimitToUser','LimitToGroup','RequiredProcessPaths',
   'RevokePrivilegesAtLogin','RevokeAtLoginExcludedUsers',
   'RevokePrivilegesAfterSystemTimeChange','RevokeAfterTimeChangeExcludedUsers',
   'RevokePrivilegesOnScreenLock','RevokeOnScreenLockExcludedUsers','AutomaticRevocationExcludedUsers',
@@ -3188,7 +3247,7 @@ function runValidation(settings) {
   if (knownKeys.length) {
     // Count sub-keys inside known dict values (RemoteLogging, RenewalCustomAction)
     const NESTED_KNOWN = {
-      RemoteLogging:       ['ServerType','ServerAddress','QueueUnsentEvents','QueuedEventsMax','SyslogOptions','WebhookCustomData'],
+      RemoteLogging:       ['ServerType','ServerAddress','QueueUnsentEvents','QueuedEventsMax','SyslogOptions','WebhookAdditionalHeaderFields','WebhookCustomData'],
       RenewalCustomAction: ['ActionExecutablePath','ActionExecutableChecksum','ActionNotificationInterval'],
     };
     let subKeyCount = 0;
@@ -3200,6 +3259,10 @@ function runValidation(settings) {
         if (k === 'RemoteLogging' && nested['SyslogOptions']?.type === 'dict') {
           const syslog = parsePlistDict(nested['SyslogOptions'].node);
           subKeyCount += Object.keys(syslog).length;
+        }
+        // WebhookAdditionalHeaderFields entries
+        if (k === 'RemoteLogging' && nested['WebhookAdditionalHeaderFields']?.type === 'dict') {
+          subKeyCount += Object.keys(parsePlistDict(nested['WebhookAdditionalHeaderFields'].node)).length;
         }
         // WebhookCustomData entries
         if (k === 'RemoteLogging' && nested['WebhookCustomData']?.type === 'dict') {
@@ -3221,6 +3284,10 @@ function runValidation(settings) {
           if (k === 'RemoteLogging' && nk === 'SyslogOptions' && nested['SyslogOptions']?.type === 'dict') {
             for (const sk of Object.keys(parsePlistDict(nested['SyslogOptions'].node)))
               allDisplayKeys.push(`${k}.${nk}.${sk}`);
+          }
+          if (k === 'RemoteLogging' && nk === 'WebhookAdditionalHeaderFields' && nested['WebhookAdditionalHeaderFields']?.type === 'dict') {
+            for (const wk of Object.keys(parsePlistDict(nested['WebhookAdditionalHeaderFields'].node)))
+              allDisplayKeys.push(`${k}.${nk}.${wk}`);
           }
           if (k === 'RemoteLogging' && nk === 'WebhookCustomData' && nested['WebhookCustomData']?.type === 'dict') {
             for (const wk of Object.keys(parsePlistDict(nested['WebhookCustomData'].node)))
@@ -3352,7 +3419,7 @@ function importSettings(s) {
 
   // Simple string-array keys
   const ARRAY_KEYS = [
-    'AutoRenewalProcessPaths','LimitToUser','LimitToGroup',
+    'AutoRenewalProcessPaths','LimitToUser','LimitToGroup','RequiredProcessPaths',
     'RevokeAtLoginExcludedUsers','RevokeAfterTimeChangeExcludedUsers',
     'RevokeOnScreenLockExcludedUsers','AutomaticRevocationExcludedUsers',
   ];
@@ -3361,6 +3428,7 @@ function importSettings(s) {
       if (!s[k]) return;
       const container = document.getElementById(k + '_container');
       if (!container) return;
+      container.innerHTML = '';
       [...s[k].node.children].filter(n => n.tagName === 'string').forEach(n => {
         addArrayItem(k + '_container', '');
         const inputs = container.querySelectorAll('input[type="text"]');
@@ -3464,6 +3532,17 @@ function importSettings(s) {
           }
         });
         setIncluded('RL_StructuredData', true);
+      }
+      // Webhook additional header fields
+      if (sub['WebhookAdditionalHeaderFields']) {
+        const wahf = parsePlistDict(sub['WebhookAdditionalHeaderFields'].node);
+        Object.entries(wahf).forEach(([k, v]) => {
+          addWebhookHeaderKV();
+          const rows = document.querySelectorAll('#RL_WebhookAdditionalHeaderFields_container .array-item');
+          const last = rows[rows.length - 1];
+          if (last) { last.querySelectorAll('input')[0].value = k; last.querySelectorAll('input')[1].value = v.value || ''; }
+        });
+        setIncluded('RL_WebhookAdditionalHeaderFields', true);
       }
       // Webhook custom data
       if (sub['WebhookCustomData']) {
